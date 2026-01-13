@@ -3,6 +3,9 @@
 ## Index
 
 - [0) Single Source of Truth for Prompting](#0-single-source-of-truth-for-prompting)
+
+- [0.1) Token Strategy for Current Subscriptions](#01-token-strategy-for-current-subscriptions)
+- [0.2) CV/ML Execution Mode](#02-cvml-execution-mode)
 - [1) Operating Principles](#1-operating-principles)
 - [2) Non-Negotiable Boundaries](#2-non-negotiable-boundaries)
 - [3) Prompt-Quality Gate (Mandatory)](#3-prompt-quality-gate-mandatory)
@@ -73,70 +76,6 @@
   - [8.2 File Organization](#82-file-organization)
   - [8.3 Key Takeaways](#83-key-takeaways)
   - [8.4 The Engineering Trade-off Question](#84-the-engineering-trade-off-question)
-- [Table of Contents](#table-of-contents-1)
-- [Part 1: Tokenization and Embeddings Fundamentals](#part-1-tokenization-and-embeddings-fundamentals-1)
-  - [Source Material](#source-material-1)
-  - [1.1 Tokenization Fundamentals](#11-tokenization-fundamentals-1)
-  - [1.2 Tokenizer Comparison Across Models](#12-tokenizer-comparison-across-models-1)
-  - [1.3 Embedding Types and Use Cases](#13-embedding-types-and-use-cases-1)
-  - [1.4 Practical Application: Music Recommendation System](#14-practical-application-music-recommendation-system-1)
-  - [1.5 Embedding Selection Matrix](#15-embedding-selection-matrix-1)
-- [Part 2: Prompt Engineering Theory and Research](#part-2-prompt-engineering-theory-and-research-1)
-  - [2.1 Academic Foundation](#21-academic-foundation-1)
-  - [2.2 Fano's Inequality: The Mathematical Foundation of Prompt Engineering](#22-fanos-inequality-the-mathematical-foundation-of-prompt-engineering-1)
-  - [2.3 The Hallucination Problem](#23-the-hallucination-problem-1)
-  - [2.4 The Anti-Hallucination Workflow (Critical)](#24-the-anti-hallucination-workflow-critical-1)
-- [Part 3: Battle-Tested Prompt Patterns](#part-3-battle-tested-prompt-patterns-1)
-  - [3.1 The #1 Rule: Ground the Model](#31-the-1-rule-ground-the-model-1)
-  - [3.2 Architectural Patterns from White et al.](#32-architectural-patterns-from-white-et-al-1)
-  - [3.3 RAG-Sequence Discipline (From Lewis et al.)](#33-rag-sequence-discipline-from-lewis-et-al-1)
-  - [3.4 Hallucination Reduction Techniques (Effectiveness Tiers)](#34-hallucination-reduction-techniques-effectiveness-tiers-1)
-  - [3.5 The "Contract" Prompt Structure](#35-the-contract-prompt-structure-1)
-  - [3.6 Reduce Degrees of Freedom](#36-reduce-degrees-of-freedom-1)
-  - [3.7 Prefer Checklists Over "Be Smart"](#37-prefer-checklists-over-be-smart-1)
-  - [3.8 Make the Model Uncertainty-Safe](#38-make-the-model-uncertainty-safe-1)
-- [Part 4: Implementation Framework](#part-4-implementation-framework-1)
-  - [4.1 Universal Best Practices (All Models)](#41-universal-best-practices-all-models-1)
-  - [4.2 Model-Specific Optimization](#42-model-specific-optimization-1)
-  - [4.3 The Master Protocol for Critical Tasks](#43-the-master-protocol-for-critical-tasks-1)
-  - [4.4 Copy/Paste Template (Anti-Hallucination)](#44-copypaste-template-anti-hallucination-1)
-  - [4.5 System Prompt Design (Anthropic Best Practices)](#45-system-prompt-design-anthropic-best-practices-1)
-  - [4.6 Context Management](#46-context-management-1)
-  - [4.7 Verification Loops](#47-verification-loops-1)
-  - [4.8 Empirical Testing](#48-empirical-testing-1)
-  - [4.9 Prompt Quality Assessment Criteria](#49-prompt-quality-assessment-criteria-1)
-  - [4.10 Prompt Frameworks and Human Training](#410-prompt-frameworks-and-human-training-1)
-- [Part 5: Production Deployment](#part-5-production-deployment-1)
-  - [5.1 Tiered Prompting System Architecture](#51-tiered-prompting-system-architecture-1)
-  - [5.2 Production Deployment Checklist](#52-production-deployment-checklist-1)
-  - [5.3 Security Considerations](#53-security-considerations-1)
-  - [5.4 For New Projects](#54-for-new-projects-1)
-  - [5.5 For Existing Systems](#55-for-existing-systems-1)
-  - [5.6 Monitoring and Metrics](#56-monitoring-and-metrics-1)
-- [Part 6: Prompt Engineering Tools and Platforms](#part-6-prompt-engineering-tools-and-platforms-1)
-  - [6.1 Tool Categories Overview](#61-tool-categories-overview-1)
-  - [6.2 Official Platform Tools (Start Here)](#62-official-platform-tools-start-here-1)
-  - [6.3 Version Control & Management (Production Essentials)](#63-version-control-management-production-essentials-1)
-  - [6.4 Development & Testing Frameworks](#64-development-testing-frameworks-1)
-  - [6.5 Enterprise & Orchestration Platforms](#65-enterprise-orchestration-platforms-1)
-  - [6.6 Specialized Tools](#66-specialized-tools-1)
-  - [6.7 Additional Production Tools](#67-additional-production-tools-1)
-  - [6.8 Tool Selection Matrix](#68-tool-selection-matrix-1)
-  - [6.9 Recommended Stack for Your ML Engineering Workflow](#69-recommended-stack-for-your-ml-engineering-workflow-1)
-  - [6.10 Implementation Roadmap](#610-implementation-roadmap-1)
-  - [6.11 Tool Integration Example](#611-tool-integration-example-1)
-  - [6.12 Key Takeaways: Tools](#612-key-takeaways-tools-1)
-- [Part 7: Official Resources and References](#part-7-official-resources-and-references-1)
-  - [6.1 Anthropic Claude Resources](#61-anthropic-claude-resources-1)
-  - [6.2 OpenAI GPT Resources](#62-openai-gpt-resources-1)
-  - [6.3 Comprehensive Guides](#63-comprehensive-guides-1)
-  - [6.4 Academic Papers](#64-academic-papers-1)
-  - [6.5 Additional Resources](#65-additional-resources-1)
-- [Part 8: Quick Reference](#part-8-quick-reference-1)
-  - [8.1 Recommended Learning Path](#81-recommended-learning-path-1)
-  - [8.2 File Organization](#82-file-organization-1)
-  - [8.3 Key Takeaways](#83-key-takeaways-1)
-  - [8.4 The Engineering Trade-off Question](#84-the-engineering-trade-off-question-1)
 
 ---
 
@@ -158,6 +97,93 @@ From now on, the file **`comprehensive_prompt_engineering_guide.md`** is the **u
 **Enforcement rule:** if a request is missing required prompt components (context, constraints, desired output, acceptance criteria, etc.), the assistant must *pause* and request a compliant prompt rewrite **following the guide**, before proceeding.
 
 This policy defines *boundaries and operating rules*; the guide defines *prompting mechanics*.
+
+---
+## 0.1) Token Strategy for Current Subscriptions
+
+**Purpose:** minimize wasted tokens while maximizing output quality and correctness, given current subscriptions:
+- **ChatGPT Plus** (OpenAI GPT) for deep synthesis, planning, and rigorous reasoning.
+- **Claude Pro** (Anthropic Claude) for policy/document editing and “tight writing.”
+- **Gemini Pro** (Google Gemini) for fast exploration and cross-checks.
+- **Cursor Pro** (IDE assistant) as the default execution surface for any repo-grounded work.
+
+**Acronyms:** **CV** = Computer Vision, **ML** = Machine Learning, **LLM** = Large Language Model.
+
+### 0.1.1 Routing rule (default)
+
+1. **Cursor Pro first** for: code, repo navigation, refactors, diffs, tests, reading local files.  
+   **Rule:** do not paste large files into chat if Cursor can reference them directly.
+2. **ChatGPT Plus** for: architecture, trade-offs, multi-step reasoning, project planning, “decision memos,” and risk analysis.
+3. **Claude Pro** for: rewriting policy text, documentation clarity, tone consistency, and structured edits.
+4. **Gemini Pro** for: broad exploration, quick comparisons, and second-opinion sanity checks (not the source of truth).
+
+### 0.1.2 Context packs (copy/paste)
+
+**Context Pack — Minimal (default)**  
+Use this for most requests to reduce repeated context and back-and-forth.
+
+```
+ROLE: Act as a senior engineering partner. Be direct and practical.
+GOAL: <one sentence>
+CONTEXT: <what exists already + links/paths>
+ENV: Fedora 41, repos under ~/dev/repos/..., no venvs inside repos
+CONSTRAINTS: One recommended path, no option menus, do not invent facts/paths, label risks
+OUTPUT: Commands + minimal explanation
+ACCEPTANCE: <how I verify success>
+```
+
+**Context Pack — CV/ML (add only when needed)**  
+Add this when work touches training, data, GPU, evaluation, or experiments.
+
+```
+CV = Computer Vision, ML = Machine Learning.
+DATA: datasets under ~/datasets/..., never committed
+RUNS: outputs under ~/dev/devruns/<project>/
+MODELS: binaries under ~/dev/models/<project>/
+EVAL: define metric(s) and baseline; measure before optimization
+GPU: specify device, batch size, mixed precision, memory limits
+```
+
+### 0.1.3 “Ask once” intake (mandatory for complex work)
+
+For any non-trivial task, provide (or the assistant must request) these in **one** message:
+- Goal (single sentence)
+- Inputs (paths, logs, links, snippets)
+- Constraints (do-not-touch, time, style)
+- Output format (commands / patch / checklist)
+- Acceptance criteria (how you will verify)
+- Risk tolerance (low/medium/high)
+
+**Enforcement:** if these are missing and the task is complex, the assistant must pause and request a compliant prompt rewrite (per Section 3).
+
+---
+## 0.2) CV/ML Execution Mode
+
+This section defines the default workflow for **CV** and **ML** tasks so you do not burn tokens on vague iterations.
+
+### 0.2.1 Default deliverables (what “good” looks like)
+
+For CV/ML work, the assistant should produce:
+- a short plan (max 10 bullets)
+- concrete commands / code diffs
+- an evaluation step (metric + baseline + expected direction)
+- a “stop point” after each irreversible change
+
+### 0.2.2 Anti-token-burn rules (non-senior friendly)
+
+- Prefer **small diffs** and **repeatable checklists** over large rewrites.
+- Prefer “next 3 commands” over theory.
+- Always include a rollback note when risk is medium/high.
+- For performance: **measure first**, then optimize, then re-measure.
+
+### 0.2.3 Model training checklist (minimum viable)
+
+When asked to “improve” a model or pipeline, always request/confirm:
+- dataset path and split definition
+- baseline metric(s) and current value
+- evaluation protocol (how measured)
+- constraints (latency, memory, target hardware)
+- reproducibility (seed, versions, commit hash)
 
 ---
 ## 1) Operating Principles
