@@ -1,3 +1,422 @@
+# Unified Engineering Policies — Complete Reference Guide
+
+**Status:** Authoritative  
+**Last updated:** 2026-01-13  
+**Purpose:** Daily reference for CV/ML engineering, data systems, and tooling standards
+
+> **Note:** This document reorganizes all engineering policies by TOPIC for easier lookup.
+> Nothing has been removed from the original — only reorganized and enhanced with:
+> - Comprehensive multi-level table of contents
+> - Quick reference cards for common workflows
+> - Decision trees for technology selection
+> - Real-world scenarios demonstrating policy application
+> - Cross-references between related sections
+> - Compliance checklists
+
+---
+
+## 📋 Navigation
+
+**Jump to:**
+- [Quick Reference Cards](#quick-reference-cards) — Ready-to-use code snippets and commands
+- [Decision Trees](#decision-trees) — Choose the right technology for your use case  
+- [Common Scenarios](#common-scenarios) — Step-by-step walkthroughs
+- [Data & Storage](#1-data-artifacts-and-object-storage) — Object storage, SQL, datasets
+- [Languages](#3-python) — Python, TypeScript, Node.js
+- [Frontend](#5-react) — React, CSS, HTML
+- [Infrastructure](#12-docker-and-podman) — Docker, Kubernetes, Kafka
+- [Workflows](#8-git) — Git, GitHub, testing, documentation
+- [Appendices](#appendix-a-acronyms-and-glossary) — Glossary, checklists, templates
+
+---
+
+
+## 📋 Complete Table of Contents
+
+### 🚀 Getting Started
+- [How to Use This Document](#how-to-use-this-document)
+- [Quick Reference Cards](#quick-reference-cards)
+  - [QRC-1: New Python Project](#qrc-1-new-python-project-setup)
+  - [QRC-2: Dataset Snapshot](#qrc-2-dataset-snapshot-creation)
+  - [QRC-3: SQL Schema for CV/ML](#qrc-3-sql-schema-pattern-for-cvml)
+  - [QRC-4: Docker Multi-Stage Build](#qrc-4-docker-multi-stage-build)
+  - [QRC-5: Git Commits](#qrc-5-git-commit-template)
+  - [QRC-6: Kubernetes Deployment](#qrc-6-kubernetes-deployment)
+  - [QRC-7: Pytest Setup](#qrc-7-pytest-configuration)
+  - [QRC-8: React Component](#qrc-8-react-component-pattern)
+  - [QRC-9: TypeScript Project](#qrc-9-typescript-project-setup)
+  - [QRC-10: Kafka Patterns](#qrc-10-kafka-patterns)
+- [Decision Trees](#decision-trees)
+  - [DT-1: Data Storage Selection](#dt-1-data-storage-decision-tree)
+  - [DT-2: Testing Strategy](#dt-2-testing-strategy-selection)
+  - [DT-3: Docker vs Podman](#dt-3-docker-vs-podman)
+  - [DT-4: SQL Engine Selection](#dt-4-sql-engine-selection)
+- [Common Scenarios](#common-scenarios)
+  - [Scenario 1: New CV/ML Project](#scenario-1-new-cvml-project)
+  - [Scenario 2: Dataset Migration](#scenario-2-dataset-migration)
+  - [Scenario 3: Kafka Pipeline](#scenario-3-kafka-pipeline)
+
+### 📊 1. Data & Storage
+- [1.1 Core Principles](#11-core-principles)
+- [1.2 Storage Systems](#12-storage-systems)
+- [1.3 Raw Data Rules](#13-raw-data-rules)
+- [1.4 Derived Data](#14-derived-data-rules)
+- [1.5 Immutability](#15-immutability-policy)
+- [1.6 Dataset Snapshots](#16-dataset-snapshot-policy)
+- [1.7 Object Identity](#17-object-identity)
+- [1.8 Formats](#18-formats-policy)
+- [1.9 Retention](#19-retention-and-lifecycle)
+- [1.10 Performance](#110-access-and-performance)
+- [1.11 What Never Goes in SQL](#111-what-never-goes-in-sql)
+- [1.12 Exceptions](#112-exceptions-process)
+
+### 🗄️ 2. SQL Databases
+- [2.1 SQL in CV/ML](#21-sql-in-cvml-architectures)
+- [2.2 Schema Design](#22-schema-design-principles)
+- [2.3 Normalization](#23-normalization)
+- [2.4 Primary Keys](#24-primary-keys-and-identity)
+- [2.5 Foreign Keys](#25-foreign-keys-and-constraints)
+- [2.6 Indexes](#26-indexes-and-performance)
+- [2.7 Query Patterns](#27-query-patterns)
+- [2.8 Transactions](#28-transactions-and-isolation)
+- [2.9 Migrations](#29-migrations-and-schema-evolution)
+- [2.10 Security](#210-sql-security)
+- [2.11 Operations](#211-operational-rules)
+- [2.12 Engine-Specific](#212-engine-specific-guidance)
+  - [MySQL](#2121-mysql)
+  - [PostgreSQL](#2122-postgresql)
+  - [SQLite](#2123-sqlite)
+
+### 🐍 3. Python
+- [3.1 Project Structure](#31-project-structure)
+- [3.2 Environment Management](#32-environment-management)
+- [3.3 Dependencies](#33-dependency-management)
+- [3.4 Code Style](#34-code-style-and-formatting)
+- [3.5 Type Hints](#35-type-hints-and-validation)
+- [3.6 Error Handling](#36-error-handling)
+- [3.7 Logging](#37-logging-and-debugging)
+- [3.8 Testing](#38-testing-standards)
+- [3.9 Performance](#39-performance-and-optimization)
+- [3.10 ML/CV Specific](#310-mlcv-specific-rules)
+- [3.11 Anti-Patterns](#311-anti-patterns-to-avoid)
+
+### 📘 4. TypeScript
+- [4.1 Project Setup](#41-project-setup)
+- [4.2 Type System](#42-type-system-discipline)
+- [4.3 Organization](#43-code-organization)
+- [4.4 Error Handling](#44-error-handling)
+- [4.5 Async](#45-async-patterns)
+- [4.6 Testing](#46-testing)
+- [4.7 Tooling](#47-build-and-tooling)
+
+### ⚛️ 5. React
+- [5.1 Components](#51-component-architecture)
+- [5.2 State](#52-state-management)
+- [5.3 Hooks](#53-hooks-rules)
+- [5.4 Performance](#54-performance)
+- [5.5 Testing](#55-testing)
+- [5.6 Accessibility](#56-accessibility)
+
+### 🟢 6. Node.js
+- [6.1 Structure](#61-project-structure)
+- [6.2 Dependencies](#62-dependencies)
+- [6.3 Errors](#63-error-handling)
+- [6.4 Async](#64-async-patterns)
+- [6.5 Security](#65-security)
+- [6.6 Performance](#66-performance)
+
+### 🎨 7. CSS/HTML
+- [7.1 HTML Semantics](#71-html-semantic-structure)
+- [7.2 CSS Architecture](#72-css-architecture)
+- [7.3 Layout](#73-layout-systems)
+- [7.4 Design Tokens](#74-design-tokens)
+- [7.5 Typography](#75-typography)
+- [7.6 Accessibility](#76-accessibility)
+- [7.7 Naming](#77-naming-conventions)
+- [7.8 Responsive](#78-responsiveness-and-media)
+- [7.9 Performance](#79-performance)
+- [7.10 Forms/UI](#710-forms-and-ui-states)
+
+### 🔧 8. Git
+- [8.1 Branching](#81-branching-strategy)
+- [8.2 Commits](#82-commit-standards)
+- [8.3 Merge/Rebase](#83-merge-and-rebase)
+- [8.4 Repo Structure](#84-repository-structure)
+- [8.5 Hygiene](#85-git-hygiene)
+
+### 🐙 9. GitHub
+- [9.1 Pull Requests](#91-pull-request-workflow)
+- [9.2 Code Review](#92-code-review-standards)
+- [9.3 Issues](#93-issue-management)
+- [9.4 Branch Protection](#94-branch-protection)
+- [9.5 CI/CD](#95-cicd-integration)
+
+### 🧪 10. Testing
+- [10.1 Testing Pyramid](#101-testing-pyramid)
+- [10.2 Unit Tests](#102-unit-testing)
+- [10.3 Integration](#103-integration-testing)
+- [10.4 E2E](#104-end-to-end-testing)
+- [10.5 Test Data](#105-test-data-management)
+- [10.6 Coverage](#106-coverage-and-quality-gates)
+
+### 📝 11. Documentation
+- [11.1 README](#111-readme-requirements)
+- [11.2 API Docs](#112-api-documentation)
+- [11.3 Comments](#113-code-comments)
+- [11.4 Architecture](#114-architecture-docs)
+- [11.5 Runbooks](#115-runbooks-and-playbooks)
+
+### 🐳 12. Docker/Podman
+- [12.1 Principles](#121-container-principles)
+- [12.2 Dockerfiles](#122-dockerfile-standards)
+- [12.3 Images](#123-image-management)
+- [12.4 Security](#124-security)
+- [12.5 Podman-Specific](#125-podman-specific-rules)
+
+### ☸️ 13. Kubernetes
+- [13.1 Manifests](#131-manifest-management)
+- [13.2 Workloads](#132-workload-types)
+- [13.3 Configuration](#133-configuration)
+- [13.4 Networking](#134-networking-and-security)
+- [13.5 Observability](#135-observability)
+- [13.6 Resources](#136-resource-management)
+
+### 📨 14. Kafka
+- [14.1 Topics](#141-topic-management)
+- [14.2 Producers](#142-producer-patterns)
+- [14.3 Consumers](#143-consumer-patterns)
+- [14.4 Schemas](#144-schema-management)
+- [14.5 Operations](#145-operations-and-monitoring)
+
+### 📚 Appendices
+- [Appendix A: Acronyms](#appendix-a-acronyms-and-glossary)
+- [Appendix B: Decision Matrix](#appendix-b-technology-decision-matrix)
+- [Appendix C: Checklists](#appendix-c-compliance-checklists)
+- [Appendix D: Exception Log Template](#appendix-d-exception-and-decision-log-template)
+- [Appendix E: Enforcement](#appendix-e-enforcement-and-automation)
+
+---
+
+## How to Use This Document
+
+### Daily Reference
+Use the comprehensive TOC to jump directly to any rule or guideline. All sections are clickable and cross-referenced.
+
+### For Code Reviews
+Reference specific rules by section number (e.g., "See Python §3.4.5" or "Violates SQL §2.7").
+
+### For Project Setup
+Start with the Quick Reference Cards, then follow the relevant Common Scenarios.
+
+### For Learning
+Work through sections progressively. Each includes:
+- Core principles
+- Practical examples
+- Anti-patterns to avoid
+- Cross-references to related topics
+
+
+
+## Quick Reference Cards
+<a id="quick-reference-cards"></a>
+
+These cards provide ready-to-use code snippets and commands for common tasks.
+
+---
+
+### QRC-1: New Python Project Setup
+<a id="qrc-1-new-python-project-setup"></a>
+
+```bash
+# Complete Python project initialization
+
+# 1. Create directory structure
+mkdir -p myproject/{src/myproject,tests,docs,configs,scripts,data}
+cd myproject
+
+# 2. Initialize Git
+git init
+git branch -M main
+
+# 3. Create Python virtual environment
+python3 -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+
+# 4. Create pyproject.toml
+cat > pyproject.toml << 'EOF'
+[build-system]
+requires = ["setuptools>=65.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "myproject"
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "black>=23.0",
+    "ruff>=0.1.0",
+    "mypy>=1.0",
+]
+
+[tool.black]
+line-length = 100
+target-version = ['py310']
+
+[tool.ruff]
+line-length = 100
+select = ["E", "F", "I", "N", "W"]
+
+[tool.mypy]
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = ["--strict-markers", "--cov=src", "--cov-report=term-missing"]
+EOF
+
+# 5. Install in development mode
+pip install -e ".[dev]"
+
+# 6. Create basic .gitignore
+cat > .gitignore << 'EOF'
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+.pytest_cache/
+.coverage
+.mypy_cache/
+*.egg-info/
+dist/
+build/
+EOF
+
+# 7. Create README
+cat > README.md << 'EOF'
+# MyProject
+
+## Installation
+\`\`\`bash
+pip install -e ".[dev]"
+\`\`\`
+
+## Running Tests
+\`\`\`bash
+pytest
+\`\`\`
+EOF
+
+# 8. Initial commit
+git add .
+git commit -m "feat: initial project structure"
+```
+
+**See also:** [Python §3.1](#31-project-structure), [Git §8.2](#82-commit-standards), [Testing §10.2](#102-unit-testing)
+
+---
+
+### QRC-2: Dataset Snapshot Creation
+<a id="qrc-2-dataset-snapshot-creation"></a>
+
+```python
+# Complete pattern for creating immutable dataset snapshots
+import hashlib
+import json
+from pathlib import Path
+from typing import List, Dict, Any
+from dataclasses import dataclass, asdict
+from datetime import datetime
+
+@dataclass
+class SampleReference:
+    """Reference to a single data sample."""
+    sample_id: str
+    store: str  # "s3", "gcs", "azure"
+    bucket: str
+    key: str
+    version: str
+    content_hash: str  # SHA256
+    size_bytes: int
+    metadata: Dict[str, Any]
+
+class DatasetSnapshot:
+    """Immutable dataset snapshot with manifest."""
+    
+    def __init__(self, dataset_id: str, version: str, description: str = ""):
+        self.dataset_id = dataset_id
+        self.version = version
+        self.description = description
+        self.samples: List[SampleReference] = []
+        self.created_at = datetime.now().isoformat()
+    
+    def add_sample(self, sample: SampleReference) -> None:
+        """Add sample to snapshot."""
+        self.samples.append(sample)
+    
+    def compute_manifest_hash(self) -> str:
+        """Compute SHA256 hash of manifest."""
+        sorted_samples = sorted(
+            [asdict(s) for s in self.samples],
+            key=lambda x: x['sample_id']
+        )
+        manifest_json = json.dumps(sorted_samples, sort_keys=True)
+        return hashlib.sha256(manifest_json.encode()).hexdigest()
+    
+    def save_manifest(self, output_path: Path) -> str:
+        """Save manifest file and return hash."""
+        manifest = {
+            "dataset_id": self.dataset_id,
+            "version": self.version,
+            "created_at": self.created_at,
+            "description": self.description,
+            "sample_count": len(self.samples),
+            "manifest_hash": self.compute_manifest_hash(),
+            "samples": [asdict(s) for s in self.samples]
+        }
+        
+        output_path.write_text(json.dumps(manifest, indent=2))
+        return manifest["manifest_hash"]
+
+# Usage example
+snapshot = DatasetSnapshot(
+    dataset_id="urban_driving_v1",
+    version="2026.01.0",
+    description="Urban driving scenarios - January 2026"
+)
+
+# Add samples
+snapshot.add_sample(SampleReference(
+    sample_id="frame_00001",
+    store="s3",
+    bucket="cv-training-data",
+    key="urban/2026-01/camera/00001.jpg",
+    version="v1",
+    content_hash="sha256:a3b2c1d4e5f6...",
+    size_bytes=1048576,
+    metadata={"timestamp": "2026-01-13T10:30:00Z", "weather": "clear"}
+))
+
+# Save manifest
+manifest_path = Path("manifests/urban_driving_v1_2026.01.0.json")
+manifest_hash = snapshot.save_manifest(manifest_path)
+print(f"Snapshot created: {manifest_hash}")
+```
+
+**See also:** [Data §1.6](#16-dataset-snapshot-policy), [Data §1.7](#17-object-identity), [Python §3.10](#310-mlcv-specific-rules)
+
+---
+
+---
+
 # Unified Engineering Policies — Data/Artifacts/SQL + Projects/Tooling Setup
 
 Status: **Authoritative**  
