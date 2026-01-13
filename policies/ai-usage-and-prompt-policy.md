@@ -2,49 +2,46 @@
 
 ## Index
 
-### Core policy (start here)
+### Daily use (most common)
 
-- [0) Single Source of Truth for Prompting](#0-single-source-of-truth-for-prompting)
-  - [0.1) Token Strategy for Current Subscriptions](#01-token-strategy-for-current-subscriptions)
-    - [0.1.1 Routing rule (default)](#011-routing-rule-default)
-    - [0.1.2 Context packs (copy/paste)](#012-context-packs-copypaste)
-    - [0.1.3 “Ask once” intake (mandatory for complex work)](#013-ask-once-intake-mandatory-for-complex-work)
+1. [Token Strategy](#01-token-strategy-for-current-subscriptions)
+2. [Prompt-Quality Gate](#3-prompt-quality-gate-mandatory)
+3. [Standard Prompt Template](#4-standard-prompt-template-quick)
+4. [CV/ML Execution Mode](#02-cvml-execution-mode)
+
+---
+
+### Core policy (operating system)
+
+- [0) Operating System (Start Here)](#0-operating-system-start-here)
+  - [0.1) Token Strategy](#01-token-strategy-for-current-subscriptions)
   - [0.2) CV/ML Execution Mode](#02-cvml-execution-mode)
-    - [0.2.1 Default deliverables](#021-default-deliverables-what-good-looks-like)
-    - [0.2.2 Anti-token-burn rules](#022-anti-token-burn-rules-non-senior-friendly)
-    - [0.2.3 Model training checklist](#023-model-training-checklist-minimum-viable)
 - [1) Operating Principles](#1-operating-principles)
 - [2) Non-Negotiable Boundaries](#2-non-negotiable-boundaries)
 - [3) Prompt-Quality Gate (Mandatory)](#3-prompt-quality-gate-mandatory)
 - [4) Standard Prompt Template (Quick)](#4-standard-prompt-template-quick)
-- [5) Appendix — Comprehensive Prompt Engineering Guide (Embedded)](#5-appendix--comprehensive-prompt-engineering-guide-embedded)
+
+---
+
+### Appendix (embedded guide)
+
+- [5) Comprehensive Prompt Engineering Guide (Embedded)](#5-appendix--comprehensive-prompt-engineering-guide-embedded)
 
 <details>
-<summary>Appendix: detailed table of contents (Parts 1–8)</summary>
+<summary>Appendix: parts (1–8)</summary>
 
-- [Appendix Table of Contents](#table-of-contents)
-- [Part 1: Tokenization and Embeddings Fundamentals](#part-1-tokenization-and-embeddings-fundamentals)
-- [Part 2: Prompt Engineering Theory and Research](#part-2-prompt-engineering-theory-and-research)
-- [Part 3: Battle-Tested Prompt Patterns](#part-3-battle-tested-prompt-patterns)
-- [Part 4: Implementation Framework](#part-4-implementation-framework)
-- [Part 5: Production Deployment](#part-5-production-deployment)
-- [Part 6: Prompt Engineering Tools and Platforms](#part-6-prompt-engineering-tools-and-platforms)
-- [Part 7: Official Resources and References](#part-7-official-resources-and-references)
-- [Part 8: Quick Reference](#part-8-quick-reference)
+- [Part 1) Tokenization & Embeddings](#part-1-tokenization-and-embeddings-fundamentals)
+- [Part 2) Theory & Research](#part-2-prompt-engineering-theory-and-research)
+- [Part 3) Battle-Tested Patterns](#part-3-battle-tested-prompt-patterns)
+- [Part 4) Implementation Framework](#part-4-implementation-framework)
+- [Part 5) Production Deployment](#part-5-production-deployment)
+- [Part 6) Tools & Platforms](#part-6-prompt-engineering-tools-and-platforms)
+- [Part 7) Official Resources](#part-7-official-resources-and-references)
+- [Part 8) Quick Reference](#part-8-quick-reference)
 
 </details>
 
----
-
-# AI Usage and Boundaries Policy
-
-**Status:** Authoritative
-**Last updated:** 2026-01-10
-**Supersedes:** Prior versions of this file and any standalone prompt guidelines.
-
----
-## 0) Single Source of Truth for Prompting
-
+## 0) Operating System (Start Here)
 From now on, the file **`comprehensive_prompt_engineering_guide.md`** is the **unique authoritative reference** for:
 - how prompts must be structured
 - anti-hallucination patterns
