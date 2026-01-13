@@ -1,5 +1,17 @@
 # Personal Engineering Policies (Authoritative)
 
+## Source of Truth
+
+This repository is the single source of truth for all engineering policies.
+
+Canonical local path:
+- ~/dev/repos/github.com/alfonsocruzvelasco/engineering-policies/
+
+Convenience symlinks:
+- ~/dev/policies -> ~/dev/repos/github.com/alfonsocruzvelasco/engineering-policies/
+- ~/learning/policies -> ~/dev/repos/github.com/alfonsocruzvelasco/engineering-policies/
+- ~/policies -> ~/dev/repos/github.com/alfonsocruzvelasco/engineering-policies/
+
 **Status:** Authoritative  
 **Last updated:** 2026-01-13
 
