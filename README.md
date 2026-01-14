@@ -81,7 +81,7 @@ The `/policies` folder is organized around **compiled policy bundles** (merged d
   *Governance bundle*  
   (documentation discipline, exception/decision log process, Git/source control rules, security/secrets baseline, and versioning/release rules)
 
-- **`ai-usage-and-prompt-policy.md`**  
+- **`ai-usage-policy.md`**  
   *AI usage boundaries + the single authoritative prompting reference*  
   (allowed/forbidden AI use, auditability, and comprehensive prompt engineering discipline)
 

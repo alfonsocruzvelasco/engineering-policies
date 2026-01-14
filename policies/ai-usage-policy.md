@@ -1,4 +1,4 @@
-# Unified AI Usage + Prompt Engineering Policies
+# AI Usage Policies
 
 ## Index
 
@@ -55,21 +55,14 @@ This policy defines *boundaries and operating rules*; the guide defines *prompti
 ---
 ## 0.1) Token Strategy for Current Subscriptions
 
-**Purpose:** minimize wasted tokens while maximizing output quality and correctness, given current subscriptions:
-- **ChatGPT Plus** (OpenAI GPT) for deep synthesis, planning, and rigorous reasoning.
-- **Claude Pro** (Anthropic Claude) for policy/document editing and “tight writing.”
-- **Gemini Pro** (Google Gemini) for fast exploration and cross-checks.
-- **Cursor Pro** (IDE assistant) as the default execution surface for any repo-grounded work.
-
-**Acronyms:** **CV** = Computer Vision, **ML** = Machine Learning, **LLM** = Large Language Model.
-
-### 0.1.1 Routing rule (default)
-
+**Purpose:** Minimize wasted tokens while maximizing output quality, utilizing specific model strengths for 2026 workflows.
 1. **Cursor Pro first** for: code, repo navigation, refactors, diffs, tests, reading local files.  
    **Rule:** do not paste large files into chat if Cursor can reference them directly.
 2. **ChatGPT Plus** for: architecture, trade-offs, multi-step reasoning, project planning, “decision memos,” and risk analysis.
 3. **Claude Pro** for: rewriting policy text, documentation clarity, tone consistency, and structured edits.
 4. **Gemini Pro** for: broad exploration, quick comparisons, and second-opinion sanity checks (not the source of truth).
+
+**Acronyms:** **CV** = Computer Vision, **ML** = Machine Learning, **LLM** = Large Language Model.
 
 ### 0.1.2 Context packs (copy/paste)
 
@@ -96,6 +89,9 @@ RUNS: outputs under ~/dev/devruns/<project>/
 MODELS: binaries under ~/dev/models/<project>/
 EVAL: define metric(s) and baseline; measure before optimization
 GPU: specify device, batch size, mixed precision, memory limits
+CONTEXT BUDGET: <Single-turn | Chained | Multi-session>
+VERIFICATION: <Isolated | Integrated>
+
 ```
 
 ### 0.1.3 “Ask once” intake (mandatory for complex work)
@@ -140,52 +136,66 @@ When asked to “improve” a model or pipeline, always request/confirm:
 - reproducibility (seed, versions, commit hash)
 
 ---
+
+## 0.3) Agentic Architecture (Skills & MCP)
+
+**New for 2026:** We are moving from ad-hoc prompts to **reusable assets**.
+
+1. **Skills (Procedural Knowledge):** Repeatable workflows (e.g., "How to verify a 3D bounding box") must be saved as `SKILL.md` files.
+
+2. **MCP (Connectivity):** Use the Model Context Protocol to connect agents to tools (Databases, Git, APIs) rather than pasting data.
+
 ## 1) Operating Principles
 
-- **Reality-first:** never invent facts, sources, file paths, or results.
-- **Grounding by default:** when up-to-date or niche accuracy matters, use retrieval (web/RAG-like workflow) and cite sources.
-- **Prefer refusal over fabrication:** when uncertain and retrieval is not available/allowed, say so explicitly.
-- **Minimal effective output:** one recommended path; no option menus unless explicitly requested.
-- **Reproducibility:** commands, file paths, and versions must be concrete.
+* **Reality-first:** Never invent facts, sources, file paths, or results.
+* **Grounding by default:** Use retrieval (web/RAG/MCP) and cite sources.
+* **Prefer refusal over fabrication:** If uncertain, say "I don't know."
+* **Explicit Instruction Levels:** Respect the requested level (Minimal/Thorough/Comprehensive). Do not over-explain if "Minimal" is requested.
+* **Reproducibility:** Commands, paths, and versions must be concrete.
 
 ---
 ## 2) Non-Negotiable Boundaries
 
 The assistant must not:
-- fabricate citations or claim to have run commands it did not run
-- modify or propose destructive system steps without risk labeling + prerequisites
-- output security-sensitive exploit instructions
-- present speculation as fact
+* Fabricate citations or claim to have run commands it did not run.
+* Modify or propose destructive system steps without risk labeling + prerequisites.
+* Output security-sensitive exploit instructions.
+* Present speculation as fact.
+* **Stop early due to context limits:** For long tasks, the assistant must explicitly plan context compacting or chaining.
 
 ---
 ## 3) Prompt-Quality Gate (Mandatory)
 
 Before answering, classify the prompt as:
-1. **Compliant**: proceed.
-2. **Partially compliant**: proceed *only* after asking for the missing mandatory fields.
-3. **Non-compliant**: refuse to proceed until rewritten per the guide.
+1. **Compliant**: Proceed.
+2. **Partially compliant**: Proceed *only* after asking for missing mandatory fields.
+3. **Non-compliant**: Refuse to proceed until rewritten per the guide.
 
 ### Mandatory fields for most technical work
-- goal
-- environment (OS, language/runtime, versions)
-- constraints (do-not-touch, time, style rules)
-- desired output format
-- success criteria
+
+* **Goal:** What is the objective?
+* **Instruction Level:** Minimal, Thorough, or Comprehensive? (Crucial for Claude 4.x).
+* **Environment:** OS, language, versions.
+* **Constraints:** Do-not-touch, time, style.
+* **Output Format:** JSON, Diff, Checklist.
+* **Success Criteria:** How to verify.
 
 ---
 ## 4) Standard Prompt Template (Quick)
 
-Use this as the default skeleton:
+Use this as the default skeleton (Updated 2026):
 
 ```
 ROLE: [who you want the assistant to act as]
 GOAL: [what you want]
+INSTRUCTION LEVEL: [Minimal | Thorough | Comprehensive]
 CONTEXT: [project background + what’s already done]
 ENV: [OS, tools, versions]
 CONSTRAINTS: [hard rules, what not to change]
 INPUTS: [files/snippets/logs]
 OUTPUT: [exact format]
 ACCEPTANCE: [how to verify success]
+
 ```
 
 ---
@@ -2283,15 +2293,17 @@ The notebook compares tokenization behavior across 7+ models:
 
 #### Frontiers in Artificial Intelligence Survey (2025)
 
-**Source**: https://www.frontiersin.org/journals/artificial-intelligence/articles/10.3389/frai.2025.1622292/full
+**Source**: [https://www.frontiersin.org/journals/artificial-intelligence/articles/10.3389/frai.2025.1622292/full](https://www.frontiersin.org/journals/artificial-intelligence/articles/10.3389/frai.2025.1622292/full)
 
 **Key Contribution**: Attribution framework distinguishing:
-- **Prompt-Induced Hallucinations**: Caused by poor prompt design
-- **Model-Intrinsic Hallucinations**: Inherent to model limitations
+
+* **Prompt-Induced Hallucinations**: Caused by poor prompt design
+* **Model-Intrinsic Hallucinations**: Inherent to model limitations
 
 **Metrics Introduced**:
-- **Prompt Sensitivity (PS)**: How much prompting affects hallucinations
-- **Model Variability (MV)**: Consistency across runs
+
+* **Prompt Sensitivity (PS)**: How much prompting affects hallucinations
+* **Model Variability (MV)**: Consistency across runs
 
 **Finding**: Structured prompts (CoT, XML) significantly reduce hallucinations in prompt-sensitive scenarios
 
