@@ -1231,6 +1231,20 @@ Standard:
 - Ruff linting
 - type hints encouraged
 
+For **Python projects**:
+
+1) **Directory and file naming convention**
+- **Directories:** `lowercase_with_underscores`
+- **Code files that are imported/executed:** `lowercase_with_underscores`
+- **No hyphens** in any path referenced by tooling (imports, scripts, configs)
+
+2) **Reserved exceptions (must not rename)**
+- Tool-standard filenames (e.g., `.gitignore`, `pyproject.toml`, `package.json`, lockfiles, etc.).
+
+3) **Enforcement mechanism**
+- **Not enforceable via `.editorconfig`.**
+- Enforced via `pre-commit` + CI gate: *No hyphens in repo paths (except approved exceptions).*
+
 ### 6.3 JavaScript/TypeScript/HTML/CSS/YAML/Markdown/JSON
 Standard:
 - Prettier formatting
