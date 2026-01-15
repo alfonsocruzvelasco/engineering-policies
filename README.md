@@ -13,7 +13,7 @@ Convenience symlinks:
 - ~/policies -> ~/dev/repos/github.com/alfonsocruzvelasco/engineering-policies/
 
 **Status:** Authoritative  
-**Last updated:** 2026-01-13
+**Last updated:** 2026-01-15
 
 This repository is the **single source of truth** for how software is designed, built, reviewed, shipped, secured, and maintained across all of my development work.
 
@@ -67,31 +67,31 @@ The `/policies` folder is organized around **compiled policy bundles** (merged d
 
 ### Core system policies
 
-- **`system-dev-env-policy.md`**  
+- **`policies/system-dev-env-policy.md`**
   *Where and how things live and run*  
   (directory layout, workspaces, environment rules, IDE roles, MCP boundaries)
 
 ### Compiled engineering policy bundles
 
-- **`data-projects-and-tooling-setup-policy.md`**  
+- **`policies/data-projects-and-tooling-setup-policy.md`**  
   *Engineering tooling, project bootstrap, workflow quality gates + data/artifacts/SQL discipline*  
   (repo setup, CI hygiene, language toolchains, and the CV/ML data stack rules)
 
-- **`versioning-security-and-documenting-policy.md`**  
+- **`policies/versioning-security-and-documenting-policy.md`** 
   *Governance bundle*  
   (documentation discipline, exception/decision log process, Git/source control rules, security/secrets baseline, and versioning/release rules)
 
 ### AI usage & prompt engineering policies (authoritative)
 
-- **`ai-constraint-usage-policy.md`**  
+- **`policies/ai-constraint-usage-policy.md`**
   *AI operating system: boundaries, enforcement rules, token strategy, CV/ML execution mode*  
   (includes the rule that `comprehensive_prompt_engineering_guide.md` is the single authoritative prompting reference)
 
-- **`prompts-policy.md`**  
+- **`policies/prompts-policy.md`**  
   *Operational prompt playbook (“what to do” / “how to ask”)*  
   (production prompting patterns, verification checklist, common mistakes)
 
-- **`prompt-theory-foundations.md`**  
+- **`policies/prompt-theory-foundations.md`**
   *Deep reference manual (“why it works” / research foundation)*  
   (Fano, RAG theory, evaluation, deployment checklists)
 
