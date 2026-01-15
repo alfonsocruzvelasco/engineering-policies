@@ -81,9 +81,22 @@ The `/policies` folder is organized around **compiled policy bundles** (merged d
   *Governance bundle*  
   (documentation discipline, exception/decision log process, Git/source control rules, security/secrets baseline, and versioning/release rules)
 
-- **`ai-usage-policy.md`**  
-  *AI usage boundaries + the single authoritative prompting reference*  
-  (allowed/forbidden AI use, auditability, and comprehensive prompt engineering discipline)
+### AI usage & prompt engineering policies (authoritative)
+
+- **`ai-constraint-usage-policy.md`**  
+  *AI operating system: boundaries, enforcement rules, token strategy, CV/ML execution mode*  
+  (includes the rule that `comprehensive_prompt_engineering_guide.md` is the single authoritative prompting reference)
+
+- **`prompts-policy.md`**  
+  *Operational prompt playbook (“what to do” / “how to ask”)*  
+  (production prompting patterns, verification checklist, common mistakes)
+
+- **`prompt-theory-foundations.md`**  
+  *Deep reference manual (“why it works” / research foundation)*  
+  (Fano, RAG theory, evaluation, deployment checklists)
+
+- **`policies/latency-policy.md`**  
+  *Latency theory, constraints, and production trade-offs for real-time CV/ML systems (Mobileye/Waymo-class stacks).*
 
 ---
 
