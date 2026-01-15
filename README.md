@@ -5,14 +5,14 @@
 This repository is the single source of truth for all engineering policies.
 
 Canonical local path:
-- ~/dev/repos/github.com/alfonsocruzvelasco/engineering-policies/
+- `~/dev/repos/github.com/alfonsocruzvelasco/engineering-policies/`
 
 Convenience symlinks:
-- ~/dev/policies -> ~/dev/repos/github.com/alfonsocruzvelasco/engineering-policies/
-- ~/learning/policies -> ~/dev/repos/github.com/alfonsocruzvelasco/engineering-policies/
-- ~/policies -> ~/dev/repos/github.com/alfonsocruzvelasco/engineering-policies/
+- `~/dev/policies` -> `~/dev/repos/github.com/alfonsocruzvelasco/engineering-policies/`
+- `~/learning/policies` -> `~/dev/repos/github.com/alfonsocruzvelasco/engineering-policies/`
+- `~/policies` -> `~/dev/repos/github.com/alfonsocruzvelasco/engineering-policies/`
 
-**Status:** Authoritative  
+**Status:** Authoritative
 **Last updated:** 2026-01-15
 
 This repository is the **single source of truth** for how software is designed, built, reviewed, shipped, secured, and maintained across all of my development work.
@@ -61,42 +61,35 @@ All deviations require a recorded exception or decision.
 
 ---
 
-## `/policies` structure (current)
+## `/policies` structure
 
 The `/policies` folder is organized around **compiled policy bundles** (merged documents) to reduce fragmentation and maintenance overhead.
 
-### Core system policies
+### Core system policy
 
 - **`policies/system-dev-env-policy.md`**
-  *Where and how things live and run*  
-  (directory layout, workspaces, environment rules, IDE roles, MCP boundaries)
+  *Where and how work is organized and isolated on the machine*
+  (directory layout, repo isolation, naming conventions, workspace discipline)
 
 ### Compiled engineering policy bundles
 
-- **`policies/data-projects-and-tooling-setup-policy.md`**  
-  *Engineering tooling, project bootstrap, workflow quality gates + data/artifacts/SQL discipline*  
-  (repo setup, CI hygiene, language toolchains, and the CV/ML data stack rules)
+- **`policies/data-and-non-ai-tooling-setup-policy.md`**
+  *Daily reference for data discipline + non-AI engineering tooling, workflows, repo bootstrap, IDE setup, and quality standards*
+  (data/storage rules, SQL discipline, language toolchains, Docker/Kubernetes/Kafka usage, testing + verification)
 
-- **`policies/versioning-security-and-documenting-policy.md`** 
-  *Governance bundle*  
-  (documentation discipline, exception/decision log process, Git/source control rules, security/secrets baseline, and versioning/release rules)
+- **`policies/versioning-security-and-documenting-policy.md`**
+  *Governance bundle*
+  (documentation discipline, exception/decision log process, Git/source control rules, security/secrets baseline, versioning/release rules)
 
 ### AI usage & prompt engineering policies (authoritative)
 
-- **`policies/ai-constraint-usage-policy.md`**
-  *AI operating system: boundaries, enforcement rules, token strategy, CV/ML execution mode*  
-  (includes the rule that `comprehensive_prompt_engineering_guide.md` is the single authoritative prompting reference)
+- **`policies/ai-usage-policy.md`**
+  *Approved agents + the single authorized AI coding environment + sandbox enforcement*
+  (Cursor is the only coding IDE; Claude/ChatGPT/Gemini are non-coding; sandbox rules and prompt-injection defense)
 
-- **`policies/prompts-policy.md`**  
-  *Operational prompt playbook (“what to do” / “how to ask”)*  
-  (production prompting patterns, verification checklist, common mistakes)
-
-- **`policies/prompt-theory-foundations.md`**
-  *Deep reference manual (“why it works” / research foundation)*  
-  (Fano, RAG theory, evaluation, deployment checklists)
-
-- **`policies/latency-policy.md`**  
-  *Latency theory, constraints, and production trade-offs for real-time CV/ML systems (Mobileye/Waymo-class stacks).*
+- **`policies/prompts-policy.md`**
+  *Operational prompt playbook (“what to do” / “how to ask”)*
+  (prompt templates, verification routines, prompt-injection defense, and **token optimization integrated**)
 
 ---
 
@@ -136,5 +129,5 @@ This repository is **infrastructure**, not documentation noise.
 
 ## Final rule
 
-If behavior and policy diverge, **policy must be updated first** —  
+If behavior and policy diverge, **policy must be updated first** —
 never the other way around.

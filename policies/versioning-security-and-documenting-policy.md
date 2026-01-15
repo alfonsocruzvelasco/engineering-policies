@@ -17,7 +17,7 @@
 <a id="documentation-policy"></a>
 
 
-**Status:** Authoritative  
+**Status:** Authoritative
 **Last updated:** 2026-01-08
 
 This policy ensures documentation is accurate, minimal, searchable, and maintained as a first-class artifact.
@@ -29,7 +29,7 @@ This policy ensures documentation is accurate, minimal, searchable, and maintain
 - Avoid duplication. One source of truth per topic.
 
 ### Acronyms
-- **ADR** = Architecture Decision Record  
+- **ADR** = Architecture Decision Record
 - **PR** = Pull Request
 
 ## 2) Required documents per repository
@@ -89,7 +89,7 @@ If documentation lags by necessity, record the exception in `exception-and-decis
 <a id="exception-and-decision-log"></a>
 
 
-**Status:** Authoritative  
+**Status:** Authoritative
 **Last updated:** 2026-01-08
 
 This file records:
@@ -104,33 +104,33 @@ This file records:
 - Decisions MUST include alternatives considered and the rationale.
 
 ### Acronyms
-- **ADR** = Architecture Decision Record  
+- **ADR** = Architecture Decision Record
 - **SLA** = Service Level Agreement
 
 ---
 
 ## Template: Decision (ADR-style)
 
-**Date:** YYYY-MM-DD  
-**Type:** Decision  
-**Title:** <short, specific>  
-**Owner:** <name/role>  
+**Date:** YYYY-MM-DD
+**Type:** Decision
+**Title:** <short, specific>
+**Owner:** <name/role>
 
-**Context:**  
+**Context:**
 <what problem we are solving, constraints, assumptions>
 
-**Decision:**  
+**Decision:**
 <what we will do>
 
-**Rationale:**  
+**Rationale:**
 <why this is the best trade-off>
 
-**Consequences:**  
+**Consequences:**
 - Positive:
 - Negative:
 - Follow-ups:
 
-**Alternatives considered:**  
+**Alternatives considered:**
 - Option A:
 - Option B:
 
@@ -138,17 +138,17 @@ This file records:
 
 ## Template: Exception
 
-**Date:** YYYY-MM-DD  
-**Type:** Exception  
-**Policy violated:** <document + section>  
-**Owner:** <name/role>  
-**Risk level:** Low / Medium / High  
-**Justification:** <why unavoidable>  
-**Mitigations:**  
+**Date:** YYYY-MM-DD
+**Type:** Exception
+**Policy violated:** <document + section>
+**Owner:** <name/role>
+**Risk level:** Low / Medium / High
+**Justification:** <why unavoidable>
+**Mitigations:**
 - <controls to reduce risk>
 
-**Sunset date:** YYYY-MM-DD  
-**Rollback plan:** <how to return to compliance>  
+**Sunset date:** YYYY-MM-DD
+**Rollback plan:** <how to return to compliance>
 
 ---
 
@@ -164,10 +164,10 @@ This file records:
 <a id="git-source-control-and-release-policy"></a>
 
 
-**Status:** Authoritative  
+**Status:** Authoritative
 **Last updated:** 2026-01-11
 
-This policy defines how code changes are authored, reviewed, merged, versioned, and released.  
+This policy defines how code changes are authored, reviewed, merged, versioned, and released.
 It applies to all repositories unless explicitly exempted in the exception log.
 
 ## Acronyms
@@ -199,7 +199,7 @@ It applies to all repositories unless explicitly exempted in the exception log.
    * CI configuration
 8. **No generated artifacts committed** (build outputs, caches, vendor folders).
 9. **Secrets never enter Git.** Use secret managers; rotate immediately if leaked.
-10. **Large or binary files are avoided.**  
+10. **Large or binary files are avoided.**
     Git LFS MAY be used only with explicit justification and quotas. Object storage is preferred.
 
 11. **Line endings are standardized (cross-platform).**
@@ -610,16 +610,12 @@ This section exists to reduce mistakes by making the “happy path” explicit.
    git push
    ```
 
-
 ### 19.3 “Push safety” quick checks (must pass before every push)
 
 1. `git status` is clean (no surprises).
 2. Hooks passed: `pre-commit run --all-files`.
 3. You are pushing the intended branch: `git branch --show-current`.
 4. You are not pushing secrets/binaries unintentionally (verify `git diff --stat`).
-*** End Patch
-PATCH
-
 
 ### 19.4 JetBrains IDE hygiene (PyCharm / IntelliJ / WebStorm) — prevent invisible characters
 
@@ -692,15 +688,15 @@ git push
 
 ### 19.5 Git inside IDEs (VS Code + JetBrains) — daily workflow
 
-This section defines the **IDE user workflow** for Git operations.  
+This section defines the **IDE user workflow** for Git operations.
 Policy priority remains **Terminal-first** (IDE UI is acceptable for visibility, but CLI is the source of truth).
 
 #### 19.5.1 Initial configuration (new project OR existing repo)
 
 **A) New project (create locally, then publish remote)**
 
-1) Open the repo folder in your IDE  
-   * VS Code: File → Open Folder  
+1) Open the repo folder in your IDE
+   * VS Code: File → Open Folder
    * JetBrains: Open
 
 2) Verify the repo is initialized and on `main`:
@@ -895,7 +891,7 @@ git pull --ff-only
 ```
 
 **IDE hints**
-- VS Code: Source Control → `…` → Branch → Checkout to…  
+- VS Code: Source Control → `…` → Branch → Checkout to…
 - JetBrains: Git widget (bottom right) → Remote Branches → Checkout
 
 Operational rule:
@@ -1435,7 +1431,7 @@ All exceptions must be recorded in `exception-and-decision-log.md`.
 <a id="versioning-and-release-policy"></a>
 
 
-**Status:** Authoritative  
+**Status:** Authoritative
 **Last updated:** 2026-01-08
 
 This policy defines how versions are assigned, how releases are produced, and how artifacts are published.
@@ -1448,8 +1444,8 @@ Releases must be reproducible from:
 - a build pipeline that produces signed/traceable artifacts
 
 ### Acronyms
-- **SemVer** = Semantic Versioning  
-- **CI** = Continuous Integration  
+- **SemVer** = Semantic Versioning
+- **CI** = Continuous Integration
 - **CD** = Continuous Delivery
 
 ## 2) Versioning scheme
@@ -1508,8 +1504,6 @@ Hotfix releases:
 - MUST follow the same CI and tagging rules
 - SHOULD be minimal diffs
 
-## 9) Relationship to Git policy
+## 9) Prompt Injection
 
-Git mechanics (branches, commits, PRs) are governed by `git-and-source-control-policy.md`.
-This document governs **version numbers, tags, releases, and published artifacts**.
-
+PI is handled by `policies/ai-usage-policy.md` (see “Prompt Injection defense”).

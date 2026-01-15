@@ -1,7 +1,7 @@
 # Unified Engineering Policies — Complete Reference Guide
 
-**Status:** Authoritative  
-**Last updated:** 2026-01-13  
+**Status:** Authoritative
+**Last updated:** 2026-01-13
 **Purpose:** Daily reference for CV/ML engineering, data systems, and tooling standards
 
 > **Note:** This document reorganizes all engineering policies by TOPIC for easier lookup.
@@ -19,7 +19,7 @@
 
 **Jump to:**
 - [Quick Reference Cards](#quick-reference-cards) — Ready-to-use code snippets and commands
-- [Decision Trees](#decision-trees) — Choose the right technology for your use case  
+- [Decision Trees](#decision-trees) — Choose the right technology for your use case
 - [Common Scenarios](#common-scenarios) — Step-by-step walkthroughs
 - [Data & Storage](#1-data-artifacts-and-object-storage) — Object storage, SQL, datasets
 - [Languages](#3-python) — Python, TypeScript, Node.js
@@ -350,18 +350,18 @@ class SampleReference:
 
 class DatasetSnapshot:
     """Immutable dataset snapshot with manifest."""
-    
+
     def __init__(self, dataset_id: str, version: str, description: str = ""):
         self.dataset_id = dataset_id
         self.version = version
         self.description = description
         self.samples: List[SampleReference] = []
         self.created_at = datetime.now().isoformat()
-    
+
     def add_sample(self, sample: SampleReference) -> None:
         """Add sample to snapshot."""
         self.samples.append(sample)
-    
+
     def compute_manifest_hash(self) -> str:
         """Compute SHA256 hash of manifest."""
         sorted_samples = sorted(
@@ -370,7 +370,7 @@ class DatasetSnapshot:
         )
         manifest_json = json.dumps(sorted_samples, sort_keys=True)
         return hashlib.sha256(manifest_json.encode()).hexdigest()
-    
+
     def save_manifest(self, output_path: Path) -> str:
         """Save manifest file and return hash."""
         manifest = {
@@ -382,7 +382,7 @@ class DatasetSnapshot:
             "manifest_hash": self.compute_manifest_hash(),
             "samples": [asdict(s) for s in self.samples]
         }
-        
+
         output_path.write_text(json.dumps(manifest, indent=2))
         return manifest["manifest_hash"]
 
@@ -419,7 +419,7 @@ print(f"Snapshot created: {manifest_hash}")
 
 # Unified Engineering Policies — Data/Artifacts/SQL + Projects/Tooling Setup
 
-Status: **Authoritative**  
+Status: **Authoritative**
 Last updated: **2026-01-13**
 
 ---
@@ -897,9 +897,9 @@ Key principle:
 
 
 # Engineering Tooling, Workflow, Bootstrap & Quality Policy
-Status: **Authoritative**  
-Last updated: **2026-01-13**  
-Scope: local development, repo initialization, CI/CD readiness, production hygiene, and AI-assisted work  
+Status: **Authoritative**
+Last updated: **2026-01-13**
+Scope: local development, repo initialization, CI/CD readiness, production hygiene, and AI-assisted work
 Note: CI authority (merge gating, bypass rules, enforcement) is defined exclusively in `git-and-source-control-policy.md`. This policy defines tooling + workflow conventions.
 
 ---
@@ -948,9 +948,9 @@ Nothing from either source has been removed; content is reorganized so it is eas
 # Part A — Project Bootstrap & Engineering Quality Policy (merged)
 
 # Project Bootstrap & Engineering Quality Policy
-Status: **Authoritative**  
-Last updated: **2026-01-13**  
-Applies to: **all new and existing projects** (unless explicitly overridden in that repo)  
+Status: **Authoritative**
+Last updated: **2026-01-13**
+Applies to: **all new and existing projects** (unless explicitly overridden in that repo)
 Scope: IDE setup, Git workflow, coding style, testing, documentation, automation (pre-commit/CI)
 
 ---
@@ -1413,7 +1413,7 @@ End of policy.
 
 # Engineering Tooling & Workflow Policies
 
-> Authoritative, enforceable conventions for professional software teams  
+> Authoritative, enforceable conventions for professional software teams
 > Scope: local development, CI/CD, production readiness, and AI-assisted work
 > CI authority (merge gating, bypass rules, enforcement) is defined exclusively in
 `git-and-source-control-policy.md`. This document describes tooling and workflow,
@@ -1443,7 +1443,7 @@ _Last updated: 2026-01-08_
 
 ## 0) Scope and intent
 
-This section governs **Python application and library repositories** using virtual environments (`venv`) and modern dependency tooling.  
+This section governs **Python application and library repositories** using virtual environments (`venv`) and modern dependency tooling.
 It applies equally to local development, CI, and production builds.
 
 ## 1) Core principles

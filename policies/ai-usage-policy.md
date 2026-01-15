@@ -45,7 +45,7 @@ This policy defines *boundaries and operating rules*; the guide defines *prompti
 ## 0.1) Token Strategy for Current Subscriptions
 
 **Purpose:** Minimize wasted tokens while maximizing output quality, utilizing specific model strengths for 2026 workflows.
-1. **Cursor Pro first** for: code, repo navigation, refactors, diffs, tests, reading local files.  
+1. **Cursor Pro first** for: code, repo navigation, refactors, diffs, tests, reading local files.
    **Rule:** do not paste large files into chat if Cursor can reference them directly.
 2. **ChatGPT Plus** for: architecture, trade-offs, multi-step reasoning, project planning, “decision memos,” and risk analysis.
 3. **Claude Pro** for: rewriting policy text, documentation clarity, tone consistency, and structured edits.
@@ -55,7 +55,7 @@ This policy defines *boundaries and operating rules*; the guide defines *prompti
 
 ### 0.1.2 Context packs (copy/paste)
 
-**Context Pack — Minimal (default)**  
+**Context Pack — Minimal (default)**
 Use this for most requests to reduce repeated context and back-and-forth.
 
 ```
@@ -68,7 +68,7 @@ OUTPUT: Commands + minimal explanation
 ACCEPTANCE: <how I verify success>
 ```
 
-**Context Pack — CV/ML (add only when needed)**  
+**Context Pack — CV/ML (add only when needed)**
 Add this when work touches training, data, GPU, evaluation, or experiments.
 
 ```
@@ -188,4 +188,3 @@ ACCEPTANCE: [how to verify success]
 ```
 
 ---
-
