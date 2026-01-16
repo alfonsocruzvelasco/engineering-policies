@@ -1,7 +1,7 @@
 # Unified Engineering Policies — Complete Reference Guide
 
 **Status:** Authoritative
-**Last updated:** 2026-01-13
+**Last updated:** 2026-01-16
 **Purpose:** Daily reference for CV/ML engineering, data systems, and tooling standards
 
 > **Note:** This document reorganizes all engineering policies by TOPIC for easier lookup.
@@ -419,8 +419,8 @@ print(f"Snapshot created: {manifest_hash}")
 
 # Unified Engineering Policies — Data/Artifacts/SQL + Projects/Tooling Setup
 
-Status: **Authoritative**
-Last updated: **2026-01-13**
+**Status:** Authoritative
+**Last updated:** 2026-01-16
 
 ---
 
@@ -440,7 +440,7 @@ Last updated: **2026-01-13**
 # Data, Artifacts, and SQL Policy (CV/ML)
 
 **Status:** Authoritative
-**Last updated:** 2026-01-08
+**Last updated:** 2026-01-16
 
 This policy defines how **data and heavy artifacts** are stored, referenced, versioned, and made reproducible for CV/ML work, and how **SQL systems** are used as the authoritative metadata layer in that stack.
 
@@ -897,8 +897,9 @@ Key principle:
 
 
 # Engineering Tooling, Workflow, Bootstrap & Quality Policy
-Status: **Authoritative**
-Last updated: **2026-01-13**
+
+**Status:** Authoritative
+**Last updated:** 2026-01-16
 Scope: local development, repo initialization, CI/CD readiness, production hygiene, and AI-assisted work
 Note: CI authority (merge gating, bypass rules, enforcement) is defined exclusively in `git-and-source-control-policy.md`. This policy defines tooling + workflow conventions.
 
@@ -948,8 +949,9 @@ Nothing from either source has been removed; content is reorganized so it is eas
 # Part A — Project Bootstrap & Engineering Quality Policy (merged)
 
 # Project Bootstrap & Engineering Quality Policy
-Status: **Authoritative**
-Last updated: **2026-01-13**
+
+**Status:** Authoritative
+**Last updated:** 2026-01-16
 Applies to: **all new and existing projects** (unless explicitly overridden in that repo)
 Scope: IDE setup, Git workflow, coding style, testing, documentation, automation (pre-commit/CI)
 
@@ -1420,7 +1422,7 @@ End of policy.
 not merge authority.
 
 
-_Last updated: 2026-01-08_
+**Last updated:** 2026-01-16
 
 ---
 

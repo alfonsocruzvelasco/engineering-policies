@@ -1,7 +1,7 @@
 # Prompt Policies (Authoritative Reference Manual)
 
 **Status:** Authoritative
-**Last Updated:** January 15, 2026
+**Last updated:** 2026-01-16
 **Purpose:** This is the operational playbook (the “what” and “how”) for prompt quality, verification, safety, agentic workflows, and token efficiency.
 **Scope:** Applies to all AI interactions (Cursor Pro, Claude Pro, ChatGPT Plus, Gemini Pro), with Cursor as the AI-first IDE.
 

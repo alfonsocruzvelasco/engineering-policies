@@ -1,5 +1,8 @@
 # AI Constraint Usage Policies
 
+**Status:** Authoritative
+**Last updated:** 2026-01-16
+
 ## Index
 <a id="index"></a>
 
@@ -31,7 +34,7 @@
 
 
 ## 0) Operating System (Start Here)
-From now on, the file **`comprehensive_prompt_engineering_guide.md`** is the **unique authoritative reference** for:
+From now on, the file **`prompts-policy.md`** is the **unique authoritative reference** for:
 - how prompts must be structured
 - anti-hallucination patterns
 - grounding / citation discipline

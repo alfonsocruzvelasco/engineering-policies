@@ -18,7 +18,7 @@
 
 
 **Status:** Authoritative
-**Last updated:** 2026-01-08
+**Last updated:** 2026-01-16
 
 This policy ensures documentation is accurate, minimal, searchable, and maintained as a first-class artifact.
 
@@ -90,7 +90,7 @@ If documentation lags by necessity, record the exception in `exception-and-decis
 
 
 **Status:** Authoritative
-**Last updated:** 2026-01-08
+**Last updated:** 2026-01-16
 
 This file records:
 - **Exceptions**: deviations from policy (temporary or permanent)
@@ -165,7 +165,7 @@ This file records:
 
 
 **Status:** Authoritative
-**Last updated:** 2026-01-11
+**Last updated:** 2026-01-16
 
 This policy defines how code changes are authored, reviewed, merged, versioned, and released.
 It applies to all repositories unless explicitly exempted in the exception log.
@@ -294,6 +294,49 @@ It applies to all repositories unless explicitly exempted in the exception log.
 
 ## 6) Code review standards
 
+### 6.1 Mandatory Code Review (CR) enforcement for AI-assisted / agentic coding
+
+Purpose: prevent "high-velocity wrong code" and ensure AI-generated changes are held to the same quality and security bar as human-authored code.
+
+#### A) Governance rules (non-negotiable)
+
+1. **Protected branches are mandatory.** `main` (and `release/*` where applicable) MUST be protected.
+2. **PR-only merges.** Direct pushes to protected branches are forbidden.
+3. **Human approvals required.** Every PR requires at least **2 approvals**.
+4. **CODEOWNERS enforced.** Changes in owned paths require Code Owner approval.
+5. **No self-approval of last push.** The last pusher to the PR branch MUST NOT be eligible to satisfy the approval requirement.
+6. **No merge with unresolved conversations.** All review threads must be resolved.
+7. **No merge without green CI.** Required checks must pass in **strict** mode (branch must be up-to-date).
+8. **No force-pushes to protected branches.** Force pushes are blocked; branch deletions are restricted.
+9. **Linear history enforced.** Use squash or rebase merges to keep `main` audit-friendly.
+
+#### B) AI-specific requirements
+
+1. **AI usage disclosure.** PR description MUST state whether AI assisted the change and what portions were generated.
+2. **Verification proof.** PR description MUST include:
+   * tests run (commands)
+   * expected behavior and validation steps
+   * any risk area (auth/authz, parsing, deserialization, IAM, networking)
+3. **No AI-only approvals.** Automated approvals or "rubber stamp" reviews are prohibited.
+4. **Security-sensitive changes require explicit review.** Auth/authz, crypto, deserialization, shell/process execution, and network boundaries require review by an explicitly trusted reviewer.
+
+#### C) Implementation in GitHub (required configuration)
+
+This policy MUST be enforced by GitHub **Rulesets** (preferred) or Branch Protection Rules:
+
+- Require PR before merge
+- Minimum **2 approvals**
+- Dismiss stale approvals
+- Require approval of most recent reviewable push
+- Require Code Owner reviews
+- Require conversation resolution
+- Require status checks (strict)
+- Block force pushes, restrict deletions
+- Enforce linear history
+
+Operational rule: **No tooling may bypass these gates**, including AI agents. Any bypass capability is treated as an exception and must be recorded in `exception-and-decision-log.md` with risk and sunset date.
+
+
 27. **At least one qualified reviewer** is required for non-trivial changes.
 28. Reviewers MUST verify:
 
@@ -304,6 +347,46 @@ It applies to all repositories unless explicitly exempted in the exception log.
 29. **Review intent and design**, not formatting (formatting is automated).
 30. **Reject PRs that mix concerns** (feature  refactor  formatting).
 31. **All review conversations are resolved** before merge.
+
+
+Purpose: ensure AI assistants and coding agents cannot weaken review discipline.
+
+**Definitions**
+- **CR** — Code Review
+- **AI-assisted change** — any code, config, docs, or tests proposed or modified with help from an AI tool (Copilot, Claude, Cursor, etc.)
+
+**Hard rules**
+1. **Protected branches MUST enforce PR-only merges.** No direct pushes to `main` or release branches.
+2. **CR is mandatory.** Every PR requires human approval (minimum 2 approvals for non-trivial repos; minimum 1 for small personal repos).
+3. **No self-approval of last push.** The last committer/pusher MUST NOT be the sole required approver.
+4. **CODEOWNERS enforcement.** Sensitive paths MUST require approval from CODEOWNERS.
+5. **No merge without green CI.** Required status checks MUST pass; strict mode enabled (branch up-to-date required).
+6. **No merge with unresolved threads.** Review conversations MUST be resolved.
+7. **Bypass controls are forbidden by default.** Ruleset bypass lists MUST be empty unless explicitly approved and logged.
+
+**Operational enforcement (GitHub repository settings)**
+- Use **Rulesets** (preferred) or **Branch protection rules** to enforce:
+  - Require PR before merge
+  - Required approvals (>= 2 recommended)
+  - Dismiss stale approvals
+  - Require approval of most recent push
+  - Require an approval from someone other than the last pusher
+  - Require CODEOWNERS review
+  - Require conversation resolution
+  - Require status checks (strict)
+  - Require linear history
+  - Block force pushes
+  - Restrict deletions
+
+**PR hygiene for AI-assisted changes**
+- PR description MUST include:
+  - what was generated/assisted
+  - verification performed (tests, manual checks)
+  - risk notes (security, auth, data handling)
+
+**Security note**
+AI tools do not bypass server-side merge protection. Only credentials with bypass rights (admins/apps explicitly granted bypass) can bypass rules. This is a governance failure and MUST be treated as a security incident.
+
 
 ## 7) Merging strategy
 
@@ -1123,7 +1206,7 @@ pre-commit run --all-files
 
 
 **Status:** Authoritative
-**Last updated:** 2026-01-08
+**Last updated:** 2026-01-16
 
 This policy defines how **credentials, secrets, dependencies, identity and access controls, APIs, and AI-assisted engineering risks** are handled. It applies to all environments (local, CI, staging, production) and all repositories.
 
@@ -1432,7 +1515,7 @@ All exceptions must be recorded in `exception-and-decision-log.md`.
 
 
 **Status:** Authoritative
-**Last updated:** 2026-01-08
+**Last updated:** 2026-01-16
 
 This policy defines how versions are assigned, how releases are produced, and how artifacts are published.
 
@@ -1506,4 +1589,4 @@ Hotfix releases:
 
 ## 9) Prompt Injection
 
-PI is handled by `policies/ai-usage-policy.md` (see “Prompt Injection defense”).
+PI is handled by `policies/prompts-policy.md` (see "Prompt Injection (PI) Defense").
