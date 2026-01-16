@@ -21,6 +21,13 @@
   - [0.1) Token Strategy](#01-token-strategy-for-current-subscriptions)
   - [0.2) CV/ML Execution Mode](#02-cvml-execution-mode)
   - [0.3) Agentic Architecture (Skills & MCP)](#03-agentic-architecture-skills--mcp)
+    - [0.3.1 MCP Overview (Cursor-Specific)](#031-mcp-overview-cursor-specific)
+    - [0.3.2 MCP Setup in Cursor](#032-mcp-setup-in-cursor)
+    - [0.3.3 Common MCP Servers for Cursor](#033-common-mcp-servers-for-cursor)
+    - [0.3.4 MCP Usage Patterns](#034-mcp-usage-patterns)
+    - [0.3.5 MCP Best Practices](#035-mcp-best-practices)
+    - [0.3.6 MCP Troubleshooting](#036-mcp-troubleshooting)
+    - [0.3.7 MCP Integration with Skills](#037-mcp-integration-with-skills)
 - [1) Operating Principles](#1-operating-principles)
 - [2) Non-Negotiable Boundaries](#2-non-negotiable-boundaries)
 - [3) Prompt-Quality Gate (Mandatory)](#3-prompt-quality-gate-mandatory)
@@ -135,7 +142,232 @@ When asked to “improve” a model or pipeline, always request/confirm:
 
 1. **Skills (Procedural Knowledge):** Repeatable workflows (e.g., "How to verify a 3D bounding box") must be saved as `SKILL.md` files.
 
-2. **MCP (Connectivity):** Use the Model Context Protocol to connect agents to tools (Databases, Git, APIs) rather than pasting data.
+2. **MCP (Model Context Protocol):** Use MCP servers in Cursor to connect agents to tools (Databases, Git, APIs, browsers) rather than pasting data or manually retrieving context.
+
+### 0.3.1 MCP Overview (Cursor-Specific)
+
+**What is MCP in Cursor?**
+
+MCP (Model Context Protocol) is Cursor's native protocol for connecting AI agents to external tools and data sources. Instead of pasting large files, copying database results, or manually fetching API data, MCP servers provide structured, on-demand access to these resources.
+
+**Why use MCP?**
+
+- **Token efficiency:** Avoid pasting large files/data into chat (saves 50-90% tokens on data-heavy tasks)
+- **Real-time data:** Access live databases, APIs, and Git state without manual steps
+- **Structured access:** Tools expose clean interfaces (queries, commands) instead of raw dumps
+- **Security:** Controlled access scopes per MCP server (no accidental secret exposure)
+- **Reproducibility:** MCP calls are explicit and traceable in conversation history
+
+**Core principle:** If data exists in a structured system (DB, Git, API), use MCP to access it. Never paste when MCP can retrieve.
+
+### 0.3.2 MCP Setup in Cursor
+
+**Configuration location:** `~/.cursor/mcp.json` (or Cursor Settings → Features → MCP)
+
+**Basic configuration structure:**
+
+```json
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem"],
+      "env": {
+        "ALLOWED_DIRECTORIES": ["/home/alfonso/dev/repos", "/home/alfonso/datasets"]
+      }
+    },
+    "git": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-git"],
+      "env": {
+        "GIT_REPO_PATH": "/home/alfonso/dev/repos"
+      }
+    },
+    "postgres": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-postgres"],
+      "env": {
+        "POSTGRES_CONNECTION_STRING": "postgresql://localhost:5432/mydb"
+      }
+    },
+    "browser": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-browser"]
+    }
+  }
+}
+```
+
+**Security rules:**
+- Never store secrets in `mcp.json` (use environment variables or Cursor's secret management)
+- Restrict filesystem MCP to specific directories (never `~` or `/`)
+- Use read-only database connections when possible
+- Review MCP server permissions before enabling
+
+### 0.3.3 Common MCP Servers for Cursor
+
+**Essential servers (recommended setup):**
+
+1. **Filesystem MCP** (`@modelcontextprotocol/server-filesystem`)
+   - **Use case:** Read/write files without pasting content
+   - **When to use:** Reading configs, logs, data files, writing generated code
+   - **Token savings:** 70-90% on file-heavy tasks
+   - **Example:** "Read the database config from `config/database.yml`" → MCP fetches, no paste needed
+
+2. **Git MCP** (`@modelcontextprotocol/server-git`)
+   - **Use case:** Query Git history, branches, diffs, commit info
+   - **When to use:** Understanding code evolution, finding when bugs were introduced, reviewing PRs
+   - **Token savings:** 60-80% on Git queries
+   - **Example:** "Show me commits that touched `src/auth.py` in the last month" → MCP queries Git directly
+
+3. **PostgreSQL MCP** (`@modelcontextprotocol/server-postgres`)
+   - **Use case:** Query databases without exporting/pasting results
+   - **When to use:** Data analysis, schema inspection, running queries for context
+   - **Token savings:** 80-95% on database work
+   - **Example:** "What tables exist in the production schema?" → MCP queries, returns structured results
+
+4. **Browser MCP** (`@modelcontextprotocol/server-browser`)
+   - **Use case:** Navigate web pages, extract content, interact with web apps
+   - **When to use:** Testing web UIs, extracting docs from websites, verifying deployments
+   - **Token savings:** 50-70% on web-related tasks
+   - **Example:** "Check if the API docs at https://api.example.com/docs are up to date" → MCP navigates and extracts
+
+**Optional servers (add as needed):**
+
+- **SQLite MCP:** For local SQLite databases
+- **GitHub MCP:** Direct GitHub API access (issues, PRs, repos)
+- **Slack MCP:** Team communication integration
+- **Custom MCP servers:** Build your own for project-specific tools
+
+### 0.3.4 MCP Usage Patterns
+
+**Pattern 1: File Access (Replace Pasting)**
+
+❌ **Bad (token waste):**
+```
+User: Here's my config file [pastes 200 lines of YAML]
+```
+
+✅ **Good (MCP):**
+```
+User: Read the config from config/database.yml and suggest optimizations
+→ Cursor uses filesystem MCP to read file
+→ No tokens wasted on file content in prompt
+```
+
+**Pattern 2: Database Queries (Replace Exports)**
+
+❌ **Bad (manual work):**
+```
+User: I exported the users table [pastes CSV], analyze this
+```
+
+✅ **Good (MCP):**
+```
+User: Query the users table for accounts created in the last week and analyze patterns
+→ Cursor uses Postgres MCP to query
+→ Returns structured results, no CSV paste
+```
+
+**Pattern 3: Git History (Replace Manual Git Commands)**
+
+❌ **Bad (context switching):**
+```
+User: I ran `git log --oneline src/auth.py` [pastes output], when was this last changed?
+```
+
+✅ **Good (MCP):**
+```
+User: When was src/auth.py last modified and by whom?
+→ Cursor uses Git MCP to query history
+→ Returns structured commit info
+```
+
+**Pattern 4: Web Content (Replace Copy-Paste)**
+
+❌ **Bad (manual extraction):**
+```
+User: I copied the API docs [pastes 500 lines], update my client code
+```
+
+✅ **Good (MCP):**
+```
+User: Navigate to https://api.example.com/docs and update the client to match the latest API
+→ Cursor uses Browser MCP to fetch docs
+→ Extracts relevant sections automatically
+```
+
+### 0.3.5 MCP Best Practices
+
+**When to use MCP:**
+- ✅ Accessing files > 50 lines
+- ✅ Querying databases (any size)
+- ✅ Reading Git history or diffs
+- ✅ Fetching web content
+- ✅ Accessing APIs with structured responses
+- ✅ Reading logs or config files
+
+**When NOT to use MCP:**
+- ❌ Small snippets (< 20 lines) — paste is fine
+- ❌ One-off data that doesn't exist in a system
+- ❌ Secrets or sensitive data (use secure methods)
+- ❌ Binary files (MCP may not handle well)
+
+**Token optimization with MCP:**
+1. **Prefer MCP over pasting** for any structured data source
+2. **Use MCP queries** to filter data before it enters context
+3. **Chain MCP calls** when multiple sources are needed (parallel when possible)
+4. **Cache MCP results** in conversation when same data is referenced multiple times
+
+**Security checklist:**
+- [ ] MCP servers restricted to necessary directories/files
+- [ ] Database connections use read-only credentials when possible
+- [ ] No secrets in `mcp.json` (use env vars or Cursor secrets)
+- [ ] Review MCP server permissions before enabling
+- [ ] Audit MCP access logs periodically
+
+### 0.3.6 MCP Troubleshooting
+
+**Common issues:**
+
+1. **MCP server not found**
+   - **Fix:** Ensure `npx` is available and server package is published
+   - **Check:** `npx -y @modelcontextprotocol/server-filesystem --help`
+
+2. **Permission denied (filesystem)**
+   - **Fix:** Adjust `ALLOWED_DIRECTORIES` in MCP config
+   - **Check:** Ensure paths are absolute and accessible
+
+3. **Database connection fails**
+   - **Fix:** Verify connection string and credentials
+   - **Check:** Test connection outside Cursor first
+
+4. **MCP calls slow**
+   - **Fix:** Use parallel MCP calls when possible
+   - **Check:** Server may be rate-limited or network issues
+
+**Verification:**
+- Test MCP servers in Cursor's MCP panel (Settings → Features → MCP)
+- Check Cursor logs for MCP errors
+- Verify MCP tools appear in Cursor's tool list
+
+### 0.3.7 MCP Integration with Skills
+
+**Combined workflow:**
+1. **Skills** define reusable procedures (e.g., "How to verify a 3D bounding box")
+2. **MCP** provides data access (e.g., read dataset, query database)
+3. **Together:** Skills use MCP to fetch data, then apply procedures
+
+**Example:**
+```
+Skill: "Verify dataset integrity"
+  → Uses Filesystem MCP to read dataset manifest
+  → Uses Postgres MCP to query metadata
+  → Applies verification rules
+  → Returns structured report
+```
+
+**Rule:** Skills should prefer MCP over manual data access whenever possible.
 
 ## 1) Operating Principles
 
