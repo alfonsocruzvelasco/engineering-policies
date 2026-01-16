@@ -22,13 +22,18 @@
   - [0.1) Token Strategy](#01-token-strategy-for-current-subscriptions)
   - [0.2) CV/ML Execution Mode](#02-cvml-execution-mode)
   - [0.3) Agentic Architecture (Skills & MCP)](#03-agentic-architecture-skills--mcp)
-    - [0.3.1 MCP Overview (Cursor-Specific)](#031-mcp-overview-cursor-specific)
-    - [0.3.2 MCP Setup in Cursor](#032-mcp-setup-in-cursor)
-    - [0.3.3 Common MCP Servers for Cursor](#033-common-mcp-servers-for-cursor)
-    - [0.3.4 MCP Usage Patterns](#034-mcp-usage-patterns)
-    - [0.3.5 MCP Best Practices](#035-mcp-best-practices)
-    - [0.3.6 MCP Troubleshooting](#036-mcp-troubleshooting)
-    - [0.3.7 MCP Integration with Skills](#037-mcp-integration-with-skills)
+    - [0.3.1 Skills Overview (Cursor-Specific)](#031-skills-overview-cursor-specific)
+    - [0.3.2 Skills Setup in Cursor](#032-skills-setup-in-cursor)
+    - [0.3.3 Creating Skills](#033-creating-skills)
+    - [0.3.4 Skills Best Practices](#034-skills-best-practices)
+    - [0.3.5 Skills Examples](#035-skills-examples)
+    - [0.3.6 Skills Integration with MCP](#036-skills-integration-with-mcp)
+    - [0.3.7 MCP Overview (Cursor-Specific)](#037-mcp-overview-cursor-specific)
+    - [0.3.8 MCP Setup in Cursor](#038-mcp-setup-in-cursor)
+    - [0.3.9 Common MCP Servers for Cursor](#039-common-mcp-servers-for-cursor)
+    - [0.3.10 MCP Usage Patterns](#0310-mcp-usage-patterns)
+    - [0.3.11 MCP Best Practices](#0311-mcp-best-practices)
+    - [0.3.12 MCP Troubleshooting](#0312-mcp-troubleshooting)
 - [0.4) Verification-First Review (AI/Agent Era)](#04-verification-first-review-aiagent-era)
 - [1) Operating Principles](#1-operating-principles)
 - [2) Non-Negotiable Boundaries](#2-non-negotiable-boundaries)
@@ -146,7 +151,279 @@ When asked to “improve” a model or pipeline, always request/confirm:
 
 2. **MCP (Model Context Protocol):** Use MCP servers in Cursor to connect agents to tools (Databases, Git, APIs, browsers) rather than pasting data or manually retrieving context.
 
-### 0.3.1 MCP Overview (Cursor-Specific)
+### 0.3.1 Skills Overview (Cursor-Specific)
+
+**What are Skills in Cursor?**
+
+Skills in Cursor are reusable procedural knowledge stored as markdown files. They encapsulate repeatable workflows, verification procedures, and domain-specific knowledge that agents can reference during conversations. Instead of repeatedly explaining how to perform a task, Skills provide standardized, version-controlled procedures.
+
+**Why use Skills?**
+
+- **Token efficiency:** Avoid repeating complex procedures in prompts (saves 30-70% tokens on procedural tasks)
+- **Consistency:** Standardized workflows ensure the same approach across conversations
+- **Maintainability:** Update procedures in one place (the Skill file), not in every prompt
+- **Knowledge preservation:** Capture domain expertise that can be reused and improved over time
+- **Agent capability:** Skills enable agents to follow complex multi-step procedures reliably
+
+**Core principle:** If a workflow is repeated more than twice, create a Skill. Never re-explain procedures that exist in Skills.
+
+### 0.3.2 Skills Setup in Cursor
+
+**Location:** Skills are stored in `.cursor/skills/` directory at the repository root (or workspace root).
+
+**Directory structure:**
+
+```text
+.cursor/
+├── skills/
+│   ├── verify-3d-bounding-box.md
+│   ├── dataset-integrity-check.md
+│   ├── api-authentication-flow.md
+│   └── model-evaluation-protocol.md
+└── rules/
+    └── project.md
+```
+
+**File naming conventions:**
+- Use lowercase with hyphens: `verify-3d-bounding-box.md`
+- Be descriptive and action-oriented: `check-dataset-integrity.md` not `dataset.md`
+- Use imperative mood: `verify-`, `check-`, `evaluate-`, `generate-`
+
+**Activation:** Skills are automatically available in Cursor conversations when in a workspace that contains `.cursor/skills/` directory. Agents can reference Skills by name or automatically apply them when context matches.
+
+### 0.3.3 Creating Skills
+
+**When to create a Skill:**
+
+Create a Skill when you have:
+- ✅ A procedure repeated 2+ times
+- ✅ A multi-step workflow with specific order
+- ✅ Domain-specific knowledge (e.g., CV/ML evaluation protocols)
+- ✅ Verification or validation procedures
+- ✅ Standardized patterns (e.g., authentication flows)
+
+**Do NOT create a Skill for:**
+- ❌ One-off tasks or experiments
+- ❌ Simple commands that don't need explanation
+- ❌ Tasks that change too frequently to maintain
+
+**Skill file structure:**
+
+```markdown
+# Skill Name: Brief Description
+
+**Purpose:** What this skill accomplishes
+
+**When to use:** Situations where this skill applies
+
+**Prerequisites:**
+- Required tools or dependencies
+- Required data or context
+- Required access/permissions
+
+**Procedure:**
+1. Step 1: Description
+2. Step 2: Description
+3. Step 3: Description
+
+**Verification:**
+- How to confirm the procedure worked
+- Expected outputs or states
+
+**Common issues:**
+- Issue 1: Solution
+- Issue 2: Solution
+
+**Related skills:**
+- Links to related Skills
+
+**Last updated:** YYYY-MM-DD
+```
+
+**Example Skill:**
+
+```markdown
+# Verify 3D Bounding Box
+
+**Purpose:** Verify that a 3D bounding box annotation is valid (coordinates, dimensions, format).
+
+**When to use:** When working with 3D object detection data, before training or evaluation.
+
+**Prerequisites:**
+- 3D bounding box data (format: center_x, center_y, center_z, width, height, depth)
+- Dataset metadata (coordinate system, units)
+
+**Procedure:**
+1. Check coordinate ranges match dataset bounds
+2. Verify dimensions are positive
+3. Validate format (numeric, correct number of values)
+4. Check for outliers (dimensions > 3x mean or < 0.1x mean)
+5. Verify rotation/quaternion if present (normalized)
+
+**Verification:**
+- All boxes pass validation
+- Error report lists specific violations
+- Statistics: count, mean dimensions, outliers
+
+**Common issues:**
+- Coordinate system mismatch: Check dataset metadata
+- Negative dimensions: Usually indicates flipped coordinates
+
+**Related skills:**
+- Dataset integrity check
+- Model evaluation protocol
+
+**Last updated:** 2026-01-16
+```
+
+### 0.3.4 Skills Best Practices
+
+**Naming and organization:**
+
+1. **Be specific:** `verify-3d-bounding-box.md` not `verify-box.md`
+2. **Group related Skills:** Use subdirectories for complex domains:
+   ```text
+   .cursor/skills/
+   ├── cv/
+   │   ├── verify-bounding-box-3d.md
+   │   └── verify-segmentation-mask.md
+   ├── ml/
+   │   ├── evaluate-model.md
+   │   └── dataset-split.md
+   └── api/
+       └── authentication-flow.md
+   ```
+3. **Keep Skills focused:** One procedure per Skill file
+4. **Version control:** Commit Skills to Git (they're part of project knowledge)
+
+**Writing Skills:**
+
+1. **Be explicit:** Assume the agent knows nothing about the procedure
+2. **Include examples:** Show expected inputs/outputs
+3. **List edge cases:** Document common failures and solutions
+4. **Keep them current:** Update Skills when procedures change
+5. **Test them:** Verify Skills work by having agents use them
+
+**Maintenance:**
+
+- **Review quarterly:** Skills can become outdated as tools/processes evolve
+- **Update dates:** Keep "Last updated" current for maintenance tracking
+- **Remove obsolete Skills:** Delete Skills that are no longer relevant
+- **Link related Skills:** Cross-reference to build knowledge networks
+
+**Integration with prompts:**
+
+Instead of:
+```
+❌ BAD: "Verify this bounding box [pastes procedure explanation]"
+```
+
+Use:
+```
+✅ GOOD: "Verify this bounding box using the verify-3d-bounding-box skill"
+```
+
+### 0.3.5 Skills Examples
+
+**Common Skill categories:**
+
+1. **Data validation:**
+   - `verify-dataset-integrity.md`
+   - `check-label-consistency.md`
+   - `validate-data-split.md`
+
+2. **Model evaluation:**
+   - `evaluate-classification-model.md`
+   - `compute-detection-metrics.md`
+   - `compare-model-versions.md`
+
+3. **Development workflows:**
+   - `create-feature-branch.md`
+   - `run-test-suite.md`
+   - `prepare-pr-evidence.md`
+
+4. **API/Integration:**
+   - `setup-oauth-flow.md`
+   - `test-api-endpoint.md`
+   - `verify-webhook-signature.md`
+
+5. **CV/ML specific:**
+   - `verify-bounding-box-3d.md`
+   - `validate-segmentation-mask.md`
+   - `check-data-augmentation.md`
+
+**Example: Dataset Integrity Check Skill**
+
+```markdown
+# Dataset Integrity Check
+
+**Purpose:** Verify dataset is complete, consistent, and ready for training.
+
+**When to use:** Before starting training runs or after dataset updates.
+
+**Prerequisites:**
+- Dataset path (root directory)
+- Expected file structure (manifest or schema)
+
+**Procedure:**
+1. Check all required files exist (images, labels, metadata)
+2. Verify file formats (images loadable, labels parseable)
+3. Validate label consistency (all classes present, no orphans)
+4. Check file integrity (no corrupt images, valid checksums)
+5. Verify train/val/test splits (no overlap, coverage)
+
+**Verification:**
+- Report: missing files, corrupt files, inconsistencies
+- Statistics: file counts, class distribution, split sizes
+- All checks pass or actionable error list
+
+**Common issues:**
+- Missing label files: Check naming convention
+- Corrupt images: Re-download or regenerate
+- Split overlap: Regenerate splits
+
+**Related skills:**
+- Verify 3D bounding box
+- Model evaluation protocol
+
+**Last updated:** 2026-01-16
+```
+
+### 0.3.6 Skills Integration with MCP
+
+**Combined workflow:**
+
+Skills and MCP work together:
+1. **Skills** define reusable procedures (what to do)
+2. **MCP** provides data access (how to get inputs)
+3. **Together:** Skills use MCP to fetch data, then apply procedures
+
+**Example: Dataset Verification Workflow**
+
+```
+Skill: "Dataset Integrity Check"
+  → Uses Filesystem MCP to read dataset manifest
+  → Uses Postgres MCP to query metadata/statistics
+  → Applies verification rules (from Skill)
+  → Uses Filesystem MCP to write report
+  → Returns structured validation results
+```
+
+**Pattern:**
+
+1. **MCP fetches context:** Files, database queries, API responses
+2. **Skill applies procedure:** Standardized workflow with the data
+3. **MCP stores results:** Write outputs, update databases, create artifacts
+
+**Rule:** Skills should prefer MCP over manual data access whenever possible. If a Skill needs data, it should specify which MCP server to use.
+
+**Best practices:**
+
+- **Skills reference MCP:** Document required MCP servers in Skill prerequisites
+- **MCP-enabled Skills:** Design Skills to leverage MCP for data access
+- **Reusable combinations:** Common Skill+MCP patterns can become higher-level Skills
+
+### 0.3.7 MCP Overview (Cursor-Specific)
 
 **What is MCP in Cursor?**
 
@@ -162,7 +439,7 @@ MCP (Model Context Protocol) is Cursor's native protocol for connecting AI agent
 
 **Core principle:** If data exists in a structured system (DB, Git, API), use MCP to access it. Never paste when MCP can retrieve.
 
-### 0.3.2 MCP Setup in Cursor
+### 0.3.8 MCP Setup in Cursor
 
 **Configuration location:** `~/.cursor/mcp.json` (or Cursor Settings → Features → MCP)
 
@@ -206,7 +483,7 @@ MCP (Model Context Protocol) is Cursor's native protocol for connecting AI agent
 - Use read-only database connections when possible
 - Review MCP server permissions before enabling
 
-### 0.3.3 Common MCP Servers for Cursor
+### 0.3.9 Common MCP Servers for Cursor
 
 **Essential servers (recommended setup):**
 
@@ -241,7 +518,7 @@ MCP (Model Context Protocol) is Cursor's native protocol for connecting AI agent
 - **Slack MCP:** Team communication integration
 - **Custom MCP servers:** Build your own for project-specific tools
 
-### 0.3.4 MCP Usage Patterns
+### 0.3.10 MCP Usage Patterns
 
 **Pattern 1: File Access (Replace Pasting)**
 
@@ -299,7 +576,7 @@ User: Navigate to https://api.example.com/docs and update the client to match th
 → Extracts relevant sections automatically
 ```
 
-### 0.3.5 MCP Best Practices
+### 0.3.11 MCP Best Practices
 
 **When to use MCP:**
 - ✅ Accessing files > 50 lines
@@ -328,7 +605,7 @@ User: Navigate to https://api.example.com/docs and update the client to match th
 - [ ] Review MCP server permissions before enabling
 - [ ] Audit MCP access logs periodically
 
-### 0.3.6 MCP Troubleshooting
+### 0.3.12 MCP Troubleshooting
 
 **Common issues:**
 
@@ -353,23 +630,6 @@ User: Navigate to https://api.example.com/docs and update the client to match th
 - Check Cursor logs for MCP errors
 - Verify MCP tools appear in Cursor's tool list
 
-### 0.3.7 MCP Integration with Skills
-
-**Combined workflow:**
-1. **Skills** define reusable procedures (e.g., "How to verify a 3D bounding box")
-2. **MCP** provides data access (e.g., read dataset, query database)
-3. **Together:** Skills use MCP to fetch data, then apply procedures
-
-**Example:**
-```
-Skill: "Verify dataset integrity"
-  → Uses Filesystem MCP to read dataset manifest
-  → Uses Postgres MCP to query metadata
-  → Applies verification rules
-  → Returns structured report
-```
-
-**Rule:** Skills should prefer MCP over manual data access whenever possible.
 
 ## 0.4) Verification-First Review (AI/Agent Era)
 
