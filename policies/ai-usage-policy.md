@@ -12,6 +12,7 @@
 2. [Standard Prompt Template](#4-standard-prompt-template-quick)
 3. [Prompt-Quality Gate](#3-prompt-quality-gate-mandatory)
 4. [CV/ML Execution Mode](#02-cvml-execution-mode)
+5. [Verification-First Review](#04-verification-first-review-aiagent-era)
 
 ---
 
@@ -28,6 +29,7 @@
     - [0.3.5 MCP Best Practices](#035-mcp-best-practices)
     - [0.3.6 MCP Troubleshooting](#036-mcp-troubleshooting)
     - [0.3.7 MCP Integration with Skills](#037-mcp-integration-with-skills)
+- [0.4) Verification-First Review (AI/Agent Era)](#04-verification-first-review-aiagent-era)
 - [1) Operating Principles](#1-operating-principles)
 - [2) Non-Negotiable Boundaries](#2-non-negotiable-boundaries)
 - [3) Prompt-Quality Gate (Mandatory)](#3-prompt-quality-gate-mandatory)
@@ -368,6 +370,65 @@ Skill: "Verify dataset integrity"
 ```
 
 **Rule:** Skills should prefer MCP over manual data access whenever possible.
+
+## 0.4) Verification-First Review (AI/Agent Era)
+
+**Problem:** AI/agents increase code volume and plausibility, making traditional line-by-line **CR** (Code Review) a weak primary quality gate.
+
+**Policy:** In all repos, shift from "read every line" to **verification-first**:
+- CI (Continuous Integration) gates are the first-class quality signal.
+- Human review focuses on **architecture, security, and risk**, not syntax nitpicks.
+- Every PR must provide **evidence**, not just explanation.
+
+### 0.4.1 Mandatory PR evidence package
+
+Every PR must include, in the description (or PR template fields):
+
+1. **Intent**
+   - What changed (1–5 bullets)
+   - Why it changed (1–3 bullets)
+2. **Verification commands (copy/paste runnable)**
+   - `ruff check .`
+   - `pytest -q`
+   - `mypy .` or `pyright` (project standard)
+   - any project-specific checks (e.g., `docker compose up`, `make test`)
+3. **Result evidence**
+   - Status checks green
+   - Screenshots / short logs for UI or critical behavior changes
+4. **Risk statement**
+   - Risk: Low | Medium | High
+   - Rollback plan (mandatory if Medium/High)
+5. **AI disclosure (when applicable)**
+   - Which parts were AI-assisted (brief, not verbose)
+
+**Merge rule:** No evidence → no merge.
+
+### 0.4.2 Preview environments (when applicable)
+
+For web/API repos, prefer PR-specific preview environments (or containerized local preview):
+
+- Reviewer verifies **behavior**, not just code.
+- Merge is blocked unless preview passes.
+
+### 0.4.3 Diff size discipline
+
+Agents can generate huge diffs. To keep review/verification reliable:
+
+- Prefer **small PRs** (single concern).
+- If a PR is large, split into staged PRs:
+  1) scaffolding + tests
+  2) core implementation
+  3) refactor/cleanup
+
+### 0.4.4 Branch protection alignment
+
+Enforce with GitHub Rulesets / Branch protection:
+
+- no direct pushes to protected branches
+- required approvals
+- required checks (strict / up-to-date branch)
+- no bypass unless explicitly justified and documented
+
 
 ## 1) Operating Principles
 
