@@ -838,3 +838,8 @@ Optimization targets:
 Your four-stage workflow (Vibe → Specify → Verify → Own) mirrors best practices. The patterns operationalize it.
 
 Enforcement is the difference between “getting lucky” and “getting reliable.”
+
+## Claude Code approval discipline (mandatory)
+- Treat every Claude Code "Do you want to proceed?" prompt as a safety gate.
+- Default answer is NO for privileged/destructive actions (sudo/rm/chown/chmod/etc).
+- If such actions are required, run them manually outside Claude Code.

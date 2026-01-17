@@ -112,6 +112,32 @@ For any non-trivial task, provide (or the assistant must request) these in **one
 
 **Enforcement:** if these are missing and the task is complex, the assistant must pause and request a compliant prompt rewrite (per Section 3).
 
+## 0.1.4 Claude Code governance (mandatory)
+
+**Acronyms:** **CLI** = Command Line Interface, **IDE** = Integrated Development Environment.
+
+### Default execution mode
+- Primary: Claude Code **inside Cursor** via the official extension (diff-first, explicit approvals).
+- Secondary: Claude Code **CLI** (`claude`) in the IDE integrated terminal for CLI-only features or when needed.
+- The extension and CLI share settings via:
+  - `~/.claude/settings.json` (global)
+  - `.claude/settings.json` (repo-local)
+
+### Least privilege (non-negotiable)
+- GitHub App access MUST be “Only selected repositories”.
+- Only grant Claude Code access to the repo(s) required for the current task.
+- Remove/disable unknown integrations (example: Linear) unless explicitly required.
+
+### Permissions and safety prompts
+- Never approve privileged/destructive prompts (sudo/rm/chown/chmod/etc). Default answer is **NO**.
+- If privileged/destructive work is required, it must be executed manually outside Claude Code.
+- Never enter passwords or secrets into Claude Code.
+- Never enable “dangerously skip permissions” outside an isolated, disposable sandbox.
+
+### Template rule
+- The repository `sandbox-claude-code` is the canonical template.
+- To enable Claude Code in a new repo: copy `CLAUDE.md` + `.claude/` into the repo and commit.
+
 ---
 ## 0.2) CV/ML Execution Mode
 
@@ -820,3 +846,29 @@ The acceleration of AI tools increases anxiety that every new model/tool must be
 - Do not work on the AI's schedule.
 - Do not evaluate tools based on hype.
 - Use AI/MCP only when it serves a **specific deep work goal** and a **verification plan**.
+
+## Claude Code governance (mandatory)
+
+**Acronyms:** CLI = Command Line Interface. IDE = Integrated Development Environment.
+
+### Default execution mode
+- Primary: Claude Code inside Cursor via the official extension (diff-first, explicit approvals).
+- Secondary: Claude Code CLI (`claude`) in the IDE integrated terminal for CLI-only features or when needed.
+- The extension and CLI share settings via:
+  - `~/.claude/settings.json` (global)
+  - `.claude/settings.json` (repo-local)
+
+### Least privilege (non-negotiable)
+- GitHub App access MUST be “Only selected repositories”.
+- Only grant Claude Code access to the repo(s) required for the current task.
+- Remove/disable unknown integrations unless explicitly required.
+
+### Permissions and safety prompts
+- Never approve privileged/destructive prompts (sudo/rm/chown/chmod/etc). Default answer is NO.
+- If privileged/destructive work is required, it must be executed manually outside Claude Code.
+- Never enter passwords or secrets into Claude Code.
+- Do not enable blanket “always allow” permissions in non-disposable repos.
+
+### Template rule
+- The repository `sandbox-claude-code` is the canonical template for policy enforcement.
+- To enable Claude Code in a new repo: copy `CLAUDE.md` + `.claude/` into the repo and commit.
