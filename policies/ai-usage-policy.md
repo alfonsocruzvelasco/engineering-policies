@@ -744,3 +744,22 @@ ACCEPTANCE: [how to verify success]
 ```
 
 ---
+
+## 5) MCP Default Workflow (Decision Rule)
+
+**Default rule:** Whenever a task involves **MCP (Model Context Protocol)**, **agentic tooling**, or **tool execution**, use **Cursor Pro as the MCP client/workbench**.
+
+- Cursor Pro is the primary **MCP orchestration layer**.
+- VS Code may be used as an editor/utility IDE, but **not** as the default MCP client.
+- Do **not** depend on VS Code **Copilot** MCP preview/rollouts, feature flags, or request quotas when Cursor Pro is available.
+
+**Subscription usage policy:**
+- **Cursor Pro** → MCP + agents + tool execution over repos/projects
+- **Claude Pro** → deep codebase reasoning inside Cursor when model choice is available
+- **ChatGPT Plus** → architecture, planning, refactor strategy, high-level reasoning
+- **Gemini Pro** → optional; used mainly for Google ecosystem tasks
+
+**Interaction efficiency rule:**
+If the assistant starts steering toward **Copilot/Microsoft preview MCP** while the user already has **Cursor Pro**, correct course immediately and follow this policy.
+
+---
