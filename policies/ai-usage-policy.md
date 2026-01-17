@@ -763,3 +763,54 @@ ACCEPTANCE: [how to verify success]
 If the assistant starts steering toward **Copilot/Microsoft preview MCP** while the user already has **Cursor Pro**, correct course immediately and follow this policy.
 
 ---
+
+## 6) Deep Work Rules for the Vibe Coding Era (AI/Agent + MCP)
+
+**Problem:** The Vibe Coding era (AI assistance, rapid tool evolution, frequent prompt approvals) creates a classic **Deep Work** conflict: attention fragmentation and tool-driven reactivity.
+
+**Policy:** Apply the following Deep Work rules (adapted from Cal Newport) to preserve concentration, reduce token burn, and keep output quality high.
+
+### 6.1 Coping with constant interruptions (the "Prompt Loop")
+
+Vibe Coding can devolve into a loop of: **Prompt → Wait → Approve → Fix**, which fractures concentration.
+
+1) **Ritualize the interaction (Rule #1 — Work Deeply)**
+   - Move from reactive prompting to a **ritualized workflow**.
+   - Apply a **Rhythmic Philosophy**: **batch** AI interactions.
+   - **Deep Work block:** design architecture, invariants, interfaces, acceptance tests.
+   - **Shallow/Technical block:** prompt, review diffs, approve/fix.
+
+2) **Embrace the wait (Rule #2 — Embrace boredom)**
+   - When waiting for generation, **do not context-switch** (no tabs, no news, no tool browsing).
+   - Use the "**Don't take breaks from distraction**" strategy: stay inside the same problem-space.
+   - If latency exists, use it for: proof-reading your prompt, reviewing acceptance criteria, or drafting test cases.
+
+3) **Quantify the depth (Rule #4 — Drain the shallows)**
+   - Ask: **"How long would it take to train a smart recent graduate to do this?"**
+   - If the activity is mostly approving generic code, that is **shallow work**.
+   - Push your contribution up the value chain: **system design, debugging, constraints, verification, and risk controls**.
+
+### 6.2 Coping with MOFO (FOMO: Fear of Missing Out)
+
+The acceleration of AI tools increases anxiety that every new model/tool must be used.
+
+1) **Reject the "any-benefit" approach (Rule #3 — Quit social media / tool minimalism)**
+   - Do not adopt a tool just because it provides *some* benefit.
+   - Apply the **Craftsman Approach**: adopt a new AI workflow only if it materially improves **core professional goals** and exceeds the cost (distraction, learning curve, debugging time).
+
+2) **Apply the Law of the Vital Few (80/20)**
+   - 80% of outputs come from 20% of activities.
+   - You do **not** need to master every assistant.
+   - Identify the few tools that directly drive shipped value (reliable software) and **ignore the rest**.
+
+3) **Focus on the wildly important (4DX alignment)**
+   - Always define a concrete "wildly important" outcome (e.g., **Ship Feature X**).
+   - Track **lead measures**: hours of deep concentration and verified progress—not prompts tried or tools tested.
+
+### 6.3 Summary enforcement rule
+
+**Anti-router rule:** Refuse to become a "human network router" for AI outputs.
+
+- Do not work on the AI's schedule.
+- Do not evaluate tools based on hype.
+- Use AI/MCP only when it serves a **specific deep work goal** and a **verification plan**.
