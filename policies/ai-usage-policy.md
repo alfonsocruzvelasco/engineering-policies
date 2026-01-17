@@ -600,6 +600,12 @@ User: Navigate to https://api.example.com/docs and update the client to match th
 
 **Security checklist:**
 - [ ] MCP servers restricted to necessary directories/files
+- [ ] **Filesystem MCP scope discipline:**
+  - Repo-local `.cursor/mcp.json`: keep filesystem access scoped to the **current repo only** (use `"."`), unless a wider scope is explicitly required.
+  - Future global `~/.cursor/mcp.json`: **do NOT** allow full `/home/alfonso`. Allow only:
+    - `/home/alfonso/learning`
+    - `/home/alfonso/dev/repos`
+    - `/home/alfonso/datasets`
 - [ ] Database connections use read-only credentials when possible
 - [ ] No secrets in `mcp.json` (use env vars or Cursor secrets)
 - [ ] Review MCP server permissions before enabling
