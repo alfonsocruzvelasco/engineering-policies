@@ -928,6 +928,12 @@ Nothing from either source has been removed; content is reorganized so it is eas
   - [Testing policy](#testing-policy)
   - [Documentation policy](#documentation-policy)
   - [IDE repo settings](#ide-repo-settings)
+    - [9.1 VS Code workspace settings](#91-vs-code-workspace-settings)
+    - [9.2 PyCharm formatting enforcement](#92-pycharm-formatting-enforcement)
+    - [9.3 IntelliJ](#93-intellij)
+    - [9.4 CLion](#94-clion)
+    - [9.5 WebStorm (JavaScript/TypeScript/Web projects)](#95-webstorm-javascripttypescriptweb-projects)
+    - [9.6 DataGrip](#96-datagrip)
   - [Quality gates](#quality-gates)
   - [Standard bootstrap checklist](#standard-bootstrap-checklist)
 
@@ -1039,6 +1045,14 @@ PyCharm:
 IntelliJ IDEA:
 - install plugin: `google-java-format`
 - (recommended) SonarLint
+
+WebStorm:
+- **Prettier:** Configuration mode = AUTOMATIC, Run on save = enabled
+- **ESLint:** Fix on save = enabled
+- **EditorConfig:** Support enabled (Settings → Editor → Code Style → Enable EditorConfig support)
+- **Inspections:** ESLint enabled at WARNING level
+- **Code Style:** Use project/EditorConfig settings (do not override with global defaults)
+- show whitespace enabled (recommended)
 
 CLion:
 - enable `.clang-format`
@@ -1368,7 +1382,44 @@ Recommended baseline:
 - enforce `.clang-format`
 - clang-tidy enabled
 
-### 9.5 DataGrip
+### 9.5 WebStorm (JavaScript/TypeScript/Web projects)
+
+**Initial configuration (one-time per project):**
+
+1. **Prettier setup:**
+   - Settings → Languages & Frameworks → JavaScript → Prettier
+   - Configuration mode: **AUTOMATIC** (use `.prettierrc` or `prettier.config.js` in repo)
+   - **Run on save:** ✅ enabled
+
+2. **ESLint setup:**
+   - Settings → Languages & Frameworks → JavaScript → Code Quality Tools → ESLint
+   - **Automatic ESLint configuration:** enabled
+   - **Fix on save:** ✅ enabled
+
+3. **EditorConfig:**
+   - Settings → Editor → Code Style → Enable EditorConfig support: ✅ enabled
+
+4. **Inspections:**
+   - Settings → Editor → Inspections
+   - ESLint: enabled at **WARNING** level (enabled by default in Project Default profile)
+
+5. **Actions on Save:**
+   - Settings → Tools → Actions on Save
+   - ✅ **Reformat code**
+   - ✅ **Optimize imports**
+   - **Run Prettier:** handled by Prettier "Run on save" setting
+
+**Project default settings (via `.idea/` or default project configuration):**
+- PrettierConfiguration: `mode: AUTOMATIC`, `runOnSave: true`
+- EslintConfiguration: `fixOnSave: true`
+- InspectionProjectProfileManager: ESLint enabled
+
+**Repo-level settings (commit `.idea/` selectively):**
+- Commit: `.idea/codeStyles/` (if custom code style needed)
+- **Do NOT commit:** `.idea/workspace.xml`, `.idea/tasks.xml`, or user-specific settings
+- **Do commit:** `.idea/inspectionProfiles/Project_Default.xml` (if ESLint/Prettier settings differ from default)
+
+### 9.6 DataGrip
 - configure SQL formatting and dialects
 - avoid noisy formatting commits unless needed
 
