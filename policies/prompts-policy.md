@@ -15,16 +15,16 @@
 3. [Prompt-Quality Gate (Mandatory)](#3-prompt-quality-gate-mandatory)
 4. [Standard Prompt Template](#4-standard-prompt-template-quick)
 5. [The 80/20 Rule: Hallucinations Are Inevitable](#the-8020-rule-hallucinations-are-inevitable)
-6. [Verification Checklist](#verification-checklist)
-7. [Prompt Injection (PI) Defense](#11-prompt-injection-pi-defense)
-8. [CV/ML Execution Mode](#10-cvml-execution-mode)
+6. [Verification Checklist](#6-verification-checklist)
+7. [Prompt Injection (PI) Defense](#7-prompt-injection-pi-defense)
+8. [CV/ML Execution Mode](#8-cvml-execution-mode)
 
 ### Production patterns & frameworks
 9. [5 Production Patterns (Robotics/ML)](#5-production-patterns-roboticsml)
-10. [How to Structure Requests](#6-how-to-structure-requests)
-11. [COSTAR Framework](#7-costar-framework-for-clarity)
-12. [CRISPE Framework](#8-crispe-framework-alternative)
-13. [Common Mistakes (And Fixes)](#10-common-mistakes-and-how-to-fix-them)
+10. [How to Structure Requests](#10-how-to-structure-requests)
+11. [COSTAR Framework](#11-costar-framework-for-clarity)
+12. [CRISPE Framework](#12-crispe-framework-alternative)
+13. [Common Mistakes (And Fixes)](#13-common-mistakes-and-how-to-fix-them)
 
 ### Token optimization (integrated)
 14. [Token Optimization (Cursor-first)](#token-optimization-cursor-first)
@@ -36,7 +36,7 @@
 20. [Measurement & Monitoring](#measurement--monitoring)
 
 ### Reference material
-21. [Theoretical Foundation](#11-theoretical-foundation)
+21. [Theoretical Foundation](#14-theoretical-foundation)
 22. [Framework Glossary](#framework-glossary)
 23. [Tools & Platforms](#tools-and-platforms)
 24. [Resources](#resources)
@@ -317,7 +317,7 @@ Assume I don't trust your answer. Give me:
 
 ---
 
-## 6) How to Structure Requests
+## 10) How to Structure Requests
 
 ### The Four-Stage Workflow (Standard)
 
@@ -343,7 +343,7 @@ Assume I don't trust your answer. Give me:
 
 ---
 
-## 7) COSTAR Framework (For Clarity)
+## 11) COSTAR Framework (For Clarity)
 
 - **C**ontext: what's the situation?
 - **O**bjective: what are you optimizing for?
@@ -354,7 +354,7 @@ Assume I don't trust your answer. Give me:
 
 ---
 
-## 8) CRISPE Framework (Alternative)
+## 12) CRISPE Framework (Alternative)
 
 - **C**apacity: what capability is needed?
 - **R**ole: what is the assistant’s function?
@@ -365,7 +365,7 @@ Assume I don't trust your answer. Give me:
 
 ---
 
-## 9) Verification Checklist
+## 6) Verification Checklist
 
 Before trusting any recommendation:
 - [ ] **Specificity:** are failure modes concrete (not generic)?
@@ -380,7 +380,7 @@ If you can’t check 5+ boxes, require tighter work.
 
 ---
 
-## 10) Common Mistakes (And How to Fix Them)
+## 13) Common Mistakes (And How to Fix Them)
 
 ### Mistake 1: Vague Prompts
 **Fix:** use Pattern 1 (Constraint-First).
@@ -399,7 +399,7 @@ If you can’t check 5+ boxes, require tighter work.
 
 ---
 
-## 11) Theoretical Foundation
+## 14) Theoretical Foundation
 
 ### Fano's Inequality (Why Hallucinations Happen)
 
@@ -431,24 +431,24 @@ Three levers to reduce hallucinations:
 
 ---
 
-## 12) CV/ML Execution Mode
+## 8) CV/ML Execution Mode
 
 Default workflow for **CV (Computer Vision)** and **ML (Machine Learning)** tasks to prevent vague iteration and token burn.
 
-### 12.1 Default deliverables (what "good" looks like)
+### 8.1 Default deliverables (what "good" looks like)
 For CV/ML work, the assistant should produce:
 - a short plan (max 10 bullets)
 - concrete commands / code diffs
 - an evaluation step (metric + baseline + expected direction)
 - a "stop point" after each irreversible change
 
-### 12.2 Anti-token-burn rules (non-senior friendly)
+### 8.2 Anti-token-burn rules (non-senior friendly)
 - prefer small diffs and repeatable checklists over large rewrites
 - prefer "next 3 commands" over theory
 - always include a rollback note when risk is medium/high
 - for performance: measure first, then optimize, then re-measure
 
-### 12.3 Model training checklist (minimum viable)
+### 8.3 Model training checklist (minimum viable)
 When asked to "improve" a model or pipeline, always request/confirm:
 - dataset path and split definition
 - baseline metric(s) and current value
@@ -458,7 +458,7 @@ When asked to "improve" a model or pipeline, always request/confirm:
 
 ---
 
-## 13) Prompt Injection (PI) Defense
+## 7) Prompt Injection (PI) Defense
 
 **Prompt Injection (PI)** = instructions embedded in untrusted content (web pages, PDFs, emails, issues, logs, PRs, third-party docs) that attempt to override system/developer/user rules or trigger unsafe actions.
 
