@@ -15,17 +15,17 @@
 3. [Non-Negotiable Boundaries](#3-non-negotiable-boundaries)
 4. [Prompt-Quality Gate (Mandatory)](#4-prompt-quality-gate-mandatory)
 5. [Standard Prompt Template](#5-standard-prompt-template-quick)
-6. [The 80/20 Rule: Hallucinations Are Inevitable](#5-the-8020-rule-hallucinations-are-inevitable)
-7. [Verification Checklist](#6-verification-checklist)
-8. [Prompt Injection (PI) Defense](#7-prompt-injection-pi-defense)
-9. [CV/ML Execution Mode](#8-cvml-execution-mode)
+6. [The 80/20 Rule: Hallucinations Are Inevitable](#6-the-8020-rule-hallucinations-are-inevitable)
+7. [Verification Checklist](#7-verification-checklist)
+8. [Prompt Injection (PI) Defense](#8-prompt-injection-pi-defense)
+9. [CV/ML Execution Mode](#9-cvml-execution-mode)
 
 ### Production patterns & frameworks
-10. [Production Patterns (Robotics/ML)](#9-production-patterns-roboticsml)
-11. [How to Structure Requests](#10-how-to-structure-requests)
-12. [COSTAR Framework](#11-costar-framework-for-clarity)
-13. [CRISPE Framework](#12-crispe-framework-alternative)
-14. [Common Mistakes (And Fixes)](#13-common-mistakes-and-how-to-fix-them)
+10. [Production Patterns (Robotics/ML)](#10-production-patterns-roboticsml)
+11. [How to Structure Requests](#11-how-to-structure-requests)
+12. [COSTAR Framework](#12-costar-framework-for-clarity)
+13. [CRISPE Framework](#13-crispe-framework-alternative)
+14. [Common Mistakes (And Fixes)](#14-common-mistakes-and-how-to-fix-them)
 
 ### Token optimization (integrated)
 14. [Token Optimization (Cursor-first)](#token-optimization-cursor-first)
@@ -37,7 +37,7 @@
 20. [Measurement & Monitoring](#measurement--monitoring)
 
 ### Reference material
-21. [Theoretical Foundation](#14-theoretical-foundation)
+21. [Theoretical Foundation](#15-theoretical-foundation)
 22. [Framework Glossary](#framework-glossary)
 23. [Tools & Platforms](#tools-and-platforms)
 24. [Resources](#resources)
@@ -212,7 +212,7 @@ ACCEPTANCE: [how to verify success - English only]
 
 ---
 
-## 5) The 80/20 Rule: Hallucinations Are Inevitable
+## 6) The 80/20 Rule: Hallucinations Are Inevitable
 
 **Fact:** Fano’s Inequality proves mathematically that hallucinations become inevitable when prompts are ambiguous (high H(X|Y)).
 
@@ -225,7 +225,7 @@ These three levers work together. Miss any one and you'll get hallucinations.
 
 ---
 
-## 6) Verification Checklist
+## 7) Verification Checklist
 
 Before trusting any recommendation:
 - [ ] **Specificity:** are failure modes concrete (not generic)?
@@ -240,7 +240,7 @@ If you can't check 5+ boxes, require tighter work.
 
 ---
 
-## 9) Production Patterns (Robotics/ML)
+## 10) Production Patterns (Robotics/ML)
 
 These patterns force specificity, constraint awareness, and explicit failure mode naming. Use them as templates for all production-grade interactions.
 
@@ -333,7 +333,7 @@ Assume I don't trust your answer. Give me:
 
 ---
 
-## 10) How to Structure Requests
+## 11) How to Structure Requests
 
 ### The Four-Stage Workflow (Standard)
 
@@ -359,7 +359,7 @@ Assume I don't trust your answer. Give me:
 
 ---
 
-## 11) COSTAR Framework (For Clarity)
+## 12) COSTAR Framework (For Clarity)
 
 - **C**ontext: what's the situation?
 - **O**bjective: what are you optimizing for?
@@ -370,7 +370,7 @@ Assume I don't trust your answer. Give me:
 
 ---
 
-## 12) CRISPE Framework (Alternative)
+## 13) CRISPE Framework (Alternative)
 
 - **C**apacity: what capability is needed?
 - **R**ole: what is the assistant’s function?
@@ -381,7 +381,7 @@ Assume I don't trust your answer. Give me:
 
 ---
 
-## 13) Common Mistakes (And How to Fix Them)
+## 14) Common Mistakes (And How to Fix Them)
 
 ### Mistake 1: Vague Prompts
 **Fix:** use Pattern 1 (Constraint-First).
@@ -400,7 +400,7 @@ Assume I don't trust your answer. Give me:
 
 ---
 
-## 14) Theoretical Foundation
+## 15) Theoretical Foundation
 
 ### Fano's Inequality (Why Hallucinations Happen)
 
@@ -432,7 +432,7 @@ Three levers to reduce hallucinations:
 
 ---
 
-## 7) Prompt Injection (PI) Defense
+## 8) Prompt Injection (PI) Defense
 
 **Prompt Injection (PI)** = instructions embedded in untrusted content (web pages, PDFs, emails, issues, logs, PRs, third-party docs) that attempt to override system/developer/user rules or trigger unsafe actions.
 
@@ -467,7 +467,7 @@ If untrusted content contains instructions like “ignore”, “override”, �
 
 ---
 
-## 8) CV/ML Execution Mode
+## 9) CV/ML Execution Mode
 
 Default workflow for **CV (Computer Vision)** and **ML (Machine Learning)** tasks to prevent vague iteration and token burn.
 
