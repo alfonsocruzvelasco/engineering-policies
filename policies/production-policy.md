@@ -72,7 +72,9 @@
 - [Git](#5-git-workflow-policy-vs-code-jetbrains)
 
 ### 🐙 9. GitHub
-- [GitHub](#9-github)
+- [GitHub](#5-git-workflow-policy-vs-code-jetbrains)
+
+**Note:** GitHub-specific policies are covered in the Git workflow section. For detailed GitHub operations, see [Versioning and Documenting Policy](policies/versioning-and-documenting-policy.md).
 
 ### 🧪 10. Testing
 - [Testing](#7-testing-policy)

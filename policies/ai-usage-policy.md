@@ -1,4 +1,4 @@
-# AI Coding Policy
+# Cursor AI Coding Policy
 
 **Status:** Authoritative
 **Last updated:** 2026-01-18
