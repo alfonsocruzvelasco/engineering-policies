@@ -75,7 +75,11 @@ The `/policies` folder is organized around **compiled policy bundles** (merged d
 
 - **`policies/production-policy.md`**
   *Daily reference for CV/ML engineering, data systems, and production tooling standards*
-  (data/storage rules, SQL discipline, Python/TypeScript/React/Node.js, Docker/Kubernetes/Kafka, testing + verification, Quick Reference Cards)
+  (data/storage rules, SQL discipline, Python/TypeScript/React/Node.js, Docker/Kubernetes/Kafka, testing + verification, model evaluation, feature engineering, data quality, Quick Reference Cards)
+
+- **`policies/mlops-policy.md`**
+  *Comprehensive MLOps practices for production ML/CV systems*
+  (experiment tracking, model versioning & registry, model serving & inference, model monitoring, hyperparameter tuning, distributed training, model optimization, deployment patterns, lifecycle management, reproducibility, cost optimization)
 
 - **`policies/versioning-and-documenting-policy.md`**
   *Governance bundle*
@@ -164,12 +168,13 @@ This repository is **infrastructure**, not documentation noise.
 
 ## Quick reference
 
-### Starting a new project
+### Starting a new ML/CV project
 1. Review `development-environment-policy.md` for directory structure
-2. Review `production-policy.md` for language/tooling standards
-3. Review `versioning-and-documenting-policy.md` for Git workflow
-4. Review `security-policy.md` for secrets and access control
-5. Review `ai-usage-policy.md` for Cursor sandbox rules
+2. Review `production-policy.md` for language/tooling standards and ML/CV operations
+3. Review `mlops-policy.md` for experiment tracking, model serving, and monitoring setup
+4. Review `versioning-and-documenting-policy.md` for Git workflow
+5. Review `security-policy.md` for secrets and ML/CV security
+6. Review `ai-usage-policy.md` for Cursor sandbox rules
 
 ### Using AI assistance
 1. **Cursor only** for coding (see `ai-usage-policy.md`)
