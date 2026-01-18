@@ -74,7 +74,7 @@
 ### 🐙 9. GitHub
 - [GitHub](#5-git-workflow-policy-vs-code-jetbrains)
 
-**Note:** GitHub-specific policies are covered in the Git workflow section. For detailed GitHub operations, see [Versioning and Documenting Policy](policies/versioning-and-documenting-policy.md).
+**Note:** GitHub-specific policies are covered in the Git workflow section. For detailed GitHub operations, see [Versioning and Documenting Policy](versioning-and-documenting-policy.md).
 
 ### 🧪 10. Testing
 - [Testing](#7-testing-policy)
@@ -101,7 +101,7 @@
 - [15.7 Data Collection & Annotation](#157-data-collection--annotation)
 - [15.8 Performance Engineering](#158-performance-engineering)
 
-**Note:** For comprehensive MLOps practices (experiment tracking, model serving, monitoring, hyperparameter tuning, distributed training, model optimization, deployment patterns, lifecycle management), see [MLOps Policy](policies/mlops-policy.md).
+**Note:** For comprehensive MLOps practices (experiment tracking, model serving, monitoring, hyperparameter tuning, distributed training, model optimization, deployment patterns, lifecycle management), see [MLOps Policy](mlops-policy.md).
 
 ### 📚 Appendices
 
@@ -4064,7 +4064,7 @@ Below is a professional-team rule set for **Docker / Kubernetes / Podman / Kafka
 
 ## 🤖 15. ML/CV Operations
 
-This section covers ML/CV-specific operations that complement the comprehensive [MLOps Policy](policies/mlops-policy.md). See MLOps Policy for experiment tracking, model serving, monitoring, hyperparameter tuning, distributed training, model optimization, deployment patterns, and lifecycle management.
+This section covers ML/CV-specific operations that complement the comprehensive [MLOps Policy](mlops-policy.md). See MLOps Policy for experiment tracking, model serving, monitoring, hyperparameter tuning, distributed training, model optimization, deployment patterns, and lifecycle management.
 
 ### 15.1 Model Evaluation Frameworks
 
@@ -4616,4 +4616,4 @@ shap.plots.waterfall(shap_values[0])
 
 ---
 
-**See also:** [MLOps Policy](policies/mlops-policy.md) for comprehensive MLOps practices including experiment tracking, model serving, monitoring, hyperparameter tuning, distributed training, model optimization, deployment patterns, lifecycle management, research methodology, and architecture design.
+**See also:** [MLOps Policy](mlops-policy.md) for comprehensive MLOps practices including experiment tracking, model serving, monitoring, hyperparameter tuning, distributed training, model optimization, deployment patterns, lifecycle management, research methodology, and architecture design.

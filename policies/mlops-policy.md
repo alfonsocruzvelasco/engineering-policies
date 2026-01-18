@@ -2059,9 +2059,9 @@ model_quantized = torch.quantization.quantize(
 
 ## References
 
-* [Production Policy](policies/production-policy.md) — Data storage, SQL, Python, Docker, K8s
-* [Security Policy](policies/security-policy.md) — ML/CV security best practices
-* [Versioning and Documenting Policy](policies/versioning-and-documenting-policy.md) — Git, versioning, documentation
+* [Production Policy](production-policy.md) — Data storage, SQL, Python, Docker, K8s
+* [Security Policy](security-policy.md) — ML/CV security best practices
+* [Versioning and Documenting Policy](versioning-and-documenting-policy.md) — Git, versioning, documentation
 
 ---
 

@@ -3,7 +3,7 @@
 **Status:** Authoritative
 **Last updated:** 2026-01-16
 
-This document consolidates policies for documentation, exception tracking, Git/source control, and versioning/releases. Security policies have been moved to a separate [Security Policy](policies/security-policy.md) document.
+This document consolidates policies for documentation, exception tracking, Git/source control, and versioning/releases. Security policies have been moved to a separate [Security Policy](security-policy.md) document.
 
 ## Index
 
@@ -12,7 +12,7 @@ This document consolidates policies for documentation, exception tracking, Git/s
 - [Git, Source Control, and Release Policy](#git-source-control-and-release-policy)
 - [Versioning and Release Policy](#versioning-and-release-policy)
 
-**Note:** Security policy has been moved to a separate document. See [Security Policy](policies/security-policy.md) for all security-related policies.
+**Note:** Security policy has been moved to a separate document. See [Security Policy](security-policy.md) for all security-related policies.
 
 ---
 
@@ -202,7 +202,7 @@ It applies to all repositories unless explicitly exempted in the exception log.
    * `CODEOWNERS`
    * CI configuration
 8. **No generated artifacts committed** (build outputs, caches, vendor folders).
-9. **Secrets never enter Git.** Use secret managers; rotate immediately if leaked. See [Security Policy](policies/security-policy.md) for detailed secrets handling.
+9. **Secrets never enter Git.** Use secret managers; rotate immediately if leaked. See [Security Policy](security-policy.md) for detailed secrets handling.
 10. **Large or binary files are avoided.**
     Git LFS MAY be used only with explicit justification and quotas. Object storage is preferred.
 
@@ -518,7 +518,7 @@ pre-commit run --all-files
 ## 14) Security practices
 
 64. **Branch protection rules enabled.**
-65. **Dependency and secret scanning enabled.** See [Security Policy](policies/security-policy.md) for detailed security practices.
+65. **Dependency and secret scanning enabled.** See [Security Policy](security-policy.md) for detailed security practices.
 66. **Least-privilege access enforced.**
 67. **Security fixes handled discreetly** until coordinated disclosure.
 
@@ -1204,7 +1204,7 @@ pre-commit run --all-files
 
 ---
 
-**Note:** Security policies have been moved to a separate document. See [Security Policy](policies/security-policy.md) for:
+**Note:** Security policies have been moved to a separate document. See [Security Policy](security-policy.md) for:
 - Secrets handling and storage
 - Identity and access control (IAM)
 - OAuth 2.0 and authentication
