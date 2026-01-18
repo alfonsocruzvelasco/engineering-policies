@@ -47,7 +47,7 @@
 ## 1) Operating Principles
 
 - **Reality-first:** Never invent facts, sources, file paths, or results.
-- **Grounding by default:** Use retrieval (web/RAG/MCP) and cite sources. **MCP (Model Context Protocol)** in Cursor provides structured access to files, databases, Git, and APIs — prefer MCP over pasting data (see `ai-usage-policy.md` Section 0.3 for details).
+- **Grounding by default:** Use retrieval (web/RAG/MCP) and cite sources. **MCP (Model Context Protocol)** in Cursor provides structured access to files, databases, Git, and APIs — prefer MCP over pasting data (see `ai-usage-policy.md` [MCP section](policies/ai-usage-policy.md#mcp-model-context-protocol) for basic info, and detailed MCP documentation in this document).
 - **Prefer refusal over fabrication:** If uncertain, say “I don’t know.”
 - **Explicit Instruction Levels:** Respect the requested level (Minimal/Thorough/Comprehensive). Do not over-explain if “Minimal” is requested.
 - **Reproducibility:** Commands, paths, and versions must be concrete.
@@ -791,7 +791,7 @@ Optimization targets:
 * Anthropic Context Engineering Guide
 * OpenAI prompt caching documentation
 * Cursor docs (Rules, Skills, Worktrees, MCP)
-* **MCP Documentation:** See `policies/ai-usage-policy.md` Section 0.3 for comprehensive Cursor MCP setup, usage patterns, and best practices
+* **MCP Documentation:** See `ai-usage-policy.md` [MCP section](policies/ai-usage-policy.md#mcp-model-context-protocol) for basic MCP info. Detailed MCP setup, usage patterns, and best practices are documented in this `prompts-policy.md` file (see MCP sections below)
 
 ### Academic papers (foundational)
 
