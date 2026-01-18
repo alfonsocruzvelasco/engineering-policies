@@ -20,7 +20,7 @@
 8. [CV/ML Execution Mode](#8-cvml-execution-mode)
 
 ### Production patterns & frameworks
-9. [5 Production Patterns (Robotics/ML)](#5-production-patterns-roboticsml)
+9. [Production Patterns (Robotics/ML)](#5-production-patterns-roboticsml)
 10. [How to Structure Requests](#10-how-to-structure-requests)
 11. [COSTAR Framework](#11-costar-framework-for-clarity)
 12. [CRISPE Framework](#12-crispe-framework-alternative)
