@@ -1,4 +1,4 @@
-# Production Engineering Policy
+# Engineering Policies for production
 
 **Status:** Authoritative
 **Last updated:** 2026-01-18
@@ -15,144 +15,153 @@
   - [QRC-2: Dataset Snapshot](#qrc-2-dataset-snapshot-creation)
   - [QRC-3: SQL Schema for CV/ML](#qrc-3-sql-schema-pattern-for-cvml)
   - [QRC-4: Docker Multi-Stage Build](#qrc-4-docker-multi-stage-build)
-  - [QRC-5: Git Commit Template](#qrc-5-git-commit-template)
+  - [QRC-5: Git Commits](#qrc-5-git-commit-template)
   - [QRC-6: Kubernetes Deployment](#qrc-6-kubernetes-deployment)
   - [QRC-7: Pytest Setup](#qrc-7-pytest-configuration)
   - [QRC-8: React Component](#qrc-8-react-component-pattern)
   - [QRC-9: TypeScript Project](#qrc-9-typescript-project-setup)
   - [QRC-10: Kafka Patterns](#qrc-10-kafka-patterns)
+- [Decision Trees](#decision-trees)
+  - [DT-1: Data Storage Selection](#dt-1-data-storage-decision-tree)
+  - [DT-2: Testing Strategy](#dt-2-testing-strategy-selection)
+  - [DT-3: Docker vs Podman](#dt-3-docker-vs-podman)
+  - [DT-4: SQL Engine Selection](#dt-4-sql-engine-selection)
+- [Common Scenarios](#common-scenarios)
+  - [Scenario 1: New CV/ML Project](#scenario-1-new-cvml-project)
+  - [Scenario 2: Dataset Migration](#scenario-2-dataset-migration)
+  - [Scenario 3: Kafka Pipeline](#scenario-3-kafka-pipeline)
 
 ### 📊 1. Data & Storage
-- [1.1 Core Principles](#1-1-core-principles)
-- [1.2 Storage Systems](#1-2-storage-systems)
-- [1.3 Raw Data Rules](#1-3-raw-data-rules)
-- [1.4 Derived Data](#1-4-derived-data-rules)
-- [1.5 Immutability](#1-5-immutability-policy)
-- [1.6 Dataset Snapshots](#1-6-dataset-snapshot-policy)
-- [1.7 Object Identity](#1-7-object-identity)
-- [1.8 Formats](#1-8-formats-policy)
-- [1.9 Retention](#1-9-retention-and-lifecycle)
-- [1.10 Performance](#1-10-access-and-performance)
-- [1.11 What Never Goes in SQL](#1-11-what-never-goes-in-sql)
-- [1.12 Exceptions](#1-12-exceptions-process)
+- [1.1 Core Principles](#11-core-principles)
+- [1.2 Storage Systems](#12-storage-systems)
+- [1.3 Raw Data Rules](#13-raw-data-rules)
+- [1.4 Derived Data](#14-derived-data-rules)
+- [1.5 Immutability](#15-immutability-policy)
+- [1.6 Dataset Snapshots](#16-dataset-snapshot-policy)
+- [1.7 Object Identity](#17-object-identity)
+- [1.8 Formats](#18-formats-policy)
+- [1.9 Retention](#19-retention-and-lifecycle)
+- [1.10 Performance](#110-access-and-performance)
+- [1.11 What Never Goes in SQL](#111-what-never-goes-in-sql)
+- [1.12 Exceptions](#112-exceptions-process)
 
 ### 🗄️ 2. SQL Databases
-- [2.1 SQL in CV/ML](#2-1-sql-in-cvml-architectures)
-- [2.2 Schema Design](#2-2-schema-design-principles)
-- [2.3 Normalization](#2-3-normalization)
-- [2.4 Primary Keys](#2-4-primary-keys-and-identity)
-- [2.5 Foreign Keys](#2-5-foreign-keys-and-constraints)
-- [2.6 Indexes](#2-6-indexes-and-performance)
-- [2.7 Query Patterns](#2-7-query-patterns)
-- [2.8 Transactions](#2-8-transactions-and-isolation)
-- [2.9 Migrations](#2-9-migrations-and-schema-evolution)
-- [2.10 Security](#2-10-sql-security)
-- [2.11 Operations](#2-11-operational-rules)
-- [2.12 Engine-Specific](#2-12-engine-specific-guidance)
+- [2.1 SQL in CV/ML](#21-sql-in-cvml-architectures)
+- [2.2 Schema Design](#22-schema-design-principles)
+- [2.3 Normalization](#23-normalization)
+- [2.4 Primary Keys](#24-primary-keys-and-identity)
+- [2.5 Foreign Keys](#25-foreign-keys-and-constraints)
+- [2.6 Indexes](#26-indexes-and-performance)
+- [2.7 Query Patterns](#27-query-patterns)
+- [2.8 Transactions](#28-transactions-and-isolation)
+- [2.9 Migrations](#29-migrations-and-schema-evolution)
+- [2.10 Security](#210-sql-security)
+- [2.11 Operations](#211-operational-rules)
+- [2.12 Engine-Specific](#212-engine-specific-guidance)
   - [MySQL](#2121-mysql)
   - [PostgreSQL](#2122-postgresql)
   - [SQLite](#2123-sqlite)
 
 ### 🐍 3. Python
-- [3.1 Project Structure](#3-1-project-structure)
-- [3.2 Environment Management](#3-2-environment-management)
-- [3.3 Dependencies](#3-3-dependency-management)
-- [3.4 Code Style](#3-4-code-style-and-formatting)
-- [3.5 Type Hints](#3-5-type-hints-and-validation)
-- [3.6 Error Handling](#3-6-error-handling)
-- [3.7 Logging](#3-7-logging-and-debugging)
-- [3.8 Testing](#3-8-testing-standards)
-- [3.9 Performance](#3-9-performance-and-optimization)
-- [3.10 ML/CV Specific](#3-10-mlcv-specific-rules)
-- [3.11 Anti-Patterns](#3-11-anti-patterns-to-avoid)
+- [3.1 Project Structure](#31-project-structure)
+- [3.2 Environment Management](#32-environment-management)
+- [3.3 Dependencies](#33-dependency-management)
+- [3.4 Code Style](#34-code-style-and-formatting)
+- [3.5 Type Hints](#35-type-hints-and-validation)
+- [3.6 Error Handling](#36-error-handling)
+- [3.7 Logging](#37-logging-and-debugging)
+- [3.8 Testing](#38-testing-standards)
+- [3.9 Performance](#39-performance-and-optimization)
+- [3.10 ML/CV Specific](#310-mlcv-specific-rules)
+- [3.11 Anti-Patterns](#311-anti-patterns-to-avoid)
 
 ### 📘 4. TypeScript
-- [4.1 Project Setup](#4-1-project-setup)
-- [4.2 Type System](#4-2-type-system-discipline)
-- [4.3 Organization](#4-3-code-organization)
-- [4.4 Error Handling](#4-4-error-handling)
-- [4.5 Async](#4-5-async-patterns)
-- [4.6 Testing](#4-6-testing)
-- [4.7 Tooling](#4-7-build-and-tooling)
+- [4.1 Project Setup](#41-project-setup)
+- [4.2 Type System](#42-type-system-discipline)
+- [4.3 Organization](#43-code-organization)
+- [4.4 Error Handling](#44-error-handling)
+- [4.5 Async](#45-async-patterns)
+- [4.6 Testing](#46-testing)
+- [4.7 Tooling](#47-build-and-tooling)
 
 ### ⚛️ 5. React
-- [5.1 Components](#5-1-component-architecture)
-- [5.2 State](#5-2-state-management)
-- [5.3 Hooks](#5-3-hooks-rules)
-- [5.4 Performance](#5-4-performance)
-- [5.5 Testing](#5-5-testing)
-- [5.6 Accessibility](#5-6-accessibility)
+- [5.1 Components](#51-component-architecture)
+- [5.2 State](#52-state-management)
+- [5.3 Hooks](#53-hooks-rules)
+- [5.4 Performance](#54-performance)
+- [5.5 Testing](#55-testing)
+- [5.6 Accessibility](#56-accessibility)
 
 ### 🟢 6. Node.js
-- [6.1 Structure](#6-1-project-structure)
-- [6.2 Dependencies](#6-2-dependencies)
-- [6.3 Errors](#6-3-error-handling)
-- [6.4 Async](#6-4-async-patterns)
-- [6.5 Security](#6-5-security)
-- [6.6 Performance](#6-6-performance)
+- [6.1 Structure](#61-project-structure)
+- [6.2 Dependencies](#62-dependencies)
+- [6.3 Errors](#63-error-handling)
+- [6.4 Async](#64-async-patterns)
+- [6.5 Security](#65-security)
+- [6.6 Performance](#66-performance)
 
 ### 🎨 7. CSS/HTML
-- [7.1 HTML Semantics](#7-1-html-semantic-structure)
-- [7.2 CSS Architecture](#7-2-css-architecture)
-- [7.3 Layout](#7-3-layout-systems)
-- [7.4 Design Tokens](#7-4-design-tokens)
-- [7.5 Typography](#7-5-typography)
-- [7.6 Accessibility](#7-6-accessibility)
-- [7.7 Naming](#7-7-naming-conventions)
-- [7.8 Responsive](#7-8-responsiveness-and-media)
-- [7.9 Performance](#7-9-performance)
-- [7.10 Forms/UI](#7-10-forms-and-ui-states)
+- [7.1 HTML Semantics](#71-html-semantic-structure)
+- [7.2 CSS Architecture](#72-css-architecture)
+- [7.3 Layout](#73-layout-systems)
+- [7.4 Design Tokens](#74-design-tokens)
+- [7.5 Typography](#75-typography)
+- [7.6 Accessibility](#76-accessibility)
+- [7.7 Naming](#77-naming-conventions)
+- [7.8 Responsive](#78-responsiveness-and-media)
+- [7.9 Performance](#79-performance)
+- [7.10 Forms/UI](#710-forms-and-ui-states)
 
 ### 🔧 8. Git
-- [8.1 Branching](#8-1-branching-strategy)
-- [8.2 Commits](#8-2-commit-standards)
-- [8.3 Merge/Rebase](#8-3-merge-and-rebase)
-- [8.4 Repo Structure](#8-4-repository-structure)
-- [8.5 Hygiene](#8-5-git-hygiene)
+- [8.1 Branching](#81-branching-strategy)
+- [8.2 Commits](#82-commit-standards)
+- [8.3 Merge/Rebase](#83-merge-and-rebase)
+- [8.4 Repo Structure](#84-repository-structure)
+- [8.5 Hygiene](#85-git-hygiene)
 
 ### 🐙 9. GitHub
-- [9.1 Pull Requests](#9-1-pull-request-workflow)
-- [9.2 Code Review](#9-2-code-review-standards)
-- [9.3 Issues](#9-3-issue-management)
-- [9.4 Branch Protection](#9-4-branch-protection)
-- [9.5 CI/CD](#9-5-cicd-integration)
+- [9.1 Pull Requests](#91-pull-request-workflow)
+- [9.2 Code Review](#92-code-review-standards)
+- [9.3 Issues](#93-issue-management)
+- [9.4 Branch Protection](#94-branch-protection)
+- [9.5 CI/CD](#95-cicd-integration)
 
 ### 🧪 10. Testing
-- [10.1 Testing Pyramid](#10-1-testing-pyramid)
-- [10.2 Unit Tests](#10-2-unit-testing)
-- [10.3 Integration](#10-3-integration-testing)
-- [10.4 E2E](#10-4-end-to-end-testing)
-- [10.5 Test Data](#10-5-test-data-management)
-- [10.6 Coverage](#10-6-coverage-and-quality-gates)
+- [10.1 Testing Pyramid](#101-testing-pyramid)
+- [10.2 Unit Tests](#102-unit-testing)
+- [10.3 Integration](#103-integration-testing)
+- [10.4 E2E](#104-end-to-end-testing)
+- [10.5 Test Data](#105-test-data-management)
+- [10.6 Coverage](#106-coverage-and-quality-gates)
 
 ### 📝 11. Documentation
-- [11.1 README](#11-1-readme-requirements)
-- [11.2 API Docs](#11-2-api-documentation)
-- [11.3 Comments](#11-3-code-comments)
-- [11.4 Architecture](#11-4-architecture-docs)
-- [11.5 Runbooks](#11-5-runbooks-and-playbooks)
+- [11.1 README](#111-readme-requirements)
+- [11.2 API Docs](#112-api-documentation)
+- [11.3 Comments](#113-code-comments)
+- [11.4 Architecture](#114-architecture-docs)
+- [11.5 Runbooks](#115-runbooks-and-playbooks)
 
 ### 🐳 12. Docker/Podman
-- [12.1 Principles](#12-1-container-principles)
-- [12.2 Dockerfiles](#12-2-dockerfile-standards)
-- [12.3 Images](#12-3-image-management)
-- [12.4 Security](#12-4-security)
-- [12.5 Podman-Specific](#12-5-podman-specific-rules)
+- [12.1 Principles](#121-container-principles)
+- [12.2 Dockerfiles](#122-dockerfile-standards)
+- [12.3 Images](#123-image-management)
+- [12.4 Security](#124-security)
+- [12.5 Podman-Specific](#125-podman-specific-rules)
 
 ### ☸️ 13. Kubernetes
-- [13.1 Manifests](#13-1-manifest-management)
-- [13.2 Workloads](#13-2-workload-types)
-- [13.3 Configuration](#13-3-configuration)
-- [13.4 Networking](#13-4-networking-and-security)
-- [13.5 Observability](#13-5-observability)
-- [13.6 Resources](#13-6-resource-management)
+- [13.1 Manifests](#131-manifest-management)
+- [13.2 Workloads](#132-workload-types)
+- [13.3 Configuration](#133-configuration)
+- [13.4 Networking](#134-networking-and-security)
+- [13.5 Observability](#135-observability)
+- [13.6 Resources](#136-resource-management)
 
 ### 📨 14. Kafka
-- [14.1 Topics](#14-1-topic-management)
-- [14.2 Producers](#14-2-producer-patterns)
-- [14.3 Consumers](#14-3-consumer-patterns)
-- [14.4 Schemas](#14-4-schema-management)
-- [14.5 Operations](#14-5-operations-and-monitoring)
+- [14.1 Topics](#141-topic-management)
+- [14.2 Producers](#142-producer-patterns)
+- [14.3 Consumers](#143-consumer-patterns)
+- [14.4 Schemas](#144-schema-management)
+- [14.5 Operations](#145-operations-and-monitoring)
 
 ### 📚 Appendices
 - [Appendix A: Acronyms](#appendix-a-acronyms-and-glossary)
@@ -284,7 +293,7 @@ git add .
 git commit -m "feat: initial project structure"
 ```
 
-**See also:** [Python §3.1](#3-1-project-structure), [Git §8.2](#8-2-commit-standards), [Testing §10.2](#10-2-unit-testing)
+**See also:** [Python §3.1](#31-project-structure), [Git §8.2](#82-commit-standards), [Testing §10.2](#102-unit-testing)
 
 ---
 
@@ -375,863 +384,42 @@ manifest_hash = snapshot.save_manifest(manifest_path)
 print(f"Snapshot created: {manifest_hash}")
 ```
 
-**See also:** [Data §1.6](#1-6-dataset-snapshot-policy), [Data §1.7](#1-7-object-identity), [Python §3.10](#3-10-mlcv-specific-rules)
+**See also:** [Data §1.6](#16-dataset-snapshot-policy), [Data §1.7](#17-object-identity), [Python §3.10](#310-mlcv-specific-rules)
 
 ---
 
-### QRC-3: SQL Schema for CV/ML
-<a id="qrc-3-sql-schema-pattern-for-cvml"></a>
+---
 
-```sql
--- Complete SQL schema pattern for CV/ML metadata management
--- This schema stores references to objects in S3/GCS, not the objects themselves
+# Unified Engineering Policies — Data/Artifacts/SQL + Projects/Tooling Setup
 
--- Dataset table: tracks dataset versions and snapshots
-CREATE TABLE datasets (
-    dataset_id VARCHAR(255) PRIMARY KEY,
-    version VARCHAR(50) NOT NULL,
-    description TEXT,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    manifest_hash VARCHAR(64) NOT NULL,  -- SHA256 of manifest
-    sample_count INTEGER NOT NULL,
-    UNIQUE(dataset_id, version)
-);
-
--- Samples table: references to individual data samples in object storage
-CREATE TABLE samples (
-    sample_id VARCHAR(255) PRIMARY KEY,
-    dataset_id VARCHAR(255) NOT NULL,
-    dataset_version VARCHAR(50) NOT NULL,
-    store VARCHAR(20) NOT NULL,  -- 's3', 'gcs', 'azure'
-    bucket VARCHAR(255) NOT NULL,
-    object_key VARCHAR(1024) NOT NULL,
-    object_version VARCHAR(100),
-    content_hash VARCHAR(64) NOT NULL,  -- SHA256
-    size_bytes BIGINT NOT NULL,
-    metadata JSONB,  -- PostgreSQL: JSONB, MySQL: JSON, SQLite: TEXT
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (dataset_id, dataset_version) REFERENCES datasets(dataset_id, version) ON DELETE RESTRICT,
-    INDEX idx_dataset (dataset_id, dataset_version),
-    INDEX idx_content_hash (content_hash)
-);
-
--- Experiments table: tracks ML training/evaluation runs
-CREATE TABLE experiments (
-    experiment_id VARCHAR(255) PRIMARY KEY,
-    dataset_id VARCHAR(255) NOT NULL,
-    dataset_version VARCHAR(50) NOT NULL,
-    model_name VARCHAR(255),
-    hyperparameters JSONB,
-    metrics JSONB,
-    status VARCHAR(50) NOT NULL,  -- 'running', 'completed', 'failed'
-    started_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    completed_at TIMESTAMP WITH TIME ZONE,
-    FOREIGN KEY (dataset_id, dataset_version) REFERENCES datasets(dataset_id, version) ON DELETE RESTRICT,
-    INDEX idx_dataset (dataset_id, dataset_version),
-    INDEX idx_status (status)
-);
-
--- Model checkpoints: references to model artifacts in object storage
-CREATE TABLE model_checkpoints (
-    checkpoint_id VARCHAR(255) PRIMARY KEY,
-    experiment_id VARCHAR(255) NOT NULL,
-    epoch INTEGER,
-    store VARCHAR(20) NOT NULL,
-    bucket VARCHAR(255) NOT NULL,
-    object_key VARCHAR(1024) NOT NULL,
-    content_hash VARCHAR(64) NOT NULL,
-    size_bytes BIGINT NOT NULL,
-    metrics JSONB,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (experiment_id) REFERENCES experiments(experiment_id) ON DELETE CASCADE,
-    INDEX idx_experiment (experiment_id)
-);
-```
-
-**See also:** [SQL §2.2](#2-2-schema-design-principles), [SQL §2.4](#2-4-primary-keys-and-identity), [Data §1.7](#1-7-object-identity)
+**Status:** Authoritative
+**Last updated:** 2026-01-16
 
 ---
 
-### QRC-4: Docker Multi-Stage Build
-<a id="qrc-4-docker-multi-stage-build"></a>
+## Table of contents (clickable)
 
-```dockerfile
-# Complete multi-stage Dockerfile pattern for Python ML/CV applications
-# Stage 1: Build dependencies
-FROM python:3.11-slim AS builder
+- [Document 1 — Data, Artifacts, and SQL Policy](#document-1--data-artifacts-and-sql-policy)
 
-WORKDIR /build
+- [Document 2 — Projects and Tooling Setup Policy](#document-2--projects-and-tooling-setup-policy)
 
-# Install build dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    gcc \
-    g++ \
-    && rm -rf /var/lib/apt/lists/*
-
-# Copy dependency files
-COPY pyproject.toml poetry.lock ./
-
-# Install dependencies (if using poetry)
-RUN pip install --no-cache-dir poetry && \
-    poetry export --without-hashes -f requirements.txt -o requirements.txt && \
-    pip install --user --no-cache-dir -r requirements.txt
-
-# Stage 2: Runtime image
-FROM python:3.11-slim AS runtime
-
-# Create non-root user
-RUN groupadd -r appuser && useradd -r -g appuser appuser
-
-WORKDIR /app
-
-# Copy installed packages from builder
-COPY --from=builder /root/.local /home/appuser/.local
-
-# Copy application code
-COPY --chown=appuser:appuser src/ ./src/
-COPY --chown=appuser:appuser configs/ ./configs/
-COPY --chown=appuser:appuser scripts/ ./scripts/
-
-# Set PATH for user-installed packages
-ENV PATH=/home/appuser/.local/bin:$PATH
-ENV PYTHONUNBUFFERED=1
-
-# Switch to non-root user
-USER appuser
-
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-    CMD python -c "import requests; requests.get('http://localhost:8000/health')" || exit 1
-
-# Default command
-CMD ["python", "-m", "src.main"]
-```
-
-**See also:** [Docker §12.2](#12-2-dockerfile-standards), [Docker §12.4](#12-4-security)
 
 ---
 
-### QRC-5: Git Commit Template
-<a id="qrc-5-git-commit-template"></a>
+## Document 1 — Data, Artifacts, and SQL Policy
+<a id="document-1--data-artifacts-and-sql-policy"></a>
 
-```bash
-# Complete Git commit workflow with conventional commits
 
-# 1. Configure commit template
-cat > ~/.gitmessage << 'EOF'
-# <type>(<scope>): <subject>
-#
-# <body>
-#
-# <footer>
-#
-# Types: feat, fix, docs, style, refactor, test, chore, perf, ci, build
-# Scope: optional, component/module name
-# Subject: imperative mood, no period, max 50 chars
-# Body: what and why, wrap at 72 chars
-# Footer: breaking changes, issue references
-EOF
+# Data, Artifacts, and SQL Policy (CV/ML)
 
-git config --global commit.template ~/.gitmessage
+**Status:** Authoritative
+**Last updated:** 2026-01-16
 
-# 2. Example commits
-git commit -m "feat(cv): add YOLO object detection pipeline
-
-- Implement YOLOv8 inference wrapper
-- Add confidence threshold filtering
-- Support batch processing for video streams
-
-Closes #123"
-
-git commit -m "fix(data): correct dataset manifest hash calculation
-
-The hash was computed before sorting samples, causing
-non-deterministic hashes. Now samples are sorted by ID
-before hashing.
-
-Fixes #456"
-
-git commit -m "docs: update SQL schema documentation
-
-Add examples for experiment tracking tables."
-
-# 3. Pre-commit hook to enforce format
-cat > .git/hooks/commit-msg << 'EOF'
-#!/bin/bash
-commit_msg=$(cat "$1")
-if ! echo "$commit_msg" | grep -qE '^(feat|fix|docs|style|refactor|test|chore|perf|ci|build)(\(.+\))?: .{1,50}$'; then
-    echo "Error: Commit message must follow Conventional Commits format"
-    echo "Format: <type>(<scope>): <subject>"
-    exit 1
-fi
-EOF
-chmod +x .git/hooks/commit-msg
-```
-
-**See also:** [Git §8.2](#8-2-commit-standards)
+This policy defines how **data and heavy artifacts** are stored, referenced, versioned, and made reproducible for CV/ML work, and how **SQL systems** are used as the authoritative metadata layer in that stack.
 
 ---
 
-### QRC-6: Kubernetes Deployment
-<a id="qrc-6-kubernetes-deployment"></a>
-
-```yaml
-# Complete Kubernetes deployment pattern for ML/CV services
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: cv-inference-service
-  namespace: production
-  labels:
-    app: cv-inference
-    version: v1.2.0
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: cv-inference
-  template:
-    metadata:
-      labels:
-        app: cv-inference
-        version: v1.2.0
-    spec:
-      serviceAccountName: cv-inference-sa
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 1000
-        fsGroup: 1000
-      containers:
-      - name: inference
-        image: registry.example.com/cv-inference:v1.2.0
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 8000
-          name: http
-          protocol: TCP
-        env:
-        - name: MODEL_PATH
-          value: "/models/yolo-v8.pt"
-        - name: LOG_LEVEL
-          value: "INFO"
-        - name: DATABASE_URL
-          valueFrom:
-            secretKeyRef:
-              name: cv-inference-secrets
-              key: database-url
-        resources:
-          requests:
-            memory: "2Gi"
-            cpu: "1000m"
-            nvidia.com/gpu: 1  # GPU request
-          limits:
-            memory: "4Gi"
-            cpu: "2000m"
-            nvidia.com/gpu: 1
-        volumeMounts:
-        - name: model-storage
-          mountPath: /models
-          readOnly: true
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 8000
-          initialDelaySeconds: 30
-          periodSeconds: 10
-          timeoutSeconds: 5
-          failureThreshold: 3
-        readinessProbe:
-          httpGet:
-            path: /ready
-            port: 8000
-          initialDelaySeconds: 10
-          periodSeconds: 5
-          timeoutSeconds: 3
-          failureThreshold: 3
-      volumes:
-      - name: model-storage
-        persistentVolumeClaim:
-          claimName: model-pvc
-      nodeSelector:
-        accelerator: nvidia-tesla-v100
-      tolerations:
-      - key: "nvidia.com/gpu"
-        operator: "Exists"
-        effect: "NoSchedule"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: cv-inference-service
-  namespace: production
-spec:
-  type: ClusterIP
-  ports:
-  - port: 80
-    targetPort: 8000
-    protocol: TCP
-    name: http
-  selector:
-    app: cv-inference
----
-apiVersion: autoscaling/v2
-kind: HorizontalPodAutoscaler
-metadata:
-  name: cv-inference-hpa
-  namespace: production
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: cv-inference-service
-  minReplicas: 3
-  maxReplicas: 10
-  metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: 70
-  - type: Resource
-    resource:
-      name: memory
-      target:
-        type: Utilization
-        averageUtilization: 80
-```
-
-**See also:** [Kubernetes §13.2](#13-2-workload-types), [Kubernetes §13.6](#13-6-resource-management)
-
----
-
-### QRC-7: Pytest Setup
-<a id="qrc-7-pytest-configuration"></a>
-
-```python
-# Complete pytest configuration for ML/CV projects
-# File: pytest.ini or pyproject.toml
-
-# pytest.ini
-[pytest]
-testpaths = ["tests"]
-python_files = ["test_*.py", "*_test.py"]
-python_classes = ["Test*"]
-python_functions = ["test_*"]
-
-# Markers for test categorization
-markers =
-    unit: Unit tests (fast, isolated)
-    integration: Integration tests (require external services)
-    slow: Slow tests (skip in CI unless explicitly run)
-    gpu: Tests requiring GPU
-    cv: Computer vision specific tests
-    ml: Machine learning specific tests
-    data: Tests requiring data files
-
-# Test discovery
-norecursedirs = [".git", ".venv", "venv", "build", "dist", "*.egg-info"]
-
-# Output options
-addopts =
-    --strict-markers
-    --strict-config
-    --verbose
-    --tb=short
-    --cov=src
-    --cov-report=term-missing
-    --cov-report=html:htmlcov
-    --cov-report=xml
-    --cov-fail-under=80
-    -ra
-
-# Coverage configuration
-[tool.coverage.run]
-source = ["src"]
-omit = [
-    "*/tests/*",
-    "*/test_*",
-    "*/__pycache__/*",
-    "*/venv/*",
-]
-
-[tool.coverage.report]
-exclude_lines = [
-    "pragma: no cover",
-    "def __repr__",
-    "raise AssertionError",
-    "raise NotImplementedError",
-    "if __name__ == .__main__.:",
-    "if TYPE_CHECKING:",
-]
-
-# Example test file structure
-# tests/
-#   ├── unit/
-#   │   ├── test_data_processing.py
-#   │   └── test_models.py
-#   ├── integration/
-#   │   ├── test_database.py
-#   │   └── test_api.py
-#   ├── fixtures/
-#   │   └── conftest.py
-#   └── data/
-#       └── test_samples/
-
-# conftest.py example
-import pytest
-import numpy as np
-from pathlib import Path
-
-@pytest.fixture
-def sample_image():
-    """Generate a test image."""
-    return np.random.randint(0, 255, (640, 480, 3), dtype=np.uint8)
-
-@pytest.fixture
-def test_data_dir():
-    """Path to test data directory."""
-    return Path(__file__).parent / "data"
-
-@pytest.fixture(scope="session")
-def model_checkpoint(tmp_path_factory):
-    """Create a mock model checkpoint for testing."""
-    checkpoint_path = tmp_path_factory.mktemp("models") / "test_model.pt"
-    # Create mock checkpoint
-    checkpoint_path.touch()
-    return checkpoint_path
-```
-
-**See also:** [Testing §10.2](#10-2-unit-testing), [Python §3.8](#3-8-testing-standards)
-
----
-
-### QRC-8: React Component Pattern
-<a id="qrc-8-react-component-pattern"></a>
-
-```typescript
-// Complete React component pattern for ML/CV visualization
-// File: src/components/ModelInferenceView.tsx
-
-import React, { useState, useCallback, useMemo } from 'react';
-import { useQuery, useMutation } from '@tanstack/react-query';
-import type { InferenceResult, ModelConfig } from '../types';
-
-interface ModelInferenceViewProps {
-  modelId: string;
-  onResult?: (result: InferenceResult) => void;
-}
-
-export const ModelInferenceView: React.FC<ModelInferenceViewProps> = ({
-  modelId,
-  onResult,
-}) => {
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [config, setConfig] = useState<ModelConfig>({
-    confidenceThreshold: 0.5,
-    nmsThreshold: 0.4,
-  });
-
-  // Fetch model metadata
-  const { data: model, isLoading } = useQuery({
-    queryKey: ['model', modelId],
-    queryFn: async () => {
-      const response = await fetch(`/api/models/${modelId}`);
-      if (!response.ok) throw new Error('Failed to fetch model');
-      return response.json();
-    },
-  });
-
-  // Inference mutation
-  const inferenceMutation = useMutation({
-    mutationFn: async (file: File) => {
-      const formData = new FormData();
-      formData.append('image', file);
-      formData.append('config', JSON.stringify(config));
-
-      const response = await fetch(`/api/inference/${modelId}`, {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (!response.ok) throw new Error('Inference failed');
-      return response.json() as Promise<InferenceResult>;
-    },
-    onSuccess: (result) => {
-      onResult?.(result);
-    },
-  });
-
-  const handleFileChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      const file = event.target.files?.[0];
-      if (file) {
-        setImageFile(file);
-      }
-    },
-    []
-  );
-
-  const handleRunInference = useCallback(() => {
-    if (imageFile) {
-      inferenceMutation.mutate(imageFile);
-    }
-  }, [imageFile, inferenceMutation]);
-
-  const imagePreview = useMemo(() => {
-    if (!imageFile) return null;
-    return URL.createObjectURL(imageFile);
-  }, [imageFile]);
-
-  if (isLoading) {
-    return <div>Loading model...</div>;
-  }
-
-  return (
-    <div className="model-inference-view">
-      <h2>{model?.name || 'Model Inference'}</h2>
-
-      <div className="config-panel">
-        <label>
-          Confidence Threshold:
-          <input
-            type="number"
-            min="0"
-            max="1"
-            step="0.1"
-            value={config.confidenceThreshold}
-            onChange={(e) =>
-              setConfig((prev) => ({
-                ...prev,
-                confidenceThreshold: parseFloat(e.target.value),
-              }))
-            }
-          />
-        </label>
-      </div>
-
-      <div className="upload-section">
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleFileChange}
-        />
-        {imagePreview && (
-          <img src={imagePreview} alt="Preview" className="preview-image" />
-        )}
-      </div>
-
-      <button
-        onClick={handleRunInference}
-        disabled={!imageFile || inferenceMutation.isPending}
-      >
-        {inferenceMutation.isPending ? 'Running...' : 'Run Inference'}
-      </button>
-
-      {inferenceMutation.isError && (
-        <div className="error">
-          Error: {inferenceMutation.error?.message}
-        </div>
-      )}
-
-      {inferenceMutation.data && (
-        <div className="results">
-          <h3>Results</h3>
-          <pre>{JSON.stringify(inferenceMutation.data, null, 2)}</pre>
-        </div>
-      )}
-    </div>
-  );
-};
-```
-
-**See also:** [React §5.1](#5-1-component-architecture), [React §5.2](#5-2-state-management), [TypeScript §4.1](#4-1-project-setup)
-
----
-
-### QRC-9: TypeScript Project Setup
-<a id="qrc-9-typescript-project-setup"></a>
-
-```bash
-# Complete TypeScript project initialization for ML/CV frontend
-
-# 1. Initialize project
-mkdir -p myproject/{src,public,tests}
-cd myproject
-
-# 2. Initialize package.json
-npm init -y
-
-# 3. Install TypeScript and dependencies
-npm install --save-dev \
-  typescript@^5.0.0 \
-  @types/node@^20.0.0 \
-  ts-node@^10.0.0 \
-  tsx@^4.0.0 \
-  @typescript-eslint/parser@^6.0.0 \
-  @typescript-eslint/eslint-plugin@^6.0.0 \
-  eslint@^8.0.0 \
-  prettier@^3.0.0 \
-  vitest@^1.0.0 \
-  @vitest/ui
-
-# 4. Create tsconfig.json
-cat > tsconfig.json << 'EOF'
-{
-  "compilerOptions": {
-    "target": "ES2022",
-    "module": "ESNext",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "allowJs": false,
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"]
-    }
-  },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "tests"]
-}
-EOF
-
-# 5. Create .eslintrc.json
-cat > .eslintrc.json << 'EOF'
-{
-  "parser": "@typescript-eslint/parser",
-  "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/recommended-requiring-type-checking"
-  ],
-  "parserOptions": {
-    "ecmaVersion": 2022,
-    "sourceType": "module",
-    "project": "./tsconfig.json"
-  },
-  "rules": {
-    "@typescript-eslint/explicit-function-return-type": "warn",
-    "@typescript-eslint/no-unused-vars": "error"
-  }
-}
-EOF
-
-# 6. Create .prettierrc
-cat > .prettierrc << 'EOF'
-{
-  "semi": true,
-  "trailingComma": "es5",
-  "singleQuote": true,
-  "printWidth": 100,
-  "tabWidth": 2
-}
-EOF
-
-# 7. Update package.json scripts
-cat >> package.json << 'EOF'
-{
-  "scripts": {
-    "build": "tsc",
-    "dev": "tsx watch src/index.ts",
-    "lint": "eslint src --ext .ts",
-    "format": "prettier --write \"src/**/*.ts\"",
-    "test": "vitest",
-    "test:ui": "vitest --ui"
-  }
-}
-EOF
-```
-
-**See also:** [TypeScript §4.1](#4-1-project-setup), [TypeScript §4.7](#4-7-build-and-tooling)
-
----
-
-### QRC-10: Kafka Patterns
-<a id="qrc-10-kafka-patterns"></a>
-
-```python
-# Complete Kafka producer/consumer patterns for ML/CV pipelines
-from confluent_kafka import Producer, Consumer, KafkaError
-from confluent_kafka.schema_registry import SchemaRegistryClient
-from confluent_kafka.schema_registry.avro import AvroSerializer, AvroDeserializer
-import json
-from typing import Dict, Any
-from dataclasses import dataclass
-
-# 1. Schema definition (Avro)
-INFERENCE_REQUEST_SCHEMA = {
-    "type": "record",
-    "name": "InferenceRequest",
-    "fields": [
-        {"name": "request_id", "type": "string"},
-        {"name": "model_id", "type": "string"},
-        {"name": "image_url", "type": "string"},
-        {"name": "config", "type": {"type": "map", "values": "string"}},
-        {"name": "timestamp", "type": "long"}
-    ]
-}
-
-INFERENCE_RESULT_SCHEMA = {
-    "type": "record",
-    "name": "InferenceResult",
-    "fields": [
-        {"name": "request_id", "type": "string"},
-        {"name": "model_id", "type": "string"},
-        {"name": "detections", "type": {"type": "array", "items": "string"}},
-        {"name": "processing_time_ms", "type": "long"},
-        {"name": "timestamp", "type": "long"}
-    ]
-}
-
-# 2. Producer pattern
-class InferenceRequestProducer:
-    def __init__(self, bootstrap_servers: str, schema_registry_url: str):
-        self.producer = Producer({
-            'bootstrap.servers': bootstrap_servers,
-            'acks': 'all',  # Wait for all replicas
-            'retries': 3,
-            'max.in.flight.requests.per.connection': 1,  # Ensure ordering
-            'enable.idempotence': True,
-        })
-
-        schema_registry = SchemaRegistryClient({'url': schema_registry_url})
-        self.serializer = AvroSerializer(
-            schema_registry,
-            INFERENCE_REQUEST_SCHEMA
-        )
-
-    def send_request(self, topic: str, request: Dict[str, Any], key: str = None):
-        """Send inference request to Kafka."""
-        try:
-            serialized = self.serializer(request, None)
-            self.producer.produce(
-                topic,
-                key=key or request['request_id'],
-                value=serialized,
-                callback=self._delivery_callback
-            )
-            self.producer.poll(0)  # Trigger delivery
-        except Exception as e:
-            print(f"Error sending message: {e}")
-
-    def flush(self, timeout: float = 10.0):
-        """Flush pending messages."""
-        self.producer.flush(timeout)
-
-    @staticmethod
-    def _delivery_callback(err, msg):
-        if err:
-            print(f"Message delivery failed: {err}")
-        else:
-            print(f"Message delivered to {msg.topic()} [{msg.partition()}]")
-
-# 3. Consumer pattern
-class InferenceResultConsumer:
-    def __init__(self, bootstrap_servers: str, schema_registry_url: str,
-                 group_id: str, topics: list[str]):
-        self.consumer = Consumer({
-            'bootstrap.servers': bootstrap_servers,
-            'group.id': group_id,
-            'auto.offset.reset': 'earliest',
-            'enable.auto.commit': False,  # Manual commit for exactly-once
-        })
-        self.consumer.subscribe(topics)
-
-        schema_registry = SchemaRegistryClient({'url': schema_registry_url})
-        self.deserializer = AvroDeserializer(
-            schema_registry,
-            INFERENCE_RESULT_SCHEMA
-        )
-
-    def consume(self, timeout: float = 1.0):
-        """Consume messages with error handling."""
-        msg = self.consumer.poll(timeout)
-
-        if msg is None:
-            return None
-
-        if msg.error():
-            if msg.error().code() == KafkaError._PARTITION_EOF:
-                return None
-            else:
-                raise Exception(f"Consumer error: {msg.error()}")
-
-        try:
-            result = self.deserializer(msg.value(), None)
-            # Process message
-            self._process_result(result)
-            # Commit offset after successful processing
-            self.consumer.commit(msg)
-            return result
-        except Exception as e:
-            print(f"Error processing message: {e}")
-            # Handle poison message (send to DLQ, etc.)
-            return None
-
-    def _process_result(self, result: Dict[str, Any]):
-        """Process inference result."""
-        print(f"Received result for request {result['request_id']}")
-        # Store in database, update UI, etc.
-
-    def close(self):
-        """Close consumer."""
-        self.consumer.close()
-
-# 4. Usage example
-producer = InferenceRequestProducer(
-    bootstrap_servers='localhost:9092',
-    schema_registry_url='http://localhost:8081'
-)
-
-producer.send_request(
-    topic='inference-requests',
-    request={
-        'request_id': 'req-123',
-        'model_id': 'yolo-v8',
-        'image_url': 's3://bucket/image.jpg',
-        'config': {'confidence': '0.5', 'nms': '0.4'},
-        'timestamp': 1705123456789
-    },
-    key='req-123'  # Key for partitioning
-)
-producer.flush()
-
-consumer = InferenceResultConsumer(
-    bootstrap_servers='localhost:9092',
-    schema_registry_url='http://localhost:8081',
-    group_id='result-processor',
-    topics=['inference-results']
-)
-
-# Consume loop
-while True:
-    result = consumer.consume()
-    if result:
-        # Process result
-        pass
-```
-
-**See also:** [Kafka §14.2](#14-2-producer-patterns), [Kafka §14.3](#14-3-consumer-patterns), [Kafka §14.4](#14-4-schema-management)
-
----
-
-## 📊 1. Data & Storage
-
-### Acronyms
+## Acronyms
 
 * **CV** — Computer Vision
 * **ML** — Machine Learning
@@ -1240,7 +428,9 @@ while True:
 
 ---
 
-### 1.1 Core Principles
+## Part A — Data and artifacts policy
+
+### 1) Core principle
 
 **Object storage is the source of truth for large blobs**, including:
 
@@ -1258,7 +448,7 @@ while True:
 
 ---
 
-### 1.2 Storage Systems
+### 2) Storage systems
 
 Approved object storage classes:
 
@@ -1272,7 +462,7 @@ Filesystems (POSIX) MAY be used for:
 
 ---
 
-### 1.3 Raw Data Rules
+### 3) Rules for raw data
 
 * Raw sensor logs are **append-only**.
 * Raw data MUST be ingested into a **raw zone** with immutability controls.
@@ -1280,7 +470,7 @@ Filesystems (POSIX) MAY be used for:
 
 ---
 
-### 1.4 Derived Data Rules
+### 4) Rules for derived data
 
 Derived artifacts (frames, clips, sweeps, tensors, features) MUST:
 
@@ -1290,7 +480,7 @@ Derived artifacts (frames, clips, sweeps, tensors, features) MUST:
 
 ---
 
-### 1.5 Immutability Policy
+### 5) Immutability policy
 
 Once an object is referenced by any of:
 
@@ -1308,7 +498,7 @@ Implementation requirements:
 
 ---
 
-### 1.6 Dataset Snapshot Policy
+### 6) Dataset snapshot policy
 
 A dataset used for training/evaluation MUST be a snapshot defined by:
 
@@ -1320,7 +510,7 @@ Directory scanning MUST NOT define dataset membership.
 
 ---
 
-### 1.7 Object Identity
+### 7) Identity for objects
 
 Every stored object MUST be uniquely identified by:
 
@@ -1330,7 +520,7 @@ The database MUST store these fields (or an equivalent normalized schema).
 
 ---
 
-### 1.8 Formats Policy
+### 8) Formats policy
 
 #### For training IO (streaming-friendly)
 
@@ -1344,7 +534,7 @@ The database MUST store these fields (or an equivalent normalized schema).
 
 ---
 
-### 1.9 Retention and Lifecycle
+### 9) Retention and lifecycle
 
 * Raw zone retention is defined by compliance and cost; default is long-lived.
 * Curated and derived artifacts MUST have explicit lifecycle policies (TTL) unless they are part of a released baseline.
@@ -1352,7 +542,7 @@ The database MUST store these fields (or an equivalent normalized schema).
 
 ---
 
-### 1.10 Access and Performance
+### 10) Access and performance
 
 * Training pipelines SHOULD use sharding, caching, and prefetching.
 * Avoid small-object explosions; prefer shard files at predictable sizes.
@@ -1360,7 +550,7 @@ The database MUST store these fields (or an equivalent normalized schema).
 
 ---
 
-### 1.11 What Never Goes in SQL
+### 11) What never goes in SQL
 
 SQL databases MUST NOT store:
 
@@ -1372,7 +562,7 @@ Store only references, hashes, and metadata.
 
 ---
 
-### 1.12 Exceptions Process
+### 12) Exceptions
 
 Any deviation from this policy requires:
 
@@ -1382,15 +572,17 @@ Any deviation from this policy requires:
 
 ---
 
-## 🗄️ 2. SQL Databases
+## Part B — SQL / MySQL / PostgreSQL / SQLite (within the CV/ML data stack)
+
+<a id="sql"></a>
+
+# SQL / MySQL / PostgreSQL / SQLite
 
 This section defines professional, enforceable rules for working with **SQL as a language** and with the most common relational engines: **Standard SQL**, **MySQL**, **PostgreSQL**, and **SQLite**.
 
 Scope: schema design, queries, migrations, performance, correctness, and operational safety — within modern data-intensive systems, including CV/ML engineering.
 
-### 2.1 SQL in CV/ML Architectures
-
-#### Context: SQL in modern CV/ML data architectures
+## 0) SQL in modern CV / ML data architectures (context)
 
 In computer vision and machine learning systems, SQL is not used in isolation.
 It operates as part of a layered data stack with clear responsibility boundaries.
@@ -1464,9 +656,7 @@ Key principle:
 > **Blobs live in object storage.
 > Meaning, relationships, and history live in SQL.**
 
-### 2.2 Schema Design Principles
-
-#### Core principles (engine-agnostic)
+## 1) Core principles (engine-agnostic)
 
 1. SQL is a programming language. It is reviewed, tested, versioned, and reasoned about like any other code.
 2. Correctness before cleverness. Readable, explicit queries beat compact or “smart” SQL.
@@ -1474,9 +664,7 @@ Key principle:
 4. Schema is a contract. Tables, constraints, and indexes define guarantees—not suggestions.
 5. The database is not a dumping ground. Data integrity lives in the database, not only in application code.
 
-### 2.3 Normalization
-
-#### Standard SQL discipline (portable subset)
+## 2) Standard SQL discipline (portable subset)
 
 6. Prefer Standard SQL features unless engine-specific behavior is required.
 7. Avoid relying on undefined behavior, including:
@@ -1496,9 +684,7 @@ Key principle:
     * `NULL` ≠ `0`, `''`, or `FALSE`
     * comparisons with NULL use `IS NULL` / `IS NOT NULL`.
 
-### 2.4 Primary Keys and Identity
-
-#### Schema design rules (all engines)
+## 3) Schema design rules (all engines)
 
 11. Every table has a primary key. No exceptions, including join tables.
 12. Primary keys are stable:
@@ -1523,9 +709,7 @@ Key principle:
     * `CHECK`
 19. Do not encode business rules only in triggers unless formally justified and documented.
 
-### 2.5 Foreign Keys and Constraints
-
-#### Query writing standards
+## 4) Query writing standards
 
 20. Queries are formatted and readable:
 
@@ -1545,9 +729,7 @@ Key principle:
 
     * no reliance on engine default timezones.
 
-### 2.6 Indexes and Performance
-
-#### Indexing and performance discipline
+## 5) Indexing and performance discipline
 
 28. Indexes exist for queries, not theory.
 29. Every non-trivial query has an execution plan reviewed:
@@ -1565,9 +747,7 @@ Key principle:
     * OFFSET-heavy pagination is avoided at scale.
 34. Performance changes require evidence, not intuition.
 
-### 2.7 Query Patterns
-
-#### Migrations and schema evolution
+## 6) Migrations and schema evolution
 
 35. Schema changes are versioned:
 
@@ -1580,9 +760,7 @@ Key principle:
 39. No manual production changes outside migrations.
 40. Rollback strategy is documented (even if rollback is “restore from backup”).
 
-### 2.8 Transactions and Isolation
-
-#### Transactions and concurrency
+## 7) Transactions and concurrency
 
 41. Transactions are explicit for multi-step operations.
 42. Isolation level is understood and chosen deliberately:
@@ -1592,9 +770,7 @@ Key principle:
 44. SELECT … FOR UPDATE is used intentionally, never casually.
 45. Deadlocks are anticipated and handled in application logic where needed.
 
-### 2.9 Migrations and Schema Evolution
-
-#### Engine-specific rules — MySQL
+## 8) Engine-specific rules — MySQL
 
 46. InnoDB is mandatory (no MyISAM).
 47. ONLY_FULL_GROUP_BY is enabled and treated as baseline correctness.
@@ -1604,9 +780,7 @@ Key principle:
 51. Date/time behavior is tested with timezone differences.
 52. LIMIT without ORDER BY is forbidden (MySQL is especially permissive and dangerous here).
 
-### 2.10 Security
-
-#### Engine-specific rules — PostgreSQL
+## 9) Engine-specific rules — PostgreSQL
 
 53. PostgreSQL is the reference engine for advanced SQL features when available.
 54. Use native types:
@@ -1619,9 +793,7 @@ Key principle:
 57. Extensions are documented (`pgcrypto`, `uuid-ossp`, etc.).
 58. Explain plans are reviewed with ANALYZE, not guessed.
 
-### 2.11 Operations
-
-#### Engine-specific rules — SQLite
+## 10) Engine-specific rules — SQLite
 
 59. SQLite is not “toy SQL.” It is used intentionally for:
 
@@ -1635,9 +807,7 @@ Key principle:
 63. No assumptions of strict typing unless enforced by CHECK constraints.
 64. Migrations are still required, even for local databases.
 
-### 2.12 Engine-Specific Guidance
-
-#### Security rules (SQL)
+## 11) Security rules (SQL)
 
 65. Parameterized queries only.
 66. No string concatenation for SQL, ever.
@@ -1649,7 +819,7 @@ Key principle:
 69. Audit logging for sensitive operations where required.
 70. Encryption at rest and in transit is policy-driven and documented.
 
-#### Testing and verification
+## 12) Testing and verification
 
 71. Queries are testable artifacts:
 
@@ -1663,7 +833,7 @@ Key principle:
     * boundary dates.
 74. Performance-sensitive queries have regression tests or benchmarks.
 
-#### Tooling and workflow
+## 13) Tooling and workflow
 
 75. SQL formatting is standardized (formatter enforced).
 76. Linting/static checks used where available.
@@ -1671,7 +841,7 @@ Key principle:
 78. Local dev mirrors production engine behavior as closely as possible.
 79. Explain plans are captured for critical queries in docs or PRs.
 
-#### Common anti-patterns to ban
+## 14) Common anti-patterns to ban
 
 80. `SELECT *` in production queries.
 81. Missing primary keys.
@@ -1682,7 +852,7 @@ Key principle:
 86. Ad hoc indexes added “just in prod.”
 87. Mixing SQL dialects without documentation.
 
-#### Minimal "gold standard" checklist
+## 15) Minimal “gold standard” checklist
 
 88. Schema has PKs, FKs, constraints.
 89. Queries are explicit, ordered, and readable.
@@ -1695,8 +865,11 @@ Key principle:
 
 ---
 
+## Document 2 — Projects and Tooling Setup Policy
+<a id="document-2--projects-and-tooling-setup-policy"></a>
 
 
+# Engineering Tooling, Workflow, Bootstrap & Quality Policy
 
 **Status:** Authoritative
 **Last updated:** 2026-01-16
@@ -1705,6 +878,7 @@ Note: CI authority (merge gating, bypass rules, enforcement) is defined exclusiv
 
 ---
 
+## Document intent
 
 This file is the **single source of truth** merging:
 1) **Project Bootstrap & Engineering Quality Policy**
@@ -1714,7 +888,46 @@ Nothing from either source has been removed; content is reorganized so it is eas
 
 ---
 
+## Table of contents (clickable)
 
+- [Part A — Bootstrap & Quality (repo-first)](#part-a--project-bootstrap--engineering-quality-policy-merged)
+  - [Purpose](#purpose)
+  - [Engineering principles](#engineering-principles)
+  - [Machine setup (one-time)](#machine-setup-one-time)
+  - [Repo initialization (new project)](#repo-initialization-new-project)
+  - [Repo opening (existing project)](#repo-opening-existing-project)
+  - [Git workflow (daily operations)](#git-workflow-daily-operations)
+  - [Coding style (language standards)](#coding-style-language-standards)
+  - [Testing policy](#testing-policy)
+  - [Documentation policy](#documentation-policy)
+  - [IDE policies (repo-level settings)](#9-ide-policies-repo-level-settings)
+    - [9.1 VS Code workspace settings](#91-vs-code-workspace-settings)
+    - [9.2 PyCharm formatting enforcement](#92-pycharm-formatting-enforcement)
+    - [9.3 IntelliJ](#93-intellij)
+    - [9.4 CLion](#94-clion)
+    - [9.5 WebStorm (JavaScript/TypeScript/Web projects)](#95-webstorm-javascripttypescriptweb-projects)
+    - [9.6 DataGrip](#96-datagrip)
+  - [Quality gates](#quality-gates)
+  - [Standard bootstrap checklist](#standard-bootstrap-checklist)
+
+- [Part B — Tooling & Workflow (language/tool deep policies)](#part-b--engineering-tooling--workflow-policies-merged)
+  - [Python (.venv & dependency discipline)](#python-venv--dependency-discipline)
+  - [Node.js / npm / TypeScript](#nodejs--npm--typescript)
+  - [Java / Maven / Gradle / Spring Boot](#java--maven--gradle--spring-boot)
+  - [C / C++ / CMake](#c--c--cmake)
+  - [Rust / Cargo](#rust--cargo)
+  - [CUDA / OpenCV / OpenGL](#cuda--opencv--opengl)
+  - [API / REST / MVC / gRPC](#api--rest--mvc--grpc)
+  - [Vanilla JavaScript / React / WebGL / D3](#vanilla-javascript--react--webgl--d3)
+  - [HTML / CSS](#html--css)
+  - [Docker / Podman / Kubernetes / Kafka](#docker--podman--kubernetes--kafka)
+
+---
+
+
+# Part A — Project Bootstrap & Engineering Quality Policy (merged)
+
+# Project Bootstrap & Engineering Quality Policy
 
 **Status:** Authoritative
 **Last updated:** 2026-01-16
@@ -2270,7 +1483,7 @@ It applies equally to local development, CI, and production builds.
 ## 2) Where the venv lives (and naming)
 
 6. **Do not commit the venv.** Always ignore it in Git (`.venv/`, `venv/`, `.python-version` may be committed if you use pyenv; the interpreter itself never is).
-7. **Virtual environment location is defined by `development-environment-policy.md`.**
+7. **Virtual environment location is defined by `system-dev-env-policy.md`.**
 8. In this environment:
    * Each project has exactly one venv.
    * All venvs live under:
@@ -2521,7 +1734,7 @@ Below is the equivalent “professional-team grade” rule set for **Node.js + n
 56. **One lockfile at root** and consistent scripts at root.
 57. **Avoid cross-package relative imports**; use workspace package boundaries.
 
-#### Common anti-patterns to ban
+## 14) Common anti-patterns to ban
 
 58. Committing `node_modules/` or `dist/`.
 59. Using `npm install` in CI instead of `npm ci`.
@@ -3262,7 +2475,7 @@ Below is a professional-team rule set for **CUDA + OpenCV + OpenGL** (first ment
 
 58. **Debug toggles exist** (compile-time and runtime) to enable heavy checks without impacting release builds.
 
-#### Common anti-patterns to ban
+## 14) Common anti-patterns to ban
 
 59. Mixing OpenCV CPU ops and CUDA kernels with silent copies between them.
 60. Calling OpenGL from random threads without context discipline.

@@ -67,7 +67,7 @@ The `/policies` folder is organized around **compiled policy bundles** (merged d
 
 ### Core system policy
 
-- **`policies/system-dev-env-policy.md`**
+- **`policies/development-environment-policy.md`**
   *Where and how work is organized and isolated on the machine*
   (directory layout, repo isolation, naming conventions, workspace discipline)
 
