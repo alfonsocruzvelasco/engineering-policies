@@ -220,7 +220,22 @@ ACCEPTANCE: [how to verify success - English only]
 2. **Constraint Awareness** — name failure modes upfront instead of trusting generic solutions.
 3. **Built-In Verification** — ask for verification checkpoints instead of trusting conclusions.
 
-These three levers work together. Miss any one and you’ll get hallucinations.
+These three levers work together. Miss any one and you'll get hallucinations.
+
+---
+
+## 6) Verification Checklist
+
+Before trusting any recommendation:
+- [ ] **Specificity:** are failure modes concrete (not generic)?
+- [ ] **Domain Context:** is the answer grounded in your real constraints?
+- [ ] **Failure Modes Named:** at least 2–3 concrete failure modes?
+- [ ] **References:** paper/documentation/production example provided?
+- [ ] **Edge Cases:** unusual inputs addressed (occlusion, latency spikes, etc.)?
+- [ ] **Downstream Impact:** what breaks in your actual system if it fails?
+- [ ] **Alternatives:** tradeoffs vs other approaches articulated?
+
+If you can't check 5+ boxes, require tighter work.
 
 ---
 
@@ -362,21 +377,6 @@ Assume I don't trust your answer. Give me:
 - **S**tatement: what’s the core request?
 - **P**ersonality: what tone should be used?
 - **E**xperiment: what should be tested?
-
----
-
-## 6) Verification Checklist
-
-Before trusting any recommendation:
-- [ ] **Specificity:** are failure modes concrete (not generic)?
-- [ ] **Domain Context:** is the answer grounded in your real constraints?
-- [ ] **Failure Modes Named:** at least 2–3 concrete failure modes?
-- [ ] **References:** paper/documentation/production example provided?
-- [ ] **Edge Cases:** unusual inputs addressed (occlusion, latency spikes, etc.)?
-- [ ] **Downstream Impact:** what breaks in your actual system if it fails?
-- [ ] **Alternatives:** tradeoffs vs other approaches articulated?
-
-If you can’t check 5+ boxes, require tighter work.
 
 ---
 
