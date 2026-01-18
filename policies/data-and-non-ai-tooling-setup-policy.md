@@ -900,7 +900,7 @@ Nothing from either source has been removed; content is reorganized so it is eas
   - [Coding style (language standards)](#coding-style-language-standards)
   - [Testing policy](#testing-policy)
   - [Documentation policy](#documentation-policy)
-  - [IDE repo settings](#ide-repo-settings)
+  - [IDE policies (repo-level settings)](#9-ide-policies-repo-level-settings)
     - [9.1 VS Code workspace settings](#91-vs-code-workspace-settings)
     - [9.2 PyCharm formatting enforcement](#92-pycharm-formatting-enforcement)
     - [9.3 IntelliJ](#93-intellij)
