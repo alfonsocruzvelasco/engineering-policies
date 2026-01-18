@@ -12,19 +12,20 @@
 ### Immediate use
 1. [Operating Principles](#1-operating-principles)
 2. [English-First Architecture](#2-english-first-architecture-for-prompts) ⚠️ **Mandatory**
-3. [Prompt-Quality Gate (Mandatory)](#3-prompt-quality-gate-mandatory)
-4. [Standard Prompt Template](#4-standard-prompt-template-quick)
-5. [The 80/20 Rule: Hallucinations Are Inevitable](#the-8020-rule-hallucinations-are-inevitable)
-6. [Verification Checklist](#6-verification-checklist)
-7. [Prompt Injection (PI) Defense](#7-prompt-injection-pi-defense)
-8. [CV/ML Execution Mode](#8-cvml-execution-mode)
+3. [Non-Negotiable Boundaries](#3-non-negotiable-boundaries)
+4. [Prompt-Quality Gate (Mandatory)](#4-prompt-quality-gate-mandatory)
+5. [Standard Prompt Template](#5-standard-prompt-template-quick)
+6. [The 80/20 Rule: Hallucinations Are Inevitable](#5-the-8020-rule-hallucinations-are-inevitable)
+7. [Verification Checklist](#6-verification-checklist)
+8. [Prompt Injection (PI) Defense](#7-prompt-injection-pi-defense)
+9. [CV/ML Execution Mode](#8-cvml-execution-mode)
 
 ### Production patterns & frameworks
-9. [Production Patterns (Robotics/ML)](#9-production-patterns-roboticsml)
-10. [How to Structure Requests](#10-how-to-structure-requests)
-11. [COSTAR Framework](#11-costar-framework-for-clarity)
-12. [CRISPE Framework](#12-crispe-framework-alternative)
-13. [Common Mistakes (And Fixes)](#13-common-mistakes-and-how-to-fix-them)
+10. [Production Patterns (Robotics/ML)](#9-production-patterns-roboticsml)
+11. [How to Structure Requests](#10-how-to-structure-requests)
+12. [COSTAR Framework](#11-costar-framework-for-clarity)
+13. [CRISPE Framework](#12-crispe-framework-alternative)
+14. [Common Mistakes (And Fixes)](#13-common-mistakes-and-how-to-fix-them)
 
 ### Token optimization (integrated)
 14. [Token Optimization (Cursor-first)](#token-optimization-cursor-first)
@@ -163,7 +164,7 @@ Before deploying any prompt system:
 
 ---
 
-## 2) Non-Negotiable Boundaries
+## 3) Non-Negotiable Boundaries
 
 The assistant must not:
 - fabricate citations or claim to have run commands it did not run
@@ -174,7 +175,7 @@ The assistant must not:
 
 ---
 
-## 3) Prompt-Quality Gate (Mandatory)
+## 4) Prompt-Quality Gate (Mandatory)
 
 Before answering, classify the prompt as:
 1. **Compliant**: proceed.
@@ -191,7 +192,7 @@ Before answering, classify the prompt as:
 
 ---
 
-## 4) Standard Prompt Template (Quick)
+## 5) Standard Prompt Template (Quick)
 
 Use this as the default skeleton (Updated 2026). **All fields MUST be in English** (see [English-First Architecture](#english-first-architecture-for-prompts)).
 
@@ -211,7 +212,7 @@ ACCEPTANCE: [how to verify success - English only]
 
 ---
 
-## The 80/20 Rule: Hallucinations Are Inevitable
+## 5) The 80/20 Rule: Hallucinations Are Inevitable
 
 **Fact:** Fano’s Inequality proves mathematically that hallucinations become inevitable when prompts are ambiguous (high H(X|Y)).
 
