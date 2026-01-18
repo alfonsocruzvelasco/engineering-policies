@@ -384,9 +384,7 @@ print(f"Snapshot created: {manifest_hash}")
 
 ---
 
-## Part A — Data and artifacts policy
-
-### 1) Core principle
+### 1.1 Core Principles
 
 **Object storage is the source of truth for large blobs**, including:
 
@@ -404,7 +402,7 @@ print(f"Snapshot created: {manifest_hash}")
 
 ---
 
-### 2) Storage systems
+### 1.2 Storage Systems
 
 Approved object storage classes:
 
@@ -418,7 +416,7 @@ Filesystems (POSIX) MAY be used for:
 
 ---
 
-### 3) Rules for raw data
+### 1.3 Raw Data Rules
 
 * Raw sensor logs are **append-only**.
 * Raw data MUST be ingested into a **raw zone** with immutability controls.
@@ -426,7 +424,7 @@ Filesystems (POSIX) MAY be used for:
 
 ---
 
-### 4) Rules for derived data
+### 1.4 Derived Data Rules
 
 Derived artifacts (frames, clips, sweeps, tensors, features) MUST:
 
@@ -436,7 +434,7 @@ Derived artifacts (frames, clips, sweeps, tensors, features) MUST:
 
 ---
 
-### 5) Immutability policy
+### 1.5 Immutability Policy
 
 Once an object is referenced by any of:
 
@@ -454,7 +452,7 @@ Implementation requirements:
 
 ---
 
-### 6) Dataset snapshot policy
+### 1.6 Dataset Snapshot Policy
 
 A dataset used for training/evaluation MUST be a snapshot defined by:
 
@@ -466,7 +464,7 @@ Directory scanning MUST NOT define dataset membership.
 
 ---
 
-### 7) Identity for objects
+### 1.7 Object Identity
 
 Every stored object MUST be uniquely identified by:
 
@@ -476,7 +474,7 @@ The database MUST store these fields (or an equivalent normalized schema).
 
 ---
 
-### 8) Formats policy
+### 1.8 Formats Policy
 
 #### For training IO (streaming-friendly)
 
@@ -490,7 +488,7 @@ The database MUST store these fields (or an equivalent normalized schema).
 
 ---
 
-### 9) Retention and lifecycle
+### 1.9 Retention and Lifecycle
 
 * Raw zone retention is defined by compliance and cost; default is long-lived.
 * Curated and derived artifacts MUST have explicit lifecycle policies (TTL) unless they are part of a released baseline.
@@ -498,7 +496,7 @@ The database MUST store these fields (or an equivalent normalized schema).
 
 ---
 
-### 10) Access and performance
+### 1.10 Access and Performance
 
 * Training pipelines SHOULD use sharding, caching, and prefetching.
 * Avoid small-object explosions; prefer shard files at predictable sizes.
@@ -506,7 +504,7 @@ The database MUST store these fields (or an equivalent normalized schema).
 
 ---
 
-### 11) What never goes in SQL
+### 1.11 What Never Goes in SQL
 
 SQL databases MUST NOT store:
 
@@ -518,7 +516,7 @@ Store only references, hashes, and metadata.
 
 ---
 
-### 12) Exceptions
+### 1.12 Exceptions Process
 
 Any deviation from this policy requires:
 
@@ -1671,7 +1669,7 @@ Below is the equivalent “professional-team grade” rule set for **Node.js + n
 56. **One lockfile at root** and consistent scripts at root.
 57. **Avoid cross-package relative imports**; use workspace package boundaries.
 
-## 14) Common anti-patterns to ban
+#### Common anti-patterns to ban
 
 58. Committing `node_modules/` or `dist/`.
 59. Using `npm install` in CI instead of `npm ci`.
@@ -2412,7 +2410,7 @@ Below is a professional-team rule set for **CUDA + OpenCV + OpenGL** (first ment
 
 58. **Debug toggles exist** (compile-time and runtime) to enable heavy checks without impacting release builds.
 
-## 14) Common anti-patterns to ban
+#### Common anti-patterns to ban
 
 59. Mixing OpenCV CPU ops and CUDA kernels with silent copies between them.
 60. Calling OpenGL from random threads without context discipline.
