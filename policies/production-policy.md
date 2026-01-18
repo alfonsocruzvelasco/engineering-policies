@@ -98,6 +98,8 @@
 - [15.4 Model Testing Strategies](#154-model-testing-strategies)
 - [15.5 Data Pipeline Engineering](#155-data-pipeline-engineering)
 - [15.6 Production Debugging & Interpretability](#156-production-debugging--interpretability)
+- [15.7 Data Collection & Annotation](#157-data-collection--annotation)
+- [15.8 Performance Engineering](#158-performance-engineering)
 
 **Note:** For comprehensive MLOps practices (experiment tracking, model serving, monitoring, hyperparameter tuning, distributed training, model optimization, deployment patterns, lifecycle management), see [MLOps Policy](policies/mlops-policy.md).
 

@@ -21,6 +21,8 @@
 - [Model Lifecycle Management](#10-model-lifecycle-management)
 - [ML Reproducibility](#11-ml-reproducibility)
 - [Cost Optimization & Resource Management](#12-cost-optimization--resource-management)
+- [Research & Experimentation Methodology](#13-research--experimentation-methodology)
+- [Model Architecture & Design](#14-model-architecture--design)
 - [Quick Reference Cards](#quick-reference-cards)
 
 ---
@@ -1385,6 +1387,545 @@ random.seed(42)
 2. Meet latency requirements
 3. Optimize cost (model optimization, resource allocation)
 4. Optimize model size (if needed)
+
+---
+
+## 13) Research & Experimentation Methodology
+
+### 13.1 Experimental Design Principles
+
+**Core principles:**
+1. **Hypothesis-driven:** Every experiment tests a specific hypothesis
+2. **Controlled variables:** Change one variable at a time (when possible)
+3. **Baseline required:** Always compare against a baseline
+4. **Statistical rigor:** Use appropriate statistical tests
+5. **Reproducibility:** Experiments must be reproducible
+
+**Hypothesis formulation:**
+- **Format:** "If [change], then [outcome], because [rationale]"
+- **Example:** "If we use data augmentation, then mAP will increase by 5%, because it reduces overfitting"
+- **Must be:** Specific, measurable, testable, falsifiable
+
+### 13.2 Statistical Significance Testing
+
+**When to use statistical tests:**
+- Comparing two models (A/B testing)
+- Evaluating if improvement is real or noise
+- Validating that changes have meaningful impact
+
+**Common statistical tests:**
+
+**T-test (paired or unpaired):**
+- Use for: Comparing means of two groups
+- Example: Comparing accuracy of Model A vs Model B
+- Requirements: Normal distribution (approximately), independent samples
+
+**Mann-Whitney U test (non-parametric):**
+- Use for: Comparing medians when data not normally distributed
+- Example: Comparing inference latency distributions
+- Requirements: Independent samples, ordinal/continuous data
+
+**Chi-square test:**
+- Use for: Comparing categorical distributions
+- Example: Comparing confusion matrices
+- Requirements: Independent samples, categorical data
+
+**Kolmogorov-Smirnov test:**
+- Use for: Comparing distributions
+- Example: Comparing prediction distributions
+- Requirements: Continuous data
+
+**Significance thresholds:**
+- **p < 0.05:** Significant (5% chance of false positive)
+- **p < 0.01:** Highly significant (1% chance of false positive)
+- **p < 0.001:** Very highly significant (0.1% chance of false positive)
+
+**Effect size:**
+- Don't just report p-values; report effect size
+- **Cohen's d:** For comparing means (small: 0.2, medium: 0.5, large: 0.8)
+- **Relative improvement:** Percentage change (e.g., "5% improvement in mAP")
+
+### 13.3 Power Analysis
+
+**Power analysis determines:**
+- Sample size needed to detect an effect
+- Minimum effect size detectable with given sample size
+- Statistical power (probability of detecting true effect)
+
+**When to do power analysis:**
+- Before starting experiments (to determine sample size)
+- When results are not significant (to check if underpowered)
+- When planning A/B tests
+
+**Example:**
+```python
+from statsmodels.stats.power import TTestIndPower
+
+# Calculate sample size needed
+effect_size = 0.5  # Medium effect
+alpha = 0.05  # Significance level
+power = 0.80  # 80% power
+
+analysis = TTestIndPower()
+sample_size = analysis.solve_power(
+    effect_size=effect_size,
+    alpha=alpha,
+    power=power,
+    ratio=1.0  # Equal group sizes
+)
+print(f"Sample size needed per group: {sample_size}")
+```
+
+### 13.4 A/B Testing Framework (Detailed)
+
+**A/B testing workflow:**
+
+1. **Formulate hypothesis:**
+   - Null hypothesis (H0): No difference between A and B
+   - Alternative hypothesis (H1): B is better than A
+
+2. **Design experiment:**
+   - Determine sample size (power analysis)
+   - Random assignment to groups
+   - Control for confounding variables
+
+3. **Run experiment:**
+   - Collect data for both groups
+   - Ensure equal conditions (except treatment)
+
+4. **Analyze results:**
+   - Statistical test (t-test, Mann-Whitney, etc.)
+   - Calculate effect size
+   - Check assumptions (normality, independence)
+
+5. **Interpret results:**
+   - If p < 0.05: Reject H0, accept H1
+   - If p >= 0.05: Fail to reject H0
+   - Consider practical significance (effect size)
+
+**Common pitfalls:**
+- **Multiple comparisons:** Adjust p-values (Bonferroni, FDR)
+- **Peeking:** Don't stop early based on interim results
+- **Sample size:** Too small = underpowered, too large = wasteful
+- **Confounding:** Control for all variables except treatment
+
+### 13.5 Experimental Design Patterns
+
+**Single-factor experiments:**
+- Change one variable, measure outcome
+- Use for: Hyperparameter tuning, feature selection
+- Example: Test learning rates [0.001, 0.01, 0.1]
+
+**Factorial designs:**
+- Test multiple factors simultaneously
+- Use for: Understanding interactions
+- Example: Test learning rate × batch size combinations
+
+**Block designs:**
+- Group similar experiments together
+- Use for: Controlling for dataset variation
+- Example: Test all models on same train/val/test splits
+
+**Repeated measures:**
+- Same subjects measured multiple times
+- Use for: Comparing models on same test set
+- Example: Evaluate all models on same test images
+
+### 13.6 Hypothesis Testing Workflow
+
+**Step-by-step workflow:**
+
+1. **State hypothesis:**
+   - H0: No effect (e.g., "Model A = Model B")
+   - H1: Effect exists (e.g., "Model B > Model A")
+
+2. **Choose significance level:**
+   - α = 0.05 (standard)
+   - α = 0.01 (more strict)
+
+3. **Select statistical test:**
+   - Based on data type and distribution
+   - Check assumptions
+
+4. **Calculate test statistic:**
+   - Run test on data
+   - Get p-value
+
+5. **Make decision:**
+   - If p < α: Reject H0, accept H1
+   - If p >= α: Fail to reject H0
+
+6. **Report results:**
+   - Test statistic, p-value, effect size
+   - Confidence intervals
+   - Practical interpretation
+
+### 13.7 Multiple Comparisons Correction
+
+**Problem:** Testing multiple hypotheses increases false positive rate
+
+**Solutions:**
+
+**Bonferroni correction:**
+- Divide α by number of tests
+- Example: 10 tests, α = 0.05 → α_corrected = 0.005
+- Conservative (reduces false positives, increases false negatives)
+
+**False Discovery Rate (FDR) - Benjamini-Hochberg:**
+- Less conservative than Bonferroni
+- Controls expected proportion of false discoveries
+- Better for exploratory analysis
+
+**Example:**
+```python
+from statsmodels.stats.multitest import multipletests
+
+p_values = [0.01, 0.02, 0.03, 0.04, 0.05]
+rejected, p_corrected, _, _ = multipletests(
+    p_values,
+    alpha=0.05,
+    method='bonferroni'  # or 'fdr_bh'
+)
+```
+
+### 13.8 Confidence Intervals
+
+**Purpose:** Quantify uncertainty in estimates
+
+**Interpretation:**
+- 95% CI: 95% chance true value is in interval
+- Wider CI = more uncertainty
+- Narrower CI = more precision
+
+**Example:**
+- Accuracy: 85% (95% CI: [83%, 87%])
+- Mean latency: 50ms (95% CI: [45ms, 55ms])
+
+**When to report:**
+- Always report CIs with point estimates
+- Use for: Accuracy, latency, throughput, any metric
+
+### 13.9 Experimental Documentation
+
+**Required documentation:**
+- Hypothesis (H0, H1)
+- Experimental design (factors, levels, sample size)
+- Statistical test used
+- Results (test statistic, p-value, effect size, CI)
+- Interpretation (statistical and practical significance)
+- Limitations and assumptions
+
+**Example template:**
+```markdown
+## Experiment: Data Augmentation Impact
+
+**Hypothesis:**
+- H0: Data augmentation has no effect on mAP
+- H1: Data augmentation increases mAP by at least 5%
+
+**Design:**
+- Sample size: 1000 images per group (power analysis: 80% power, α=0.05)
+- Groups: Baseline (no augmentation) vs Augmented (rotation, flip, color jitter)
+- Metric: mAP@0.5
+
+**Results:**
+- Baseline mAP: 0.82 (95% CI: [0.80, 0.84])
+- Augmented mAP: 0.87 (95% CI: [0.85, 0.89])
+- T-test: t(1998) = 4.2, p < 0.001
+- Effect size (Cohen's d): 0.6 (medium-large)
+
+**Interpretation:**
+- Statistically significant (p < 0.001)
+- Practically significant (6% improvement)
+- Accept H1: Data augmentation improves mAP
+```
+
+---
+
+## 14) Model Architecture & Design
+
+### 14.1 Architecture Selection Framework
+
+**Decision factors:**
+
+1. **Task type:**
+   - Classification: ResNet, EfficientNet, Vision Transformer
+   - Detection: YOLO, Faster R-CNN, RetinaNet
+   - Segmentation: DeepLab, U-Net, Mask R-CNN
+   - Keypoint detection: HRNet, PoseNet
+
+2. **Constraints:**
+   - **Latency:** MobileNet, EfficientNet-Lite for edge
+   - **Memory:** Smaller models (MobileNet, ShuffleNet)
+   - **Accuracy:** Larger models (ResNet-152, EfficientNet-B7)
+   - **Model size:** Quantized models, pruned models
+
+3. **Data characteristics:**
+   - **Small dataset:** Transfer learning, data augmentation
+   - **Large dataset:** Train from scratch, larger models
+   - **Domain:** Pre-trained on similar domain if available
+
+**Selection workflow:**
+
+```mermaid
+graph TD
+    Start[Start] --> Task{Task Type?}
+    Task -->|Classification| ClassModels[ResNet, EfficientNet, ViT]
+    Task -->|Detection| DetModels[YOLO, Faster R-CNN, RetinaNet]
+    Task -->|Segmentation| SegModels[DeepLab, U-Net, Mask R-CNN]
+
+    ClassModels --> Constraints{Constraints?}
+    DetModels --> Constraints
+    SegModels --> Constraints
+
+    Constraints -->|Latency Critical| FastModels[MobileNet, EfficientNet-Lite]
+    Constraints -->|Memory Limited| SmallModels[MobileNet, ShuffleNet]
+    Constraints -->|Accuracy Critical| LargeModels[ResNet-152, EfficientNet-B7]
+    Constraints -->|Balanced| BalancedModels[ResNet-50, EfficientNet-B0]
+
+    FastModels --> Data{Data Size?}
+    SmallModels --> Data
+    LargeModels --> Data
+    BalancedModels --> Data
+
+    Data -->|Small| Transfer[Use Transfer Learning]
+    Data -->|Large| TrainFromScratch[Train from Scratch]
+
+    Transfer --> Final[Final Architecture]
+    TrainFromScratch --> Final
+
+    style Start fill:#e1f5ff
+    style Final fill:#e1ffe1
+```
+
+### 14.2 Transfer Learning Strategies
+
+**When to use transfer learning:**
+- Small dataset (< 10K images)
+- Limited compute resources
+- Similar domain to pre-trained model
+- Need fast iteration
+
+**Transfer learning approaches:**
+
+**1. Feature extraction (frozen backbone):**
+- Freeze pre-trained layers
+- Train only classifier head
+- Use for: Very small datasets, fast prototyping
+- Pros: Fast, prevents overfitting
+- Cons: Limited adaptation to new domain
+
+**2. Fine-tuning (unfrozen backbone):**
+- Unfreeze some/all pre-trained layers
+- Train with lower learning rate
+- Use for: Medium datasets, domain adaptation
+- Pros: Better adaptation, higher accuracy
+- Cons: More compute, risk of overfitting
+
+**3. Progressive unfreezing:**
+- Start with frozen backbone
+- Gradually unfreeze layers (bottom-up)
+- Use for: Large datasets, careful fine-tuning
+- Pros: Best adaptation, controlled training
+- Cons: More complex, longer training
+
+**Best practices:**
+- Use pre-trained models from similar domain
+- Lower learning rate for pre-trained layers (10x smaller)
+- Use learning rate scheduling
+- Monitor for overfitting (early stopping)
+
+**Example workflow:**
+```python
+# 1. Feature extraction
+model = create_model(backbone='resnet50', pretrained=True)
+freeze_backbone(model)
+train_classifier(model, lr=0.01)
+
+# 2. Fine-tuning
+unfreeze_backbone(model)
+train_full_model(model, lr=0.001)  # 10x smaller LR
+
+# 3. Progressive unfreezing
+for epoch in range(num_epochs):
+    unfreeze_layers(model, epoch)
+    train(model, lr=get_lr(epoch))
+```
+
+### 14.3 Ensemble Methods
+
+**When to use ensembles:**
+- High-stakes predictions (medical, safety)
+- Need maximum accuracy
+- Have compute resources
+- Individual models have different strengths
+
+**Ensemble strategies:**
+
+**1. Voting (classification):**
+- Majority vote or weighted vote
+- Use for: Classification tasks
+- Example: 5 models, majority vote
+
+**2. Averaging (regression):**
+- Simple average or weighted average
+- Use for: Regression, probability estimation
+- Example: Average predictions from 3 models
+
+**3. Stacking:**
+- Train meta-learner on predictions
+- Use for: Complex relationships
+- Example: Train XGBoost on model predictions
+
+**4. Blending:**
+- Weighted combination of models
+- Use for: Known model strengths
+- Example: 0.4 × Model A + 0.6 × Model B
+
+**Best practices:**
+- Use diverse models (different architectures, data)
+- Validate ensemble on held-out set
+- Monitor ensemble performance vs individual models
+- Consider inference cost (ensembles are slower)
+
+**Example:**
+```python
+# Voting ensemble
+predictions = []
+for model in models:
+    pred = model.predict(x)
+    predictions.append(pred)
+
+ensemble_pred = np.mean(predictions, axis=0)  # or majority vote
+```
+
+### 14.4 Architecture Patterns for CV/ML
+
+**Backbone architectures:**
+
+**ResNet (Residual Networks):**
+- Use for: General classification, feature extraction
+- Strengths: Deep networks, residual connections
+- Variants: ResNet-18, ResNet-50, ResNet-101, ResNet-152
+- When to use: Balanced accuracy/speed, well-established
+
+**EfficientNet:**
+- Use for: Efficient classification, mobile deployment
+- Strengths: Compound scaling, high efficiency
+- Variants: EfficientNet-B0 to B7
+- When to use: Resource-constrained, need efficiency
+
+**Vision Transformer (ViT):**
+- Use for: Large-scale classification, attention-based
+- Strengths: Attention mechanism, scalable
+- Variants: ViT-Base, ViT-Large, ViT-Huge
+- When to use: Large datasets, need attention
+
+**MobileNet:**
+- Use for: Mobile/edge deployment, low latency
+- Strengths: Depthwise separable convolutions, small
+- Variants: MobileNet-V2, MobileNet-V3
+- When to use: Edge devices, real-time inference
+
+**Detection architectures:**
+
+**YOLO (You Only Look Once):**
+- Use for: Real-time object detection
+- Strengths: Fast, single-stage
+- Variants: YOLOv5, YOLOv8, YOLO-NAS
+- When to use: Real-time detection, speed critical
+
+**Faster R-CNN:**
+- Use for: High-accuracy detection
+- Strengths: Two-stage, accurate
+- Variants: Faster R-CNN, Mask R-CNN
+- When to use: Accuracy critical, can tolerate slower inference
+
+**RetinaNet:**
+- Use for: Balanced accuracy/speed detection
+- Strengths: Focal loss, single-stage
+- When to use: Need balance between YOLO and Faster R-CNN
+
+**Segmentation architectures:**
+
+**U-Net:**
+- Use for: Medical imaging, semantic segmentation
+- Strengths: Skip connections, good for small datasets
+- When to use: Medical images, need precise boundaries
+
+**DeepLab:**
+- Use for: Semantic segmentation, atrous convolutions
+- Strengths: Atrous spatial pyramid pooling
+- Variants: DeepLabV3, DeepLabV3+
+- When to use: General segmentation, need multi-scale features
+
+**Mask R-CNN:**
+- Use for: Instance segmentation
+- Strengths: Detection + segmentation
+- When to use: Need instance-level segmentation
+
+### 14.5 Architecture Design Principles
+
+**1. Start simple:**
+- Begin with baseline (simple architecture)
+- Add complexity only if needed
+- Measure improvement at each step
+
+**2. Match capacity to data:**
+- Small dataset → smaller model (or transfer learning)
+- Large dataset → larger model (or train from scratch)
+- Avoid overfitting (model too complex for data)
+
+**3. Consider deployment constraints:**
+- Latency requirements → efficient architectures
+- Memory constraints → smaller models
+- Accuracy requirements → larger models (if data allows)
+
+**4. Use proven architectures:**
+- Prefer well-tested architectures
+- Avoid custom architectures unless necessary
+- Leverage pre-trained models
+
+**5. Iterate based on results:**
+- Analyze failure cases
+- Identify bottlenecks (accuracy, speed, memory)
+- Adjust architecture accordingly
+
+### 14.6 Architecture Evaluation Framework
+
+**Evaluation criteria:**
+
+1. **Accuracy metrics:**
+   - Task-specific metrics (mAP, IoU, accuracy)
+   - Compare against baseline
+   - Statistical significance testing
+
+2. **Efficiency metrics:**
+   - Inference latency (p50, p95, p99)
+   - Throughput (FPS, requests/second)
+   - Memory usage (peak, average)
+   - Model size (parameters, file size)
+
+3. **Robustness:**
+   - Performance on edge cases
+   - Adversarial robustness
+   - Domain shift performance
+
+**Decision matrix:**
+
+| Architecture | Accuracy | Latency | Memory | Model Size | Use Case |
+|--------------|----------|---------|--------|------------|----------|
+| ResNet-50 | High | Medium | Medium | Medium | General purpose |
+| EfficientNet-B0 | High | Low | Low | Small | Mobile/edge |
+| ResNet-152 | Very High | High | High | Large | Accuracy critical |
+| MobileNet-V3 | Medium | Very Low | Very Low | Very Small | Real-time edge |
+
+**Selection workflow:**
+1. Define requirements (accuracy, latency, memory)
+2. Filter architectures by requirements
+3. Evaluate filtered architectures
+4. Select best match
+5. Validate on production-like data
 
 ---
 
