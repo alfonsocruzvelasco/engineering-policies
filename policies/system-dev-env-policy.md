@@ -31,7 +31,7 @@ It explicitly does **NOT** govern:
 - MCP / AI tooling servers
 
 Those are governed by:
-- `policies/data-and-non-ai-tooling-setup-policy.md`
+- `policies/production-policy.md`
 - `policies/prompts-policy.md` (MCP)
 
 ---

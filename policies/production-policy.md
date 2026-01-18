@@ -526,17 +526,15 @@ Any deviation from this policy requires:
 
 ---
 
-## Part B — SQL / MySQL / PostgreSQL / SQLite (within the CV/ML data stack)
-
-<a id="sql"></a>
-
-# SQL / MySQL / PostgreSQL / SQLite
+## 🗄️ 2. SQL Databases
 
 This section defines professional, enforceable rules for working with **SQL as a language** and with the most common relational engines: **Standard SQL**, **MySQL**, **PostgreSQL**, and **SQLite**.
 
 Scope: schema design, queries, migrations, performance, correctness, and operational safety — within modern data-intensive systems, including CV/ML engineering.
 
-## 0) SQL in modern CV / ML data architectures (context)
+### 2.1 SQL in CV/ML Architectures
+
+#### Context: SQL in modern CV/ML data architectures
 
 In computer vision and machine learning systems, SQL is not used in isolation.
 It operates as part of a layered data stack with clear responsibility boundaries.
