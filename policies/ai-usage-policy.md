@@ -27,13 +27,15 @@
     - [0.3.3 Creating Skills](#033-creating-skills)
     - [0.3.4 Skills Best Practices](#034-skills-best-practices)
     - [0.3.5 Skills Examples](#035-skills-examples)
-    - [0.3.6 Skills Integration with MCP](#036-skills-integration-with-mcp)
-    - [0.3.7 MCP Overview (Cursor-Specific)](#037-mcp-overview-cursor-specific)
-    - [0.3.8 MCP Setup in Cursor](#038-mcp-setup-in-cursor)
-    - [0.3.9 Common MCP Servers for Cursor](#039-common-mcp-servers-for-cursor)
-    - [0.3.10 MCP Usage Patterns](#0310-mcp-usage-patterns)
-    - [0.3.11 MCP Best Practices](#0311-mcp-best-practices)
-    - [0.3.12 MCP Troubleshooting](#0312-mcp-troubleshooting)
+    - [0.3.6 English-First Architecture for MCP/Skills](#036-english-first-architecture-for-mcpskills)
+    - [0.3.7 Skills Integration with MCP](#037-skills-integration-with-mcp)
+    - [0.3.8 MCP Overview (Cursor-Specific)](#038-mcp-overview-cursor-specific)
+    - [0.3.8 MCP Overview (Cursor-Specific)](#038-mcp-overview-cursor-specific)
+    - [0.3.9 MCP Setup in Cursor](#039-mcp-setup-in-cursor)
+    - [0.3.10 Common MCP Servers for Cursor](#0310-common-mcp-servers-for-cursor)
+    - [0.3.11 MCP Usage Patterns](#0311-mcp-usage-patterns)
+    - [0.3.12 MCP Best Practices](#0312-mcp-best-practices)
+    - [0.3.13 MCP Troubleshooting](#0313-mcp-troubleshooting)
 - [0.4) Verification-First Review (AI/Agent Era)](#04-verification-first-review-aiagent-era)
 - [1) Operating Principles](#1-operating-principles)
 - [2) Non-Negotiable Boundaries](#2-non-negotiable-boundaries)
@@ -211,9 +213,18 @@ Skills in Cursor are reusable procedural knowledge stored as markdown files. The
 ```
 
 **File naming conventions:**
+
+For **Cursor Skills** (`.cursor/skills/*.md` files):
 - Use lowercase with hyphens: `verify-3d-bounding-box.md`
 - Be descriptive and action-oriented: `check-dataset-integrity.md` not `dataset.md`
 - Use imperative mood: `verify-`, `check-`, `evaluate-`, `generate-`
+
+For **MCP Skill Servers** (Python packages):
+- Use **Python style (`snake_case`)** for all directories and files
+- Structure: `src/skills/robotics_perception/definition.py`, `implementation.py`, `schema.py`
+- Tool names in MCP registration: kebab-case for CLI parity (e.g., `robotics-perception-analyze`)
+- Python classes: `PascalCase` (e.g., `RoboticsPerceptionTool`)
+- See Section 0.3.4 for detailed MCP server structure
 
 **Activation:** Skills are automatically available in Cursor conversations when in a workspace that contains `.cursor/skills/` directory. Agents can reference Skills by name or automatically apply them when context matches.
 
@@ -322,6 +333,49 @@ Create a Skill when you have:
 3. **Keep Skills focused:** One procedure per Skill file
 4. **Version control:** Commit Skills to Git (they're part of project knowledge)
 
+**MCP Skill Server structure (Python style):**
+
+For MCP skill servers, use Python-style organization:
+
+```
+mcp_skills_server/
+├── src/
+│   ├── __init__.py
+│   ├── skills/
+│   │   ├── __init__.py
+│   │   ├── robotics_perception/
+│   │   │   ├── __init__.py
+│   │   │   ├── definition.py      # MCP tool definition (JSON schema)
+│   │   │   ├── implementation.py  # Core logic/implementation
+│   │   │   ├── schema.py          # Pydantic models & validation
+│   │   │   └── resources.py       # Static resources, configs
+│   │   └── data_processing/
+│   │       ├── __init__.py
+│   │       ├── definition.py
+│   │       ├── implementation.py
+│   │       └── schema.py
+│   └── mcp_server.py              # Main MCP server entry point
+├── tests/
+│   ├── test_robotics_perception.py
+│   └── test_data_processing.py
+├── pyproject.toml                 # Python packaging metadata
+└── README.md
+```
+
+**Why Python style for MCP servers:**
+- MCP servers are inherently Python-first (or TypeScript)
+- Tool definitions are declarative (JSON/YAML inside Python objects)
+- Easier to share as a package: `pip install my-mcp-skills`
+- Clear separation: definition vs. implementation vs. schema
+- Enforces verification workflows (pydantic validation)
+- Compatible with established prompt engineering frameworks (COSTAR/CRISPE)
+
+**Naming conventions within MCP servers:**
+- **Skill directories:** `snake_case` (e.g., `robotics_perception`)
+- **Files:** `snake_case` (e.g., `tool_definitions.py`, `implementation.py`)
+- **Python classes:** `PascalCase` (e.g., `RoboticsPerceptionTool`)
+- **MCP tool names in registration:** kebab-case for CLI parity (e.g., `robotics-perception-analyze`)
+
 **Writing Skills:**
 
 1. **Be explicit:** Assume the agent knows nothing about the procedure
@@ -329,6 +383,7 @@ Create a Skill when you have:
 3. **List edge cases:** Document common failures and solutions
 4. **Keep them current:** Update Skills when procedures change
 5. **Test them:** Verify Skills work by having agents use them
+6. **Use English:** All Skills must be written in English (see Section 0.3.6 for rationale)
 
 **Maintenance:**
 
@@ -336,6 +391,28 @@ Create a Skill when you have:
 - **Update dates:** Keep "Last updated" current for maintenance tracking
 - **Remove obsolete Skills:** Delete Skills that are no longer relevant
 - **Link related Skills:** Cross-reference to build knowledge networks
+
+**Schema & Verification (MCP Skill Servers):**
+
+For MCP skill servers, enforce strict schema validation:
+
+✓ **DO:**
+- Use Pydantic for schema validation (in `schema.py`)
+- Test JSON output compliance against defined schemas
+- Run multilingual prompting tests (verify English works, other languages degrade gracefully)
+- Document expected schema structure clearly
+- Test each skill in isolation (unit tests)
+- Test MCP server integration (integration tests)
+- Verify schema validation (contract tests)
+- Track latency and token usage
+
+✗ **DON'T:**
+- Accept loosely-typed tool outputs
+- Skip schema validation in production
+- Assume translation preserves schema compliance
+- Deploy untested skills
+- Skip verification workflows (remember: "hallucinations are inevitable")
+- Test only in English without checking degradation in other languages
 
 **Integration with prompts:**
 
@@ -415,7 +492,77 @@ Use:
 **Last updated:** 2026-01-16
 ```
 
-### 0.3.6 Skills Integration with MCP
+### 0.3.6 English-First Architecture for MCP/Skills
+
+**Problem:** Multilingual LLM performance research (2024-2025) shows English-first architecture provides significant advantages for system prompts, tool definitions, and reasoning layers—even when serving non-English-speaking users.
+
+**Evidence-based claims:**
+
+1. **Training data composition:**
+   - GPT-3: 92.65% English tokens (Brown et al., 2020)
+   - LLaMA 2: 89.70% English tokens (Touvron et al., 2023)
+   - Models are massively English-heavy (~90% of tokens)
+
+2. **Function calling & AST accuracy:**
+   - **MASSIVE-Agents (Nov 2025):** English AST accuracy: 57.37% (top models)
+   - Significant performance drops in non-English contexts
+   - Models struggle with "cross-lingual structural alignment"
+
+3. **JSON schema compliance:**
+   - **DeepJSONEval (Sept 2025):** Complex nested schemas show major failures in non-English
+   - Schema validation errors more common when prompts deviate from English
+   - **ResumeBench (2025):** Schema parsing failures increase with language distance from English
+
+4. **Token efficiency:**
+   - Spanish requires ~1.5x more tokens than English for equivalent semantic content
+   - Operational impact: +50% latency, +50% API costs, reduced context window space
+
+**Policy: English-First Architecture**
+
+For all MCP skills, servers, and tool definitions:
+
+✓ **DO:**
+- Write all system prompts in English
+- Define all JSON schemas in English
+- Use English for tool documentation and help text
+- Perform all reasoning, tool selection, and logic in English
+- Keep MCP tool definitions in English
+- Apply established frameworks (COSTAR/CRISPE) in English
+
+✗ **DON'T:**
+- Use Spanish (or other languages) for system prompts
+- Code-switch between English and other languages in MCP definitions
+- Expect non-English prompts to have equal reliability
+- Put user language preferences into the reasoning layer
+
+**Hybrid pipeline for multilingual applications:**
+
+For applications serving non-English users while maintaining maximum skill accuracy:
+
+```
+User Input (Spanish)
+  → Translation Layer (translate to English)
+  → Reasoning & MCP Layer (English - system prompts, tool definitions, schemas)
+  → Tool Execution (English)
+  → Output Translation (translate back to Spanish)
+```
+
+**Why this works:**
+1. Decouples user language from model logic
+2. Maximizes skill accuracy (57.37% AST accuracy in English vs. lower in other languages)
+3. Minimizes token overhead (only translation layer incurs 1.5x tax, not entire reasoning)
+4. Production-ready: scales to any language pair without redesigning MCP layer
+
+**Implementation checklist:**
+- [ ] All MCP skill definitions written in English (`definition.py`)
+- [ ] All JSON schemas in English (`schema.py`)
+- [ ] System prompts in English (`mcp_server.py`)
+- [ ] Tool names in English-to-kebab-case mapping (e.g., `robotics-perception-analyze`)
+- [ ] User-facing output translation layer implemented (separate from skill layer)
+- [ ] Schema validation tests pass for all skills
+- [ ] Latency benchmarks track: input → translation → reasoning → output translation
+
+### 0.3.7 Skills Integration with MCP
 
 **Combined workflow:**
 
@@ -449,7 +596,7 @@ Skill: "Dataset Integrity Check"
 - **MCP-enabled Skills:** Design Skills to leverage MCP for data access
 - **Reusable combinations:** Common Skill+MCP patterns can become higher-level Skills
 
-### 0.3.7 MCP Overview (Cursor-Specific)
+### 0.3.8 MCP Overview (Cursor-Specific)
 
 **What is MCP in Cursor?**
 
@@ -465,7 +612,7 @@ MCP (Model Context Protocol) is Cursor's native protocol for connecting AI agent
 
 **Core principle:** If data exists in a structured system (DB, Git, API), use MCP to access it. Never paste when MCP can retrieve.
 
-### 0.3.8 MCP Setup in Cursor
+### 0.3.9 MCP Setup in Cursor
 
 **Configuration location:** `~/.cursor/mcp.json` (or Cursor Settings → Features → MCP)
 
@@ -509,7 +656,7 @@ MCP (Model Context Protocol) is Cursor's native protocol for connecting AI agent
 - Use read-only database connections when possible
 - Review MCP server permissions before enabling
 
-### 0.3.9 Common MCP Servers for Cursor
+### 0.3.10 Common MCP Servers for Cursor
 
 **Essential servers (recommended setup):**
 
@@ -544,7 +691,7 @@ MCP (Model Context Protocol) is Cursor's native protocol for connecting AI agent
 - **Slack MCP:** Team communication integration
 - **Custom MCP servers:** Build your own for project-specific tools
 
-### 0.3.10 MCP Usage Patterns
+### 0.3.11 MCP Usage Patterns
 
 **Pattern 1: File Access (Replace Pasting)**
 
@@ -602,7 +749,7 @@ User: Navigate to https://api.example.com/docs and update the client to match th
 → Extracts relevant sections automatically
 ```
 
-### 0.3.11 MCP Best Practices
+### 0.3.12 MCP Best Practices
 
 **When to use MCP:**
 - ✅ Accessing files > 50 lines
@@ -637,7 +784,7 @@ User: Navigate to https://api.example.com/docs and update the client to match th
 - [ ] Review MCP server permissions before enabling
 - [ ] Audit MCP access logs periodically
 
-### 0.3.12 MCP Troubleshooting
+### 0.3.13 MCP Troubleshooting
 
 **Common issues:**
 
