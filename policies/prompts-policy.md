@@ -20,7 +20,7 @@
 8. [CV/ML Execution Mode](#8-cvml-execution-mode)
 
 ### Production patterns & frameworks
-9. [Production Patterns (Robotics/ML)](#5-production-patterns-roboticsml)
+9. [Production Patterns (Robotics/ML)](#9-production-patterns-roboticsml)
 10. [How to Structure Requests](#10-how-to-structure-requests)
 11. [COSTAR Framework](#11-costar-framework-for-clarity)
 12. [CRISPE Framework](#12-crispe-framework-alternative)
@@ -224,7 +224,7 @@ These three levers work together. Miss any one and you’ll get hallucinations.
 
 ---
 
-## 5 Production Patterns (Robotics/ML)
+## 9) Production Patterns (Robotics/ML)
 
 These patterns force specificity, constraint awareness, and explicit failure mode naming. Use them as templates for all production-grade interactions.
 
