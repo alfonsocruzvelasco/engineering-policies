@@ -226,6 +226,33 @@ jobs:
 
 **Promotion path:** None → Staging → Production
 
+```mermaid
+stateDiagram-v2
+    [*] --> None: Model created
+    None --> Staging: Validation passed
+    Staging --> Production: All requirements met
+    Production --> Archived: Retired
+    Staging --> Archived: Rejected
+    Production --> Staging: Rollback
+
+    note right of Staging
+        Requirements:
+        - Accuracy threshold
+        - Latency requirements
+        - Integration tests
+        - Documentation
+        - Security review
+    end note
+
+    note right of Production
+        Requirements:
+        - All staging requirements
+        - A/B test validation
+        - Rollback plan
+        - Monitoring configured
+    end note
+```
+
 **Staging requirements:**
 - [ ] Meets minimum accuracy threshold
 - [ ] Meets latency requirements
@@ -247,6 +274,20 @@ jobs:
 - **Data → Model:** Dataset snapshot → model version
 - **Model → Deployment:** Model version → deployment environment
 - **Model → Model:** Parent model → fine-tuned model
+
+```mermaid
+graph LR
+    Code[Git Commit] -->|trains| Model[Model Version]
+    Data[Dataset Snapshot] -->|trains| Model
+    Model -->|deployed to| Deployment[Deployment Environment]
+    Model -->|fine-tuned from| ParentModel[Parent Model]
+
+    style Code fill:#e1f5ff
+    style Data fill:#e1f5ff
+    style Model fill:#fff4e1
+    style Deployment fill:#ffe1e1
+    style ParentModel fill:#fff4e1
+```
 
 **Lineage query examples:**
 - "Which models were trained on dataset X?"
@@ -309,8 +350,20 @@ jobs:
 ### 4.3 Model Optimization Formats
 
 **Optimization pipeline:**
-```
-Original Model → ONNX → TensorRT/OpenVINO → Optimized Model
+
+```mermaid
+graph LR
+    Original[Original Model<br/>FP32 PyTorch/TensorFlow] --> ONNX[ONNX<br/>Cross-platform]
+    ONNX --> TensorRT[TensorRT<br/>NVIDIA GPUs]
+    ONNX --> OpenVINO[OpenVINO<br/>Intel CPUs/GPUs]
+    TensorRT --> Optimized[Optimized Model<br/>INT8/FP16]
+    OpenVINO --> Optimized
+
+    style Original fill:#ffe1e1
+    style ONNX fill:#fff4e1
+    style TensorRT fill:#e1f5ff
+    style OpenVINO fill:#e1f5ff
+    style Optimized fill:#e1ffe1
 ```
 
 **ONNX (mandatory intermediate):**
@@ -352,8 +405,19 @@ Original Model → ONNX → TensorRT/OpenVINO → Optimized Model
 ### 4.5 Inference Pipeline Patterns
 
 **Standard pipeline:**
-```
-Input → Preprocessing → Model → Postprocessing → Output
+
+```mermaid
+graph LR
+    Input[Input Data] --> Preprocess[Preprocessing<br/>Validation, Normalization, Format]
+    Preprocess --> Model[Model<br/>Inference]
+    Model --> Postprocess[Postprocessing<br/>Decoding, Thresholding, NMS]
+    Postprocess --> Output[Output<br/>Predictions]
+
+    style Input fill:#e1f5ff
+    style Preprocess fill:#fff4e1
+    style Model fill:#ffe1e1
+    style Postprocess fill:#fff4e1
+    style Output fill:#e1ffe1
 ```
 
 **Preprocessing:**
@@ -899,6 +963,21 @@ for batch in dataloader:
 ### 9.2 Blue-Green Deployment
 
 **Pattern:**
+
+```mermaid
+graph LR
+    Traffic[Traffic] -->|Current| Blue[Blue Environment<br/>Current Model]
+    Traffic -.->|Switch| Green[Green Environment<br/>New Model]
+    Green -->|If OK| Keep[Keep Green]
+    Green -->|If Issues| Rollback[Switch back to Blue]
+
+    style Traffic fill:#e1f5ff
+    style Blue fill:#ffe1e1
+    style Green fill:#e1ffe1
+    style Keep fill:#e1ffe1
+    style Rollback fill:#ffe1e1
+```
+
 - Two identical production environments
 - Deploy new model to "green" environment
 - Switch traffic from "blue" to "green"
@@ -911,6 +990,26 @@ for batch in dataloader:
 ### 9.3 Shadow Mode Deployment
 
 **Pattern:**
+
+```mermaid
+graph TD
+    Request[Incoming Request] --> Production[Production Model<br/>Serves Response]
+    Request --> Shadow[Shadow Model<br/>Processes Only]
+    Production --> Response[Response to User]
+    Shadow --> Compare[Compare Predictions<br/>& Performance]
+    Compare --> Decision{Validation Pass?}
+    Decision -->|Yes| Promote[Promote to Production]
+    Decision -->|No| Reject[Reject Model]
+
+    style Request fill:#e1f5ff
+    style Production fill:#ffe1e1
+    style Shadow fill:#fff4e1
+    style Response fill:#e1ffe1
+    style Compare fill:#fff4e1
+    style Promote fill:#e1ffe1
+    style Reject fill:#ffe1e1
+```
+
 - Deploy new model alongside production
 - New model processes requests but doesn't serve
 - Compare predictions and performance
@@ -1001,6 +1100,40 @@ jobs:
 ## 10) Model Lifecycle Management
 
 ### 10.1 Lifecycle Stages
+
+```mermaid
+stateDiagram-v2
+    [*] --> Development: Create model
+    Development --> Staging: Validation & testing
+    Staging --> Production: Deployment approved
+    Production --> Retired: End of life
+    Staging --> Development: Needs improvement
+    Production --> Staging: Rollback
+
+    note right of Development
+        - Experimentation
+        - Prototyping
+        - Rapid iteration
+    end note
+
+    note right of Staging
+        - Validated & tested
+        - Candidate for production
+        - Full testing complete
+    end note
+
+    note right of Production
+        - Currently deployed
+        - Serving real traffic
+        - Monitored & maintained
+    end note
+
+    note right of Retired
+        - No longer in use
+        - Archived for reference
+        - May be deprecated
+    end note
+```
 
 **Development:**
 - Experimentation and prototyping

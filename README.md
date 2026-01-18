@@ -103,31 +103,18 @@ The `/policies` folder is organized around **compiled policy bundles** (merged d
 
 ## Policy relationships
 
-```
-┌─────────────────────────────────────────────────────────┐
-│              Development Environment Policy              │
-│  (Machine setup, directory layout, workspace isolation) │
-└─────────────────────────────────────────────────────────┘
-                          ↓
-┌─────────────────────────────────────────────────────────┐
-│                  Production Policy                       │
-│  (Data, SQL, Python, TypeScript, Docker, K8s, Kafka)   │
-└─────────────────────────────────────────────────────────┘
-                          ↓
-┌─────────────────────────────────────────────────────────┐
-│         Versioning and Documenting Policy                │
-│  (Git, source control, documentation, versioning)        │
-└─────────────────────────────────────────────────────────┘
-                          ↓
-┌─────────────────────────────────────────────────────────┐
-│                    Security Policy                       │
-│  (Secrets, IAM, OAuth, dependencies, ML/CV security)   │
-└─────────────────────────────────────────────────────────┘
-                          ↓
-┌─────────────────────────────────────────────────────────┐
-│              AI Usage & Prompts Policies                │
-│  (Cursor sandbox, prompt engineering, MCP, tokens)      │
-└─────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    A[Development Environment Policy<br/>Machine setup, directory layout, workspace isolation] --> B[Production Policy<br/>Data, SQL, Python, TypeScript, Docker, K8s, Kafka]
+    B --> C[Versioning and Documenting Policy<br/>Git, source control, documentation, versioning]
+    C --> D[Security Policy<br/>Secrets, IAM, OAuth, dependencies, ML/CV security]
+    D --> E[AI Usage & Prompts Policies<br/>Cursor sandbox, prompt engineering, MCP, tokens]
+
+    style A fill:#e1f5ff
+    style B fill:#e1f5ff
+    style C fill:#e1f5ff
+    style D fill:#ffe1e1
+    style E fill:#fff4e1
 ```
 
 ---
