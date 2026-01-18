@@ -1,35 +1,10 @@
-# Unified Engineering Policies — Complete Reference Guide
+# Engineering Policies for production
 
 **Status:** Authoritative
-**Last updated:** 2026-01-16
+**Last updated:** 2026-01-18
 **Purpose:** Daily reference for CV/ML engineering, data systems, and tooling standards
 
-> **Note:** This document reorganizes all engineering policies by TOPIC for easier lookup.
-> Nothing has been removed from the original — only reorganized and enhanced with:
-> - Comprehensive multi-level table of contents
-> - Quick reference cards for common workflows
-> - Decision trees for technology selection
-> - Real-world scenarios demonstrating policy application
-> - Cross-references between related sections
-> - Compliance checklists
-
 ---
-
-## 📋 Navigation
-
-**Jump to:**
-- [Quick Reference Cards](#quick-reference-cards) — Ready-to-use code snippets and commands
-- [Decision Trees](#decision-trees) — Choose the right technology for your use case
-- [Common Scenarios](#common-scenarios) — Step-by-step walkthroughs
-- [Data & Storage](#1-data-artifacts-and-object-storage) — Object storage, SQL, datasets
-- [Languages](#3-python) — Python, TypeScript, Node.js
-- [Frontend](#5-react) — React, CSS, HTML
-- [Infrastructure](#12-docker-and-podman) — Docker, Kubernetes, Kafka
-- [Workflows](#8-git) — Git, GitHub, testing, documentation
-- [Appendices](#appendix-a-acronyms-and-glossary) — Glossary, checklists, templates
-
----
-
 
 ## 📋 Complete Table of Contents
 
@@ -214,8 +189,6 @@ Work through sections progressively. Each includes:
 - Practical examples
 - Anti-patterns to avoid
 - Cross-references to related topics
-
-
 
 ## Quick Reference Cards
 <a id="quick-reference-cards"></a>

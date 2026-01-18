@@ -9,14 +9,21 @@
 
 ## Index
 
-- [Core Principle](#core-principle)
-- [Sandbox Restriction](#sandbox-restriction)
-- [Hard Rules (Non-Negotiable)](#hard-rules-non-negotiable)
-- [Daily Workflow](#daily-workflow)
-- [Cursor Modes](#cursor-modes)
-- [Guardrails](#guardrails)
-- [Model Usage](#model-usage)
-- [Git Discipline](#git-discipline)
+- [Cursor AI Coding Policy](#cursor-ai-coding-policy)
+  - [Index](#index)
+  - [Core Principle](#core-principle)
+  - [Sandbox Restriction](#sandbox-restriction)
+  - [Hard Rules (Non-Negotiable)](#hard-rules-non-negotiable)
+  - [Daily Workflow](#daily-workflow)
+    - [Task Card Prompt Template](#task-card-prompt-template)
+    - [Review-Before-Apply Workflow](#review-before-apply-workflow)
+  - [Cursor Modes](#cursor-modes)
+  - [Guardrails](#guardrails)
+    - [Repo-Level Rules File](#repo-level-rules-file)
+  - [Model Usage](#model-usage)
+  - [Git Discipline](#git-discipline)
+  - [MCP (Model Context Protocol)](#mcp-model-context-protocol)
+  - [Summary](#summary)
 
 ---
 
