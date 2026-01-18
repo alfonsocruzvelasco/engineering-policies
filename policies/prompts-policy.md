@@ -11,7 +11,7 @@
 
 ### Immediate use
 1. [Operating Principles](#1-operating-principles)
-2. [English-First Architecture](#english-first-architecture-for-prompts) ⚠️ **Mandatory**
+2. [English-First Architecture](#2-english-first-architecture-for-prompts) ⚠️ **Mandatory**
 3. [Prompt-Quality Gate (Mandatory)](#3-prompt-quality-gate-mandatory)
 4. [Standard Prompt Template](#4-standard-prompt-template-quick)
 5. [The 80/20 Rule: Hallucinations Are Inevitable](#the-8020-rule-hallucinations-are-inevitable)
@@ -56,7 +56,7 @@
 
 ---
 
-## 1.1) English-First Architecture for Prompts
+## 2) English-First Architecture for Prompts
 
 <a id="english-first-architecture-for-prompts"></a>
 
