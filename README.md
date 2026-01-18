@@ -13,7 +13,7 @@ Convenience symlinks:
 - `~/policies` -> `~/dev/repos/github.com/alfonsocruzvelasco/engineering-policies/`
 
 **Status:** Authoritative
-**Last updated:** 2026-01-16
+**Last updated:** 2026-01-18
 
 This repository is the **single source of truth** for how software is designed, built, reviewed, shipped, secured, and maintained across all of my development work.
 
@@ -25,7 +25,7 @@ It defines **non-negotiable rules**, **explicit boundaries**, and **decision dis
 
 This policy set exists to:
 
-- Eliminate ambiguity and “works on my machine” behavior
+- Eliminate ambiguity and "works on my machine" behavior
 - Prevent silent drift in tools, environments, and practices
 - Make decisions explicit, reviewable, and reversible where possible
 - Protect long-term maintainability over short-term convenience
@@ -73,9 +73,9 @@ The `/policies` folder is organized around **compiled policy bundles** (merged d
 
 ### Compiled engineering policy bundles
 
-- **`policies/data-and-non-ai-tooling-setup-policy.md`**
-  *Daily reference for data discipline + non-AI engineering tooling, workflows, repo bootstrap, IDE setup, and quality standards*
-  (data/storage rules, SQL discipline, language toolchains, Docker/Kubernetes/Kafka usage, testing + verification)
+- **`policies/production-policy.md`**
+  *Daily reference for CV/ML engineering, data systems, and production tooling standards*
+  (data/storage rules, SQL discipline, Python/TypeScript/React/Node.js, Docker/Kubernetes/Kafka, testing + verification, Quick Reference Cards)
 
 - **`policies/versioning-and-documenting-policy.md`**
   *Governance bundle*
@@ -92,8 +92,39 @@ The `/policies` folder is organized around **compiled policy bundles** (merged d
   (Cursor is the only coding IDE; Claude/ChatGPT/Gemini are non-coding; sandbox rules and prompt-injection defense)
 
 - **`policies/prompts-policy.md`**
-  *Operational prompt playbook (“what to do” / “how to ask”)*
-  (prompt templates, verification routines, prompt-injection defense, and **token optimization integrated**)
+  *Operational prompt playbook ("what to do" / "how to ask")*
+  (prompt templates, verification routines, prompt-injection defense, token optimization, English-first architecture)
+
+---
+
+## Policy relationships
+
+```
+┌─────────────────────────────────────────────────────────┐
+│              Development Environment Policy              │
+│  (Machine setup, directory layout, workspace isolation) │
+└─────────────────────────────────────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────────┐
+│                  Production Policy                       │
+│  (Data, SQL, Python, TypeScript, Docker, K8s, Kafka)   │
+└─────────────────────────────────────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────────┐
+│         Versioning and Documenting Policy                │
+│  (Git, source control, documentation, versioning)        │
+└─────────────────────────────────────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────────┐
+│                    Security Policy                       │
+│  (Secrets, IAM, OAuth, dependencies, ML/CV security)   │
+└─────────────────────────────────────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────────┐
+│              AI Usage & Prompts Policies                │
+│  (Cursor sandbox, prompt engineering, MCP, tokens)      │
+└─────────────────────────────────────────────────────────┘
+```
 
 ---
 
@@ -106,7 +137,7 @@ Consult these policies when you:
 - Change environment layout or build strategy
 - Add AI into any part of engineering work
 - Handle data, models, or production artifacts
-- Feel unsure about “what is allowed”
+- Feel unsure about "what is allowed"
 
 Update these policies when:
 
@@ -128,6 +159,30 @@ Every meaningful change requires:
 - an entry in the exception/decision log (inside `versioning-and-documenting-policy.md`)
 
 This repository is **infrastructure**, not documentation noise.
+
+---
+
+## Quick reference
+
+### Starting a new project
+1. Review `development-environment-policy.md` for directory structure
+2. Review `production-policy.md` for language/tooling standards
+3. Review `versioning-and-documenting-policy.md` for Git workflow
+4. Review `security-policy.md` for secrets and access control
+5. Review `ai-usage-policy.md` for Cursor sandbox rules
+
+### Using AI assistance
+1. **Cursor only** for coding (see `ai-usage-policy.md`)
+2. **English-first** for all prompts (see `prompts-policy.md`)
+3. **Verification required** for all AI-generated code
+4. **Sandbox restriction** to `/home/alfonso/dev/repos/github.com/alfonsocruzvelasco/sandbox-claude-code/`
+
+### Security checklist
+1. No secrets in Git (see `security-policy.md`)
+2. MFA enabled for all accounts
+3. Dependencies scanned for vulnerabilities
+4. ML/CV models and data access-controlled
+5. AI tools never receive secrets or sensitive data
 
 ---
 

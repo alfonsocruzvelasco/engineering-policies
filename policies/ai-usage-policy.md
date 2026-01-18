@@ -232,4 +232,5 @@ This discipline prevents time waste and maintains code quality.
 
 **Related policies:**
 - `prompts-policy.md` — Detailed prompt engineering and MCP usage
-- `versioning-security-and-documenting-policy.md` — Git and security policies
+- `versioning-and-documenting-policy.md` — Git, source control, and versioning policies
+- `security-policy.md` — Security and compliance baseline
