@@ -13,23 +13,6 @@
 - [Quick Reference Cards](#quick-reference-cards)
   - [QRC-1: New Python Project](#qrc-1-new-python-project-setup)
   - [QRC-2: Dataset Snapshot](#qrc-2-dataset-snapshot-creation)
-  - [QRC-3: SQL Schema for CV/ML](#qrc-3-sql-schema-pattern-for-cvml)
-  - [QRC-4: Docker Multi-Stage Build](#qrc-4-docker-multi-stage-build)
-  - [QRC-5: Git Commits](#qrc-5-git-commit-template)
-  - [QRC-6: Kubernetes Deployment](#qrc-6-kubernetes-deployment)
-  - [QRC-7: Pytest Setup](#qrc-7-pytest-configuration)
-  - [QRC-8: React Component](#qrc-8-react-component-pattern)
-  - [QRC-9: TypeScript Project](#qrc-9-typescript-project-setup)
-  - [QRC-10: Kafka Patterns](#qrc-10-kafka-patterns)
-- [Decision Trees](#decision-trees)
-  - [DT-1: Data Storage Selection](#dt-1-data-storage-decision-tree)
-  - [DT-2: Testing Strategy](#dt-2-testing-strategy-selection)
-  - [DT-3: Docker vs Podman](#dt-3-docker-vs-podman)
-  - [DT-4: SQL Engine Selection](#dt-4-sql-engine-selection)
-- [Common Scenarios](#common-scenarios)
-  - [Scenario 1: New CV/ML Project](#scenario-1-new-cvml-project)
-  - [Scenario 2: Dataset Migration](#scenario-2-dataset-migration)
-  - [Scenario 3: Kafka Pipeline](#scenario-3-kafka-pipeline)
 
 ### 📊 1. Data & Storage
 - [1.1 Core Principles](#11-core-principles)
@@ -629,7 +612,9 @@ Key principle:
 > **Blobs live in object storage.
 > Meaning, relationships, and history live in SQL.**
 
-## 1) Core principles (engine-agnostic)
+### 2.2 Schema Design Principles
+
+#### Core principles (engine-agnostic)
 
 1. SQL is a programming language. It is reviewed, tested, versioned, and reasoned about like any other code.
 2. Correctness before cleverness. Readable, explicit queries beat compact or “smart” SQL.
@@ -637,7 +622,9 @@ Key principle:
 4. Schema is a contract. Tables, constraints, and indexes define guarantees—not suggestions.
 5. The database is not a dumping ground. Data integrity lives in the database, not only in application code.
 
-## 2) Standard SQL discipline (portable subset)
+### 2.3 Normalization
+
+#### Standard SQL discipline (portable subset)
 
 6. Prefer Standard SQL features unless engine-specific behavior is required.
 7. Avoid relying on undefined behavior, including:
@@ -657,7 +644,9 @@ Key principle:
     * `NULL` ≠ `0`, `''`, or `FALSE`
     * comparisons with NULL use `IS NULL` / `IS NOT NULL`.
 
-## 3) Schema design rules (all engines)
+### 2.4 Primary Keys and Identity
+
+#### Schema design rules (all engines)
 
 11. Every table has a primary key. No exceptions, including join tables.
 12. Primary keys are stable:
@@ -682,7 +671,9 @@ Key principle:
     * `CHECK`
 19. Do not encode business rules only in triggers unless formally justified and documented.
 
-## 4) Query writing standards
+### 2.5 Foreign Keys and Constraints
+
+#### Query writing standards
 
 20. Queries are formatted and readable:
 
@@ -702,7 +693,9 @@ Key principle:
 
     * no reliance on engine default timezones.
 
-## 5) Indexing and performance discipline
+### 2.6 Indexes and Performance
+
+#### Indexing and performance discipline
 
 28. Indexes exist for queries, not theory.
 29. Every non-trivial query has an execution plan reviewed:
@@ -720,7 +713,9 @@ Key principle:
     * OFFSET-heavy pagination is avoided at scale.
 34. Performance changes require evidence, not intuition.
 
-## 6) Migrations and schema evolution
+### 2.7 Query Patterns
+
+#### Migrations and schema evolution
 
 35. Schema changes are versioned:
 
@@ -733,7 +728,9 @@ Key principle:
 39. No manual production changes outside migrations.
 40. Rollback strategy is documented (even if rollback is “restore from backup”).
 
-## 7) Transactions and concurrency
+### 2.8 Transactions and Isolation
+
+#### Transactions and concurrency
 
 41. Transactions are explicit for multi-step operations.
 42. Isolation level is understood and chosen deliberately:
@@ -743,7 +740,9 @@ Key principle:
 44. SELECT … FOR UPDATE is used intentionally, never casually.
 45. Deadlocks are anticipated and handled in application logic where needed.
 
-## 8) Engine-specific rules — MySQL
+### 2.9 Migrations and Schema Evolution
+
+#### Engine-specific rules — MySQL
 
 46. InnoDB is mandatory (no MyISAM).
 47. ONLY_FULL_GROUP_BY is enabled and treated as baseline correctness.
@@ -753,7 +752,9 @@ Key principle:
 51. Date/time behavior is tested with timezone differences.
 52. LIMIT without ORDER BY is forbidden (MySQL is especially permissive and dangerous here).
 
-## 9) Engine-specific rules — PostgreSQL
+### 2.10 Security
+
+#### Engine-specific rules — PostgreSQL
 
 53. PostgreSQL is the reference engine for advanced SQL features when available.
 54. Use native types:
@@ -766,7 +767,9 @@ Key principle:
 57. Extensions are documented (`pgcrypto`, `uuid-ossp`, etc.).
 58. Explain plans are reviewed with ANALYZE, not guessed.
 
-## 10) Engine-specific rules — SQLite
+### 2.11 Operations
+
+#### Engine-specific rules — SQLite
 
 59. SQLite is not “toy SQL.” It is used intentionally for:
 
@@ -780,7 +783,9 @@ Key principle:
 63. No assumptions of strict typing unless enforced by CHECK constraints.
 64. Migrations are still required, even for local databases.
 
-## 11) Security rules (SQL)
+### 2.12 Engine-Specific Guidance
+
+#### Security rules (SQL)
 
 65. Parameterized queries only.
 66. No string concatenation for SQL, ever.
@@ -792,7 +797,7 @@ Key principle:
 69. Audit logging for sensitive operations where required.
 70. Encryption at rest and in transit is policy-driven and documented.
 
-## 12) Testing and verification
+#### Testing and verification
 
 71. Queries are testable artifacts:
 
@@ -806,7 +811,7 @@ Key principle:
     * boundary dates.
 74. Performance-sensitive queries have regression tests or benchmarks.
 
-## 13) Tooling and workflow
+#### Tooling and workflow
 
 75. SQL formatting is standardized (formatter enforced).
 76. Linting/static checks used where available.
@@ -814,7 +819,7 @@ Key principle:
 78. Local dev mirrors production engine behavior as closely as possible.
 79. Explain plans are captured for critical queries in docs or PRs.
 
-## 14) Common anti-patterns to ban
+#### Common anti-patterns to ban
 
 80. `SELECT *` in production queries.
 81. Missing primary keys.
@@ -825,7 +830,7 @@ Key principle:
 86. Ad hoc indexes added “just in prod.”
 87. Mixing SQL dialects without documentation.
 
-## 15) Minimal “gold standard” checklist
+#### Minimal "gold standard" checklist
 
 88. Schema has PKs, FKs, constraints.
 89. Queries are explicit, ordered, and readable.
