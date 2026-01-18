@@ -851,7 +851,6 @@ Note: CI authority (merge gating, bypass rules, enforcement) is defined exclusiv
 
 ---
 
-## Document intent
 
 This file is the **single source of truth** merging:
 1) **Project Bootstrap & Engineering Quality Policy**
@@ -862,7 +861,6 @@ Nothing from either source has been removed; content is reorganized so it is eas
 ---
 
 
-# Project Bootstrap & Engineering Quality Policy
 
 **Status:** Authoritative
 **Last updated:** 2026-01-16
