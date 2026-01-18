@@ -1296,7 +1296,3 @@ Breaking changes MUST:
 Hotfix releases:
 - MUST follow the same CI and tagging rules
 - SHOULD be minimal diffs
-
-## 9) Prompt Injection
-
-PI is handled by `policies/prompts-policy.md` (see "Prompt Injection (PI) Defense").

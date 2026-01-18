@@ -1,4 +1,4 @@
-# Cursor AI Coding Policy
+# AI Coding Policy
 
 **Status:** Authoritative
 **Last updated:** 2026-01-18
@@ -9,7 +9,7 @@
 
 ## Index
 
-- [Cursor AI Coding Policy](#cursor-ai-coding-policy)
+- [AI Coding Policy](#ai-coding-policy)
   - [Index](#index)
   - [Core Principle](#core-principle)
   - [Sandbox Restriction](#sandbox-restriction)
@@ -154,6 +154,193 @@ Cursor respects these much better than repeating rules each time.
 - No refactors unless explicitly requested
 - No new dependencies without approval
 ```
+
+### .claudeignore Configuration
+
+**Purpose:** Exclude files and directories from Claude Code's context to reduce token usage and prevent irrelevant files from being included.
+
+**Location:** Create `.claudeignore` in the sandbox repo root:
+```
+/home/alfonso/dev/repos/github.com/alfonsocruzvelasco/sandbox-claude-code/.claudeignore
+```
+
+**Configuration rules:**
+
+1. **Always exclude:**
+   - Build artifacts (`dist/`, `build/`, `__pycache__/`, `*.pyc`, `*.pyo`, `*.pyd`)
+   - Dependencies (`node_modules/`, `.venv/`, `venv/`, `env/`)
+   - IDE files (`.vscode/`, `.idea/`, `*.swp`, `*.swo`, `*~`)
+   - Git metadata (`.git/`, `.gitignore`)
+   - Large data files (`*.csv`, `*.json` > 1MB, `*.parquet`, `*.h5`, `*.pkl` > 10MB)
+   - Logs (`*.log`, `logs/`)
+   - Temporary files (`tmp/`, `temp/`, `*.tmp`)
+
+2. **Exclude for token efficiency:**
+   - Large generated files (auto-generated code, minified assets)
+   - Test fixtures with large datasets
+   - Documentation builds (`docs/_build/`, `site/`)
+
+3. **Never exclude:**
+   - Source code (`.py`, `.ts`, `.js`, `.cpp`, `.h`, etc.)
+   - Configuration files (`pyproject.toml`, `package.json`, `CMakeLists.txt`)
+   - Tests (`test_*.py`, `*.test.ts`, `*.spec.ts`)
+   - Documentation (`README.md`, `docs/`)
+
+**Example `.claudeignore`:**
+
+```gitignore
+# Build artifacts
+dist/
+build/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+*.dylib
+*.dll
+
+# Dependencies
+node_modules/
+.venv/
+venv/
+env/
+.python-version
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Git
+.git/
+.gitignore
+
+# Large data files (exclude if > 1MB)
+*.csv
+*.parquet
+*.h5
+*.pkl
+*.hdf5
+
+# Logs and temporary files
+*.log
+logs/
+tmp/
+temp/
+*.tmp
+
+# Generated files
+*.min.js
+*.min.css
+site/
+docs/_build/
+```
+
+**Best practices:**
+- Review `.claudeignore` periodically to ensure it's not excluding needed files
+- Use patterns, not individual files
+- Document why specific patterns are excluded
+- Keep `.claudeignore` in version control
+
+### Cursor Configuration Best Practices
+
+**Cursor settings file:** `.cursor/settings.json` (in sandbox repo root)
+
+**Required settings for strict policy compliance:**
+
+```json
+{
+  "cursor.ai.model": "claude-3.5-sonnet",
+  "cursor.ai.maxTokens": 8000,
+  "cursor.ai.temperature": 0.1,
+  "cursor.ai.enableCodebaseIndexing": true,
+  "cursor.ai.codebaseIndexingMaxFiles": 1000,
+  "cursor.ai.excludeFromIndexing": [
+    "**/node_modules/**",
+    "**/.venv/**",
+    "**/dist/**",
+    "**/build/**",
+    "**/__pycache__/**",
+    "**/*.pyc",
+    "**/*.log",
+    "**/tmp/**",
+    "**/temp/**"
+  ],
+  "cursor.ai.enableMCP": true,
+  "cursor.ai.mcpServers": {
+    "filesystem": {
+      "enabled": true,
+      "restrictToSandbox": true,
+      "sandboxPath": "/home/alfonso/dev/repos/github.com/alfonsocruzvelasco/sandbox-claude-code/"
+    }
+  },
+  "cursor.ai.autoApply": false,
+  "cursor.ai.requireReview": true,
+  "cursor.ai.maxDiffLines": 200,
+  "cursor.ai.enableContextRules": true,
+  "cursor.ai.contextRulesPath": ".cursorrules"
+}
+```
+
+**Key configuration principles:**
+
+1. **Model selection:**
+   - Use Claude 3.5 Sonnet for code changes (best correctness)
+   - Use faster models only for text/comment updates
+   - Don't switch models mid-task
+
+2. **Token management:**
+   - Set reasonable `maxTokens` (8000 default)
+   - Enable codebase indexing for better context
+   - Exclude large/generated files from indexing
+
+3. **Sandbox enforcement:**
+   - Enable MCP filesystem server
+   - Restrict filesystem access to sandbox path only
+   - Never allow full system access
+
+4. **Workflow control:**
+   - `autoApply: false` — always require manual review
+   - `requireReview: true` — enforce review-before-apply
+   - `maxDiffLines: 200` — enforce small patch policy
+
+5. **Context management:**
+   - Enable context rules (`.cursorrules`)
+   - Use `.claudeignore` to exclude irrelevant files
+   - Limit codebase indexing to relevant files
+
+**Cursor workspace settings (`.vscode/settings.json`):**
+
+```json
+{
+  "cursor.ai.enable": true,
+  "cursor.ai.sandboxPath": "/home/alfonso/dev/repos/github.com/alfonsocruzvelasco/sandbox-claude-code/",
+  "cursor.ai.strictMode": true,
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/*.pyc": true,
+    "**/node_modules": true,
+    "**/.venv": true
+  },
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/.venv/**": true,
+    "**/dist/**": true,
+    "**/build/**": true
+  }
+}
+```
+
+**Enforcement checklist:**
+- [ ] `.claudeignore` exists in sandbox repo root
+- [ ] `.cursor/settings.json` configured with strict settings
+- [ ] `.vscode/settings.json` includes sandbox path restriction
+- [ ] `autoApply: false` and `requireReview: true` set
+- [ ] MCP filesystem server restricted to sandbox path
+- [ ] Codebase indexing excludes build artifacts and dependencies
 
 ---
 

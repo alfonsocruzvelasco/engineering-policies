@@ -54,40 +54,40 @@
   - [SQLite](#engine-specific-rules-sqlite)
 
 ### 🐍 3. Python
-- [Python](#3-python)
+- [Python](#python)
 
 ### 📘 4. TypeScript
-- [TypeScript](#4-typescript)
+- [TypeScript](#nodenpmtypescript)
 
 ### ⚛️ 5. React
-- [React](#5-react)
+- [React](#nodenpmtypescript)
 
 ### 🟢 6. Node.js
-- [Node.js](#6-node-js)
+- [Node.js](#nodenpmtypescript)
 
 ### 🎨 7. CSS/HTML
-- [CSS/HTML](#7-css-html)
+- [CSS/HTML](#nodenpmtypescript)
 
 ### 🔧 8. Git
-- [Git](#8-git)
+- [Git](#5-git-workflow-policy-vs-code-jetbrains)
 
 ### 🐙 9. GitHub
 - [GitHub](#9-github)
 
 ### 🧪 10. Testing
-- [Testing](#10-testing)
+- [Testing](#7-testing-policy)
 
 ### 📝 11. Documentation
-- [Documentation](#11-documentation)
+- [Documentation](#8-documentation-policy)
 
 ### 🐳 12. Docker/Podman
-- [Docker/Podman](#12-docker-podman)
+- [Docker/Podman](#dockerpodmankuberneteskafka)
 
 ### ☸️ 13. Kubernetes
-- [Kubernetes](#13-kubernetes)
+- [Kubernetes](#dockerpodmankuberneteskafka)
 
 ### 📨 14. Kafka
-- [Kafka](#14-kafka)
+- [Kafka](#dockerpodmankuberneteskafka)
 
 ### 🤖 15. ML/CV Operations
 - [15.1 Model Evaluation Frameworks](#151-model-evaluation-frameworks)
@@ -100,11 +100,8 @@
 **Note:** For comprehensive MLOps practices (experiment tracking, model serving, monitoring, hyperparameter tuning, distributed training, model optimization, deployment patterns, lifecycle management), see [MLOps Policy](policies/mlops-policy.md).
 
 ### 📚 Appendices
-- [Appendix A: Acronyms](#appendix-a-acronyms-and-glossary)
-- [Appendix B: Decision Matrix](#appendix-b-technology-decision-matrix)
-- [Appendix C: Checklists](#appendix-c-compliance-checklists)
-- [Appendix D: Exception Log Template](#appendix-d-exception-and-decision-log-template)
-- [Appendix E: Enforcement](#appendix-e-enforcement-and-automation)
+
+**Note:** Appendices are not yet implemented in this document. They will be added in a future update.
 
 ---
 
