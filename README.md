@@ -77,9 +77,13 @@ The `/policies` folder is organized around **compiled policy bundles** (merged d
   *Daily reference for data discipline + non-AI engineering tooling, workflows, repo bootstrap, IDE setup, and quality standards*
   (data/storage rules, SQL discipline, language toolchains, Docker/Kubernetes/Kafka usage, testing + verification)
 
-- **`policies/versioning-security-and-documenting-policy.md`**
+- **`policies/versioning-and-documenting-policy.md`**
   *Governance bundle*
-  (documentation discipline, exception/decision log process, Git/source control rules, security/secrets baseline, versioning/release rules)
+  (documentation discipline, exception/decision log process, Git/source control rules, versioning/release rules)
+
+- **`policies/security-policy.md`**
+  *Security and compliance baseline*
+  (secrets handling, identity/access control, dependency security, cloud security, ML/CV security best practices, incident response)
 
 ### AI usage & prompt engineering policies (authoritative)
 
@@ -121,7 +125,7 @@ Every meaningful change requires:
 - a clear rationale
 - an owner
 - a date
-- an entry in the exception/decision log (inside `versioning-security-and-documenting-policy.md`)
+- an entry in the exception/decision log (inside `versioning-and-documenting-policy.md`)
 
 This repository is **infrastructure**, not documentation noise.
 

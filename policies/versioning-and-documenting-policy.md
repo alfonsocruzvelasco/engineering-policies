@@ -1,14 +1,18 @@
-# Unified Engineering Policy
+# Versioning and Documenting Policy
 
-**Status:** Compiled (no content removed)
+**Status:** Authoritative
+**Last updated:** 2026-01-16
+
+This document consolidates policies for documentation, exception tracking, Git/source control, and versioning/releases. Security policies have been moved to a separate [Security Policy](policies/security-policy.md) document.
 
 ## Index
 
-- [Documentation policy](#documentation-policy)
-- [Exception and decision log](#exception-and-decision-log)
+- [Documentation Policy](#documentation-policy)
+- [Exception and Decision Log](#exception-and-decision-log)
 - [Git, Source Control, and Release Policy](#git-source-control-and-release-policy)
-- [Security, Secrets, Identity, and API Security Policy](#security-secrets-identity-and-api-security-policy)
-- [Versioning and release policy](#versioning-and-release-policy)
+- [Versioning and Release Policy](#versioning-and-release-policy)
+
+**Note:** Security policy has been moved to a separate document. See [Security Policy](policies/security-policy.md) for all security-related policies.
 
 ---
 
@@ -198,7 +202,7 @@ It applies to all repositories unless explicitly exempted in the exception log.
    * `CODEOWNERS`
    * CI configuration
 8. **No generated artifacts committed** (build outputs, caches, vendor folders).
-9. **Secrets never enter Git.** Use secret managers; rotate immediately if leaked.
+9. **Secrets never enter Git.** Use secret managers; rotate immediately if leaked. See [Security Policy](policies/security-policy.md) for detailed secrets handling.
 10. **Large or binary files are avoided.**
     Git LFS MAY be used only with explicit justification and quotas. Object storage is preferred.
 
@@ -514,7 +518,7 @@ pre-commit run --all-files
 ## 14) Security practices
 
 64. **Branch protection rules enabled.**
-65. **Dependency and secret scanning enabled.**
+65. **Dependency and secret scanning enabled.** See [Security Policy](policies/security-policy.md) for detailed security practices.
 66. **Least-privilege access enforced.**
 67. **Security fixes handled discreetly** until coordinated disclosure.
 
@@ -1200,312 +1204,18 @@ pre-commit run --all-files
 
 ---
 
-# Security, Secrets, Identity, and API Security Policy
-
-<a id="security-secrets-identity-and-api-security-policy"></a>
-
-
-**Status:** Authoritative
-**Last updated:** 2026-01-16
-
-This policy defines how **credentials, secrets, dependencies, identity and access controls, APIs, and AI-assisted engineering risks** are handled. It applies to all environments (local, CI, staging, production) and all repositories.
-
----
-
-## Acronyms
-
-* **MFA** — Multi-Factor Authentication
-* **SSO** — Single Sign-On
-* **RBAC** — Role-Based Access Control
-* **IAM** — Identity and Access Management
-* **OIDC** — OpenID Connect (identity layer on top of OAuth 2.0)
-* **OAuth2** — OAuth 2.0
-* **PKCE** — Proof Key for Code Exchange
-* **KMS** — Key Management Service
-* **WAF** — Web Application Firewall
-* **DLP** — Data Loss Prevention
-* **SBOM** — Software Bill of Materials
-* **SAST** — Static Application Security Testing
-* **DAST** — Dynamic Application Security Testing
-
----
-
-## 1) Core principles
-
-1. **Assume compromise is possible.** Minimize blast radius, detect quickly, recover cleanly.
-2. **Least privilege everywhere.** Default deny; grant the minimum permissions required.
-3. **Secrets must never enter Git history.** Not “briefly,” not “just once.”
-4. **Defense in depth.** Multiple controls (identity, network, runtime, logging, scanning).
-5. **Security is a release gate.** CI enforcement applies to all code, including AI-assisted code.
-
----
-
-## 2) Secrets handling (hard rules)
-
-### You MUST NOT
-
-* Commit secrets to Git (even briefly)
-* Paste secrets into issues, PRs, chat logs, or screenshots
-* Store secrets in plaintext files inside repositories
-* Log secrets, tokens, or credentials (directly or via verbose errors)
-
-### You MUST
-
-* Use environment variables or a secret manager
-* Rotate secrets immediately if exposure is suspected
-* Enable secret scanning where possible (pre-commit + CI + platform scanning)
-* Treat any leak as an incident (see Incident Response)
-
----
-
-## 3) Storage of secrets
-
-### Preferred storage (in order)
-
-* OS keychain / credential manager
-* Vault or cloud secret manager (with audit logs)
-* CI secret store (scoped, audited, environment-limited)
-
-### Local development (`.env` discipline)
-
-`.env` files are allowed **only** if:
-
-* excluded via `.gitignore`
-* minimally scoped (project-only, least privilege)
-* paired with `.env.example` that contains **no secrets**
-* never printed or dumped into logs
-
----
-
-## 4) Identity and access control (IAM)
-
-### MFA and SSO baseline
-
-* MFA is mandatory for source control, cloud accounts, and admin consoles.
-* SSO is required wherever supported for workforce access.
-* Break-glass accounts are limited, audited, and tightly controlled.
-
-### RBAC and role separation
-
-* RBAC is mandatory for data access and production actions.
-* Separate roles for **read**, **write**, and **admin** wherever feasible.
-* Service accounts must have isolated scopes and rotated credentials.
-
-### Tokens and session hygiene
-
-* Short-lived credentials are preferred (ephemeral tokens, workload identity).
-* Long-lived credentials require explicit justification and compensating controls.
-
----
-
-## 5) OAuth 2.0 (OAuth2) rules
-
-47. OAuth2 is for **authorization**, not authentication by itself (authentication often comes via OIDC; OIDC is the identity layer on top of OAuth2).
-48. Choose the correct OAuth2 flow:
-
-* Authorization Code + PKCE for browser/mobile clients (PKCE = Proof Key for Code Exchange)
-* Client Credentials for service-to-service
-
-49. Never put tokens in URLs. Use Authorization headers.
-50. Access tokens are short-lived; refresh tokens are protected and rotated where possible.
-51. Validate tokens server-side:
-
-* signature verification
-* issuer/audience checks
-* expiry checks
-
-52. Scopes/roles/claims are defined centrally and reviewed.
-53. Authorization checks are enforced on every protected operation; no “front-end will block it” assumptions.
-54. Store secrets securely (KMS/Vault/secret manager). No secrets in repo, logs, or error messages.
-
----
-
-## 6) Authentication vs authorization boundary
-
-55. Authentication answers “who are you?”; authorization answers “are you allowed?”
-56. Every endpoint/RPC must declare its auth requirements:
-
-* public
-* authenticated
-* specific scopes/roles
-
-57. Deny by default. Explicit allow rules only.
-
----
-
-## 7) Dependency and supply-chain security
-
-* Dependencies are pinned (lockfiles required where applicable).
-* New dependencies require review (license, maintenance, security posture).
-* Vulnerability scanning is enabled in CI where available.
-* Maintain an SBOM (SBOM = Software Bill of Materials) for production deliverables where feasible.
-* SAST (SAST = Static Application Security Testing) is required in CI for production repos; DAST (DAST = Dynamic Application Security Testing) is used when applicable.
-
-Python-specific:
-
-* Prefer wheels from trusted sources.
-* Avoid unsafe deserialization formats in untrusted contexts (e.g., `pickle`).
-* Treat model-loading and artifact-loading code paths as untrusted input surfaces unless proven otherwise.
-
----
-
-## 8) Cloud security baseline (common cloud technologies)
-
-This section applies to AWS/GCP/Azure and on-prem equivalents.
-
-### KMS and encryption
-
-* Encrypt data at rest using managed keys where possible.
-* Encrypt in transit (TLS) everywhere; no plaintext traffic for sensitive systems.
-* KMS usage is centralized; key access is RBAC-controlled and audited.
-
-### Network and perimeter controls
-
-* Segment networks; isolate production resources.
-* Expose only necessary ports/services publicly.
-* Use WAF (WAF = Web Application Firewall) for internet-facing APIs when applicable.
-
-### Logging, audit, and retention
-
-* Centralized logging with access controls.
-* Audit logs enabled for IAM, secret access, and data access.
-* Retention policies are defined and enforced; logs must not contain secrets or personal data.
-
-### Data governance and DLP
-
-* DLP (DLP = Data Loss Prevention) controls are used where sensitive data exists.
-* Data exports outside controlled storage require explicit approval and tracking.
-
----
-
-## 9) Data security (CV/ML context)
-
-* Sensitive datasets MUST be access-controlled and audited.
-* Logs MUST not leak personal data, secrets, tokens, signed URLs, or raw customer data.
-* Any export of data outside controlled storage requires explicit approval and tracking.
-* Training/evaluation artifacts that embed or can reconstruct sensitive data must be treated as sensitive.
-
----
-
-## 10) AI coding hazards (security and privacy)
-
-AI tools accelerate work but introduce predictable risks. This section is mandatory whenever AI influences production code, configs, or documentation.
-
-### Hard rules (security + privacy)
-
-* Never paste secrets, tokens, private keys, proprietary code, or customer data into external AI tools.
-* Treat AI output as untrusted until verified by tests, reviews, and official documentation.
-* AI-generated changes must pass the same CI gates as human-written code.
-
-### Common AI failure modes to defend against
-
-* **Hallucinated APIs or flags** that compile but behave incorrectly.
-* **Silent security regressions** (weakened auth checks, missing validation, permissive CORS).
-* **Dependency injection** via suggested libraries (unreviewed packages, license risks).
-* **Data leakage** through logs, debug prints, or “helpful” telemetry.
-* **Over-broad permissions** (IAM policies, cloud roles, service accounts) suggested for convenience.
-
-### Compliance-grade usage expectations (large-company baseline)
-
-* Prompts and context are minimized, sanitized, and scoped.
-* Access to AI tools is role-based; production secrets are never exposed.
-* AI-assisted PRs include verification steps and risk notes.
-* Security review is required for auth/authz, crypto, parsing, deserialization, and I/O.
-
----
-
-## 11) Code injection defenses (best practices)
-
-This section covers injection risks across SQL, shell, template engines, and interpreters.
-
-### Universal rules
-
-* Treat all external input as hostile (including headers, filenames, JSON fields, model metadata).
-* Validate inputs with allowlists when feasible; reject unknown fields.
-* Encode/escape at the boundary appropriate to the sink (SQL, HTML, shell, regex, etc.).
-* Prefer structured APIs over string concatenation.
-
-### SQL injection
-
-* Parameterized queries only.
-* No string concatenation for SQL, ever.
-* Least-privilege DB users (read-only where possible; no superuser for apps).
-
-### Command injection (shell/process execution)
-
-* Avoid `shell=True` (or equivalents) unless absolutely required and tightly controlled.
-* Use argument arrays, not interpolated command strings.
-* Restrict executable paths and environment; never pass untrusted strings to a shell.
-
-### Template injection (HTML/templating engines)
-
-* Use auto-escaping templates.
-* Never evaluate untrusted templates or expressions.
-* Strictly separate template logic from untrusted data.
-
-### Deserialization attacks
-
-* Avoid unsafe deserialization formats on untrusted input.
-* Validate schema and content; enforce size/time limits.
-* Treat model files and “artifact bundles” as potential attack vectors unless provenance is verified.
-
----
-
-## 12) API security best practices
-
-### Authentication and authorization
-
-* Every endpoint must declare auth requirements (public/authenticated/scoped).
-* Deny by default; explicit allow rules only.
-* Authorization checks are enforced server-side on every protected operation.
-
-### Token handling
-
-* Tokens never in URLs; use Authorization headers.
-* Access tokens are short-lived; refresh tokens are protected and rotated where possible.
-* Validate tokens server-side (signature, issuer/audience, expiry).
-
-### Input validation and schema
-
-* Validate request bodies and query params against a schema.
-* Reject unknown fields when strictness is required.
-* Enforce size limits, rate limits, and timeouts.
-
-### Transport and exposure
-
-* TLS required; no plaintext for protected APIs.
-* CORS is explicitly configured; never “allow all” by default.
-* Error messages must not leak sensitive implementation details.
-
-### Operational controls
-
-* Rate limiting and abuse detection are enabled for public endpoints.
-* Audit logging for sensitive operations is required.
-* Version APIs intentionally; deprecations are documented and enforced.
-
----
-
-## 13) Incident response
-
-If you suspect exposure or compromise:
-
-1. Revoke/rotate affected credentials immediately.
-2. Identify scope and impact.
-3. Purge leaked artifacts where possible (including chat transcripts, logs, CI outputs).
-4. Record the incident in `exception-and-decision-log.md` with mitigation and follow-up actions.
-
----
-
-## 14) Exceptions
-
-Exceptions are extremely rare and must be documented with:
-
-* risk level
-* mitigation
-* sunset date
-
-All exceptions must be recorded in `exception-and-decision-log.md`.
-
+**Note:** Security policies have been moved to a separate document. See [Security Policy](policies/security-policy.md) for:
+- Secrets handling and storage
+- Identity and access control (IAM)
+- OAuth 2.0 and authentication
+- Dependency and supply-chain security
+- Cloud security baseline
+- Data security (CV/ML context)
+- AI coding hazards
+- Code injection defenses
+- API security best practices
+- ML/CV engineering security best practices
+- Incident response
 
 ---
 
