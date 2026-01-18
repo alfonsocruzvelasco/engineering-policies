@@ -17,31 +17,31 @@
 5. [The 80/20 Rule: Hallucinations Are Inevitable](#the-8020-rule-hallucinations-are-inevitable)
 6. [Verification Checklist](#verification-checklist)
 7. [Prompt Injection (PI) Defense](#prompt-injection-pi-defense)
-8. [CV/ML Execution Mode](#02-cvml-execution-mode)
+8. [CV/ML Execution Mode](#8-cvml-execution-mode)
 
 ### Production patterns & frameworks
-8. [5 Production Patterns (Robotics/ML)](#5-production-patterns-roboticsml)
-9. [How to Structure Requests](#how-to-structure-requests)
-10. [COSTAR Framework](#costar-framework-for-clarity)
-11. [CRISPE Framework](#crispe-framework-alternative)
-12. [Common Mistakes (And Fixes)](#common-mistakes-and-how-to-fix-them)
+9. [5 Production Patterns (Robotics/ML)](#5-production-patterns-roboticsml)
+10. [How to Structure Requests](#how-to-structure-requests)
+11. [COSTAR Framework](#costar-framework-for-clarity)
+12. [CRISPE Framework](#crispe-framework-alternative)
+13. [Common Mistakes (And Fixes)](#common-mistakes-and-how-to-fix-them)
 
 ### Token optimization (integrated)
-13. [Token Optimization (Cursor-first)](#token-optimization-cursor-first)
-14. [Critical Token-Saving Strategies](#critical-token-saving-strategies)
-15. [Context Engineering for Cursor](#context-engineering-for-cursor)
-16. [Prompt Caching Optimization](#prompt-caching-optimization)
-17. [Multi-Agent Orchestration & Rate Limit Management](#multi-agent-orchestration--rate-limit-management)
-18. [Emergency Rate Limit Protocols](#emergency-rate-limit-protocols)
-19. [Measurement & Monitoring](#measurement--monitoring)
+14. [Token Optimization (Cursor-first)](#token-optimization-cursor-first)
+15. [Critical Token-Saving Strategies](#critical-token-saving-strategies)
+16. [Context Engineering for Cursor](#context-engineering-for-cursor)
+17. [Prompt Caching Optimization](#prompt-caching-optimization)
+18. [Multi-Agent Orchestration & Rate Limit Management](#multi-agent-orchestration--rate-limit-management)
+19. [Emergency Rate Limit Protocols](#emergency-rate-limit-protocols)
+20. [Measurement & Monitoring](#measurement--monitoring)
 
 ### Reference material
-20. [Theoretical Foundation](#theoretical-foundation)
-21. [Framework Glossary](#framework-glossary)
-22. [Tools & Platforms](#tools-and-platforms)
-23. [Resources](#resources)
-24. [Implementation Checklist](#implementation-checklist)
-25. [The Meta-Insight](#the-meta-insight)
+21. [Theoretical Foundation](#theoretical-foundation)
+22. [Framework Glossary](#framework-glossary)
+23. [Tools & Platforms](#tools-and-platforms)
+24. [Resources](#resources)
+25. [Implementation Checklist](#implementation-checklist)
+26. [The Meta-Insight](#the-meta-insight)
 
 ---
 
@@ -431,25 +431,25 @@ Three levers to reduce hallucinations:
 
 ---
 
-## 0.2) CV/ML Execution Mode
+## 8) CV/ML Execution Mode
 
 Default workflow for **CV (Computer Vision)** and **ML (Machine Learning)** tasks to prevent vague iteration and token burn.
 
-### 0.2.1 Default deliverables (what “good” looks like)
+### 8.1 Default deliverables (what "good" looks like)
 For CV/ML work, the assistant should produce:
 - a short plan (max 10 bullets)
 - concrete commands / code diffs
 - an evaluation step (metric + baseline + expected direction)
-- a “stop point” after each irreversible change
+- a "stop point" after each irreversible change
 
-### 0.2.2 Anti-token-burn rules (non-senior friendly)
+### 8.2 Anti-token-burn rules (non-senior friendly)
 - prefer small diffs and repeatable checklists over large rewrites
-- prefer “next 3 commands” over theory
+- prefer "next 3 commands" over theory
 - always include a rollback note when risk is medium/high
 - for performance: measure first, then optimize, then re-measure
 
-### 0.2.3 Model training checklist (minimum viable)
-When asked to “improve” a model or pipeline, always request/confirm:
+### 8.3 Model training checklist (minimum viable)
+When asked to "improve" a model or pipeline, always request/confirm:
 - dataset path and split definition
 - baseline metric(s) and current value
 - evaluation protocol (how measured)
