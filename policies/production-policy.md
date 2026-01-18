@@ -4616,4 +4616,4 @@ shap.plots.waterfall(shap_values[0])
 
 ---
 
-**See also:** [MLOps Policy](policies/mlops-policy.md) for comprehensive MLOps practices including experiment tracking, model serving, monitoring, hyperparameter tuning, distributed training, model optimization, deployment patterns, and lifecycle management.
+**See also:** [MLOps Policy](policies/mlops-policy.md) for comprehensive MLOps practices including experiment tracking, model serving, monitoring, hyperparameter tuning, distributed training, model optimization, deployment patterns, lifecycle management, research methodology, and architecture design.
