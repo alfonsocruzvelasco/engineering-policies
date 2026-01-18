@@ -252,20 +252,20 @@ If you can't check 5+ boxes, require tighter work.
 
 Default workflow for **CV (Computer Vision)** and **ML (Machine Learning)** tasks to prevent vague iteration and token burn.
 
-### 8.1 Default deliverables (what "good" looks like)
+### 9.1 Default deliverables (what "good" looks like)
 For CV/ML work, the assistant should produce:
 - a short plan (max 10 bullets)
 - concrete commands / code diffs
 - an evaluation step (metric + baseline + expected direction)
 - a "stop point" after each irreversible change
 
-### 8.2 Anti-token-burn rules (non-senior friendly)
+### 9.2 Anti-token-burn rules (non-senior friendly)
 - prefer small diffs and repeatable checklists over large rewrites
 - prefer "next 3 commands" over theory
 - always include a rollback note when risk is medium/high
 - for performance: measure first, then optimize, then re-measure
 
-### 8.3 Model training checklist (minimum viable)
+### 9.3 Model training checklist (minimum viable)
 When asked to "improve" a model or pipeline, always request/confirm:
 - dataset path and split definition
 - baseline metric(s) and current value
