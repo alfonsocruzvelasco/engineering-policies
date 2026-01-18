@@ -11,12 +11,13 @@
 
 ### Immediate use
 1. [Operating Principles](#1-operating-principles)
-2. [Prompt-Quality Gate (Mandatory)](#3-prompt-quality-gate-mandatory)
-3. [Standard Prompt Template](#4-standard-prompt-template-quick)
-4. [The 80/20 Rule: Hallucinations Are Inevitable](#the-8020-rule-hallucinations-are-inevitable)
-5. [Verification Checklist](#verification-checklist)
-6. [Prompt Injection (PI) Defense](#prompt-injection-pi-defense)
-7. [CV/ML Execution Mode](#02-cvml-execution-mode)
+2. [English-First Architecture](#11-english-first-architecture-for-prompts) ⚠️ **Mandatory**
+3. [Prompt-Quality Gate (Mandatory)](#3-prompt-quality-gate-mandatory)
+4. [Standard Prompt Template](#4-standard-prompt-template-quick)
+5. [The 80/20 Rule: Hallucinations Are Inevitable](#the-8020-rule-hallucinations-are-inevitable)
+6. [Verification Checklist](#verification-checklist)
+7. [Prompt Injection (PI) Defense](#prompt-injection-pi-defense)
+8. [CV/ML Execution Mode](#02-cvml-execution-mode)
 
 ### Production patterns & frameworks
 8. [5 Production Patterns (Robotics/ML)](#5-production-patterns-roboticsml)
@@ -48,9 +49,115 @@
 
 - **Reality-first:** Never invent facts, sources, file paths, or results.
 - **Grounding by default:** Use retrieval (web/RAG/MCP) and cite sources. **MCP (Model Context Protocol)** in Cursor provides structured access to files, databases, Git, and APIs — prefer MCP over pasting data (see `ai-usage-policy.md` [MCP section](policies/ai-usage-policy.md#mcp-model-context-protocol) for basic info, and detailed MCP documentation in this document).
-- **Prefer refusal over fabrication:** If uncertain, say “I don’t know.”
-- **Explicit Instruction Levels:** Respect the requested level (Minimal/Thorough/Comprehensive). Do not over-explain if “Minimal” is requested.
+- **English-first architecture:** All system prompts, tool definitions, reasoning layers, and structured outputs MUST use English. This is non-negotiable for reliability, accuracy, and token efficiency (see [English-First Architecture](#english-first-architecture-for-prompts) section).
+- **Prefer refusal over fabrication:** If uncertain, say "I don't know."
+- **Explicit Instruction Levels:** Respect the requested level (Minimal/Thorough/Comprehensive). Do not over-explain if "Minimal" is requested.
 - **Reproducibility:** Commands, paths, and versions must be concrete.
+
+---
+
+## 1.1) English-First Architecture for Prompts
+
+**Mandatory rule:** All prompts, system instructions, tool definitions, JSON schemas, and reasoning layers MUST be written in English. This is not a preference—it is a requirement for production-grade reliability.
+
+### Why English-Only? (Evidence-Based Rationale)
+
+#### 1. Training Data Bias (Primary Factor)
+- **Fact:** LLMs are trained on predominantly English text (60–90% of training data).
+- **Impact:** English prompts align with the model's training distribution, reducing ambiguity and improving accuracy.
+- **Evidence:** Models show significantly higher performance on English tasks vs. other languages, even when multilingual capabilities exist.
+
+#### 2. Function Calling and Tool Use Accuracy
+- **Problem:** Non-English prompts for function calling, tool definitions, and JSON schemas introduce parsing errors and misinterpretation.
+- **Solution:** English-only system prompts and tool definitions ensure:
+  - Correct parameter extraction
+  - Accurate JSON schema validation
+  - Reliable function name matching
+  - Proper error message interpretation
+
+#### 3. JSON Schema Compliance
+- **Critical:** JSON schemas, type definitions, and structured outputs must be in English.
+- **Why:** Schema validation, type checking, and API contracts are English-based by convention.
+- **Risk:** Non-English schemas cause validation failures, type mismatches, and integration errors.
+
+#### 4. Token Efficiency
+- **Observation:** English prompts are more token-efficient than translations.
+- **Reason:** Models compress English better (higher training density), and English technical terms are more precise than translations.
+- **Impact:** 10–20% token savings on average vs. translated prompts.
+
+#### 5. Reproducibility and Debugging
+- **Benefit:** English prompts are easier to:
+  - Debug (clearer error messages)
+  - Share (universal understanding)
+  - Version control (consistent formatting)
+  - Review (standardized patterns)
+
+### Verified Claims: English-First Architecture
+
+**System prompts:** MUST be English-only.
+- ✅ Correct: "You are a Python code reviewer. Review the code for security vulnerabilities."
+- ❌ Incorrect: "Eres un revisor de código Python. Revisa el código en busca de vulnerabilidades de seguridad."
+
+**Tool definitions (MCP, function calling):** MUST be English-only.
+- ✅ Correct: `{"name": "search_files", "description": "Search for files matching pattern"}`
+- ❌ Incorrect: `{"name": "buscar_archivos", "description": "Buscar archivos que coincidan con el patrón"}`
+
+**JSON schemas and structured outputs:** MUST be English-only.
+- ✅ Correct: `{"type": "object", "properties": {"status": {"type": "string", "enum": ["success", "error"]}}}`
+- ❌ Incorrect: `{"type": "object", "properties": {"estado": {"type": "string", "enum": ["éxito", "error"]}}}`
+
+**Reasoning layers and chain-of-thought:** MUST be English-only.
+- ✅ Correct: "Let me break this down: First, I need to check if the file exists..."
+- ❌ Incorrect: "Déjame desglosar esto: Primero, necesito verificar si el archivo existe..."
+
+### Implementation Strategy: Hybrid Pipeline
+
+For multilingual applications, use a **translation layer** approach:
+
+1. **System/Reasoning Layer (English):**
+   - All prompts, tool definitions, schemas in English
+   - Reasoning and logic in English
+   - Error handling in English
+
+2. **User Interface Layer (Localized):**
+   - User-facing prompts can be in any language
+   - Translation happens at the UI boundary
+   - System responses translated back to user's language
+
+3. **Data Layer (Language-Agnostic):**
+   - Actual data/content can be in any language
+   - Only the **prompt structure** must be English
+
+**Example workflow:**
+```
+User (Spanish): "Analiza este código Python"
+  ↓
+System Prompt (English): "You are a Python code analyzer. Analyze the provided code for security issues."
+  ↓
+Model Reasoning (English): "I'll check for SQL injection, XSS vulnerabilities..."
+  ↓
+Response Translation: "He encontrado 2 vulnerabilidades: inyección SQL en línea 45..."
+```
+
+### Exceptions (Rare)
+
+English-first applies to **system prompts, tool definitions, and structured outputs**. Exceptions:
+
+- **User-facing content:** Can be in any language (translated at UI boundary)
+- **Data/content being analyzed:** Can be in any language (the prompt structure is still English)
+- **Comments in code:** Can be in any language (but prompts about code should be English)
+
+### Enforcement Checklist
+
+Before deploying any prompt system:
+- [ ] All system prompts are in English
+- [ ] All tool/function definitions are in English
+- [ ] All JSON schemas use English keys and descriptions
+- [ ] All reasoning/chain-of-thought is in English
+- [ ] Translation layer is clearly separated from prompt layer
+- [ ] Error messages and validation are in English
+
+**Non-compliance risk:** Reduced accuracy, higher token costs, integration failures, debugging difficulties.
 
 ---
 
@@ -84,19 +191,19 @@ Before answering, classify the prompt as:
 
 ## 4) Standard Prompt Template (Quick)
 
-Use this as the default skeleton (Updated 2026):
+Use this as the default skeleton (Updated 2026). **All fields MUST be in English** (see [English-First Architecture](#11-english-first-architecture-for-prompts)).
 
 ```
 
-ROLE: [who you want the assistant to act as]
-GOAL: [what you want]
+ROLE: [who you want the assistant to act as - English only]
+GOAL: [what you want - English only]
 INSTRUCTION LEVEL: [Minimal | Thorough | Comprehensive]
-CONTEXT: [project background + what’s already done]
+CONTEXT: [project background + what's already done - English only]
 ENV: [OS, tools, versions]
-CONSTRAINTS: [hard rules, what not to change]
+CONSTRAINTS: [hard rules, what not to change - English only]
 INPUTS: [files/snippets/logs]
-OUTPUT: [exact format]
-ACCEPTANCE: [how to verify success]
+OUTPUT: [exact format - English only]
+ACCEPTANCE: [how to verify success - English only]
 
 ```
 
@@ -316,9 +423,9 @@ Three levers to reduce hallucinations:
 - **Structured Output**: XML/JSON shrinks output space and clarifies thinking.
 
 ### Model-Specific Notes
-- Claude: responds well to explicit structure, context-aware, good at admitting uncertainty.
-- GPT-family: strong on tool use and agentic workflows.
-- Both: require explicit constraints and examples; neither performs well with vague prompts.
+- Claude: responds well to explicit structure, context-aware, good at admitting uncertainty. **English-first architecture is critical for Claude's reasoning quality.**
+- GPT-family: strong on tool use and agentic workflows. **English-only tool definitions and schemas are mandatory for reliable function calling.**
+- Both: require explicit constraints and examples; neither performs well with vague prompts. **Both models show significantly higher accuracy with English prompts due to training data distribution.**
 
 ---
 
