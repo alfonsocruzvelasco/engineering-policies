@@ -11,7 +11,7 @@
 
 ### Immediate use
 1. [Operating Principles](#1-operating-principles)
-2. [English-First Architecture](#11-english-first-architecture-for-prompts) ⚠️ **Mandatory**
+2. [English-First Architecture](#english-first-architecture-for-prompts) ⚠️ **Mandatory**
 3. [Prompt-Quality Gate (Mandatory)](#3-prompt-quality-gate-mandatory)
 4. [Standard Prompt Template](#4-standard-prompt-template-quick)
 5. [The 80/20 Rule: Hallucinations Are Inevitable](#the-8020-rule-hallucinations-are-inevitable)
@@ -57,6 +57,8 @@
 ---
 
 ## 1.1) English-First Architecture for Prompts
+
+<a id="english-first-architecture-for-prompts"></a>
 
 **Mandatory rule:** All prompts, system instructions, tool definitions, JSON schemas, and reasoning layers MUST be written in English. This is not a preference—it is a requirement for production-grade reliability.
 
@@ -191,7 +193,7 @@ Before answering, classify the prompt as:
 
 ## 4) Standard Prompt Template (Quick)
 
-Use this as the default skeleton (Updated 2026). **All fields MUST be in English** (see [English-First Architecture](#11-english-first-architecture-for-prompts)).
+Use this as the default skeleton (Updated 2026). **All fields MUST be in English** (see [English-First Architecture](#english-first-architecture-for-prompts)).
 
 ```
 
