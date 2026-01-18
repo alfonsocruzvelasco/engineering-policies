@@ -13,11 +13,11 @@
 - [Quick Reference Cards](#quick-reference-cards)
   - [QRC-1: New Python Project](#qrc-1-new-python-project-setup)
   - [QRC-2: Dataset Snapshot](#qrc-2-dataset-snapshot-creation)
-  - [QRC-3: SQL Schema for CV/ML](#qrc-3-sql-schema-pattern-for-cvml)
+  - [QRC-3: SQL Schema for CV/ML](#qrc-3-sql-schema-for-cv-ml)
   - [QRC-4: Docker Multi-Stage Build](#qrc-4-docker-multi-stage-build)
   - [QRC-5: Git Commit Template](#qrc-5-git-commit-template)
   - [QRC-6: Kubernetes Deployment](#qrc-6-kubernetes-deployment)
-  - [QRC-7: Pytest Setup](#qrc-7-pytest-configuration)
+  - [QRC-7: Pytest Setup](#qrc-7-pytest-setup)
   - [QRC-8: React Component](#qrc-8-react-component-pattern)
   - [QRC-9: TypeScript Project](#qrc-9-typescript-project-setup)
   - [QRC-10: Kafka Patterns](#qrc-10-kafka-patterns)
@@ -37,7 +37,7 @@
 - [1.12 Exceptions](#1-12-exceptions-process)
 
 ### 🗄️ 2. SQL Databases
-- [2.1 SQL in CV/ML](#2-1-sql-in-cvml-architectures)
+- [2.1 SQL in CV/ML](#2-1-sql-in-cv-ml-architectures)
 - [2.2 Schema Design](#2-2-schema-design-principles)
 - [2.3 Normalization](#2-3-normalization)
 - [2.4 Primary Keys](#2-4-primary-keys-and-identity)
@@ -46,113 +46,48 @@
 - [2.7 Query Patterns](#2-7-query-patterns)
 - [2.8 Transactions](#2-8-transactions-and-isolation)
 - [2.9 Migrations](#2-9-migrations-and-schema-evolution)
-- [2.10 Security](#2-10-sql-security)
-- [2.11 Operations](#2-11-operational-rules)
+- [2.10 Security](#2-10-security)
+- [2.11 Operations](#2-11-operations)
 - [2.12 Engine-Specific](#2-12-engine-specific-guidance)
-  - [MySQL](#2121-mysql)
-  - [PostgreSQL](#2122-postgresql)
-  - [SQLite](#2123-sqlite)
+  - [MySQL](#engine-specific-rules-mysql)
+  - [PostgreSQL](#engine-specific-rules-postgresql)
+  - [SQLite](#engine-specific-rules-sqlite)
 
 ### 🐍 3. Python
-- [3.1 Project Structure](#3-1-project-structure)
-- [3.2 Environment Management](#3-2-environment-management)
-- [3.3 Dependencies](#3-3-dependency-management)
-- [3.4 Code Style](#3-4-code-style-and-formatting)
-- [3.5 Type Hints](#3-5-type-hints-and-validation)
-- [3.6 Error Handling](#3-6-error-handling)
-- [3.7 Logging](#3-7-logging-and-debugging)
-- [3.8 Testing](#3-8-testing-standards)
-- [3.9 Performance](#3-9-performance-and-optimization)
-- [3.10 ML/CV Specific](#3-10-mlcv-specific-rules)
-- [3.11 Anti-Patterns](#3-11-anti-patterns-to-avoid)
+- [Python](#3-python)
 
 ### 📘 4. TypeScript
-- [4.1 Project Setup](#4-1-project-setup)
-- [4.2 Type System](#4-2-type-system-discipline)
-- [4.3 Organization](#4-3-code-organization)
-- [4.4 Error Handling](#4-4-error-handling)
-- [4.5 Async](#4-5-async-patterns)
-- [4.6 Testing](#4-6-testing)
-- [4.7 Tooling](#4-7-build-and-tooling)
+- [TypeScript](#4-typescript)
 
 ### ⚛️ 5. React
-- [5.1 Components](#5-1-component-architecture)
-- [5.2 State](#5-2-state-management)
-- [5.3 Hooks](#5-3-hooks-rules)
-- [5.4 Performance](#5-4-performance)
-- [5.5 Testing](#5-5-testing)
-- [5.6 Accessibility](#5-6-accessibility)
+- [React](#5-react)
 
 ### 🟢 6. Node.js
-- [6.1 Structure](#6-1-project-structure)
-- [6.2 Dependencies](#6-2-dependencies)
-- [6.3 Errors](#6-3-error-handling)
-- [6.4 Async](#6-4-async-patterns)
-- [6.5 Security](#6-5-security)
-- [6.6 Performance](#6-6-performance)
+- [Node.js](#6-node-js)
 
 ### 🎨 7. CSS/HTML
-- [7.1 HTML Semantics](#7-1-html-semantic-structure)
-- [7.2 CSS Architecture](#7-2-css-architecture)
-- [7.3 Layout](#7-3-layout-systems)
-- [7.4 Design Tokens](#7-4-design-tokens)
-- [7.5 Typography](#7-5-typography)
-- [7.6 Accessibility](#7-6-accessibility)
-- [7.7 Naming](#7-7-naming-conventions)
-- [7.8 Responsive](#7-8-responsiveness-and-media)
-- [7.9 Performance](#7-9-performance)
-- [7.10 Forms/UI](#7-10-forms-and-ui-states)
+- [CSS/HTML](#7-css-html)
 
 ### 🔧 8. Git
-- [8.1 Branching](#8-1-branching-strategy)
-- [8.2 Commits](#8-2-commit-standards)
-- [8.3 Merge/Rebase](#8-3-merge-and-rebase)
-- [8.4 Repo Structure](#8-4-repository-structure)
-- [8.5 Hygiene](#8-5-git-hygiene)
+- [Git](#8-git)
 
 ### 🐙 9. GitHub
-- [9.1 Pull Requests](#9-1-pull-request-workflow)
-- [9.2 Code Review](#9-2-code-review-standards)
-- [9.3 Issues](#9-3-issue-management)
-- [9.4 Branch Protection](#9-4-branch-protection)
-- [9.5 CI/CD](#9-5-cicd-integration)
+- [GitHub](#9-github)
 
 ### 🧪 10. Testing
-- [10.1 Testing Pyramid](#10-1-testing-pyramid)
-- [10.2 Unit Tests](#10-2-unit-testing)
-- [10.3 Integration](#10-3-integration-testing)
-- [10.4 E2E](#10-4-end-to-end-testing)
-- [10.5 Test Data](#10-5-test-data-management)
-- [10.6 Coverage](#10-6-coverage-and-quality-gates)
+- [Testing](#10-testing)
 
 ### 📝 11. Documentation
-- [11.1 README](#11-1-readme-requirements)
-- [11.2 API Docs](#11-2-api-documentation)
-- [11.3 Comments](#11-3-code-comments)
-- [11.4 Architecture](#11-4-architecture-docs)
-- [11.5 Runbooks](#11-5-runbooks-and-playbooks)
+- [Documentation](#11-documentation)
 
 ### 🐳 12. Docker/Podman
-- [12.1 Principles](#12-1-container-principles)
-- [12.2 Dockerfiles](#12-2-dockerfile-standards)
-- [12.3 Images](#12-3-image-management)
-- [12.4 Security](#12-4-security)
-- [12.5 Podman-Specific](#12-5-podman-specific-rules)
+- [Docker/Podman](#12-docker-podman)
 
 ### ☸️ 13. Kubernetes
-- [13.1 Manifests](#13-1-manifest-management)
-- [13.2 Workloads](#13-2-workload-types)
-- [13.3 Configuration](#13-3-configuration)
-- [13.4 Networking](#13-4-networking-and-security)
-- [13.5 Observability](#13-5-observability)
-- [13.6 Resources](#13-6-resource-management)
+- [Kubernetes](#13-kubernetes)
 
 ### 📨 14. Kafka
-- [14.1 Topics](#14-1-topic-management)
-- [14.2 Producers](#14-2-producer-patterns)
-- [14.3 Consumers](#14-3-consumer-patterns)
-- [14.4 Schemas](#14-4-schema-management)
-- [14.5 Operations](#14-5-operations-and-monitoring)
+- [Kafka](#14-kafka)
 
 ### 📚 Appendices
 - [Appendix A: Acronyms](#appendix-a-acronyms-and-glossary)
