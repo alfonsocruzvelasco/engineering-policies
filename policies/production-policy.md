@@ -1,4 +1,4 @@
-# Engineering Policies for production
+# Production Engineering Policy
 
 **Status:** Authoritative
 **Last updated:** 2026-01-18
@@ -390,36 +390,9 @@ print(f"Snapshot created: {manifest_hash}")
 
 ---
 
-# Unified Engineering Policies — Data/Artifacts/SQL + Projects/Tooling Setup
+## 📊 1. Data & Storage
 
-**Status:** Authoritative
-**Last updated:** 2026-01-16
-
----
-
-## Table of contents (clickable)
-
-- [Document 1 — Data, Artifacts, and SQL Policy](#document-1--data-artifacts-and-sql-policy)
-
-- [Document 2 — Projects and Tooling Setup Policy](#document-2--projects-and-tooling-setup-policy)
-
-
----
-
-## Document 1 — Data, Artifacts, and SQL Policy
-<a id="document-1--data-artifacts-and-sql-policy"></a>
-
-
-# Data, Artifacts, and SQL Policy (CV/ML)
-
-**Status:** Authoritative
-**Last updated:** 2026-01-16
-
-This policy defines how **data and heavy artifacts** are stored, referenced, versioned, and made reproducible for CV/ML work, and how **SQL systems** are used as the authoritative metadata layer in that stack.
-
----
-
-## Acronyms
+### Acronyms
 
 * **CV** — Computer Vision
 * **ML** — Machine Learning
@@ -865,11 +838,8 @@ Key principle:
 
 ---
 
-## Document 2 — Projects and Tooling Setup Policy
-<a id="document-2--projects-and-tooling-setup-policy"></a>
 
 
-# Engineering Tooling, Workflow, Bootstrap & Quality Policy
 
 **Status:** Authoritative
 **Last updated:** 2026-01-16
@@ -888,44 +858,6 @@ Nothing from either source has been removed; content is reorganized so it is eas
 
 ---
 
-## Table of contents (clickable)
-
-- [Part A — Bootstrap & Quality (repo-first)](#part-a--project-bootstrap--engineering-quality-policy-merged)
-  - [Purpose](#purpose)
-  - [Engineering principles](#engineering-principles)
-  - [Machine setup (one-time)](#machine-setup-one-time)
-  - [Repo initialization (new project)](#repo-initialization-new-project)
-  - [Repo opening (existing project)](#repo-opening-existing-project)
-  - [Git workflow (daily operations)](#git-workflow-daily-operations)
-  - [Coding style (language standards)](#coding-style-language-standards)
-  - [Testing policy](#testing-policy)
-  - [Documentation policy](#documentation-policy)
-  - [IDE policies (repo-level settings)](#9-ide-policies-repo-level-settings)
-    - [9.1 VS Code workspace settings](#91-vs-code-workspace-settings)
-    - [9.2 PyCharm formatting enforcement](#92-pycharm-formatting-enforcement)
-    - [9.3 IntelliJ](#93-intellij)
-    - [9.4 CLion](#94-clion)
-    - [9.5 WebStorm (JavaScript/TypeScript/Web projects)](#95-webstorm-javascripttypescriptweb-projects)
-    - [9.6 DataGrip](#96-datagrip)
-  - [Quality gates](#quality-gates)
-  - [Standard bootstrap checklist](#standard-bootstrap-checklist)
-
-- [Part B — Tooling & Workflow (language/tool deep policies)](#part-b--engineering-tooling--workflow-policies-merged)
-  - [Python (.venv & dependency discipline)](#python-venv--dependency-discipline)
-  - [Node.js / npm / TypeScript](#nodejs--npm--typescript)
-  - [Java / Maven / Gradle / Spring Boot](#java--maven--gradle--spring-boot)
-  - [C / C++ / CMake](#c--c--cmake)
-  - [Rust / Cargo](#rust--cargo)
-  - [CUDA / OpenCV / OpenGL](#cuda--opencv--opengl)
-  - [API / REST / MVC / gRPC](#api--rest--mvc--grpc)
-  - [Vanilla JavaScript / React / WebGL / D3](#vanilla-javascript--react--webgl--d3)
-  - [HTML / CSS](#html--css)
-  - [Docker / Podman / Kubernetes / Kafka](#docker--podman--kubernetes--kafka)
-
----
-
-
-# Part A — Project Bootstrap & Engineering Quality Policy (merged)
 
 # Project Bootstrap & Engineering Quality Policy
 
