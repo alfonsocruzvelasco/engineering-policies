@@ -1,7 +1,7 @@
 # Prompt Policies (Authoritative Reference Manual)
 
 **Status:** Authoritative
-**Last updated:** 2026-01-16
+**Last updated:** 2026-01-19
 **Purpose:** This is the operational playbook (the “what” and “how”) for prompt quality, verification, safety, agentic workflows, and token efficiency.
 **Scope:** Applies to all AI interactions (Cursor Pro, Claude Pro, ChatGPT Plus, Gemini Pro), with Cursor as the AI-first IDE.
 
@@ -54,6 +54,7 @@
 - **Prefer refusal over fabrication:** If uncertain, say "I don't know."
 - **Explicit Instruction Levels:** Respect the requested level (Minimal/Thorough/Comprehensive). Do not over-explain if "Minimal" is requested.
 - **Reproducibility:** Commands, paths, and versions must be concrete.
+- **Verification-first:** With AI coding, verification becomes central. Tests become the steering wheel. Treat AI output like junior PR—verification is mandatory, not optional.
 
 ---
 
@@ -227,6 +228,12 @@ These three levers work together. Miss any one and you'll get hallucinations.
 
 ## 7) Verification Checklist
 
+**Craft implication:** With AI coding, verification becomes central. Tests become the steering wheel.
+
+**Verification-first mindset:** Treat AI output like junior PR. Verification is not optional—it is the primary craft skill in the AI era.
+
+### Pre-Recommendation Verification
+
 Before trusting any recommendation:
 - [ ] **Specificity:** are failure modes concrete (not generic)?
 - [ ] **Domain Context:** is the answer grounded in your real constraints?
@@ -237,6 +244,49 @@ Before trusting any recommendation:
 - [ ] **Alternatives:** tradeoffs vs other approaches articulated?
 
 If you can't check 5+ boxes, require tighter work.
+
+### Post-Generation Verification (Mandatory)
+
+After AI generates code, tests, or documentation:
+
+**Correctness verification:**
+- [ ] **Tests pass:** Unit, integration, end-to-end tests all pass
+- [ ] **Edge cases tested:** Known failure modes are covered by tests
+- [ ] **Manual verification:** If applicable, manually test the behavior
+- [ ] **Reproducibility:** Can reproduce the behavior from scratch
+
+**Security verification:**
+- [ ] **No secrets exposed:** No hardcoded secrets, API keys, or credentials
+- [ ] **Input validation:** User inputs are validated and sanitized
+- [ ] **Auth/authz checked:** Authentication and authorization verified (if applicable)
+- [ ] **Dependency security:** Dependencies scanned for known vulnerabilities
+
+**Operational verification:**
+- [ ] **Logging/instrumentation:** Logging and metrics added where needed
+- [ ] **Error handling:** Errors are handled gracefully, not silently ignored
+- [ ] **Rollback mechanism:** Can rollback if this breaks (feature flags, versioning, etc.)
+- [ ] **Monitoring/alerting:** Monitoring configured for failure modes (if production)
+
+**Code quality verification:**
+- [ ] **Code review performed:** Treat AI output like junior PR—review for correctness, style, patterns
+- [ ] **Style consistency:** Code follows existing style and conventions
+- [ ] **Documentation updated:** Documentation reflects the changes
+- [ ] **No obvious bugs:** No obvious bugs, anti-patterns, or code smells
+
+### Instrumentation + Falsification Workflow
+
+**For debugging and incident response:**
+- AI accelerates hypothesis generation
+- **Risk:** Over-trusting confident narratives
+- **Craft implication:** Instrumentation + falsification workflow
+
+**Workflow:**
+1. **Generate hypothesis** (AI-assisted)
+2. **Instrument** to gather evidence (logs, metrics, traces)
+3. **Falsify** the hypothesis with data (don't trust assumptions)
+4. **Iterate** based on evidence, not assumptions
+
+**Verification checkpoint:** If you can't falsify a hypothesis with data, the hypothesis is not testable and should be rejected.
 
 ---
 

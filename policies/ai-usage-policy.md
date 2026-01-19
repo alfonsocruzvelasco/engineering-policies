@@ -1,7 +1,7 @@
 # Cursor AI Coding Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-01-18
+**Last updated:** 2026-01-19
 
 **Scope:** This policy governs the use of **Cursor** as the **only AI coding tool** in this development environment.
 
@@ -23,13 +23,16 @@
   - [Model Usage](#model-usage)
   - [Git Discipline](#git-discipline)
   - [MCP (Model Context Protocol)](#mcp-model-context-protocol)
+  - [Stewardship Model: Ownership Beyond Authorship](#stewardship-model-ownership-beyond-authorship)
+  - [Verification-First Mindset](#verification-first-mindset)
+  - [Operational Readiness Requirements](#operational-readiness-requirements)
   - [Summary](#summary)
 
 ---
 
 ## Core Principle
 
-**Best practice with Cursor (as an AI coding IDE) is to treat it like a junior engineer with very fast typing:** you control scope, you demand diffs, you gate everything with tests, and you never let it wander outside the repo and your rules.
+**AI coding has shifted software craftsmanship from "writing code" toward "specifying, verifying, and steering".** Best practice with Cursor (as an AI coding IDE) is to treat it like a junior engineer with very fast typing: you control scope, you demand diffs, you gate everything with tests, and you never let it wander outside the repo and your rules.
 
 **Mental model:**
 - Cursor is a **tool**, not an autonomous agent
@@ -37,6 +40,8 @@
 - **Review before apply** — never auto-apply large changes
 - **Test-driven** — every change must have validation
 - **Diff-first** — see changes before committing
+- **Specification-first** — clarity of constraints, edge cases, and requirements is the bottleneck
+- **Verification-first** — treat AI output like junior PR; verification becomes central
 
 ---
 
@@ -393,6 +398,121 @@ MCP servers in Cursor provide structured access to tools (Databases, Git, APIs, 
 **Configuration:** See `prompts-policy.md` for detailed MCP setup and usage patterns.
 
 **Security:** MCP servers must be restricted to necessary directories/files. Never allow full system access.
+
+---
+
+## Stewardship Model: Ownership Beyond Authorship
+
+**AI coding shifts ownership from authorship → stewardship.** When you merge AI-generated code, you own the system's behavior, not just the code itself.
+
+### Stewardship Questions (Mandatory Before Merging)
+
+Before merging any AI-assisted change, you MUST be able to answer:
+
+1. **Why does it exist?** What problem does it solve? What is the business/technical rationale?
+2. **What guarantees?** What are the correctness guarantees? What invariants must hold?
+3. **Failure modes?** What are the known failure modes? What edge cases can break it?
+4. **Tests/invariants?** What tests verify correctness? What invariants are checked?
+5. **Rollback plan?** How do we rollback if this breaks? What is the recovery procedure?
+6. **Who gets paged?** If this fails in production, who is responsible? What is the escalation path?
+
+### Engineering Contract Expansion
+
+The engineering "contract" expands from "deliver feature" to:
+
+- **Spec quality:** Requirements are clear, constraints are explicit, edge cases are documented
+- **Verification depth:** Tests cover happy path, edge cases, and failure modes
+- **Operational readiness:** Instrumentation, flags, staged rollouts, runbooks are in place
+
+### Responsibility Does Not Move
+
+**AI does not absolve you of responsibility:**
+- Engineer merging it owns it
+- Reviewer and service owner share accountability
+- Organization owns liability
+
+**AI expands the risk surface** (security, dependency hallucinations, leakage), so responsibility gets stricter, not looser.
+
+---
+
+## Verification-First Mindset
+
+**Craft implication:** With AI coding, verification becomes central. Tests become the steering wheel.
+
+### Verification Checklist (Mandatory)
+
+For every AI-generated change:
+
+1. **Correctness verification:**
+   - [ ] Tests pass (unit, integration, end-to-end)
+   - [ ] Edge cases are tested
+   - [ ] Failure modes are tested
+   - [ ] Manual verification performed (if applicable)
+
+2. **Security verification:**
+   - [ ] No secrets or sensitive data exposed
+   - [ ] Input validation present
+   - [ ] Authentication/authorization checked (if applicable)
+   - [ ] Dependency security scanned
+
+3. **Operational verification:**
+   - [ ] Logging/instrumentation added
+   - [ ] Error handling present
+   - [ ] Rollback mechanism exists
+   - [ ] Monitoring/alerting configured (if production)
+
+4. **Code quality verification:**
+   - [ ] Code review performed (treat AI output like junior PR)
+   - [ ] Style consistency maintained
+   - [ ] Documentation updated
+   - [ ] No obvious bugs or anti-patterns
+
+### Instrumentation + Falsification Workflow
+
+**For debugging and incident response:**
+- Faster hypothesis generation (AI helps)
+- Risk: over-trusting confident narratives
+- **Craft implication:** Instrumentation + falsification workflow
+
+**Workflow:**
+1. Generate hypothesis (AI-assisted)
+2. **Instrument** to gather evidence
+3. **Falsify** the hypothesis with data
+4. Iterate based on evidence, not assumptions
+
+---
+
+## Operational Readiness Requirements
+
+**Before deploying AI-generated code to production, ensure operational readiness:**
+
+### Pre-Deployment Checklist
+
+- [ ] **Instrumentation:** Logging, metrics, traces configured
+- [ ] **Feature flags:** Ability to disable/enable without redeploy
+- [ ] **Staged rollouts:** Canary, blue-green, or gradual rollout capability
+- [ ] **Runbooks:** Operational procedures documented
+- [ ] **Rollback plan:** Tested procedure to revert changes
+- [ ] **Monitoring:** Alerts configured for failure modes
+- [ ] **Documentation:** What it does, why it exists, how to operate it
+
+### Production Ownership
+
+**You own outcomes in production, not just code/models.**
+
+**Stable craft domains (mid–long term):**
+- Problem framing & requirements clarity
+- Architecture as tradeoff management
+- Verification engineering (tests, invariants, debugging)
+- Security & reliability engineering
+- Production ownership / operations
+
+**Less stable (will be automated):**
+- Boilerplate implementation
+- Repetitive glue
+- Generic CRUD wiring
+
+**Focus your craft on stable domains** where human judgment and ownership matter.
 
 ---
 

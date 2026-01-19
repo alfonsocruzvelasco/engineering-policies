@@ -1,7 +1,7 @@
 # Production Engineering Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-01-18
+**Last updated:** 2026-01-19
 **Purpose:** Daily reference for CV/ML engineering, data systems, and tooling standards
 
 ---
@@ -10,6 +10,7 @@
 
 ### 🚀 Getting Started
 - [How to Use This Document](#how-to-use-this-document)
+- [Production Ownership and Stewardship](#production-ownership-and-stewardship)
 - [Quick Reference Cards](#quick-reference-cards)
   - [QRC-1: New Python Project](#qrc-1-new-python-project-setup)
   - [QRC-2: Dataset Snapshot](#qrc-2-dataset-snapshot-creation)
@@ -126,6 +127,72 @@ Work through sections progressively. Each includes:
 - Practical examples
 - Anti-patterns to avoid
 - Cross-references to related topics
+
+---
+
+## Production Ownership and Stewardship
+
+**Status:** Authoritative  
+**Last updated:** 2026-01-19
+
+### Core Principle: Ownership Beyond Authorship
+
+With AI-assisted development, ownership shifts from **authorship → stewardship**. You own outcomes in production, not just code/models.
+
+### Stewardship Questions (Mandatory Before Production)
+
+Before deploying any system to production, you MUST be able to answer:
+
+1. **Why does it exist?** What problem does it solve? What is the business/technical rationale?
+2. **What guarantees?** What are the correctness guarantees? What invariants must hold?
+3. **Failure modes?** What are the known failure modes? What edge cases can break it?
+4. **Tests/invariants?** What tests verify correctness? What invariants are checked?
+5. **Rollback plan?** How do we rollback if this breaks? What is the recovery procedure?
+6. **Who gets paged?** If this fails in production, who is responsible? What is the escalation path?
+
+### Operational Readiness Requirements
+
+**Before deploying to production, ensure:**
+
+- [ ] **Instrumentation:** Logging, metrics, traces configured
+- [ ] **Feature flags:** Ability to disable/enable without redeploy
+- [ ] **Staged rollouts:** Canary, blue-green, or gradual rollout capability
+- [ ] **Runbooks:** Operational procedures documented
+- [ ] **Rollback plan:** Tested procedure to revert changes
+- [ ] **Monitoring:** Alerts configured for failure modes
+- [ ] **Documentation:** What it does, why it exists, how to operate it
+
+### Engineering Contract Expansion
+
+The engineering "contract" expands from "deliver feature" to:
+
+- **Spec quality:** Requirements are clear, constraints are explicit, edge cases are documented
+- **Verification depth:** Tests cover happy path, edge cases, and failure modes
+- **Operational readiness:** Instrumentation, flags, staged rollouts, runbooks are in place
+
+### Stable Craft Domains (Mid–Long Term)
+
+Focus your craft on domains where human judgment and ownership matter:
+
+- **Problem framing & requirements clarity** — AI accelerates drafts, but clarity of constraints is the bottleneck
+- **Architecture as tradeoff management** — Choosing tradeoffs and documenting them
+- **Verification engineering** — Tests, invariants, debugging; verification becomes central
+- **Security & reliability engineering** — Shift-left security + AI-aware controls
+- **Production ownership / operations** — You own outcomes in production
+
+**Less stable (will be automated):**
+- Boilerplate implementation
+- Repetitive glue
+- Generic CRUD wiring
+
+### Responsibility Does Not Move
+
+**AI does not absolve you of responsibility:**
+- Engineer merging it owns it
+- Reviewer and service owner share accountability
+- Organization owns liability
+
+**AI expands the risk surface** (security, dependency hallucinations, leakage), so responsibility gets stricter, not looser.
 
 ## Quick Reference Cards
 <a id="quick-reference-cards"></a>

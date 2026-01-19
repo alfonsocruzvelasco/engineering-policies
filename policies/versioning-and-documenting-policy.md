@@ -31,6 +31,7 @@ This policy ensures documentation is accurate, minimal, searchable, and maintain
 - Documentation MUST be **close to code** and updated with changes.
 - Prefer **short, operational** writing: what to do, how to verify, how to rollback.
 - Avoid duplication. One source of truth per topic.
+- **Truth maintenance:** Documentation is treated as a tested artifact where possible. Polished but incorrect docs are worse than no docs. Documentation must be verifiable and maintainable.
 
 ### Acronyms
 - **ADR** = Architecture Decision Record
@@ -56,15 +57,23 @@ Use this hierarchy:
 
 Documentation MUST:
 - Use accurate commands and paths
-- Include verification steps (“how to confirm it worked”)
+- Include verification steps ("how to confirm it worked")
 - Include rollback steps for impactful changes
 - State assumptions and constraints explicitly
 - Avoid screenshots as the only source of truth (text must exist)
+- **Be verifiable:** Where possible, documentation should be executable (scripts, tests, configs) or at least testable (commands that can be run to verify)
+- **Be maintainable:** Documentation that becomes stale is a liability. Prefer executable documentation (code, scripts, configs) over prose when possible.
 
 ## 5) Update discipline
 
 - Any PR that changes behavior MUST update relevant docs or justify why not.
 - Broken docs are treated as bugs.
+- **Truth maintenance discipline:** With AI-assisted documentation generation, the risk is polished but incorrect docs. Every documentation update must be verified:
+  - Commands must be tested
+  - Examples must be runnable
+  - Code snippets must compile/execute
+  - Links must be valid
+- **Critical reading + reproducibility:** Documentation must enable reproducibility. If a reader cannot reproduce the documented behavior, the documentation is incorrect.
 
 ## 6) Diagrams
 

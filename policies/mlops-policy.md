@@ -1,7 +1,7 @@
 # MLOps Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-01-18
+**Last updated:** 2026-01-19
 **Purpose:** Comprehensive MLOps practices for experiment tracking, model lifecycle, serving, monitoring, and optimization
 
 ---
@@ -55,6 +55,77 @@
 4. **Systematic experimentation.** Use tools, not ad-hoc scripts, for experiment management.
 5. **Cost awareness.** Track and optimize compute costs (training and inference).
 6. **Safety first.** All model deployments must support rollback and have monitoring.
+7. **Production ownership.** You own outcomes in production, not just models. Focus on "model-in-production under constraints", not just "model building".
+8. **Stewardship over authorship.** Ownership shifts from authorship → stewardship. Before deploying, answer: why does it exist, what guarantees, failure modes, tests/invariants, rollback plan, who gets paged.
+
+---
+
+## 1.1) Production Ownership and Stewardship
+
+### Stewardship Model for ML/CV Systems
+
+**AI coding and MLOps shift ownership from authorship → stewardship.** When you deploy a model to production, you own the system's behavior, not just the model itself.
+
+### Stewardship Questions (Mandatory Before Production Deployment)
+
+Before deploying any model to production, you MUST be able to answer:
+
+1. **Why does it exist?** What problem does it solve? What is the business/technical rationale?
+2. **What guarantees?** What are the accuracy/performance guarantees? What invariants must hold?
+3. **Failure modes?** What are the known failure modes? What edge cases can break it? What happens on distribution shift?
+4. **Tests/invariants?** What tests verify correctness? What evaluation metrics are tracked? What stress slices are tested?
+5. **Rollback plan?** How do we rollback if this breaks? What is the recovery procedure? Is the previous model version available?
+6. **Who gets paged?** If this fails in production, who is responsible? What is the escalation path?
+
+### Stable ML/CV Services (Long-Term Focus)
+
+**Stable version:** "Model-in-production under constraints", not "model building".
+
+**Stable ML/CV services:**
+1. Applied ML systems engineering (production ML / MLOps)
+2. Domain CV in physical world (manufacturing QA, logistics, safety, healthcare)
+3. Data-centric AI (labeling strategy, dataset QA, error analysis)
+4. Model evaluation/safety/compliance
+5. Edge ML / real-time CV optimization
+
+**Less stable:**
+- "I will build you a model" (without operational ownership)
+- Kaggle-style optimization without production constraints
+
+**Single best long-term niche:**
+**Computer Vision systems in industry + MLOps**, especially with edge constraints.
+
+### Operational Readiness for ML/CV Systems
+
+**Before deploying a model to production, ensure:**
+
+- [ ] **Model registry:** Model versioned and registered in model registry (MLflow/W&B)
+- [ ] **Evaluation:** Comprehensive evaluation on validation/test sets and stress slices
+- [ ] **Monitoring:** Data drift detection, concept drift detection, performance monitoring configured
+- [ ] **Inference infrastructure:** Model serving infrastructure tested (Triton, TorchServe, or custom)
+- [ ] **Optimization:** Model optimized for deployment constraints (quantization, pruning if needed)
+- [ ] **Deployment automation:** CI/CD pipeline tested for model deployment
+- [ ] **Rollback capability:** Previous model version available and rollback procedure tested
+- [ ] **Documentation:** Model documentation complete (architecture, training procedure, evaluation results, deployment requirements, known limitations)
+- [ ] **Runbooks:** Operational procedures documented (how to monitor, how to respond to alerts, how to retrain)
+
+### Engineering Contract for ML/CV
+
+The engineering "contract" for ML/CV expands from "deliver model" to:
+
+- **Spec quality:** Requirements are clear (accuracy thresholds, latency requirements, edge cases documented)
+- **Verification depth:** Evaluation covers happy path, edge cases, stress slices, and failure modes
+- **Operational readiness:** Monitoring, drift detection, staged rollouts, runbooks are in place
+- **Production constraints:** Model optimized for deployment constraints (latency, memory, model size)
+
+### Responsibility Does Not Move
+
+**AI does not absolve you of responsibility:**
+- Engineer deploying the model owns it
+- Reviewer and service owner share accountability
+- Organization owns liability
+
+**AI expands the risk surface** (security, dependency hallucinations, model leakage, data leakage), so responsibility gets stricter, not looser.
 
 ---
 
