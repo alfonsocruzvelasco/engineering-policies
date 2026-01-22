@@ -32,8 +32,6 @@
 
 ## 1) Temperature Theory
 
-**Source:** models-temperature-theory.md + industry best practices
-
 ### 1.1 What Temperature Means (Mathematical Foundation)
 
 **LLMs generate text token by token.** At each step, the model produces a vector of **logits** (unnormalized scores) over the next token vocabulary. These logits are turned into a probability distribution using softmax.
