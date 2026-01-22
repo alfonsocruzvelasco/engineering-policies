@@ -13,7 +13,7 @@ Convenience symlinks:
 - `~/policies` -> `~/dev/repos/github.com/alfonsocruzvelasco/engineering-policies/`
 
 **Status:** Authoritative
-**Last updated:** 2026-01-18
+**Last updated:** 2026-01-22
 
 This repository is the **single source of truth** for how software is designed, built, reviewed, shipped, secured, and maintained across all of my development work.
 
@@ -79,7 +79,7 @@ The `/policies` folder is organized around **compiled policy bundles** (merged d
 
 - **`policies/mlops-policy.md`**
   *Comprehensive MLOps practices for production ML/CV systems*
-  (experiment tracking, model versioning & registry, model serving & inference, model monitoring, hyperparameter tuning, distributed training, model optimization, deployment patterns, lifecycle management, reproducibility, cost optimization)
+  (experiment tracking, model versioning & registry, model serving & inference, model monitoring, hyperparameter tuning, distributed training, model optimization, deployment patterns, lifecycle management, reproducibility, cost optimization, latency engineering for real-time systems)
 
 - **`policies/versioning-and-documenting-policy.md`**
   *Governance bundle*
@@ -92,12 +92,24 @@ The `/policies` folder is organized around **compiled policy bundles** (merged d
 ### AI usage & prompt engineering policies (authoritative)
 
 - **`policies/ai-usage-policy.md`**
-  *Approved agents + the single authorized AI coding environment + sandbox enforcement*
-  (Cursor is the only coding IDE; Claude/ChatGPT/Gemini are non-coding; sandbox rules and prompt-injection defense)
+  *Approved agents + the single authorized AI coding environment + sandbox enforcement + AI code review protocol*
+  (Cursor is the only coding IDE; Claude/ChatGPT/Gemini are non-coding; sandbox rules, prompt-injection defense, verification-first workflows, AI code review best practices, learning protocol)
 
 - **`policies/prompts-policy.md`**
   *Operational prompt playbook ("what to do" / "how to ask")*
   (prompt templates, verification routines, prompt-injection defense, token optimization, English-first architecture)
+
+### Templates and references
+
+- **`policies/templates/`**
+  *Reusable templates for common ML/CV engineering tasks*
+  - `mcp-template.md` — Model Context Protocol template for ML/CV production
+  - `ml-cv-skills-template.md` — Skills assessment template for ML/CV engineers
+  - `prompt-template.md` — Standard prompt template for AI interactions
+
+- **`policies/references/`**
+  *Reference documentation and theoretical foundations*
+  - `prompt-engineering-theory.md` — Theoretical foundation for prompt engineering
 
 ---
 
@@ -166,8 +178,10 @@ This repository is **infrastructure**, not documentation noise.
 ### Using AI assistance
 1. **Cursor only** for coding (see `ai-usage-policy.md`)
 2. **English-first** for all prompts (see `prompts-policy.md`)
-3. **Verification required** for all AI-generated code
+3. **Verification required** for all AI-generated code (verification-first paradigm)
 4. **Sandbox restriction** to `/home/alfonso/dev/repos/github.com/alfonsocruzvelasco/sandbox-claude-code/`
+5. **AI code review protocol** — Follow systematic review process (see `ai-usage-policy.md`)
+6. **Use templates** — Start from `policies/templates/` for common tasks
 
 ### Security checklist
 1. No secrets in Git (see `security-policy.md`)

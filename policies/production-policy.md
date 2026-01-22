@@ -132,7 +132,7 @@ Work through sections progressively. Each includes:
 
 ## Production Ownership and Stewardship
 
-**Status:** Authoritative  
+**Status:** Authoritative
 **Last updated:** 2026-01-19
 
 ### Core Principle: Ownership Beyond Authorship
