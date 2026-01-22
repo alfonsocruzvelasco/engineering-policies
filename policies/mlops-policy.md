@@ -44,6 +44,17 @@
 * **BF16** — BFloat16
 * **INT8** — 8-bit integer quantization
 * **CI/CD** — Continuous Integration/Continuous Deployment
+* **E2E** — End-to-end (latency)
+* **SLA** — Service Level Agreement
+* **p50/p95/p99** — Latency percentiles (median, 95th, 99th)
+* **FPS** — Frames per second
+* **HIL** — Hardware-in-the-loop
+* **SoC** — System-on-chip
+* **DAG** — Directed Acyclic Graph (pipeline dependency graph)
+* **IPC** — Inter-Process Communication
+* **ROS** — Robot Operating System
+* **QAT** — Quantization-Aware Training
+* **AST** — Abstract Syntax Tree
 
 ---
 
@@ -1016,6 +1027,476 @@ for batch in dataloader:
 - Accuracy loss < 1% → Accept
 - Accuracy loss 1-3% → Evaluate use case
 - Accuracy loss > 3% → Reject or retrain
+
+### 8.6 Latency Engineering (Real-Time CV/ML Systems)
+
+**Source:** Latency Policies for CV/ML Systems (Authoritative)
+
+**Status:** Mandatory for real-time perception stacks (Mobileye/Waymo-class)
+
+#### 8.6.1 Core Principle
+
+**Latency is a SYSTEM property, not a model property.**
+
+Never optimize algorithmic latency without measuring:
+- System latency (scheduling, queuing, IPC, ROS middleware)
+- Sensing-to-actuation latency (true E2E: camera → perception → planning → control)
+
+#### 8.6.2 Latency Types (Must Distinguish)
+
+**1. Algorithmic Latency**
+```
+Time spent in compute: preprocess → inference → postprocess
+```
+
+**2. System Latency**
+```
+Scheduling delays + queueing + memory copies +
+serialization + IPC + ROS middleware + GPU sync
+```
+
+**3. Sensing-to-Actuation Latency (True E2E)**
+```
+Camera exposure → perception → planning → control → actuator
+```
+
+**Rule:** Measure all three. A 10ms model can have 80ms E2E latency due to system overhead.
+
+#### 8.6.3 Percentiles Are the Truth (Not Mean)
+
+**Real-time systems are dominated by TAIL LATENCY.**
+
+**Mandatory reporting:**
+- p50 (median)
+- p95 (95th percentile)
+- p99 (99th percentile)
+- Max spikes (when relevant)
+
+**Anti-pattern:**
+```
+❌ "Model runs at 20ms average"
+✅ "Model: p50=15ms, p95=25ms, p99=45ms"
+```
+
+**Why:** A system with 20ms average but 120ms p99 will miss deadlines 1% of the time → unacceptable for autonomy.
+
+#### 8.6.4 Queueing Dominates at Scale
+
+**Key insight:** Even if inference is fast, unstable stages cause queue buildup.
+
+**Consequence:** Latency increases super-linearly once utilization crosses threshold.
+
+**Rule:** Design for **stable utilization** (headroom), NOT peak throughput.
+
+**Example:**
+```
+Stage A: 10ms per frame, 100 FPS capacity
+Load: 95 FPS → p99 latency = 50ms (queueing)
+Load: 80 FPS → p99 latency = 12ms (headroom)
+```
+
+#### 8.6.5 Throughput ≠ Latency
+
+**Critical distinction:**
+- **Throughput** = frames/second capacity
+- **Latency** = time per frame (including waiting)
+
+**You can have:**
+- High throughput + terrible tail latency (batching/queueing)
+- Low throughput + excellent latency (strict real-time scheduling)
+
+**Example:**
+```
+Batch inference:
+- Throughput: 200 FPS
+- p99 latency: 150ms (waits for batch to fill)
+
+Single-frame inference:
+- Throughput: 50 FPS
+- p99 latency: 22ms (no waiting)
+```
+
+#### 8.6.6 Measurement Discipline (Mandatory)
+
+**Every performance claim MUST include:**
+
+```yaml
+Hardware:
+  target: NVIDIA RTX 4070
+  clocks: Default
+  precision: FP16
+
+Input:
+  size: 1280x720
+  pipeline: Single-frame (no batching)
+
+Measurement:
+  harness: "PyTorch profiler"
+  timing_start: "Tensor on GPU"
+  timing_stop: "Result on CPU"
+  warmup: 100 iterations
+  steady_state: 1000 iterations
+
+Results:
+  p50: 15.2 ms
+  p95: 18.7 ms
+  p99: 24.3 ms
+  max: 31.8 ms
+```
+
+**Anti-pattern:**
+```
+❌ "It's fast" (meaningless)
+❌ "20ms on my GPU" (which GPU? what resolution? what percentile?)
+```
+
+#### 8.6.7 Define Latency Budget Up-Front
+
+**Every real-time component MUST declare budget BEFORE design:**
+
+```yaml
+E2E Target:
+  sensing_to_actuation: <80ms p99
+
+Perception Allocation:
+  perception_stack: <30ms p99
+
+Sub-Stage Budget:
+  decode: <5ms p99
+  preprocess: <3ms p99
+  inference: <15ms p99
+  postprocess: <5ms p99
+  total_slack: 2ms (buffer)
+```
+
+**Rule:** NO "optimize later". Budget first, then design.
+
+#### 8.6.8 No Optimization Without Profiling
+
+**Before touching code:**
+
+1. **Identify bottleneck stage**
+   ```bash
+   # CPU profiling
+   perf record -g python train.py
+   perf report
+
+   # GPU profiling
+   nsys profile --stats=true python infer.py
+   nsight-sys # GUI analysis
+   ```
+
+2. **Confirm it dominates p99**
+   - Don't optimize 2ms stage when 40ms stage exists
+
+3. **Profile, optimize, validate:**
+   ```
+   Baseline → Profile → Optimize → Re-profile → Validate p99
+   ```
+
+**Profilers:**
+- **CPU:** perf, py-spy, cProfile
+- **GPU:** Nsight Systems, Nsight Compute
+- **System:** ftrace, flamegraphs, tracing
+
+#### 8.6.9 No Regression Allowed
+
+**Any optimization MUST include:**
+
+```python
+class LatencyOptimizationPR:
+    baseline_numbers: dict  # p50/p95/p99 before
+    new_numbers: dict       # p50/p95/p99 after
+    acceptance_threshold: float = 0.05  # 5% regression max
+    rollback_plan: str     # How to revert if fails
+
+    def validate(self):
+        improvement = (self.baseline_numbers['p99'] -
+                      self.new_numbers['p99']) / self.baseline_numbers['p99']
+
+        if improvement < -self.acceptance_threshold:
+            raise RegressionError("p99 regressed by {:.1%}".format(-improvement))
+```
+
+**PR requirements:**
+```markdown
+## Latency Optimization
+
+### Baseline
+- p50: 25.3ms
+- p95: 32.1ms
+- p99: 48.7ms
+
+### After Optimization
+- p50: 18.2ms (-28%)
+- p95: 22.4ms (-30%)
+- p99: 29.1ms (-40%)
+
+### Acceptance
+- ✅ All percentiles improved
+- ✅ No accuracy regression (mAP: 0.847 → 0.846, -0.1%)
+- ✅ Rollback: `git revert abc123`
+
+### Validation
+```bash
+python benchmark.py --model optimized --n 1000
+```
+```
+
+#### 8.6.10 Production Trade-Offs (Autonomy Systems)
+
+**1. Accuracy vs Latency**
+
+Common levers:
+```python
+# Reduce input resolution
+input_size = (1280, 720)  # instead of (1920, 1080)
+speedup = 1.8x
+accuracy_loss = -2.3%  # mAP
+
+# Shrink backbone
+model = 'efficientnet-b0'  # instead of 'efficientnet-b3'
+speedup = 3.2x
+accuracy_loss = -4.1%
+
+# Reduce temporal window
+temporal_frames = 3  # instead of 8
+speedup = 1.4x
+accuracy_loss = -1.8%
+```
+
+**Trade-off:** Fewer features → more fragile edge cases.
+
+---
+
+**2. Determinism vs Maximum Performance**
+
+Determinism levers:
+```python
+# Fixed batch size (vs dynamic)
+batch_size = 1  # Always
+# Benefit: Predictable p99
+# Cost: Lower throughput
+
+# Fixed memory pools (vs dynamic allocation)
+torch.backends.cudnn.benchmark = False
+# Benefit: No allocation spikes
+# Cost: Slightly slower first iteration
+
+# Avoiding Python runtime in critical loop
+use_cpp_inference = True  # TorchScript/ONNX
+# Benefit: No GIL, no Python overhead
+# Cost: Less flexibility
+```
+
+**Trade-off:** Less flexibility, more engineering burden.
+
+---
+
+**3. Batching vs Tail Latency**
+
+```python
+# Batching increases throughput but hurts p99
+
+# No batching
+batch_size = 1
+throughput = 50 FPS
+p99_latency = 22ms
+
+# Batching
+batch_size = 8
+throughput = 200 FPS
+p99_latency = 150ms  # Waits for batch to fill
+```
+
+**Rule:** Batching is usually **incompatible** with strict real-time perception unless hard deadline drop policy enforced.
+
+---
+
+**4. Pipeline Parallelism vs Complexity**
+
+```python
+# Sequential pipeline
+decode → preprocess → infer → postprocess
+latency = 5 + 3 + 15 + 5 = 28ms
+throughput = 35 FPS
+
+# Pipelined stages (overlap)
+# decode(frame N) || infer(frame N-1) || postprocess(frame N-2)
+latency_first_frame = 28ms
+throughput = 66 FPS (limited by slowest stage: 15ms infer)
+```
+
+**Trade-off:** Race conditions, ordering bugs, harder debugging.
+
+---
+
+**5. Model Compression vs Robustness**
+
+Compression techniques:
+```python
+# INT8 quantization
+speedup = 2.5x
+accuracy_loss_average = -0.8%  # Acceptable
+
+# BUT: Long-tail degradation
+rare_classes_loss = -12%  # Unacceptable
+unusual_lighting_loss = -5%
+```
+
+**Typical failure modes:**
+- Rare classes disappear (not captured in mAP)
+- Calibration drift in unusual lighting/weather
+- Long-tail degradation not visible in validation
+
+**Mitigation:**
+- Test on edge-case datasets
+- Monitor per-class metrics
+- QAT (Quantization-Aware Training)
+
+---
+
+**6. Memory Bandwidth Dominates on Edge**
+
+On SoCs/embedded devices:
+```python
+# Memory movement often > compute time
+
+# Bad: CPU↔GPU ping-pong
+for layer in model:
+    output = gpu_compute(layer, input)
+    cpu_process(output)  # ← Expensive transfer!
+
+# Good: Keep data on GPU
+output = gpu_compute(entire_model, input)
+final_result = cpu_postprocess(output)  # Single transfer
+```
+
+**Optimization focus (embedded):**
+- Fuse kernels (reduce memory writes)
+- Reduce tensor copies
+- Use correct layouts (NHWC vs NCHW)
+- Avoid unnecessary data transfers
+
+#### 8.6.11 Standard Latency Tactics (Approved)
+
+**Architectural:**
+```python
+# Simplify pipeline DAG
+# Before: decode → resize → normalize → pad → to_tensor → gpu_copy
+# After:  decode → combined_preprocess (fused) → gpu_copy
+speedup = 1.8x
+
+# Remove redundant transforms
+# Check: Are you normalizing twice?
+
+# Enforce bounded queues (backpressure)
+queue = Queue(maxsize=2)  # Drop frames if can't keep up
+# Prevents unbounded latency growth
+```
+
+**ML-Side:**
+```python
+# Smaller backbone
+model = 'mobilenet_v3_small'  # vs resnet50
+
+# Reduce input dimensions
+input_size = (640, 480)  # vs (1280, 720)
+
+# Early exit networks (when safe)
+# Exit at layer 5 for easy cases, layer 12 for hard cases
+# Only if confidence calibration works
+
+# Reduce temporal aggregation
+temporal_window = 2  # vs 8 frames
+```
+
+**Compilation/Runtime:**
+```python
+# TensorRT / ONNX Runtime
+model = torch_tensorrt.compile(model,
+    inputs=[torch_tensorrt.Input(shape=(1, 3, 224, 224))],
+    enabled_precisions={torch.float16}
+)
+
+# Static shapes (avoid dynamic)
+model = torch.jit.trace(model, example_input)  # vs torch.jit.script
+
+# Pinned memory / zero-copy
+input_tensor = torch.empty(size, pin_memory=True)
+
+# Pre-allocated buffers
+output_buffer = torch.empty(output_size, device='cuda')
+```
+
+#### 8.6.12 Default Acceptance Criteria (PRs)
+
+**For any latency work, PR MUST include:**
+
+```markdown
+## Latency Validation
+
+### Hardware
+- GPU: NVIDIA RTX 4070
+- CPU: AMD Ryzen 9 5950X
+- CUDA: 11.8
+
+### Input Specification
+- Resolution: 1280x720
+- Batch size: 1
+- Pipeline: Single-frame
+
+### Measurement Harness
+```bash
+python benchmark.py \
+  --model models/optimized_v2.onnx \
+  --input-size 1280 720 \
+  --iterations 1000 \
+  --warmup 100 \
+  --percentiles 50 95 99
+```
+
+### Results
+
+| Metric | Baseline | Optimized | Change |
+|--------|----------|-----------|--------|
+| p50    | 25.3ms   | 18.2ms    | -28%   |
+| p95    | 32.1ms   | 22.4ms    | -30%   |
+| p99    | 48.7ms   | 29.1ms    | -40%   |
+
+### Quality Validation
+- mAP: 0.847 → 0.846 (-0.1%, acceptable)
+- Per-class metrics: No class degraded >2%
+- Edge cases tested: Rain, night, fog
+
+### Acceptance
+- ✅ p99 improved by 40%
+- ✅ No quality regression >1%
+- ✅ Rollback plan: `git revert abc123; deploy models/baseline_v1.onnx`
+```
+
+**Rejection criteria:**
+- Missing percentiles (only average reported)
+- No hardware specification
+- No quality validation
+- p99 regression without justification
+- No rollback plan
+
+#### 8.6.13 Enforcement
+
+**This latency policy is AUTHORITATIVE for:**
+- Any repo touching CV/ML runtime paths
+- Real-time perception stacks
+- Production autonomy systems (Mobileye/Waymo-class)
+
+**Exceptions:**
+- Must be logged in versioning policy (exception section)
+- Require technical justification
+- Approved by tech lead
+
+**Consequences of non-compliance:**
+- PR blocked until latency validation added
+- Post-deployment: If p99 SLA violated, immediate rollback required
 
 ---
 

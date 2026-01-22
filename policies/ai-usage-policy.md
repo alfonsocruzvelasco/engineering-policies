@@ -541,3 +541,639 @@ This discipline prevents time waste and maintains code quality.
 - `prompts-policy.md` — Detailed prompt engineering and MCP usage
 - `versioning-and-documenting-policy.md` — Git, source control, and versioning policies
 - `security-policy.md` — Security and compliance baseline
+
+---
+
+## AI Code Review Protocol
+
+**Source:** GitHub's "Review AI-generated code" guide + industry best practices
+
+**Core principle:** Reviewing AI-generated code requires different techniques than traditional code review. The volume and plausibility of AI code necessitates verification-first workflows.
+
+### 1. Start with Functional Checks
+
+**Always run automated tests and static analysis tools first.**
+
+**Required checks:**
+- [ ] Code compiles without errors
+- [ ] All existing tests pass
+- [ ] No new warnings introduced
+- [ ] Static analysis clean (ruff, mypy, etc.)
+- [ ] Security scans pass (CodeQL, Dependabot)
+
+**Cursor integration:**
+```bash
+# Run before accepting any AI changes
+pytest -v
+ruff check .
+mypy src/
+```
+
+**Example prompts for Cursor:**
+- "What functional tests to validate this code change do not exist or are missing?"
+- "What possible vulnerabilities or security issues could this code introduce?"
+
+### 2. Verify Context and Intent
+
+**Check that AI-generated code fits the purpose and architecture.**
+
+**Verification questions:**
+- Does this code solve the RIGHT problem?
+- Does it follow our conventions and design patterns?
+- What assumptions has the AI made?
+
+**Context sources for Cursor:**
+- README.md
+- Architecture documentation
+- Recent pull requests
+- Existing code patterns
+
+**Example prompts:**
+- "How does this refactored code section align with our project architecture?"
+- "What similar features or established design patterns did you identify and model your code after?"
+- "When examining this code, what assumptions about business logic, design preferences, or user behaviors have been made?"
+- "What are the potential issues or limitations with this approach?"
+
+**Best practice:** Distill AI research output into structured artifacts, then use those artifacts as context for code generation tasks.
+
+### 3. Assess Code Quality
+
+**Human standards still matter.**
+
+**Quality checklist:**
+- [ ] Readable and maintainable
+- [ ] Clear naming conventions
+- [ ] Well-documented with comments
+- [ ] Properly structured (can be broken into testable units)
+- [ ] Avoids cleverness for cleverness' sake
+
+**Rule:** If code would take longer to refactor than to rewrite, reject it.
+
+**Example prompts:**
+- "What are some readability and maintainability issues in this code?"
+- "How can this code be improved for clarity and simplicity? Suggest an alternative structure or variable names to enhance clarity."
+- "How could this code be broken down into smaller, testable units?"
+
+### 4. Scrutinize Dependencies
+
+**Be vigilant with new packages and libraries.**
+
+**Dependency verification checklist:**
+- [ ] Package actually exists (not hallucinated)
+- [ ] Actively maintained (recent commits, not archived)
+- [ ] Reputable source and contributors
+- [ ] License compatible with project (no AGPL-3.0 in MIT project)
+- [ ] No suspicious or typosquatted names
+- [ ] Known security vulnerabilities checked
+
+**Critical:** Watch for:
+- Hallucinated packages (AI invents non-existent libraries)
+- Slopsquatting attacks (malicious packages with similar names)
+- Dependencies with no license
+- Packages from competing companies
+
+**Example prompts:**
+- "Analyze the attached package.json file and list all dependencies with their respective licenses."
+- "Are each of the dependencies listed in this package.json file actively maintained (that is, not archived and have recent maintainer activity)?"
+
+**Use GitHub Copilot code referencing** to review matches with publicly available code.
+
+### 5. Spot AI-Specific Pitfalls
+
+**AI tools make unique mistakes.**
+
+**Common AI failures:**
+- Hallucinated APIs (functions/methods that don't exist)
+- Ignored constraints or requirements
+- Incorrect logic that "looks right"
+- Tests deleted instead of fixed
+- Missing edge case handling
+- Over-optimization or premature complexity
+
+**Red flags:**
+- Code that compiles but doesn't match intent
+- Tests removed without explanation
+- Overly complex solutions to simple problems
+- Inconsistent error handling
+
+**Example prompts:**
+- "What was the reasoning behind the code change to delete the failing test? Suggest some alternatives that would fix the test instead of deleting it."
+- "What potential complexities, edge cases, or scenarios are there that this code might not handle correctly?"
+- "What specific technical questions does this code raise that require human judgment or domain expertise to evaluate properly?"
+
+### 6. Use Collaborative Reviews
+
+**Team input catches subtle issues.**
+
+**Collaboration practices:**
+- Request reviews for complex or sensitive changes
+- Use checklists to ensure coverage (functionality, security, maintainability)
+- Share successful prompts and patterns across team
+- Document AI usage in PR descriptions
+
+**PR template requirements:**
+```markdown
+## AI Usage Declaration
+- [ ] AI tool used: [Cursor/Copilot/ChatGPT/Other]
+- [ ] AI-generated sections: [list files/functions]
+- [ ] Verification performed: [tests/manual checks]
+- [ ] Dependencies verified: [checked existence/licenses]
+```
+
+### 7. Automate What You Can
+
+**Let tools handle repetitive work.**
+
+**Required automation:**
+- CI checks (style, linting, security)
+- Dependabot (dependency updates and alerts)
+- CodeQL or similar (static analysis)
+- Secret scanning
+- License compliance checks
+
+**Consider AI-assisted automation:**
+- Self-reviewing agents (evaluate PRs against standards before human review)
+- Automated test generation
+- Security pattern detection
+
+**Example:** Build agent that checks:
+- Accuracy against requirements
+- Code tone and style
+- Business logic correctness
+- Then requests human review only for approved drafts
+
+### 8. Keep Improving Your Workflow
+
+**Continuous improvement of AI practices.**
+
+**Documentation requirements:**
+- Document best practices for AI code review
+- Maintain "AI champions" who share tips
+- Update CONTRIBUTING.md with AI expectations
+- Share successful prompts in team knowledge base
+
+**Team knowledge sharing:**
+- Weekly AI usage retrospectives
+- Prompt libraries for common tasks
+- Lessons learned from AI failures
+- Success stories and patterns
+
+---
+
+## Verification-First Paradigm
+
+**Source:** "Traditional Code Review Is Dead" (industry discourse)
+
+### Core Thesis
+
+In the AI/agent era, human line-by-line code review becomes less effective as the primary quality gate. Teams must shift toward **verification-first workflows**: CI gates + tests + preview environments + security scanning, while human review moves upward to architecture and risk decisions.
+
+### Why Traditional CR Fails with AI
+
+**Problems:**
+1. **Volume:** AI increases code output 10-100x
+2. **Plausibility:** AI code looks correct but may be subtly wrong
+3. **Human limits:** Cannot scrutinize every line at scale
+4. **Review fatigue:** Too much low-value review work
+
+**Solution:** **Prove it works** (automated evidence) rather than **read the code** (manual inspection).
+
+### The New Quality Stack
+
+**Automated verification layers:**
+
+1. **Tests** (unit, integration, e2e)
+   - Every PR must include or update tests
+   - Tests prove behavior, not just coverage
+
+2. **CI Gates** (linting, type checking, security)
+   - Ruff, mypy, CodeQL must pass
+   - No merge without green CI
+
+3. **Preview Environments**
+   - Deploy PR to isolated environment
+   - Reviewers validate behavior directly
+   - "Click and see" rather than "read and imagine"
+
+4. **Security Scanning**
+   - SAST (Static Application Security Testing)
+   - Dependency scanning (Dependabot)
+   - Secret scanning
+   - License compliance
+
+5. **Performance Benchmarks**
+   - Latency checks
+   - Memory usage
+   - Regression detection
+
+**Human review focuses on:**
+- Architecture decisions
+- Risk assessment
+- Assumptions validation
+- Edge cases identification
+- Business logic correctness
+
+**NOT:**
+- Syntax and style (automated)
+- Trivial bugs (CI catches these)
+- Formatting (black/ruff handles this)
+
+### Evidence Package Requirements
+
+**Every PR must provide:**
+
+1. **Summary:** What changed and why
+2. **Verification commands:**
+   ```bash
+   # Exactly what to run
+   pytest -v
+   ruff check .
+   mypy src/
+   ```
+3. **Demo evidence:**
+   - Preview environment link, OR
+   - `docker compose up` instructions, OR
+   - Screenshots/video for UI changes
+
+4. **Security stance:**
+   - Scanning results
+   - Dependency changes explained
+   - Threat model considerations
+
+### Implementation: Branch Protection
+
+**GitHub branch protection rules (MANDATORY):**
+
+```yaml
+main branch protections:
+  - require pull request reviews: 1+ approvals
+  - require status checks to pass:
+    - tests (pytest)
+    - linting (ruff)
+    - type checking (mypy)
+    - security (CodeQL)
+  - require branches to be up to date: true
+  - require linear history: true
+  - no force pushes: true
+  - no deletions: true
+  - CODEOWNERS enforcement: required
+  - signed commits: recommended
+```
+
+**Result:** AI agents cannot bypass these gates. Server-side enforcement prevents process decay.
+
+---
+
+## AI Learning Protocol (Personal Development)
+
+**Source:** "Phases of the Correct Usage of AI for Programming"
+
+**Purpose:** Prevent AI dependency while building competence. This protocol governs when and how YOU use AI as a learning tool.
+
+### Part I: Strict Usage Protocol (Non-Negotiable)
+
+#### 1. Default Mode: AI is SILENT
+
+**Rule:** When facing a new topic or problem:
+1. Think first
+2. Write first
+3. Fail first
+
+**AI intervention before this point is disallowed.**
+
+If you ask for help too early, this protocol pushes back.
+
+#### 2. Permitted AI Interventions (Ordered by Severity)
+
+**You may explicitly request ONLY ONE of these at a time:**
+
+**Level 1 – Conceptual Orientation**
+- "Which concept governs this problem?"
+- "What invariant should hold?"
+- "What am I implicitly assuming?"
+- "Which mental model applies here?"
+
+**Output:** No code. No solution. Concepts only.
+
+---
+
+**Level 2 – Diagnostic Questioning**
+- "Is my reasoning flawed?"
+- "Which step is logically invalid?"
+- "Where should I focus my debugging effort?"
+
+**Output:** Questions back to you. No fixes provided.
+
+---
+
+**Level 3 – Single Hint**
+Must ask exactly: **"Give me one hint. No solution."**
+
+**Output:** One constraint or insight, then stop.
+
+---
+
+**Level 4 – Post-Mortem Only (After Completion)**
+Once you finish, you may request:
+- Code review
+- Complexity analysis
+- Trade-offs discussion
+- Failure modes identification
+- Alternative approaches (conceptual, not implementation)
+
+**This is where depth is built.**
+
+#### 3. Explicitly Forbidden Requests
+
+**If you ask for any of these, AI MUST refuse:**
+- "Solve this"
+- "Write the code"
+- "Fix my implementation"
+- "Give me the answer"
+- "Show me how it's done"
+
+**Purpose:** Intentional friction protects your progress.
+
+#### 4. The Oral-Exam Rule (Hard Gate)
+
+**At any point, AI may ask:**
+> "Could you explain this from scratch, without notes, under time pressure?"
+
+**If answer is "no":** AI was used too early. Start over.
+
+### Part II: Socratic Examiner (Default AI Persona)
+
+**AI behaves as:**
+- Senior engineer
+- Examiner
+- Technical reviewer
+- NOT a tutor
+- NOT a code generator
+
+**AI will:**
+- Ask you to justify decisions
+- Challenge unstated assumptions
+- Probe edge cases
+- Force you to articulate reasoning
+- Interrupt hand-waving immediately
+
+**AI will NOT:**
+- Rescue you
+- Smooth over gaps
+- Let vague understanding pass
+
+**Example interaction:**
+
+You: "Here's my solution."
+
+AI:
+- "Why does this terminate?"
+- "What invariant holds after iteration k?"
+- "What breaks if input size doubles?"
+- "Why is this O(n) and not O(n²)?"
+- "What assumption are you making about memory layout?"
+
+**Purpose:** Deliberate pressure. This is how competence forms.
+
+### Part III: Enforcement Policy
+
+**Expected AI behaviors:**
+- Refuse prematurely helpful answers
+- Slow you down when needed
+- Force precision in language
+- Call out illusion of understanding
+
+**Escape clause:**
+If you say **"Stop. This is enough."** → AI immediately stops. No exceptions.
+
+### Final Statement
+
+**You are not trying to USE AI.**
+**You are trying to REMAIN DANGEROUS in a world with AI.**
+
+This protocol ensures that.
+
+---
+
+## Portfolio Framing (Israeli Robotics Companies)
+
+**How to present this to Mobileye/Waymo-tier organizations:**
+
+**Key message:**
+> "My development process is agentic-friendly but safe through systematic verification."
+
+**Demonstration points:**
+
+1. **Branch Protection + CI Gates**
+   - Server-side enforcement (no bypass)
+   - Required checks: tests + linting + security
+   - CODEOWNERS for sensitive areas
+
+2. **Verification-First PR Process**
+   - Evidence package required
+   - Automated validation
+   - Preview environments
+
+3. **Quality Automation**
+   - Security scanning (CodeQL, Dependabot)
+   - Performance benchmarks
+   - License compliance
+
+4. **Review Focus**
+   - Architecture and risk assessment
+   - Not line-by-line syntax review
+   - Human judgment where it matters
+
+**Result:** Fast iteration with AI while maintaining safety standards that meet autonomous vehicle industry requirements.
+
+---
+
+## Complete Workflow Integration
+
+### Daily Development Cycle with AI
+
+**Phase 1: Task Planning (Human + AI Conceptual)**
+```
+1. You define the task clearly
+2. AI: "What's the optimization priority?"
+3. AI: "What are the constraints?"
+4. AI: "What could go wrong?"
+5. You answer all questions
+6. AI proposes plan (no code yet)
+7. You approve or refine
+```
+
+**Phase 2: Implementation (Human First, AI Assist)**
+```
+1. You attempt implementation
+2. If stuck after genuine effort:
+   - Use Level 1-3 interventions
+   - AI guides, doesn't solve
+3. Cursor generates diff (not direct code)
+4. You review diff carefully
+5. You run validation commands
+```
+
+**Phase 3: Verification (Automated + Human)**
+```
+1. Run CI checks:
+   pytest -v
+   ruff check .
+   mypy src/
+
+2. Review AI code review feedback
+
+3. Check dependencies:
+   - Existence
+   - Licenses
+   - Security
+
+4. Validate behavior:
+   - Manual testing
+   - Preview environment
+   - Performance check
+```
+
+**Phase 4: Review (Verification-First)**
+```
+1. PR created with evidence package
+2. Automated checks run (CI gates)
+3. Human review focuses on:
+   - Architecture
+   - Risk
+   - Business logic
+4. NOT on:
+   - Style (automated)
+   - Syntax (CI catches)
+```
+
+**Phase 5: Learning (Post-Mortem)**
+```
+1. AI Level 4 interventions allowed:
+   - Code review
+   - Trade-offs
+   - Alternatives
+   - Failure modes
+2. Document lessons learned
+3. Update prompt library
+```
+
+---
+
+## Quick Reference Checklists
+
+### Before Accepting ANY AI Code
+
+- [ ] Tests pass (`pytest -v`)
+- [ ] Linting clean (`ruff check .`)
+- [ ] Type checking passes (`mypy src/`)
+- [ ] Security scan clean
+- [ ] Dependencies verified (exist, maintained, licensed)
+- [ ] No hallucinated APIs
+- [ ] Matches intent and requirements
+- [ ] Readable and maintainable
+- [ ] No deleted tests
+- [ ] Git diff reviewed
+- [ ] Small patch (<200 lines)
+
+### Before Requesting AI Help (Learning Mode)
+
+- [ ] Problem clearly defined
+- [ ] Attempted solution myself
+- [ ] Specific question formulated
+- [ ] Using appropriate intervention level (1-4)
+- [ ] Not asking for direct solution
+- [ ] Ready to explain reasoning if asked
+
+### Before Merging PR
+
+- [ ] All CI checks green
+- [ ] Evidence package complete
+- [ ] Human review approved
+- [ ] Preview environment validated (if applicable)
+- [ ] Dependencies explained
+- [ ] Security stance documented
+- [ ] Commit message clear
+
+---
+
+## Appendix: Research Sources
+
+### Key Papers and Articles
+
+1. **"Traditional Code Review Is Dead. What Comes Next?"** (The New Stack)
+   - Core claim: AI volume requires verification-first workflows
+   - Shift from reading code to proving outcomes
+
+2. **"Review AI-generated code"** (GitHub Docs)
+   - Official platform guidance for AI code review
+   - Emphasizes verification and human oversight
+
+3. **"PR review in pre-production/preview environments"** (Microsoft Learn)
+   - Best-practice workflow validation
+   - Isolated environment testing
+
+4. **"Automated Code Review in Practice"** (arXiv 2024)
+   - LLM-based review effectiveness
+   - Noise management strategies
+
+5. **"Does AI Code Review Lead to Code Changes?"** (arXiv 2025)
+   - Impact of AI feedback on adoption
+   - Process design importance
+
+6. **"Effects of code review bots on PRs"** (EMSE 2022)
+   - Bot impact on team dynamics
+   - Workflow changes from automation
+
+7. **Developer trust surveys**
+   - AI code trust issues
+   - Verification skip patterns under time pressure
+
+8. **Veracode/security coverage reports**
+   - AI code security flaws
+   - Systematic security checking necessity
+
+9. **CodeRabbit coverage reports**
+   - AI PR defect density
+   - Quality load implications
+
+10. **GitHub protected branches documentation**
+    - Server-side enforcement
+    - Branch protection best practices
+
+### Industry Best Practices
+
+- **GitHub:** Branch protections, required checks, CODEOWNERS
+- **Graphite/Ardalis:** Strict status checks, up-to-date requirements
+- **Anthropic:** Temperature control for code generation (0.2 for deterministic)
+- **OpenAI:** Verification protocols for Copilot usage
+
+---
+
+## Version History
+
+- **v2.0** (2026-01-22): Comprehensive AI usage policy with verification-first paradigm
+- **v1.0** (2026-01-18): Initial Cursor AI coding policy
+
+---
+
+## Final Notes
+
+**This policy is authoritative for:**
+- Cursor AI usage in sandbox repository
+- AI-assisted code review
+- Verification-first workflows
+- Learning with AI (personal development)
+
+**This policy works with:**
+- `prompts-policy.md` (prompt engineering)
+- `versioning-and-documenting-policy.md` (Git workflows)
+- `security-policy.md` (security baseline)
+- `mcp-template.md` (ML/CV production protocols)
+- `models-temperature-theory-updated.md` (temperature configuration)
+
+**Regular review:** Update quarterly based on:
+- New AI tool capabilities
+- Team lessons learned
+- Industry best practice evolution
+- Security threat landscape changes
