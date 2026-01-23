@@ -252,6 +252,19 @@ This aligns perfectly with production ML/CV engineering standards where:
 - Reproducibility is mandatory
 - Audit trails are required
 
+---
+
+## STANDARD: ORCHESTRATING AGENTS AND ARTIFACTS
+
+When a project moves from “single assistant in an IDE” to **multiple agents** producing and consuming **artifacts** (code, configs, datasets, run outputs), the standard approach is to split the system into four layers:
+
+1. **Tool interface layer — MCP (Model Context Protocol):** Agents access tools through explicit, auditable interfaces (filesystem, git, databases, browsers). Avoid ad-hoc, hidden permissions.
+2. **Durable workflow layer — Temporal (or equivalent):** Long-running agent work (migrations, large refactors, dataset processing) must be orchestrated with retries, idempotency, and compensation semantics.
+3. **Observability layer — OpenTelemetry (OTel):** Treat agent execution as distributed systems work: emit traces/spans for every step and tool call so debugging is evidence-driven.
+4. **Lineage layer — OpenLineage:** Track “inputs → jobs/runs → outputs” for all meaningful artifacts so you can answer: *what changed*, *what it impacted*, and *how to reproduce it*.
+
+**Operational rule:** If the work cannot be replayed, inspected (traces), and attributed (lineage), it is not production-ready—regardless of how “smart” the agent appears.
+
 ### The Decision Matrix
 
 #### **Use Vanilla (Native Tools) When:**
