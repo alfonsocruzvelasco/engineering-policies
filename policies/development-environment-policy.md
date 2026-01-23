@@ -143,6 +143,9 @@ __init__.py
 
 Each directory has **one meaning only**.
 
+> Note: Any canonical `~/...` directory below may be implemented as a symlink to `/workspace/...` for RAID-backed storage.
+> This does not change the directory’s meaning; it only changes where the bytes live.
+
 | Directory      | Purpose                                              |
 | -------------- | ---------------------------------------------------- |
 | `~/admin`      | Personal admin, legal, paperwork                     |
@@ -162,6 +165,64 @@ Each directory has **one meaning only**.
 | `~/Templates`  | Templates                                            |
 | `~/tmp_backup` | Temporary safety net                                 |
 | `~/vpn`        | VPN configs                                          |
+
+
+---
+
+## Storage Layer: `/workspace` (RAID backing store)
+
+This policy defines the **canonical meaning** of directories under `$HOME` (e.g., `~/dev`, `~/learning`, `~/ai`).
+
+Some canonical directories **may be implemented as symlinks** that point into `/workspace` to leverage RAID-backed storage.
+This is a **physical storage detail only** and must **never introduce a second taxonomy**.
+
+### Non-negotiable rules
+
+1) **Semantics live in `$HOME`**
+   The meaning of a path is determined by its canonical `$HOME` location (e.g., “models live in `~/dev/models/`”), even if it is symlinked to `/workspace`.
+
+2) **No parallel `/workspace/*` taxonomy**
+   Do **not** create or use directory meanings like `/workspace/dev`, `/workspace/learning`, `/workspace/ml`, `/workspace/devops`, etc.
+   If you need RAID backing for a canonical `$HOME` directory, do it by **symlinking the canonical directory** to a target under `/workspace`.
+
+3) **Only symlink targets are allowed in `/workspace`**
+   `/workspace` may contain only:
+   - symlink targets for canonical `$HOME` directories (examples below)
+   - minimal storage metadata if you explicitly want it there (e.g., a single architecture note)
+
+4) **All workflows operate via canonical `$HOME` paths**
+   Day-to-day commands, scripts, and mental model must use `~/dev/...`, `~/datasets/...`, `~/docker/...`, `~/ai/...`, etc.
+   `/workspace` paths are treated as implementation detail.
+
+### Recommended symlink mapping (examples)
+
+Allowed mappings:
+
+```text
+~/ai       -> /workspace/ai          # notes/research (no tooling state)
+~/datasets -> /workspace/datasets    # immutable datasets
+~/docker   -> /workspace/containers  # docker/compose stacks
+```
+
+Optional (only if you decide to keep heavy artifacts on RAID):
+
+```text
+~/dev/models  -> /workspace/dev-models
+~/dev/data    -> /workspace/dev-data
+```
+
+### Forbidden examples (do not do this)
+
+```text
+/workspace/dev/...
+/workspace/learning/...
+/workspace/ml/...
+/workspace/devops/...
+```
+
+These create duplicated semantics (“which copy is real?”) and violate:
+
+> Each directory has one meaning only.
 
 ---
 
