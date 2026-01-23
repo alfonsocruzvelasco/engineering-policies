@@ -105,6 +105,8 @@ message = client.messages.create(
 | **Transparency** | Opaque (hidden implementation) | Transparent (you control the server) |
 | **Portability** | Ecosystem-locked (vendor-specific) | Portable (works across IDEs) |
 | **Privacy** | Often cloud-dependent | Runs locally (air-gapped capable) |
+| **Security** | Global tools, OS-wide pollution | Per-project isolation, auditable config |
+| **Governance** | Chaotic "smart assistant" | Controllable infrastructure |
 
 ### Key Advantages of MCP
 
@@ -212,6 +214,44 @@ mcp_servers:
 # - Any future MCP-compatible IDE
 ```
 
+#### 5. Security & Governance: Controlled vs Chaotic
+
+**Vanilla Approach:**
+- Global tools contaminate system-wide
+- Plugins and capabilities apply everywhere
+- API keys stored in OS environment
+- No per-project isolation
+- Hard to audit "what can AI access?"
+
+**MCP Approach:**
+- ✔ **Per-project capability isolation** — MCP servers scoped to project, not global
+- ✔ **Auditable configuration** — All capabilities in version-controlled config files
+- ✔ **Secure key management** — API keys in `.cursor/` (gitignored), not OS-wide
+- ✔ **No rogue installs** — No random plugins or shady binaries
+- ✔ **Explicit intent tracking** — Always answerable: "What is the AI allowed to do here?"
+
+**Industry alignment:**
+
+Production robotics teams (Mobileye, Waymo, Meta, Google) prefer MCP-style approaches because:
+- **Deterministic automation** (not probabilistic chaos)
+- **Reproducible tooling** across team members
+- **Security isolation** per project
+- **Compliance and audit trails** for regulated industries
+- **Minimal IDE pollution** (clean development environments)
+- **Long-term maintainability** (open standard, not vendor lock-in)
+
+**Paradigm shift:**
+```
+Vanilla AI  = "Smart but chaotic assistant"
+MCP         = "AI as controllable infrastructure"
+```
+
+This aligns perfectly with production ML/CV engineering standards where:
+- Every capability must be justified
+- Security boundaries are explicit
+- Reproducibility is mandatory
+- Audit trails are required
+
 ### The Decision Matrix
 
 #### **Use Vanilla (Native Tools) When:**
@@ -261,6 +301,12 @@ mcp_servers:
 - Multiple IDE support
 - Future-proof tooling
 
+✅ **Production-grade requirements**
+- Building portfolio work for hiring (reproducibility matters)
+- Learning professionally (not just hacking scripts)
+- Preparing for complex, long-running codebases
+- Enforcing discipline and structure
+
 **Example MCP use case:**
 ```
 "Find all PyTorch modules using deprecated DataLoader API
@@ -268,6 +314,38 @@ and show migration path"
 → MCP (Serena) provides exact symbol resolution
 → Vanilla would miss some usages due to naming variations
 ```
+
+---
+
+#### **DON'T Use MCP When:**
+
+❌ **Quick throwaway work**
+- Hacking together one-off experiments
+- No structure requirements
+- Exploratory coding with no reuse intent
+
+❌ **Zero-setup tolerance**
+- Need immediate results
+- Can't invest 5 minutes in configuration
+- Temporary analysis tasks
+
+❌ **Casual coding assistance**
+- Just want quick help understanding code
+- Don't care about reproducibility
+- Not building anything for portfolio/production
+
+**Rule of thumb:**
+```
+Disposable code         → Vanilla is fine
+Professional portfolio  → MCP is mandatory
+Production systems      → MCP is required
+```
+
+**Bottom line:**
+> **MCP turns your editor from "smart assistant" into a controlled automation platform with security, structure, and reproducibility.**
+>
+> Vanilla = assistant
+> MCP = assistant + tools + governance
 
 ---
 
