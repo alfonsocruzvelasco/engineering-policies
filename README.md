@@ -182,6 +182,8 @@ This repository is **infrastructure**, not documentation noise.
 4. Review `versioning-and-documenting-policy.md` for Git workflow
 5. Review `security-policy.md` for secrets and ML/CV security
 6. Review `ai-usage-policy.md` for Cursor sandbox rules
+7. Check `system/raid/` for RAID storage setup if working with large datasets
+8. Use `templates/` for standard project structures and prompts
 
 ### Using AI assistance
 1. **Cursor only** for coding (see `ai-usage-policy.md`)
@@ -189,7 +191,8 @@ This repository is **infrastructure**, not documentation noise.
 3. **Verification required** for all AI-generated code (verification-first paradigm)
 4. **Sandbox restriction** to `/home/alfonso/dev/repos/github.com/alfonsocruzvelasco/sandbox-claude-code/`
 5. **AI code review protocol** — Follow systematic review process (see `ai-usage-policy.md`)
-6. **Use templates** — Start from `policies/templates/` for common tasks
+6. **Use templates** — Start from `policies/templates/` for common tasks (prompt-template.md, mcp-template.md)
+7. **Reference theory** — Consult `policies/references/prompt-engineering-theory.md` for theoretical foundations
 
 ### Security checklist
 1. No secrets in Git (see `security-policy.md`)
@@ -197,6 +200,11 @@ This repository is **infrastructure**, not documentation noise.
 3. Dependencies scanned for vulnerabilities
 4. ML/CV models and data access-controlled
 5. AI tools never receive secrets or sensitive data
+
+### System infrastructure
+1. **RAID setup** — See `policies/system/raid/raid-system-set-up.md` for storage configuration
+2. **Workspace backing** — `/workspace` RAID-backed storage policies in `policies/system/workspace/`
+3. **Large datasets** — Always use symlinks from `$HOME` to `/workspace` for data volumes
 
 ---
 
