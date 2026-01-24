@@ -111,6 +111,14 @@ The `/policies` folder is organized around **compiled policy bundles** (merged d
   *Reference documentation and theoretical foundations*
   - `prompt-engineering-theory.md` — Theoretical foundation for prompt engineering
 
+### System configuration and infrastructure
+
+- **`policies/system/`**
+  *System-level configuration and infrastructure documentation*
+  - **`raid/`** — RAID storage configuration and setup procedures
+    - `raid-system-set-up.md` — RAID array setup, monitoring, and maintenance
+  - **`workspace/`** — `/workspace` backing store policies and procedures
+
 ---
 
 ## Policy relationships
