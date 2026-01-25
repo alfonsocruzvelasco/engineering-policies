@@ -19,6 +19,13 @@ This repository is the **single source of truth** for how software is designed, 
 
 It defines **non-negotiable rules**, **explicit boundaries**, and **decision discipline** for professional-grade engineering.
 
+> **Governance Notice**
+> This repository is a **learning library**, not a project workspace. It stores book code, course materials, and reference implementations only.
+>
+> Any work that evolves into a real project (dependencies, environments, ongoing development, portfolio relevance) must be moved to a dedicated repository under `~/dev/repos/` in accordance with the **Learning Library Governance** section of my engineering policies.
+>
+> See the policies repository for the authoritative rules governing learning vs project boundaries.
+
 ---
 
 ## Purpose
