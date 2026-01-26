@@ -118,6 +118,12 @@ The `/policies` folder is organized around **compiled policy bundles** (merged d
   *Reference documentation and theoretical foundations*
   - `prompt-engineering-theory.md` — Theoretical foundation for prompt engineering
 
+### Learning paths
+
+- **`policies/av-perception-learning-path.md`**
+  *Unified AV Perception Learning Path: Portfolio-First + Library-Guided Deep Study*
+  (32-week curriculum for becoming a top-tier ML/CV engineer focused on autonomous vehicle perception, targeting Mobileye/Waymo Staff-Engineer standards)
+
 ### System configuration and infrastructure
 
 - **`policies/system/`**
@@ -212,6 +218,13 @@ This repository is **infrastructure**, not documentation noise.
 1. **RAID setup** — See `policies/system/raid/raid-system-set-up.md` for storage configuration
 2. **Workspace backing** — `/workspace` RAID-backed storage policies in `policies/system/workspace/`
 3. **Large datasets** — Always use symlinks from `$HOME` to `/workspace` for data volumes
+
+### Learning and professional development
+1. **AV Perception Learning Path** — See `policies/av-perception-learning-path.md` for comprehensive 32-week curriculum
+   - Stage 1: Modern Detection Foundations + Code Hygiene
+   - Stage 2: 3D Perception + Sensor Fusion
+   - Stage 3: Tracking & Trajectory Prediction
+   - Stage 4: Production Engineering & Safety-Critical Systems
 
 ---
 
