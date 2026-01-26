@@ -66,7 +66,7 @@ Meaning:
 
 Policy summary:
 
-* `~` = meaning + workflow paths (`~/dev`, `~/learning`, etc.)
+* `~` = meaning + workflow paths (`~/dev`, `~/learning-repos`, etc.)
 * `/workspace` = physical RAID backing only
 * bridge = symlink targets only (example: `~/datasets -> /workspace/datasets`)
 

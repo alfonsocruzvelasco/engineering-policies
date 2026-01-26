@@ -53,7 +53,7 @@ Those are governed by:
   - [~/dev Workspace Organization](#dev-workspace-organization)
     - [Canonical layout](#canonical-layout)
     - [Non-negotiable rules](#non-negotiable-rules)
-  - [~/learning Directory](#learning-directory)
+  - [~/learning-repos Directory](#learning-directory)
     - [Allowed contents](#allowed-contents)
     - [Default rule](#default-rule)
     - [Temporary exception: training repos](#temporary-exception-training-repos)
@@ -161,7 +161,7 @@ Each directory has **one meaning only**.
 | `~/Documents`  | Human documents                                      |
 | `~/Downloads`  | Ephemeral downloads                                  |
 | `~/go`         | Go workspace (standard layout)                       |
-| `~/learning`   | Non-authoritative learning & scratch                 |
+| `~/learning-repos`   | Non-authoritative learning & scratch                 |
 | `~/Templates`  | Templates                                            |
 | `~/tmp_backup` | Temporary safety net                                 |
 | `~/vpn`        | VPN configs                                          |
@@ -171,7 +171,7 @@ Each directory has **one meaning only**.
 
 ## Storage Layer: `/workspace` (RAID backing store)
 
-This policy defines the **canonical meaning** of directories under `$HOME` (e.g., `~/dev`, `~/learning`, `~/ai`).
+This policy defines the **canonical meaning** of directories under `$HOME` (e.g., `~/dev`, `~/learning-repos`, `~/ai`).
 
 Some canonical directories **may be implemented as symlinks** that point into `/workspace` to leverage RAID-backed storage.
 This is a **physical storage detail only** and must **never introduce a second taxonomy**.
@@ -182,7 +182,7 @@ This is a **physical storage detail only** and must **never introduce a second t
    The meaning of a path is determined by its canonical `$HOME` location (e.g., “models live in `~/dev/models/`”), even if it is symlinked to `/workspace`.
 
 2) **No parallel `/workspace/*` taxonomy**
-   Do **not** create or use directory meanings like `/workspace/dev`, `/workspace/learning`, `/workspace/ml`, `/workspace/devops`, etc.
+   Do **not** create or use directory meanings like `/workspace/dev`, `/workspace/learning-repos`, `/workspace/ml`, `/workspace/devops`, etc.
    If you need RAID backing for a canonical `$HOME` directory, do it by **symlinking the canonical directory** to a target under `/workspace`.
 
 3) **Only symlink targets are allowed in `/workspace`**
@@ -215,7 +215,7 @@ Optional (only if you decide to keep heavy artifacts on RAID):
 
 ```text
 /workspace/dev/...
-/workspace/learning/...
+/workspace/learning-repos/...
 /workspace/ml/...
 /workspace/devops/...
 ```
@@ -272,11 +272,11 @@ This eliminates:
 
 ---
 
-## ~/learning Directory
+## ~/learning-repos Directory
 
 <a id="learning-directory"></a>
 
-`~/learning` is **non-authoritative by default**.
+`~/learning-repos` is **non-authoritative by default**.
 
 ### Allowed contents
 
@@ -287,12 +287,12 @@ This eliminates:
 
 ### Default rule
 
-* **No `.git/` directories** in `~/learning`
+* **No `.git/` directories** in `~/learning-repos`
   unless explicitly documented as a temporary exception.
 
 ### Temporary exception: training repos
 
-A limited number of training repos may exist under `~/learning` strictly for Git/IDE practice.
+A limited number of training repos may exist under `~/learning-repos` strictly for Git/IDE practice.
 
 If any repo becomes “real work”, it must be moved to:
 
@@ -356,7 +356,7 @@ Memorize:
 
 * **Repos** → `~/dev/repos`
 * **Envs + tooling state** → `~/dev`
-* **Learning scratch** → `~/learning`
+* **Learning scratch** → `~/learning-repos`
 * **Build output** → `~/dev/build`
 * **Runs** → `~/dev/devruns`
 * **Models** → `~/dev/models`
