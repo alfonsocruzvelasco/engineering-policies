@@ -102,6 +102,10 @@ The `/policies` folder is organized around **compiled policy bundles** (merged d
   *Approved agents + the single authorized AI coding environment + sandbox enforcement + AI code review protocol + AI security*
   (Cursor is the only coding IDE; Claude/ChatGPT/Gemini are non-coding; sandbox rules, core security position, tool use security, Guardrails AI integration, prompt-injection defense, verification-first workflows, AI code review best practices, learning protocol)
 
+- **`policies/ai-coding-security-policy.md`**
+  *Comprehensive AI-Assisted Coding Security framework*
+  (OWASP Top 10 for LLMs coverage, OAuth 2.0 for AI/agents, SSH & infrastructure access, API-calling agents security, tool use security with Guardrails AI, output sanitization, agent resource limits, prompt injection defense, ML/CV-specific security, supply chain security, four-layer verification gates, required security tooling, incident response)
+
 - **`policies/prompts-policy.md`**
   *Operational prompt playbook ("what to do" / "how to ask")*
   (prompt templates, verification routines, prompt-injection defense, token optimization, English-first architecture)
@@ -142,12 +146,14 @@ flowchart TD
     B --> C[Versioning and Documenting Policy<br/>Git, source control, documentation, versioning]
     C --> D[Security Policy<br/>Secrets, IAM, OAuth, dependencies, ML/CV security]
     D --> E[AI Usage & Prompts Policies<br/>Cursor sandbox, prompt engineering, MCP, tokens]
+    E --> F[AI Coding Security Policy<br/>OWASP LLM Top 10, tool security, verification gates, security tooling]
 
     style A fill:#e1f5ff
     style B fill:#e1f5ff
     style C fill:#e1f5ff
     style D fill:#ffe1e1
     style E fill:#fff4e1
+    style F fill:#ffe1e1
 ```
 
 ---
@@ -204,8 +210,9 @@ This repository is **infrastructure**, not documentation noise.
 3. **Verification required** for all AI-generated code (verification-first paradigm)
 4. **Sandbox restriction** to `/home/alfonso/dev/repos/github.com/alfonsocruzvelasco/sandbox-claude-code/`
 5. **AI code review protocol** — Follow systematic review process (see `ai-usage-policy.md`)
-6. **Use templates** — Start from `policies/templates/` for common tasks (prompt-template.md, mcp-template.md)
-7. **Reference theory** — Consult `policies/references/prompt-engineering-theory.md` for theoretical foundations
+6. **AI security framework** — Follow comprehensive security controls (see `ai-coding-security-policy.md`)
+7. **Use templates** — Start from `policies/templates/` for common tasks (prompt-template.md, mcp-template.md)
+8. **Reference theory** — Consult `policies/references/prompt-engineering-theory.md` for theoretical foundations
 
 ### Security checklist
 1. No secrets in Git (see `security-policy.md`)
@@ -213,10 +220,11 @@ This repository is **infrastructure**, not documentation noise.
 3. Dependencies scanned for vulnerabilities
 4. ML/CV models and data access-controlled
 5. AI tools never receive secrets or sensitive data
-6. OAuth 2.0 tokens minimal-scope for AI/agents (see `security-policy.md` Section 5.1)
-7. SSH/infrastructure access never granted to AI tools (see `security-policy.md` Section 6)
-8. Tool use security enforced via Guardrails AI (see `ai-usage-policy.md` and `security-policy.md` Section 8)
-9. All AI output passes mandatory verification gates before merge (see `security-policy.md` Section 19)
+6. OAuth 2.0 tokens minimal-scope for AI/agents (see `ai-coding-security-policy.md` Section 3)
+7. SSH/infrastructure access never granted to AI tools (see `ai-coding-security-policy.md` Section 4)
+8. Tool use security enforced via Guardrails AI (see `ai-coding-security-policy.md` Section 5)
+9. All AI output passes four-layer verification gates before merge (see `ai-coding-security-policy.md` Section 10)
+10. Required security tooling deployed (see `ai-coding-security-policy.md` Section 13)
 
 ### System infrastructure
 1. **RAID setup** — See `policies/system/raid/raid-system-set-up.md` for storage configuration
