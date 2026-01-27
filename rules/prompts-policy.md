@@ -49,7 +49,7 @@
 ## 1) Operating Principles
 
 - **Reality-first:** Never invent facts, sources, file paths, or results.
-- **Grounding by default:** Use retrieval (web/RAG/MCP) and cite sources. **MCP (Model Context Protocol)** in Cursor provides structured access to files, databases, Git, and APIs — prefer MCP over pasting data (see `ai-usage-policy.md` [MCP section](policies/ai-usage-policy.md#mcp-model-context-protocol) for basic info, and detailed MCP documentation in this document).
+- **Grounding by default:** Use retrieval (web/RAG/MCP) and cite sources. **MCP (Model Context Protocol)** in Cursor provides structured access to files, databases, Git, and APIs — prefer MCP over pasting data (see `ai-usage-policy.md` [MCP section](ai-usage-policy.md#mcp-model-context-protocol) for basic info, and detailed MCP documentation in this document).
 - **English-first architecture:** All system prompts, tool definitions, reasoning layers, and structured outputs MUST use English. This is non-negotiable for reliability, accuracy, and token efficiency (see [English-First Architecture](#english-first-architecture-for-prompts) section).
 - **Prefer refusal over fabrication:** If uncertain, say "I don't know."
 - **Explicit Instruction Levels:** Respect the requested level (Minimal/Thorough/Comprehensive). Do not over-explain if "Minimal" is requested.
@@ -953,7 +953,7 @@ Optimization targets:
 * Anthropic Context Engineering Guide
 * OpenAI prompt caching documentation
 * Cursor docs (Rules, Skills, Worktrees, MCP)
-* **MCP Documentation:** See `ai-usage-policy.md` [MCP section](policies/ai-usage-policy.md#mcp-model-context-protocol) for basic MCP info. Detailed MCP setup, usage patterns, and best practices are documented in this `prompts-policy.md` file (see MCP sections below)
+* **MCP Documentation:** See `ai-usage-policy.md` [MCP section](ai-usage-policy.md#mcp-model-context-protocol) for basic MCP info. Detailed MCP setup, usage patterns, and best practices are documented in this `prompts-policy.md` file (see MCP sections below)
 
 ### Academic papers (foundational)
 
