@@ -234,7 +234,19 @@ This repository is **infrastructure**, not documentation noise.
 1. **RAID setup** — See `policies/system/raid/raid-system-set-up.md` for storage configuration
 2. **Workspace backing** — `/workspace` RAID-backed storage policies in `policies/system/workspace/`
 3. **Large datasets** — Always use symlinks from `$HOME` to `/workspace` for data volumes
-4. **Security validation** — Run `policies/system/scripts/ai-security-check.sh` from repository root to validate AI-generated code before committing
+4. **System scripts** — Automation and security validation tools:
+   - **`ai-security-check.sh`** — AI-generated code security validation
+     - **Usage**: Run from repository root: `./rules/system/scripts/ai-security-check.sh`
+     - **Purpose**: Implements four-layer defense-in-depth (secrets scanning, SAST, dependency scanning, critical pattern checks)
+     - **When to use**: Before committing any AI-generated code
+     - **Requirements**: Must be run from repo root (where `.git` exists)
+     - **Output**: Reports critical errors (blocking) and warnings (review required)
+   - **`setup-sops-age.sh`** — SOPS and Age key management setup
+     - **Usage**: Run once to set up secret management: `./rules/system/scripts/setup-sops-age.sh`
+     - **Purpose**: Installs `age` and `sops`, generates encryption keys, configures environment
+     - **When to use**: Initial setup for secret management (idempotent, safe to run multiple times)
+     - **Requirements**: Requires `sudo` access for package installation
+     - **Output**: Creates `~/.config/sops/age/keys.txt`, configures `SOPS_AGE_KEY_FILE` in `~/.bashrc`, runs encryption test
 
 ### Learning and professional development
 1. **AV Perception Learning Path** — See `policies/av-perception-learning-path.md` for comprehensive 32-week curriculum
