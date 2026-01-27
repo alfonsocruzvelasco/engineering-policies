@@ -1,7 +1,7 @@
 # Cursor AI Coding Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-01-19
+**Last updated:** 2026-01-24
 
 **Scope:** This policy governs the use of **Cursor** as the **only AI coding tool** in this development environment.
 
@@ -12,6 +12,7 @@
 - [AI Coding Policy](#ai-coding-policy)
   - [Index](#index)
   - [Core Principle](#core-principle)
+  - [Core Security Position](#core-security-position)
   - [Sandbox Restriction](#sandbox-restriction)
   - [Hard Rules (Non-Negotiable)](#hard-rules-non-negotiable)
   - [Daily Workflow](#daily-workflow)
@@ -23,6 +24,7 @@
   - [Model Usage](#model-usage)
   - [Git Discipline](#git-discipline)
   - [MCP (Model Context Protocol)](#mcp-model-context-protocol)
+  - [Tool Use Security (API-Calling Agents)](#tool-use-security-api-calling-agents)
   - [Stewardship Model: Ownership Beyond Authorship](#stewardship-model-ownership-beyond-authorship)
   - [Verification-First Mindset](#verification-first-mindset)
   - [Operational Readiness Requirements](#operational-readiness-requirements)
@@ -42,6 +44,22 @@
 - **Diff-first** — see changes before committing
 - **Specification-first** — clarity of constraints, edge cases, and requirements is the bottleneck
 - **Verification-first** — treat AI output like junior PR; verification becomes central
+
+## Core Security Position
+
+**AI is an untrusted junior engineer with tool access.**
+It can generate vulnerabilities, misuse credentials, and be socially engineered via prompts.
+All AI output must pass **security, verification, and operational gates**. Responsibility remains human.
+
+**Primary Risk Categories:**
+
+| Risk                        | What Happens                               | Control                                           |
+| --------------------------- | ------------------------------------------ | ------------------------------------------------- |
+| Secrets & data leakage      | Sensitive info exposed via prompts/logs    | Never share secrets, sanitize outputs             |
+| Silent security regressions | Auth/validation removed or weakened        | Mandatory security review for sensitive areas     |
+| Dependency injection        | Malicious or fake packages introduced      | SCA scan + human review                           |
+| Code/command injection      | Unsafe shell/SQL/template construction     | Parameterization + input validation               |
+| Prompt injection            | AI follows malicious embedded instructions | Treat retrieved text as data, never instructions  |
 
 ---
 
@@ -399,6 +417,44 @@ MCP servers in Cursor provide structured access to tools (Databases, Git, APIs, 
 
 **Security:** MCP servers must be restricted to necessary directories/files. Never allow full system access.
 
+## Tool Use Security (API-Calling Agents)
+
+LLM agents that call APIs or run tools introduce **server-side execution risk**.
+
+**Threat Reality:**
+Research shows LLM agents can be manipulated into executing harmful tool actions even when they "recognize" the request is malicious. Tool access turns prompt injection into **remote code execution**.
+
+**Policy Rules:**
+
+**Principle: Capability ≠ Permission**
+Just because an agent *can* call an API or tool does not mean it *should*.
+
+**Hard Controls:**
+* Tool access must be explicitly allowlisted
+* Each tool call must be logged and auditable
+* Sensitive tools (filesystem, shell, DB, cloud APIs) require:
+  * explicit human approval or
+  * policy-based runtime checks
+
+**Never allow agents to:**
+* Execute arbitrary shell commands
+* Access credential stores
+* Modify production data without approval
+* Download or execute binaries
+
+**Guardrails AI Integration:**
+* Use Guardrails AI to enforce policy-based runtime checks for tool calls
+* Configure Guardrails to validate tool usage against security policies
+* Log all tool calls through Guardrails for audit trails
+* Set up Guardrails to block unauthorized tool access automatically
+
+**Guardrails AI Configuration:**
+* Install Guardrails AI SDK in your project
+* Define security policies for tool usage
+* Integrate Guardrails validation in tool call paths
+* Monitor and alert on policy violations
+* See `security-policy.md` Section 8 for detailed API-Calling Agents security rules
+
 ---
 
 ## Agent Orchestration and Artifact Governance
@@ -454,6 +510,28 @@ The engineering "contract" expands from "deliver feature" to:
 ## Verification-First Mindset
 
 **Craft implication:** With AI coding, verification becomes central. Tests become the steering wheel.
+
+**Mandatory Verification Gates (Before Merge):**
+
+AI-assisted code must pass:
+
+**Security:**
+* No secrets
+* Input validation present
+* Auth/authz verified
+* Dependency scan clean
+
+**Correctness:**
+* Tests pass
+* Edge cases covered
+
+**Operations:**
+* Logging + error handling
+* Rollback possible
+
+**Governance:**
+* Human code review
+* Branch protection + CI enforced
 
 ### Verification Checklist (Mandatory)
 
@@ -556,7 +634,7 @@ This discipline prevents time waste and maintains code quality.
 **Related policies:**
 - `prompts-policy.md` — Detailed prompt engineering and MCP usage
 - `versioning-and-documenting-policy.md` — Git, source control, and versioning policies
-- `security-policy.md` — Security and compliance baseline
+- `security-policy.md` — Security and compliance baseline (includes OAuth 2.0 for AI, SSH & Infrastructure Access, API-Calling Agents security, and Guardrails AI integration)
 
 ---
 

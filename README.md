@@ -94,13 +94,13 @@ The `/policies` folder is organized around **compiled policy bundles** (merged d
 
 - **`policies/security-policy.md`**
   *Security and compliance baseline*
-  (secrets handling, identity/access control, dependency security, cloud security, ML/CV security best practices, incident response)
+  (secrets handling, identity/access control, OAuth 2.0 for AI/agents, SSH & infrastructure access, API-calling agents security, dependency security, cloud security, ML/CV security best practices, prompt injection defense, mandatory verification gates, incident response)
 
 ### AI usage & prompt engineering policies (authoritative)
 
 - **`policies/ai-usage-policy.md`**
-  *Approved agents + the single authorized AI coding environment + sandbox enforcement + AI code review protocol*
-  (Cursor is the only coding IDE; Claude/ChatGPT/Gemini are non-coding; sandbox rules, prompt-injection defense, verification-first workflows, AI code review best practices, learning protocol)
+  *Approved agents + the single authorized AI coding environment + sandbox enforcement + AI code review protocol + AI security*
+  (Cursor is the only coding IDE; Claude/ChatGPT/Gemini are non-coding; sandbox rules, core security position, tool use security, Guardrails AI integration, prompt-injection defense, verification-first workflows, AI code review best practices, learning protocol)
 
 - **`policies/prompts-policy.md`**
   *Operational prompt playbook ("what to do" / "how to ask")*
@@ -213,6 +213,10 @@ This repository is **infrastructure**, not documentation noise.
 3. Dependencies scanned for vulnerabilities
 4. ML/CV models and data access-controlled
 5. AI tools never receive secrets or sensitive data
+6. OAuth 2.0 tokens minimal-scope for AI/agents (see `security-policy.md` Section 5.1)
+7. SSH/infrastructure access never granted to AI tools (see `security-policy.md` Section 6)
+8. Tool use security enforced via Guardrails AI (see `ai-usage-policy.md` and `security-policy.md` Section 8)
+9. All AI output passes mandatory verification gates before merge (see `security-policy.md` Section 19)
 
 ### System infrastructure
 1. **RAID setup** — See `policies/system/raid/raid-system-set-up.md` for storage configuration
