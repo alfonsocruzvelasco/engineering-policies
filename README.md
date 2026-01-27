@@ -135,6 +135,9 @@ The `/policies` folder is organized around **compiled policy bundles** (merged d
   - **`raid/`** — RAID storage configuration and setup procedures
     - `raid-system-set-up.md` — RAID array setup, monitoring, and maintenance
   - **`workspace/`** — `/workspace` backing store policies and procedures
+  - **`scripts/`** — System automation and security validation scripts
+    - `ai-security-check.sh` — AI-generated code security validation script implementing four-layer defense-in-depth (secrets scanning, SAST, dependency scanning, critical pattern checks)
+    - `setup-sops-age.sh` — SOPS and Age key management setup script
 
 ---
 
@@ -225,11 +228,13 @@ This repository is **infrastructure**, not documentation noise.
 8. Tool use security enforced via Guardrails AI (see `ai-coding-security-policy.md` Section 5)
 9. All AI output passes four-layer verification gates before merge (see `ai-coding-security-policy.md` Section 10)
 10. Required security tooling deployed (see `ai-coding-security-policy.md` Section 13)
+11. **Run `ai-security-check.sh`** before committing AI-generated code (see `policies/system/scripts/ai-security-check.sh`)
 
 ### System infrastructure
 1. **RAID setup** — See `policies/system/raid/raid-system-set-up.md` for storage configuration
 2. **Workspace backing** — `/workspace` RAID-backed storage policies in `policies/system/workspace/`
 3. **Large datasets** — Always use symlinks from `$HOME` to `/workspace` for data volumes
+4. **Security validation** — Run `policies/system/scripts/ai-security-check.sh` from repository root to validate AI-generated code before committing
 
 ### Learning and professional development
 1. **AV Perception Learning Path** — See `policies/av-perception-learning-path.md` for comprehensive 32-week curriculum
