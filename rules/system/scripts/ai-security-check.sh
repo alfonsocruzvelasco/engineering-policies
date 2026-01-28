@@ -12,7 +12,7 @@ echo "🔍 AI-Generated Code Security Validation"
 echo "========================================"
 echo ""
 
-# Section 10.1: Pre-commit checks
+# Section 11, Layer 1: Pre-Commit (Developer Workstation)
 echo "📋 Layer 1: Pre-commit validation..."
 
 # Check for secrets
@@ -30,7 +30,7 @@ else
     ((WARNINGS++))
 fi
 
-# Section 10.3: Static analysis
+# Section 11, Layer 3: CI/CD Pipeline (Automated Enforcement)
 echo ""
 echo "📋 Layer 3: CI/CD Pipeline checks..."
 
@@ -118,9 +118,9 @@ else
     echo "  ✅ No insecure deserialization found"
 fi
 
-# Section 6: Check for resource limits
+# Section 7: Agent Resource Limits (DoS Prevention)
 echo ""
-echo "📋 Agent resource limit checks (Section 6)..."
+echo "📋 Agent resource limit checks (Section 7)..."
 
 echo "  → Checking for timeout configurations..."
 if grep -rE "timeout\s*=|TimeoutError|asyncio\.wait_for" --include="*.py" . >/dev/null 2>&1; then
@@ -130,9 +130,9 @@ else
     ((WARNINGS++))
 fi
 
-# Section 7: Check for prompt injection patterns (ENHANCED)
+# Section 8: Prompt Injection Defense (Critical for AI Coding)
 echo ""
-echo "📋 Prompt injection defense checks (Section 7 - OWASP LLM01)..."
+echo "📋 Prompt injection defense checks (Section 8 - OWASP LLM01)..."
 
 echo "  → Checking for unsafe string interpolation in prompts..."
 if grep -rE "f\".*\{user|f\".*\{input|prompt.*\+.*user" --include="*.py" . 2>/dev/null; then
