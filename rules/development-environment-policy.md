@@ -1,7 +1,7 @@
 # Development Environment Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-01-16
+**Last updated:** 2026-01-28
 
 ---
 
@@ -347,6 +347,10 @@ Repos contain only:
 
 * references (paths, manifest files, scripts)
 * never the heavy payload
+
+### Infrastructure Services Rule
+
+**All infrastructure services must run in containers, not as host-level installations.** This includes MLflow servers, orchestration systems (Airflow/Prefect), monitoring stacks (Prometheus/Grafana), message brokers (Kafka/Redpanda), databases, and model serving infrastructure. The host OS must remain a clean execution substrate. See `mlops-policy.md` Section 1 (Core Principles, principle #9) for full details.
 
 ---
 

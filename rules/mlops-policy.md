@@ -1,7 +1,7 @@
 # MLOps Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-01-19
+**Last updated:** 2026-01-28
 **Purpose:** Comprehensive MLOps practices for experiment tracking, model lifecycle, serving, monitoring, and optimization
 
 ---
@@ -68,6 +68,7 @@
 6. **Safety first.** All model deployments must support rollback and have monitoring.
 7. **Production ownership.** You own outcomes in production, not just models. Focus on "model-in-production under constraints", not just "model building".
 8. **Stewardship over authorship.** Ownership shifts from authorship → stewardship. Before deploying, answer: why does it exist, what guarantees, failure modes, tests/invariants, rollback plan, who gets paged.
+9. **Infrastructure services must run in containers.** All infrastructure services used for ML systems must run in containers (Docker/Podman), not as host-level installations. This includes (but is not limited to): MLflow servers, orchestration systems (Airflow/Prefect), monitoring stacks (Prometheus/Grafana), message brokers (Kafka/Redpanda), databases, and model serving infrastructure. The host OS must remain a clean execution substrate. Reproducible environments are achieved via containers (and later Kubernetes), not manual system package installation.
 
 ---
 
