@@ -1,7 +1,7 @@
 # Cursor AI Coding Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-01-24
+**Last updated:** 2026-01-28
 
 **Scope:** This policy governs the use of **Cursor** as the **only AI coding tool** in this development environment.
 
@@ -416,6 +416,116 @@ MCP servers in Cursor provide structured access to tools (Databases, Git, APIs, 
 **Configuration:** See `prompts-policy.md` for detailed MCP setup and usage patterns.
 
 **Security:** MCP servers must be restricted to necessary directories/files. Never allow full system access.
+
+## Using AI Tools for Structured ML/CV Engineering
+
+### Core Mental Model
+
+**Modern ML/CV engineers don't just call models — they build structured systems around models.**
+
+When using AI tools (Cursor, Claude, etc.) for ML/CV work, focus on building **structured pipelines**, not notebooks or ad-hoc scripts.
+
+### What AI Tools Should Help You Build
+
+#### A. Reusable Modules
+
+Use AI tools to create composable units:
+
+```
+src/
+ ├── data/
+ │   ├── dataset_loader.py
+ │   ├── augmentations.py
+ │   └── splits.py
+ ├── models/
+ │   ├── model_wrapper.py
+ │   └── architectures.py
+ ├── inference/
+ │   └── inference_pipeline.py
+ ├── evaluation/
+ │   └── metrics.py
+ └── pipelines/
+     └── training_pipeline.py
+```
+
+**Not:** One giant notebook or script with everything inside.
+
+#### B. Deterministic Workflows
+
+Use AI tools to implement:
+- Validation loops (dataset sanity checks, shape checks, distribution checks)
+- Structured outputs (structured predictions + logs)
+- Evaluation gates before deployment
+
+**Philosophy:** Never trust raw model output. Always verify.
+
+#### C. Tool-Using Pipelines
+
+Build systems where components call each other:
+- Load images → Run OpenCV transforms → Call PyTorch models → Save predictions
+
+**Architecture thinking:** Model is one step inside a larger system.
+
+### What You Do NOT Need AI Tools For
+
+**Do not use AI tools to:**
+- ❌ Build fancy agent orchestration frameworks
+- ❌ Create general-purpose AI agents
+- ❌ Become a "Claude Code power user"
+
+That's tool specialization, not ML engineering. Use AI tools **as helpers** to build structured ML/CV systems, not as your career focus.
+
+### The Correct Integration
+
+When using AI tools, translate agent concepts to ML/CV equivalents:
+
+| Agent/Skills Concept | ML/CV Equivalent You Should Build |
+| -------------------- | ---------------------------------- |
+| Skill                 | Reusable pipeline module            |
+| Agent workflow        | Data → Model → Evaluation pipeline  |
+| Guardrails            | Data validation + metrics thresholds |
+| Tool calling          | Calling CV libraries + models       |
+| Memory                | Experiment tracking (MLflow, W&B)   |
+| Structured output     | Structured predictions + logs       |
+
+**Translation that matters:**
+> "How do I build **structured ML systems** instead of messy notebooks?"
+
+### Practical Action
+
+**Use AI tools to write CV projects as structured pipelines, not notebooks.**
+
+**Instead of asking AI to:**
+```
+"Write a notebook that does everything"
+```
+
+**Ask AI to:**
+```
+"Create a structured pipeline with:
+- src/data/dataset_loader.py
+- src/models/model_wrapper.py
+- src/inference/inference_pipeline.py
+- src/evaluation/metrics.py
+- src/pipelines/training_pipeline.py"
+```
+
+**That is the real skill** all these agent ecosystems are secretly training.
+
+### Bottom Line
+
+You don't need to become an "agent expert."
+
+You need to absorb this engineering principle:
+
+> **AI systems = modular, testable, repeatable pipelines — not prompts, not scripts, not notebooks.**
+
+That mindset is what separates:
+**Beginner ML user** → **ML/CV Engineer**
+
+See `mlops-policy.md` Section 1.1 for detailed guidance on structured ML/CV engineering.
+
+---
 
 ## Tool Use Security (API-Calling Agents)
 

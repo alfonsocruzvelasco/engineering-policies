@@ -69,10 +69,126 @@
 7. **Production ownership.** You own outcomes in production, not just models. Focus on "model-in-production under constraints", not just "model building".
 8. **Stewardship over authorship.** Ownership shifts from authorship → stewardship. Before deploying, answer: why does it exist, what guarantees, failure modes, tests/invariants, rollback plan, who gets paged.
 9. **Infrastructure services must run in containers.** All infrastructure services used for ML systems must run in containers (Docker/Podman), not as host-level installations. This includes (but is not limited to): MLflow servers, orchestration systems (Airflow/Prefect), monitoring stacks (Prometheus/Grafana), message brokers (Kafka/Redpanda), databases, and model serving infrastructure. The host OS must remain a clean execution substrate. Reproducible environments are achieved via containers (and later Kubernetes), not manual system package installation.
+10. **Structured pipelines over notebooks.** ML/CV projects must be structured as modular, testable, repeatable pipelines — not notebooks, not scripts, not prompt-chaos. The mental model: **AI systems = modular, testable, repeatable pipelines**. This separates beginner ML users from ML/CV engineers.
 
 ---
 
-## 1.1) Production Ownership and Stewardship
+## 1.1) Structured ML/CV Engineering: Pipeline Thinking Over Notebooks
+
+### Core Mental Model
+
+**Modern ML/CV engineers don't just call models — they build structured systems around models.**
+
+This means:
+- Breaking problems into **steps** (data ingestion → validation → preprocessing → inference → post-processing → evaluation → logging)
+- Giving components **clear roles** (dataset_loader.py, augmentations.py, model_wrapper.py, evaluation.py, inference_pipeline.py)
+- Adding **tools + validation + memory** (experiment tracking, data validation, metrics thresholds)
+- Making behavior **repeatable, not prompt-chaos**
+
+**Agent orchestration thinking = ML/CV pipeline thinking.** Same brain muscle.
+
+### What Is Actually Valuable
+
+#### A. Reusable Modules
+
+Build composable units, not one giant script:
+
+```
+src/
+ ├── data/
+ │   ├── dataset_loader.py
+ │   ├── augmentations.py
+ │   └── splits.py
+ ├── models/
+ │   ├── model_wrapper.py
+ │   └── architectures.py
+ ├── inference/
+ │   └── inference_pipeline.py
+ ├── evaluation/
+ │   └── metrics.py
+ └── pipelines/
+     └── training_pipeline.py
+```
+
+**Senior engineering behavior:** Modular, testable, maintainable.
+
+#### B. Deterministic Workflows > Clever Prompts
+
+Emphasize:
+- Validation loops (dataset sanity checks, shape checks, distribution checks)
+- Structured outputs (structured predictions + logs)
+- Checks before moving forward (evaluation gates before deployment)
+
+**Philosophy:** Never trust raw model output. Always verify.
+
+#### C. Tool-Using Pipelines
+
+CV systems call components:
+- Load images
+- Run OpenCV transforms
+- Call PyTorch models
+- Save predictions
+
+**Architecture thinking:** Model is one step inside a larger system, not "the AI does everything".
+
+### What You Do NOT Need To Dive Deep Into
+
+As an ML/CV engineer, **do not sink months into:**
+- ❌ Fancy agent orchestration frameworks
+- ❌ Building general-purpose AI agents
+- ❌ Becoming a "Claude Code power user"
+
+That's tool specialization, not ML engineering. Use them **as helpers**, not as your career focus.
+
+### The Correct Integration
+
+| Agent/Skills Concept | ML/CV Equivalent You Should Practice |
+| -------------------- | ------------------------------------ |
+| Skill                 | Reusable pipeline module              |
+| Agent workflow        | Data → Model → Evaluation pipeline   |
+| Guardrails            | Data validation + metrics thresholds  |
+| Tool calling          | Calling CV libraries + models         |
+| Memory                | Experiment tracking (MLflow, W&B)    |
+| Structured output     | Structured predictions + logs         |
+
+**Translation that matters:**
+> "How do I build **structured ML systems** instead of messy notebooks?"
+
+### Practical Action
+
+**Start writing your CV projects as structured pipelines, not notebooks.**
+
+**Instead of:**
+```
+notebook.ipynb with everything inside
+```
+
+**Do:**
+```
+src/
+ ├── data/
+ ├── models/
+ ├── inference/
+ ├── evaluation/
+ └── pipelines/
+```
+
+**That is the real skill** all these agent ecosystems are secretly training.
+
+### Bottom Line
+
+You don't need to become an "agent expert."
+
+You need to absorb this engineering principle:
+
+> **AI systems = modular, testable, repeatable pipelines — not prompts, not scripts, not notebooks.**
+
+That mindset is what separates:
+**Beginner ML user** → **ML/CV Engineer**
+
+---
+
+## 1.2) Production Ownership and Stewardship
 
 ### Stewardship Model for ML/CV Systems
 
