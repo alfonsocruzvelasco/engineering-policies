@@ -21,7 +21,7 @@
   - [Cursor Modes](#cursor-modes)
   - [Guardrails](#guardrails)
     - [Repo-Level Rules File](#repo-level-rules-file)
-  - [Model Usage](#model-usage)
+  - [AI Model Usage Policy — Local vs Cloud](#ai-model-usage-policy--local-vs-cloud)
   - [Git Discipline](#git-discipline)
   - [MCP (Model Context Protocol)](#mcp-model-context-protocol)
   - [Tool Use Security (API-Calling Agents)](#tool-use-security-api-calling-agents)
@@ -367,28 +367,56 @@ docs/_build/
 
 ---
 
-## Model Usage
+## AI Model Usage Policy — Local vs Cloud
 
-### Hybrid Intelligence Stack: Token Savings Strategy
+### Purpose
 
-**Core principle:** Use **paid frontier models as "senior consultants"** and **local models as "junior assistants"**.
+This policy defines how and when to use **local AI models** (via Ollama) versus **cloud AI models** (e.g., Claude) during development work. The goal is to balance **cost efficiency, performance, security, and engineering quality**.
+
+This policy applies to all coding, ML/CV engineering, scripting, and documentation tasks performed in this environment.
+
+### Core Principle
+
+> **Use local models for volume. Use frontier cloud models for intelligence.**
+
+Local models are productivity multipliers for routine work. Cloud models are reserved for tasks where reasoning quality, long‑context understanding, or architectural judgment is critical.
+
+**Mental model:** Use **paid frontier models as "senior consultants"** and **local models as "junior assistants"**.
 
 With 64GB RAM and RTX 4070, you can reliably run local models (7B–14B, even 32B quantized) for routine tasks, saving 70–90% of token costs while maintaining quality where it matters.
 
-#### Model Selection Matrix
+---
 
-| Task Type                | Model Location | Model Examples                    | Why                                    |
-| ------------------------ | -------------- | --------------------------------- | -------------------------------------- |
-| Large refactors          | Local (Ollama)  | qwen2.5-coder, deepseek-coder     | Cheap, iterative, good enough quality   |
-| Test writing             | Local           | codellama, mistral                | Deterministic, repeatable patterns     |
-| Code explanations        | Local           | qwen2.5-coder, deepseek-coder     | No need for frontier reasoning         |
-| Boilerplate generation   | Local           | codellama, mistral                | Pattern matching, not complex logic    |
-| Shell scripting          | Local           | qwen2.5-coder, codellama          | Simple, structured output              |
-| Log analysis             | Local           | qwen2.5-coder, mistral            | No need for frontier models            |
-| Architecture decisions   | Claude (paid)   | claude-3.5-sonnet                 | Top reasoning quality required         |
-| Complex ML debugging     | Claude (paid)   | claude-3.5-sonnet                 | Better long-context reasoning          |
-| Paper/code understanding | Claude (paid)   | claude-3.5-sonnet                 | Quality matters more than cost         |
-| Design decisions         | Claude (paid)   | claude-3.5-sonnet                 | Strategic thinking required            |
+### Local Models (Ollama) — Default for Mechanical Work
+
+Local models must be used for tasks that are:
+
+* Repetitive or mechanical
+* Low risk if slightly imperfect
+* Easily verifiable by tests or inspection
+* Not dependent on deep architectural reasoning
+
+#### Approved Use Cases
+
+* Code refactoring (small to medium scope)
+* Writing unit tests
+* Generating boilerplate
+* Shell scripting and CLI helpers
+* Data formatting and transformation scripts
+* Log summarization
+* Draft documentation
+* Simple code explanations
+
+#### Rationale
+
+Local models provide:
+
+* Zero API cost
+* Fast iteration
+* No external data exposure
+* High throughput for "grunt work"
+
+They are treated as **junior assistants**, not decision-makers.
 
 #### Claude Code → Ollama Integration
 
@@ -412,6 +440,59 @@ Claude Code can be pointed to a **local Ollama server** that mimics the Anthropi
 - RTX 4070: Can run even 32B quantized models if needed
 - This is **plenty for coding agents**
 
+#### Model Selection Matrix (Local Tasks)
+
+| Task Type                | Model Examples                    | Why                                    |
+| ------------------------ | --------------------------------- | -------------------------------------- |
+| Large refactors          | qwen2.5-coder, deepseek-coder     | Cheap, iterative, good enough quality   |
+| Test writing             | codellama, mistral                | Deterministic, repeatable patterns     |
+| Code explanations        | qwen2.5-coder, deepseek-coder     | No need for frontier reasoning         |
+| Boilerplate generation   | codellama, mistral                | Pattern matching, not complex logic    |
+| Shell scripting          | qwen2.5-coder, codellama          | Simple, structured output              |
+| Log analysis             | qwen2.5-coder, mistral            | No need for frontier models            |
+
+---
+
+### Cloud Models (Claude) — Reserved for High‑Cognition Tasks
+
+Cloud frontier models should be used when the task requires:
+
+* Deep reasoning
+* System design decisions
+* Cross‑file or cross‑module architectural understanding
+* Debugging subtle logic errors
+* ML/CV pipeline reasoning
+* Reading or interpreting research papers
+* Safety‑critical or production‑critical decisions
+
+#### Approved Use Cases
+
+* Designing new system architecture
+* Reviewing complex refactors
+* Debugging training/inference logic
+* Evaluating model performance issues
+* Designing data pipelines
+* Security‑sensitive code review
+
+#### Rationale
+
+Cloud models provide:
+
+* Stronger reasoning
+* Better long‑context performance
+* Higher reliability for complex problems
+
+They are treated as **senior engineering advisors**.
+
+#### Model Selection Matrix (Cloud Tasks)
+
+| Task Type                | Model Examples                    | Why                                    |
+| ------------------------ | --------------------------------- | -------------------------------------- |
+| Architecture decisions   | claude-3.5-sonnet                 | Top reasoning quality required         |
+| Complex ML debugging     | claude-3.5-sonnet                 | Better long-context reasoning          |
+| Paper/code understanding | claude-3.5-sonnet                 | Quality matters more than cost         |
+| Design decisions         | claude-3.5-sonnet                 | Strategic thinking required            |
+
 #### Cursor Token Savings (Limited)
 
 **Cursor is not designed to be fully local-first:**
@@ -422,7 +503,45 @@ Claude Code can be pointed to a **local Ollama server** that mimics the Anthropi
 
 **Strategy:** With Cursor, you can **reduce usage** but not eliminate it. Use Cursor for complex tasks where quality matters, and route routine work through Claude Code → Ollama.
 
-#### Token Efficiency Best Practices
+---
+
+### Context Size Guidelines
+
+Even when local models advertise large context windows, practical limits may be lower. If logs show context truncation, either:
+
+1. Increase the model context via an Ollama modelfile
+2. Break the task into smaller steps
+3. Escalate to a cloud model for large‑context reasoning
+
+Context overflow is considered a **quality risk**, not just a performance issue.
+
+---
+
+### Safety and Scope Controls
+
+* Local model usage must remain scoped to the active repository
+* No AI tool should be run from the home directory or system root
+* Sensitive files (SSH keys, tokens, credentials) must never be exposed
+
+Local execution reduces data exposure risk but does **not** remove the need for discipline.
+
+**Enforcement:** See `ai-coding-security-policy.md` Section 5 (Tool Access Control) and Section 6 (API Hooks Security) for detailed security controls.
+
+---
+
+### Decision Flow
+
+**If the task is:**
+
+* **Mechanical** → Use local model (Ollama)
+* **Ambiguous but important** → Start local, escalate if quality drops
+* **Architecturally complex** → Use Claude (cloud)
+
+When in doubt, optimize for **engineering correctness**, not token savings.
+
+---
+
+### Token Efficiency Best Practices
 
 1. **Use `.claudeignore`** to exclude irrelevant files (see `.claudeignore` Configuration section)
 2. **Route routine tasks to local models** (refactors, tests, boilerplate)
@@ -430,8 +549,15 @@ Claude Code can be pointed to a **local Ollama server** that mimics the Anthropi
 4. **Don't bounce models mid-task** unless stuck; it increases inconsistency
 5. **Monitor token usage** to identify optimization opportunities
 
-#### Default Model Selection
+---
 
+### Final Rule
+
+> **Cost optimization must never override code quality, correctness, or system safety.**
+
+Local models are accelerators. Cloud models are decision tools. Use each where it performs best.
+
+**Default model selection:**
 - **Default model:** Whatever gives you **best correctness** for code changes (often the strongest reasoning model you have enabled)
 - **Fast model:** For rewriting small text, renaming, comments, doc updates
 - **Local model:** For routine, iterative tasks where quality is "good enough"
