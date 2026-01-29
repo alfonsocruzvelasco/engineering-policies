@@ -1,7 +1,7 @@
 # Prompt Policies (Authoritative Reference Manual)
 
 **Status:** Authoritative
-**Last updated:** 2026-01-22
+**Last updated:** 2026-01-28
 **Purpose:** This is the operational playbook (the “what” and “how”) for prompt quality, verification, safety, agentic workflows, and token efficiency.
 **Scope:** Applies to all AI interactions (Cursor Pro, Claude Pro, ChatGPT Plus, Gemini Pro), with Cursor as the AI-first IDE.
 
@@ -647,7 +647,64 @@ This enables `/clear` + rapid resumption from notes instead of maintaining large
 
 ---
 
-### 3) Prompt Caching Strategies (50–90% cost reduction on cached tokens)
+### 3) Hybrid Intelligence Stack: Model Selection Strategy (70–90% token savings)
+
+**Core principle:** Use **paid frontier models as "senior consultants"** and **local models as "junior assistants"**.
+
+With 64GB RAM and RTX 4070, you can reliably run local models (7B–14B, even 32B quantized) for routine tasks, saving 70–90% of token costs while maintaining quality where it matters.
+
+#### Model Selection Matrix
+
+| Task Type                | Model Location | Model Examples                    | Why                                    |
+| ------------------------ | -------------- | --------------------------------- | -------------------------------------- |
+| Large refactors          | Local (Ollama)  | qwen2.5-coder, deepseek-coder     | Cheap, iterative, good enough quality   |
+| Test writing             | Local           | codellama, mistral                | Deterministic, repeatable patterns     |
+| Code explanations        | Local           | qwen2.5-coder, deepseek-coder     | No need for frontier reasoning         |
+| Boilerplate generation   | Local           | codellama, mistral                | Pattern matching, not complex logic    |
+| Shell scripting          | Local           | qwen2.5-coder, codellama          | Simple, structured output              |
+| Log analysis             | Local           | qwen2.5-coder, mistral            | No need for frontier models            |
+| Architecture decisions   | Claude (paid)   | claude-3.5-sonnet                 | Top reasoning quality required         |
+| Complex ML debugging     | Claude (paid)   | claude-3.5-sonnet                 | Better long-context reasoning          |
+| Paper/code understanding | Claude (paid)   | claude-3.5-sonnet                 | Quality matters more than cost         |
+| Design decisions         | Claude (paid)   | claude-3.5-sonnet                 | Strategic thinking required            |
+
+#### Claude Code → Ollama Integration
+
+**Cleanest win for token savings:**
+
+Claude Code can be pointed to a **local Ollama server** that mimics the Anthropic API. When configured:
+
+- Prompts are processed **locally**
+- No Anthropic API calls
+- **Zero Claude token cost** for those runs
+- You still use the **Claude Code interface and agent workflow**
+- The brain is a local model (qwen2.5-coder, deepseek-coder, codellama, mistral)
+
+**Configuration:**
+- Point Claude Code to local Ollama endpoint (typically `http://localhost:11434`)
+- Use Anthropic API compatibility layer in Ollama
+- Configure model selection per task type
+
+**Hardware advantage:**
+- 64GB RAM: Can run 7B–14B models fast
+- RTX 4070: Can run even 32B quantized models if needed
+- This is **plenty for coding agents**
+
+#### Cursor Token Savings (Limited)
+
+**Cursor is not designed to be fully local-first:**
+
+- Some features still route through Cursor infrastructure
+- Autocomplete / background intelligence may still hit their servers
+- Hard to guarantee "no paid tokens used"
+
+**Strategy:** With Cursor, you can **reduce usage** but not eliminate it. Use Cursor for complex tasks where quality matters, and route routine work through Claude Code → Ollama.
+
+**See `ai-usage-policy.md` Section "Model Usage" for detailed hybrid intelligence stack guidance.**
+
+---
+
+### 4) Prompt Caching Strategies (50–90% cost reduction on cached tokens)
 
 All subscriptions support prompt caching; maximize it by structuring prompts.
 
@@ -673,7 +730,7 @@ Prompt 2: "add logout with different rules" + [Different System]
 
 ---
 
-### 4) Parallel Tool Calling (Reduce total requests)
+### 5) Parallel Tool Calling (Reduce total requests)
 
 When multiple independent tool calls are needed, run them in parallel.
 
