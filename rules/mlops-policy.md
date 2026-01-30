@@ -70,6 +70,8 @@
 8. **Stewardship over authorship.** Ownership shifts from authorship → stewardship. Before deploying, answer: why does it exist, what guarantees, failure modes, tests/invariants, rollback plan, who gets paged.
 9. **Infrastructure services must run in containers.** All infrastructure services used for ML systems must run in containers (Docker/Podman), not as host-level installations. This includes (but is not limited to): MLflow servers, orchestration systems (Airflow/Prefect), monitoring stacks (Prometheus/Grafana), message brokers (Kafka/Redpanda), databases, and model serving infrastructure. The host OS must remain a clean execution substrate. Reproducible environments are achieved via containers (and later Kubernetes), not manual system package installation.
 10. **Structured pipelines over notebooks.** ML/CV projects must be structured as modular, testable, repeatable pipelines — not notebooks, not scripts, not prompt-chaos. The mental model: **AI systems = modular, testable, repeatable pipelines**. This separates beginner ML users from ML/CV engineers.
+11. **Verification is runtime infrastructure.** In probabilistic systems (LLMs, vision models), verification is not a QA phase — it is a runtime architectural layer. All model outputs must pass verification gates before affecting state. See [Probabilistic Systems Architecture Policy](./probabilistic-systems-architecture-policy.md).
+12. **Evals over unit tests.** You cannot unit test a prompt or a vision model. Success is statistical (>90% accuracy on eval set), not binary. CI/CD runs evals, not just tests. Budget for eval costs ($2-10 per run) and runtime (~10-20 minutes).
 
 ---
 
@@ -2731,6 +2733,35 @@ model_quantized = torch.quantization.quantize(
 * [Production Policy](production-policy.md) — Data storage, SQL, Python, Docker, K8s
 * [Security Policy](security-policy.md) — ML/CV security best practices
 * [Versioning and Documenting Policy](versioning-and-documenting-policy.md) — Git, versioning, documentation
+* [Probabilistic Systems Architecture Policy](probabilistic-systems-architecture-policy.md) — Architecture patterns for LLM/AI systems
+
+---
+
+## 15) Probabilistic Systems Testing & Evals
+
+### Core Principle: Statistical Validation Over Unit Tests
+
+**You cannot unit test a prompt. You cannot unit test a vision model's hallucination rate.**
+
+Success is **statistical**, not binary. This requires a fundamental shift in testing methodology.
+
+### Mandatory Eval Requirements
+
+**For All LLM-Powered Components:**
+- [ ] Eval set with 100+ examples
+- [ ] Success threshold defined (≥90% for production)
+- [ ] CI/CD integration that runs evals
+- [ ] Cost budget monitoring ($2-10 per eval run)
+- [ ] Regression tracking against baseline
+
+**For All Vision Models:**
+- [ ] Eval dataset with ground truth annotations
+- [ ] Precision/Recall thresholds defined (≥85%/≥80%)
+- [ ] Hallucination rate monitoring (<5%)
+- [ ] Geometric violation checks (robotics)
+- [ ] Performance baselines established
+
+**See [Probabilistic Systems Architecture Policy](./probabilistic-systems-architecture-policy.md) Section on "Evals Over Unit Tests" for detailed implementation.**
 
 ---
 

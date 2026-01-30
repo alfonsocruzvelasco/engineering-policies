@@ -84,9 +84,13 @@ The `/policies` folder is organized around **compiled policy bundles** (merged d
   *Daily reference for CV/ML engineering, data systems, and production tooling standards*
   (data/storage rules, SQL discipline, Python/TypeScript/React/Node.js, Docker/Kubernetes/Kafka, testing + verification, model evaluation, feature engineering, data quality, Quick Reference Cards)
 
+- **`policies/probabilistic-systems-architecture-policy.md`** **[NEW 2026-01-30]**
+  *Architectural patterns for the deterministic → probabilistic systems shift*
+  (The six pillars of probabilistic architecture, verification as runtime infrastructure, context management systems, dual-state architecture, evals over unit tests, agent runtime patterns, robotics-specific considerations, production readiness checklist)
+
 - **`policies/mlops-policy.md`**
   *Comprehensive MLOps practices for production ML/CV systems*
-  (experiment tracking, model versioning & registry, model serving & inference, model monitoring, hyperparameter tuning, distributed training, model optimization, deployment patterns, lifecycle management, reproducibility, cost optimization, latency engineering for real-time systems)
+  (experiment tracking, model versioning & registry, model serving & inference, model monitoring, hyperparameter tuning, distributed training, model optimization, deployment patterns, lifecycle management, reproducibility, cost optimization, latency engineering for real-time systems, **probabilistic systems testing & evals**)
 
 - **`policies/versioning-and-documenting-policy.md`**
   *Governance bundle*
@@ -146,17 +150,21 @@ The `/policies` folder is organized around **compiled policy bundles** (merged d
 ```mermaid
 flowchart TD
     A[Development Environment Policy<br/>Machine setup, directory layout, workspace isolation] --> B[Production Policy<br/>Data, SQL, Python, TypeScript, Docker, K8s, Kafka]
-    B --> C[Versioning and Documenting Policy<br/>Git, source control, documentation, versioning]
-    C --> D[Security Policy<br/>Secrets, IAM, OAuth, dependencies, ML/CV security]
-    D --> E[AI Usage & Prompts Policies<br/>Cursor sandbox, prompt engineering, MCP, tokens]
-    E --> F[AI Coding Security Policy<br/>OWASP LLM Top 10, tool security, verification gates, security tooling]
+    B --> G[Probabilistic Systems Architecture<br/>Deterministic→Probabilistic shift, verification runtime, evals, agents]
+    G --> C[MLOps Policy<br/>Experiment tracking, model serving, evals, monitoring]
+    C --> D[Versioning and Documenting Policy<br/>Git, source control, documentation, versioning]
+    D --> E[Security Policy<br/>Secrets, IAM, OAuth, dependencies, ML/CV security]
+    E --> F[AI Usage & Prompts Policies<br/>Cursor sandbox, prompt engineering, MCP, tokens]
+    F --> H[AI Coding Security Policy<br/>OWASP LLM Top 10, tool security, verification gates, security tooling]
 
     style A fill:#e1f5ff
     style B fill:#e1f5ff
+    style G fill:#d4edda
     style C fill:#e1f5ff
-    style D fill:#ffe1e1
-    style E fill:#fff4e1
-    style F fill:#ffe1e1
+    style D fill:#e1f5ff
+    style E fill:#ffe1e1
+    style F fill:#fff4e1
+    style H fill:#ffe1e1
 ```
 
 ---
@@ -200,12 +208,13 @@ This repository is **infrastructure**, not documentation noise.
 ### Starting a new ML/CV project
 1. Review `development-environment-policy.md` for directory structure
 2. Review `production-policy.md` for language/tooling standards and ML/CV operations
-3. Review `mlops-policy.md` for experiment tracking, model serving, and monitoring setup
-4. Review `versioning-and-documenting-policy.md` for Git workflow
-5. Review `security-policy.md` for secrets and ML/CV security
-6. Review `ai-usage-policy.md` for Cursor sandbox rules
-7. Check `system/raid/` for RAID storage setup if working with large datasets
-8. Use `templates/` for standard project structures and prompts
+3. Review `probabilistic-systems-architecture-policy.md` for LLM/AI system architecture patterns
+4. Review `mlops-policy.md` for experiment tracking, model serving, and monitoring setup
+5. Review `versioning-and-documenting-policy.md` for Git workflow
+6. Review `security-policy.md` for secrets and ML/CV security
+7. Review `ai-usage-policy.md` for Cursor sandbox rules
+8. Check `system/raid/` for RAID storage setup if working with large datasets
+9. Use `templates/` for standard project structures and prompts
 
 ### Using AI assistance
 1. **Cursor only** for coding (see `ai-usage-policy.md`)
