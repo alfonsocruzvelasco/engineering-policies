@@ -114,6 +114,10 @@ The `/policies` folder is organized around **compiled policy bundles** (merged d
   *Operational prompt playbook ("what to do" / "how to ask")*
   (prompt templates, verification routines, prompt-injection defense, token optimization, English-first architecture)
 
+- **`policies/spec-driven-development-policy.md`**
+  *Spec-driven development for AI-augmented engineering*
+  (Spec Kit, OpenSpec, MCP protocol selection, mandatory checkpoints, integration with prompts/MLOps policies)
+
 ### Templates and references
 
 - **`policies/templates/`**

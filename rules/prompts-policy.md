@@ -497,15 +497,59 @@ Assume I don't trust your answer. Give me:
 ## 13) CRISPE Framework (Alternative)
 
 - **C**apacity: what capability is needed?
-- **R**ole: what is the assistant’s function?
+- **R**ole: what is the assistant's function?
 - **I**nsight: what context is needed?
-- **S**tatement: what’s the core request?
+- **S**tatement: what's the core request?
 - **P**ersonality: what tone should be used?
 - **E**xperiment: what should be tested?
 
 ---
 
-## 14) Common Mistakes (And How to Fix Them)
+## 14) Spec-Driven Development Integration
+
+When working on features that span multiple files or require architectural decisions:
+
+**Mandatory workflow:**
+
+1. **Constitution First** (`/speckit.constitution`)
+   - Establish non-negotiable principles before any feature work
+   - Update when architectural decisions change
+
+2. **Specify** (`/speckit.specify` or `/openspec:proposal`)
+   - Define WHAT and WHY (not HOW)
+   - Focus: User stories, acceptance criteria, success metrics
+   - Never: Tech stack, implementation details
+
+3. **Clarify** (`/speckit.clarify`)
+   - Run structured clarification BEFORE planning
+   - Resolve all ambiguities upfront
+
+4. **Plan** (`/speckit.plan`)
+   - Define HOW: Tech stack, architecture, constraints
+   - Cross-check against constitution
+   - Validate with AI: "Does this violate project principles?"
+
+5. **Tasks** (`/speckit.tasks`)
+   - Break into atomic units (1 file/function max)
+   - Verify dependencies are explicit
+
+6. **Implement** (`/speckit.implement` or `/openspec:apply`)
+   - AI executes tasks sequentially
+   - Verify each checkpoint before proceeding
+
+7. **Archive** (`/openspec:archive`)
+   - Merge approved deltas back into source specs
+
+**When to skip spec-driven workflow:**
+- Bug fixes (restore intended behavior)
+- Typos, formatting, comments
+- Non-breaking dependency updates
+
+**See:** `spec-driven-development-policy.md` for full requirements
+
+---
+
+## 15) Common Mistakes (And How to Fix Them)
 
 ### Mistake 1: Vague Prompts
 **Fix:** use Pattern 1 (Constraint-First).
@@ -524,7 +568,7 @@ Assume I don't trust your answer. Give me:
 
 ---
 
-## 15) Theoretical Foundation
+## 16) Theoretical Foundation
 
 ### Fano's Inequality (Why Hallucinations Happen)
 

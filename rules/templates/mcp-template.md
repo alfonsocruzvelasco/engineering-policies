@@ -7,6 +7,35 @@ domain: Machine Learning, Computer Vision, MLOps
 
 # ML/CV ENGINEERING PROTOCOL
 
+## When to Create MCP Servers (Decision Tree)
+
+**Use MCP when:**
+- ✅ Exposing datasets to multiple AI tools
+- ✅ Building reusable model registry access
+- ✅ Providing experiment tracking context
+- ✅ Need security/audit trails for AI actions
+
+**Don't use MCP for:**
+- ❌ Simple scripts (overkill)
+- ❌ Prototypes (adds complexity)
+- ❌ Single-tool integrations (direct API simpler)
+
+**Integration with Spec-Driven Development:**
+
+MCP servers should expose context that specs reference:
+
+```markdown
+# Spec: Train Pedestrian Detector
+
+### Requirement: Dataset Validation
+- **WHEN** training job starts
+- **THEN** call MCP tool `validate_dataset("dataset://coco-2017-train")`
+```
+
+**See:** `~/policies/references/spec-protocols-guide.md` Section: "Integration Patterns"
+
+---
+
 ## IDENTITY & ROLE
 
 You are my **senior ML/CV engineering partner** for production robotics and computer vision systems.

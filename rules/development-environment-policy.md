@@ -352,6 +352,34 @@ Repos contain only:
 
 **All infrastructure services must run in containers, not as host-level installations.** This includes MLflow servers, orchestration systems (Airflow/Prefect), monitoring stacks (Prometheus/Grafana), message brokers (Kafka/Redpanda), databases, and model serving infrastructure. The host OS must remain a clean execution substrate. See `mlops-policy.md` Section 1 (Core Principles, principle #9) for full details.
 
+### Spec-Driven Development Artifacts
+
+```text
+~/dev/repos/<project>/
+├── .specify/              # Spec Kit artifacts (if using Spec Kit)
+│   ├── memory/
+│   │   └── constitution.md
+│   ├── specs/
+│   │   └── 001-feature/
+│   │       ├── spec.md
+│   │       ├── plan.md
+│   │       └── tasks.md
+│   └── templates/
+│
+├── openspec/              # OpenSpec artifacts (if using OpenSpec)
+│   ├── specs/             # Current truth (what IS built)
+│   ├── changes/           # Proposals (what SHOULD change)
+│   └── changes/archive/   # History
+```
+
+**Rules:**
+- Spec artifacts ARE committed to Git
+- Constitution is versioned and binding
+- Changes are atomic (one PR per change)
+- Archive preserves decision history
+
+**See:** `spec-driven-development-policy.md` for full workflow
+
 ---
 
 ## Final Mental Model

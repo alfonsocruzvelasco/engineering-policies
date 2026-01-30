@@ -223,6 +223,40 @@ client.messages.create(
 
 ---
 
+## Integration with Spec-Driven Development
+
+**When to use skills vs specs:**
+
+| Scenario | Use | Example |
+|----------|-----|---------|
+| Choosing architecture | **Skills** | "Which backbone for 500 images?" |
+| Defining system requirements | **Spec Kit** | "Detection accuracy SHALL be mAP ≥ 0.75" |
+| Implementing loss function | **Skills** | Provides focal loss code |
+| Planning multi-component system | **Spec Kit** | Breaks into preprocessing → inference → postprocessing |
+| Debugging NaN loss | **Skills** | Step-by-step diagnostic |
+| Updating existing pipeline | **OpenSpec** | Explicit delta: MODIFIED training loop |
+
+**Workflow:**
+1. Spec defines WHAT (requirements, metrics)
+2. Skills provide HOW (implementations, patterns)
+3. Verification checks spec compliance
+
+**Example:**
+
+```markdown
+# Spec (Spec Kit)
+### Requirement: Inference Latency
+SHALL process 1920×1080 in ≤ 40ms on RTX 4070
+
+# Implementation (Skill provides)
+model = torch.jit.script(model)  # TorchScript optimization
+torch.backends.cudnn.benchmark = True
+```
+
+**See:** `~/policies/references/spec-protocols-guide.md` for protocol selection
+
+---
+
 ## 📖 Usage Examples
 
 ### Example 1: Starting a New CV Project

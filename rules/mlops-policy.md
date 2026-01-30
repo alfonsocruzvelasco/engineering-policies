@@ -385,6 +385,32 @@ jobs:
 - Model compression to reduce inference cost
 - Batch inference to amortize costs
 
+### 2.7 Integration with Spec-Driven Development
+
+All ML experiments MUST be grounded in specifications:
+
+**Required spec sections for ML systems:**
+
+```markdown
+### Requirement: Training Convergence
+The training process SHALL achieve validation loss < 0.15 within 50 epochs.
+
+#### Scenario: Baseline convergence
+- **WHEN** training YOLOv8-n on COCO subset (10k images)
+- **THEN** validation mAP@0.5 ≥ 0.45 by epoch 30
+- **AND** loss curve shows no divergence
+
+### Requirement: Hardware Efficiency
+The training process SHALL utilize ≥ 90% GPU during batch processing.
+```
+
+**Experiment metadata MUST reference spec:**
+- Spec file path and version
+- Which requirements this experiment validates
+- Acceptance criteria pass/fail status
+
+**See:** `~/policies/references/spec-protocols-guide.md` Section: "Best Practices for ML/CV Engineering"
+
 ---
 
 ## 3) Model Versioning & Registry
