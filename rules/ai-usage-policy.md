@@ -42,7 +42,7 @@
 - **Review before apply** — never auto-apply large changes
 - **Test-driven** — every change must have validation
 - **Diff-first** — see changes before committing
-- **Specification-first** — clarity of constraints, edge cases, and requirements is the bottleneck
+- **Specification-first** — clarity of constraints, edge cases, and requirements is the bottleneck (see `spec-driven-development-policy.md` for structured spec workflows)
 - **Verification-first** — treat AI output like junior PR; verification becomes central
 
 ## Core Security Position

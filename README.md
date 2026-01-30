@@ -159,7 +159,10 @@ flowchart TD
     C --> D[Versioning and Documenting Policy<br/>Git, source control, documentation, versioning]
     D --> E[Security Policy<br/>Secrets, IAM, OAuth, dependencies, ML/CV security]
     E --> F[AI Usage & Prompts Policies<br/>Cursor sandbox, prompt engineering, MCP, tokens]
+    F --> I[Spec-Driven Development Policy<br/>Spec Kit, OpenSpec, MCP protocols, mandatory checkpoints]
     F --> H[AI Coding Security Policy<br/>OWASP LLM Top 10, tool security, verification gates, security tooling]
+    I --> C
+    I --> F
 
     style A fill:#e1f5ff
     style B fill:#e1f5ff
@@ -169,6 +172,7 @@ flowchart TD
     style E fill:#ffe1e1
     style F fill:#fff4e1
     style H fill:#ffe1e1
+    style I fill:#fff4e1
 ```
 
 ---
@@ -217,18 +221,20 @@ This repository is **infrastructure**, not documentation noise.
 5. Review `versioning-and-documenting-policy.md` for Git workflow
 6. Review `security-policy.md` for secrets and ML/CV security
 7. Review `ai-usage-policy.md` for Cursor sandbox rules
-8. Check `system/raid/` for RAID storage setup if working with large datasets
-9. Use `templates/` for standard project structures and prompts
+8. Review `spec-driven-development-policy.md` for structured spec workflows (Spec Kit/OpenSpec)
+9. Check `system/raid/` for RAID storage setup if working with large datasets
+10. Use `templates/` for standard project structures and prompts
 
 ### Using AI assistance
 1. **Cursor only** for coding (see `ai-usage-policy.md`)
 2. **English-first** for all prompts (see `prompts-policy.md`)
-3. **Verification required** for all AI-generated code (verification-first paradigm)
-4. **Sandbox restriction** to `/home/alfonso/dev/repos/github.com/alfonsocruzvelasco/sandbox-claude-code/`
-5. **AI code review protocol** — Follow systematic review process (see `ai-usage-policy.md`)
-6. **AI security framework** — Follow comprehensive security controls (see `ai-coding-security-policy.md`)
-7. **Use templates** — Start from `policies/templates/` for common tasks (prompt-template.md, mcp-template.md)
-8. **Reference theory** — Consult `policies/references/prompt-engineering-theory.md` for theoretical foundations
+3. **Spec-driven development** — Use Spec Kit/OpenSpec for multi-file features (see `spec-driven-development-policy.md`)
+4. **Verification required** for all AI-generated code (verification-first paradigm)
+5. **Sandbox restriction** to `/home/alfonso/dev/repos/github.com/alfonsocruzvelasco/sandbox-claude-code/`
+6. **AI code review protocol** — Follow systematic review process (see `ai-usage-policy.md`)
+7. **AI security framework** — Follow comprehensive security controls (see `ai-coding-security-policy.md`)
+8. **Use templates** — Start from `policies/templates/` for common tasks (prompt-template.md, mcp-template.md)
+9. **Reference theory** — Consult `policies/references/prompt-engineering-theory.md` for theoretical foundations
 
 ### Security checklist
 1. No secrets in Git (see `security-policy.md`)
