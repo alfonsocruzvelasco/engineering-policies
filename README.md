@@ -122,6 +122,7 @@ The `/policies` folder is organized around **compiled policy bundles** (merged d
 
 - **`policies/templates/`**
   *Reusable templates for common ML/CV engineering tasks*
+  - `readme-template.md` — Standard README template with Technical Baseline section
   - `mcp-template.md` — Model Context Protocol template for ML/CV production
   - `ml-cv-skills-template.md` — Skills assessment template for ML/CV engineers
   - `prompt-template.md` — Standard prompt template for AI interactions
@@ -223,7 +224,7 @@ This repository is **infrastructure**, not documentation noise.
 7. Review `ai-usage-policy.md` for Cursor sandbox rules
 8. Review `spec-driven-development-policy.md` for structured spec workflows (Spec Kit/OpenSpec)
 9. Check `system/raid/` for RAID storage setup if working with large datasets
-10. Use `templates/` for standard project structures and prompts
+10. Use `templates/` for standard project structures and prompts (see `readme-template.md` for README with Technical Baseline)
 
 ### Using AI assistance
 1. **Cursor only** for coding (see `ai-usage-policy.md`)
