@@ -1,7 +1,7 @@
 # Cursor AI Coding Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-01-28
+**Last updated:** 2026-01-30
 
 **Scope:** This policy governs the use of **Cursor** as the **only AI coding tool** in this development environment.
 
@@ -18,6 +18,13 @@
   - [Daily Workflow](#daily-workflow)
     - [Task Card Prompt Template](#task-card-prompt-template)
     - [Review-Before-Apply Workflow](#review-before-apply-workflow)
+    - [Plan Mode First](#plan-mode-first)
+    - [Parallel Workflows](#parallel-workflows)
+    - [Shared Team Knowledge: CLAUDE.md](#shared-team-knowledge-claudemd)
+    - [Slash Commands & Subagents](#slash-commands--subagents)
+    - [Hooks for Automation](#hooks-for-automation)
+    - [Permissions Management](#permissions-management)
+    - [Verification Feedback Loops](#verification-feedback-loops)
   - [Cursor Modes](#cursor-modes)
   - [Guardrails](#guardrails)
     - [Repo-Level Rules File](#repo-level-rules-file)
@@ -126,6 +133,199 @@ Do not modify files outside the repo.
 
 This prevents "AI churn" and maintains control.
 
+### Plan Mode First
+
+**Always start with planning before coding.** Use Plan Mode to scope and guide work:
+
+1. **Before any coding task:**
+   - Use Plan Mode to break down the task
+   - Identify dependencies and constraints
+   - Define acceptance criteria
+   - Estimate scope and complexity
+
+2. **Benefits:**
+   - Prevents scope creep
+   - Reduces wasted iterations
+   - Clarifies requirements upfront
+   - Enables better verification planning
+
+3. **Workflow:**
+   - Plan Mode → Review plan → Execute → Verify
+
+**Rule:** No coding without a plan for tasks spanning multiple files or requiring architectural decisions.
+
+### Parallel Workflows
+
+**Run multiple Claude Code sessions in parallel** to maintain focused context:
+
+1. **Why parallel sessions:**
+   - Each session stays in a small, focused context
+   - Prevents context window bloat
+   - Enables concurrent work on different features
+   - Reduces token usage per session
+
+2. **Best practices:**
+   - One session per feature/task
+   - Keep sessions scoped to specific directories or modules
+   - Use different terminals/tabs for each session
+   - Close sessions when tasks complete
+
+3. **When to use:**
+   - Working on multiple independent features
+   - Large refactors split across modules
+   - Different team members working on different areas
+
+**Rule:** Don't let a single session grow too large. Split work across parallel sessions.
+
+### Shared Team Knowledge: CLAUDE.md
+
+**Maintain a shared `CLAUDE.md` file in each repository** that evolves with team knowledge:
+
+1. **Purpose:**
+   - Capture mistakes Claude makes so it won't repeat them
+   - Document project-specific patterns and preferences
+   - Record successful workflows and approaches
+   - Share learnings across team members
+
+2. **Location:**
+   - Repository root: `CLAUDE.md`
+   - Version controlled (committed to git)
+   - Updated continuously as patterns emerge
+
+3. **Content structure:**
+   - Project-specific rules and constraints
+   - Common mistakes and how to avoid them
+   - Preferred patterns and anti-patterns
+   - Verification requirements
+   - Integration points and dependencies
+
+4. **Maintenance:**
+   - Add entries when Claude makes a mistake
+   - Update when patterns change
+   - Review periodically for relevance
+   - Keep concise and actionable
+
+**See:** `templates/claude-md-template.md` for a template structure.
+
+### Slash Commands & Subagents
+
+**Turn common tasks into reusable slash commands and subagents:**
+
+1. **Slash commands:**
+   - Create custom `/` commands for repetitive tasks
+   - Examples: `/simplify`, `/verify`, `/format`, `/test`
+   - Reduces prompt engineering overhead
+   - Standardizes common operations
+
+2. **Subagents:**
+   - Define specialized agents for specific workflows
+   - Examples: code simplification, verification, documentation
+   - Reusable across projects
+   - Maintain consistent behavior
+
+3. **Best practices:**
+   - Start with most common tasks
+   - Document what each command does
+   - Test commands before sharing
+   - Version control slash command definitions
+
+**Rule:** Don't repeat yourself. If a task pattern appears 3+ times, create a slash command or subagent.
+
+### Hooks for Automation
+
+**Use hooks to automate routine tasks after Claude generates output:**
+
+1. **PostToolUse hooks:**
+   - Automatically format code after generation
+   - Run linters and formatters
+   - Execute tests
+   - Update documentation
+
+2. **Async hooks (background execution):**
+   - Configure hooks with `async: true` to run in background
+   - Prevents blocking normal Claude Code execution
+   - Enables concurrent execution of multiple hooks
+   - Reduces prompt return time
+
+3. **Common hook patterns:**
+   ```yaml
+   hooks:
+     - name: format-code
+       trigger: PostToolUse
+       async: true
+       command: black --check .
+     - name: run-tests
+       trigger: PostToolUse
+       async: false
+       command: pytest
+   ```
+
+4. **When to use async:**
+   - Long-running tasks (formatting, linting, metrics)
+   - Non-blocking operations (logging, notifications)
+   - Tasks that don't affect immediate workflow
+
+5. **When to use sync:**
+   - Critical verification (tests that must pass)
+   - Operations that affect next steps
+   - Error detection that should block progress
+
+**Rule:** Use async hooks for non-critical automation. Use sync hooks for verification gates.
+
+### Permissions Management
+
+**Pre-approve safe commands via `/permissions` instead of auto-skipping prompts:**
+
+1. **Why permissions over "dangerous skip":**
+   - Maintains security boundaries
+   - Reduces interruption fatigue
+   - Enables safe automation
+   - Preserves audit trail
+
+2. **Best practices:**
+   - Pre-approve common safe operations
+   - Review permissions periodically
+   - Document what each permission allows
+   - Use least privilege principle
+
+3. **Example permissions:**
+   - File read/write within repo
+   - Git operations (commit, push)
+   - Test execution
+   - Build commands
+
+**Rule:** Never auto-skip security prompts. Use explicit permissions for safe operations.
+
+### Verification Feedback Loops
+
+**Always build ways for Claude to verify its work** — this significantly improves output quality:
+
+1. **Verification mechanisms:**
+   - Automated tests (unit, integration, e2e)
+   - Log checks and validation scripts
+   - Browser automation for UI verification
+   - Performance benchmarks
+   - Security scans
+
+2. **Feedback loop pattern:**
+   ```
+   Generate → Verify → Feedback → Improve → Verify
+   ```
+
+3. **Implementation:**
+   - Add verification hooks (PostToolUse)
+   - Create validation scripts
+   - Integrate with CI/CD
+   - Use structured output for verification
+
+4. **Benefits:**
+   - Catches errors early
+   - Improves Claude's understanding
+   - Reduces manual review burden
+   - Builds confidence in AI output
+
+**Rule:** Every AI-generated change must have a verification mechanism. No exceptions.
+
 ---
 
 ## Cursor Modes
@@ -147,6 +347,7 @@ This prevents "AI churn" and maintains control.
 In the repo root, keep one authoritative file that Cursor must follow:
 
 - `AI_RULES.md` or `.cursorrules`
+- `CLAUDE.md` (shared team knowledge — see [Shared Team Knowledge: CLAUDE.md](#shared-team-knowledge-claudemd))
 
 **Content should be short and enforceable:**
 
@@ -155,8 +356,12 @@ In the repo root, keep one authoritative file that Cursor must follow:
 - No refactors unless requested
 - Diff-first workflow
 - Test command requirements
+- Project-specific patterns and anti-patterns
+- Common mistakes to avoid
 
 Cursor respects these much better than repeating rules each time.
+
+**Note:** `CLAUDE.md` is the preferred format for team knowledge sharing. It evolves with the project and captures learnings over time.
 
 **Example `.cursorrules`:**
 
@@ -600,8 +805,32 @@ MCP servers in Cursor provide structured access to tools (Databases, Git, APIs, 
 - Querying databases (use Postgres MCP)
 - Reading Git history (use Git MCP)
 - Fetching web content (use Browser MCP)
+- **External tool integration:** BigQuery, Slack, error log fetching, and other external services
 
-**Configuration:** See `prompts-policy.md` for detailed MCP setup and usage patterns.
+### External Tool Integration via MCP
+
+**Claude Code can run external tools via integrated MCP servers:**
+
+1. **Common integrations:**
+   - BigQuery queries and data analysis
+   - Slack notifications and messaging
+   - Error log fetching and analysis
+   - API calls to external services
+   - Database operations (Postgres, MySQL, etc.)
+
+2. **Benefits:**
+   - Structured, auditable access to external tools
+   - No need to paste data manually
+   - Consistent interface across tools
+   - Security boundaries enforced
+
+3. **Security requirements:**
+   - MCP servers must be restricted to necessary operations
+   - Never allow full system access
+   - Use least-privilege principle
+   - Audit MCP server configurations
+
+4. **Configuration:** See `prompts-policy.md` and `templates/mcp-template.md` for detailed MCP setup and usage patterns.
 
 **Security:** MCP servers must be restricted to necessary directories/files. Never allow full system access.
 

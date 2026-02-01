@@ -123,6 +123,7 @@ The `/policies` folder is organized around **compiled policy bundles** (merged d
 - **`policies/templates/`**
   *Reusable templates for common ML/CV engineering tasks*
   - `readme-template.md` — Standard README template with Technical Baseline section
+  - `claude-md-template.md` — CLAUDE.md template for shared team knowledge and patterns
   - `mcp-template.md` — Model Context Protocol template for ML/CV production
   - `ml-cv-skills-template.md` — Skills assessment template for ML/CV engineers
   - `prompt-template.md` — Standard prompt template for AI interactions
