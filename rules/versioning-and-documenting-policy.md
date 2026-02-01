@@ -8,6 +8,7 @@ This document consolidates policies for documentation, exception tracking, Git/s
 ## Index
 
 - [Documentation Policy](#documentation-policy)
+  - [Domain-Specific Documentation Standards](#9-domain-specific-documentation-standards)
   - [Language Standards and Framework Versions](#language-standards-and-framework-versions)
 - [Exception and Decision Log](#exception-and-decision-log)
 - [Git, Source Control, and Release Policy](#git-source-control-and-release-policy)
@@ -91,7 +92,26 @@ Documentation MUST:
 
 Each major document SHOULD declare an owner (team or role) and a review cadence (e.g., quarterly for policies, monthly for runbooks).
 
-## 9) Language Standards and Framework Versions
+## 9) Domain-Specific Documentation Standards
+
+For **Machine Learning and Computer Vision** projects, comprehensive documentation standards are available in `references/ml-cv-documentation-standards.md`. This reference covers:
+
+- **Python docstring standards:** Google-style (industry standard) and NumPy-style (scientific/research contexts)
+- **Type hints (PEP 484):** Best practices for ML/CV code with tensor shape documentation
+- **C++/CUDA documentation:** Doxygen standards for performance-critical layers
+- **Documentation generation tools:** Sphinx, MkDocs, pdoc configuration for ML/CV projects
+- **Real-world examples:** Patterns from PyTorch, NumPy, Hugging Face, and other major ML/CV libraries
+- **Tooling ecosystem:** Linters, validators, type checkers, and pre-commit hooks
+- **Decision matrix:** When to use Google-style vs NumPy-style docstrings, when to use Doxygen
+
+**Key principle:** Use the documentation system native to the language of the layer you're working in:
+- **80% of ML/CV work** → Python docstrings (Google/NumPy style)
+- **15% of ML/CV work** → Mixed Python/C++ (docstrings + Doxygen)
+- **5% of ML/CV work** → Pure C++/CUDA (Doxygen)
+
+See `references/ml-cv-documentation-standards.md` for complete guidelines, templates, and examples.
+
+## 10) Language Standards and Framework Versions
 
 <a id="language-standards-and-framework-versions"></a>
 
