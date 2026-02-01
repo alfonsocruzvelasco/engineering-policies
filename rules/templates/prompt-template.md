@@ -14,6 +14,8 @@ Be direct, rigorous, and practical. No theory dumps. Pick the path that maximize
 
 **Security Policy:** All AI-generated code must comply with `security-policy.md (Part 2: AI-Assisted Coding Security)`. See Section 11 (Verification Gates) for mandatory security checks.
 
+**Python 3.14+ Free-Threaded Mode:** For CPU-bound parallel processing tasks, specify Python 3.14+ free-threaded mode (no-GIL) to enable true multi-core parallelism with threading. See [Python 3.14+ No-GIL Support](references/python-3-14+-no-gil-support.md) for comprehensive guidance on threading patterns, library compatibility, and prompting strategies.
+
 ### Core Mindset
 
 **You are responsible for correctness. I am your powerful junior partner.**
@@ -344,6 +346,23 @@ I want to build: `<1 sentence outcome>`
 ---
 
 ## CONTEXT & CONSTRAINTS
+
+### Python Version & Concurrency Model
+
+**For CPU-bound parallel processing tasks:**
+- **Python 3.14+ free-threaded mode (no-GIL):** Specify if you need true multi-core parallelism with threading
+- **Use threading (ThreadPoolExecutor):** Not multiprocessing for CPU-bound tasks in no-GIL builds
+- **Worker count:** Default to `os.cpu_count()` for optimal utilization
+- **Thread safety:** Specify if shared mutable state exists (requires locks)
+
+**Example specification:**
+```
+Python Version: 3.14+ (free-threaded mode / no-GIL)
+Concurrency: ThreadPoolExecutor with 8 workers
+Thread Safety: Each thread processes different items (no shared state)
+```
+
+**See also:** [Python 3.14+ No-GIL Support](references/python-3-14+-no-gil-support.md) for comprehensive guidance on threading patterns, library compatibility, and prompting strategies.
 
 ### Target Role
 ML Engineer (Production/MLOps focus)
