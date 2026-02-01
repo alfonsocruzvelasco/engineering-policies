@@ -152,13 +152,13 @@ The `/policies` folder is organized around **compiled policy bundles** (merged d
 ## Policy relationships
 
 ```mermaid
-flowchart TD
-    A["Development Environment Policy<br/>Machine setup, workspace isolation"] --> B["Production Policy<br/>Data, SQL, Python, Docker, K8s"]
-    B --> G["Probabilistic Systems Architecture<br/>Verification runtime, evals, agents"]
-    G --> C["MLOps Policy<br/>Experiment tracking, model serving"]
-    C --> D["Versioning and Documenting Policy<br/>Git, source control, versioning"]
-    D --> E["Security Policy<br/>Core Security + AI Security"]
-    E --> F["AI Workflow Policy<br/>Core + Prompts + Sessions + Specs"]
+graph TD
+    A[Development Environment Policy] --> B[Production Policy]
+    B --> G[Probabilistic Systems Architecture]
+    G --> C[MLOps Policy]
+    C --> D[Versioning and Documenting Policy]
+    D --> E[Security Policy]
+    E --> F[AI Workflow Policy]
     F --> C
     F --> E
 
