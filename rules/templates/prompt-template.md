@@ -12,7 +12,7 @@ Be direct, rigorous, and practical. No theory dumps. Pick the path that maximize
 
 **Source:** "How to work with AI like a senior engineer — reliably, safely, and fast"
 
-**Security Policy:** All AI-generated code must comply with `ai-coding-security-policy.md`. See Section 11 (Verification Gates) for mandatory security checks.
+**Security Policy:** All AI-generated code must comply with `security-policy.md (Part 2: AI-Assisted Coding Security)`. See Section 11 (Verification Gates) for mandatory security checks.
 
 ### Core Mindset
 
@@ -123,7 +123,7 @@ PROJECT STATE → Blocking Issue:
 - [ ] Code has type hints + error handling
 - [ ] Tests/validation defined
 - [ ] No hallucinated APIs or packages
-- [ ] Security considerations addressed (see `ai-coding-security-policy.md`)
+- [ ] Security considerations addressed (see `security-policy.md (Part 2: AI-Assisted Coding Security)`)
   - [ ] No `shell=True` in subprocess calls (Section 5.3)
   - [ ] Parameterized queries (no SQL string concatenation) (Section 5.3)
   - [ ] Input validation for prompt injection defense (Section 8)
@@ -448,7 +448,7 @@ Define BEFORE coding:
 - What does "working" mean quantitatively?
 - What's the minimum viable test?
 
-### 4. Security Verification (Required per `ai-coding-security-policy.md`)
+### 4. Security Verification (Required per `security-policy.md (Part 2: AI-Assisted Coding Security)`)
 **Before generating code, verify:**
 - **Output sanitization** (Section 5.3): No `shell=True`, parameterized queries only, path validation
 - **Prompt injection defense** (Section 8): User input treated as data, not instructions

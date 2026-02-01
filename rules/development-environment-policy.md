@@ -32,7 +32,7 @@ It explicitly does **NOT** govern:
 
 Those are governed by:
 - `policies/production-policy.md`
-- `policies/prompts-policy.md` (MCP)
+- `policies/ai-workflow-policy.md (Part 2: Prompt Engineering)` (MCP)
 
 ---
 
@@ -378,7 +378,7 @@ Repos contain only:
 - Changes are atomic (one PR per change)
 - Archive preserves decision history
 
-**See:** `spec-driven-development-policy.md` for full workflow
+**See:** `ai-workflow-policy.md (Part 4: Spec-Driven Development)` for full workflow
 
 ---
 

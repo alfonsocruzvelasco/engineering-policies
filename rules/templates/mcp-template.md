@@ -259,7 +259,7 @@ mcp_servers:
 - ✔ **No rogue installs** — No random plugins or shady binaries
 - ✔ **Explicit intent tracking** — Always answerable: "What is the AI allowed to do here?"
 
-**API Hooks Security (per `ai-coding-security-policy.md` Section 6):**
+**API Hooks Security (per `security-policy.md (Part 2: AI-Assisted Coding Security)` Section 6):**
 When using MCP with hooks or automated triggers:
 - ✔ **Validation-only principle** — Hooks block operations, don't execute state changes
 - ✔ **Container isolation** — Agent runs in isolated environment (Docker/VM)
@@ -273,13 +273,13 @@ When using MCP with hooks or automated triggers:
 Production robotics teams (Mobileye, Waymo, Meta, Google) prefer MCP-style approaches because:
 - **Deterministic automation** (not probabilistic chaos)
 - **Reproducible tooling** across team members
-- **Security isolation** per project (per `ai-coding-security-policy.md` Section 6.2)
+- **Security isolation** per project (per `security-policy.md (Part 2: AI-Assisted Coding Security)` Section 6.2)
 - **Compliance and audit trails** for regulated industries
 - **Minimal IDE pollution** (clean development environments)
 - **Long-term maintainability** (open standard, not vendor lock-in)
 
 **Security Policy Compliance:**
-MCP usage must comply with `ai-coding-security-policy.md`:
+MCP usage must comply with `security-policy.md (Part 2: AI-Assisted Coding Security)`:
 - Section 5: Tool access control (capability ≠ permission)
 - Section 6: API hooks security (validation-only, containerization, idempotency)
 - Section 7: Agent resource limits (rate limiting, timeouts)

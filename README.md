@@ -102,25 +102,19 @@ The `/policies` folder is organized around **compiled policy bundles** (merged d
 
 ### AI usage & prompt engineering policies (authoritative)
 
-- **`policies/ai-usage-policy.md`**
-  *Approved agents + the single authorized AI coding environment + sandbox enforcement + AI code review protocol + AI security*
-  (Cursor is the only coding IDE; Claude/ChatGPT/Gemini are non-coding; sandbox rules, core security position, tool use security, Guardrails AI integration, prompt-injection defense, verification-first workflows, AI code review best practices, learning protocol)
+- **`policies/ai-workflow-policy.md`** **[CONSOLIDATED 2026-02-01]**
+  *Comprehensive AI workflow policy consolidating core workflow, prompt engineering, session management, and spec-driven development*
+  - **Part 1: Core Workflow** — Cursor usage, sandbox enforcement, daily workflow, Cursor modes, guardrails, AI model usage (local vs cloud), Git discipline, MCP, tool use security, verification-first mindset
+  - **Part 2: Prompt Engineering** — Operating principles, English-first architecture, prompt templates, COSTAR/CRISPE frameworks, slash commands, token optimization, context engineering
+  - **Part 3: Session Management** — Session types, parallel workflows, session lifecycle, metrics tracking, anti-patterns
+  - **Part 4: Spec-Driven Development** — Protocol selection (Spec Kit/OpenSpec/MCP), mandatory checkpoints, integration patterns
+  *Previously separate files: `ai-usage-policy.md`, `prompts-policy.md`, `session-management-policy.md`, `spec-driven-development-policy.md`*
 
-- **`policies/ai-coding-security-policy.md`**
-  *Comprehensive AI-Assisted Coding Security framework*
-  (OWASP Top 10 for LLMs coverage, OAuth 2.0 for AI/agents, SSH & infrastructure access, API-calling agents security, tool use security with Guardrails AI, output sanitization, agent resource limits, prompt injection defense, ML/CV-specific security, supply chain security, four-layer verification gates, required security tooling, incident response)
-
-- **`policies/prompts-policy.md`**
-  *Operational prompt playbook ("what to do" / "how to ask")*
-  (prompt templates, verification routines, prompt-injection defense, token optimization, English-first architecture)
-
-- **`policies/spec-driven-development-policy.md`**
-  *Spec-driven development for AI-augmented engineering*
-  (Spec Kit, OpenSpec, MCP protocol selection, mandatory checkpoints, integration with prompts/MLOps policies)
-
-- **`policies/session-management-policy.md`** **[NEW 2026-02-01]**
-  *Session lifecycle management for Claude Code workflows*
-  (Session types, parallel workflows, session coordination, lifecycle templates, metrics tracking, anti-patterns, integration with other policies)
+- **`policies/security-policy.md`** **[CONSOLIDATED 2026-02-01]**
+  *Unified security policy consolidating core security baseline and AI-assisted coding security*
+  - **Part 1: Core Security** — Secrets handling, IAM, OAuth 2.0, SSH & infrastructure access, API security, dependency security, cloud security, ML/CV security, prompt injection defense, mandatory verification gates
+  - **Part 2: AI-Assisted Coding Security** — OWASP Top 10 for LLMs coverage, OAuth 2.0 for AI/agents, SSH & infrastructure access, API-calling agents security, tool use security with Guardrails AI, output sanitization, agent resource limits, prompt injection defense, ML/CV-specific security, supply chain security, four-layer verification gates, required security tooling, incident response
+  *Previously separate files: `security-policy.md` (core) and `ai-coding-security-policy.md` (AI-specific)*
 
 ### Templates and references
 
@@ -226,21 +220,21 @@ This repository is **infrastructure**, not documentation noise.
 4. Review `mlops-policy.md` for experiment tracking, model serving, and monitoring setup
 5. Review `versioning-and-documenting-policy.md` for Git workflow
 6. Review `security-policy.md` for secrets and ML/CV security
-7. Review `ai-usage-policy.md` for Cursor sandbox rules
-8. Review `spec-driven-development-policy.md` for structured spec workflows (Spec Kit/OpenSpec)
+7. Review `ai-workflow-policy.md` Part 1 for Cursor sandbox rules
+8. Review `ai-workflow-policy.md` Part 4 for structured spec workflows (Spec Kit/OpenSpec)
 9. Check `system/raid/` for RAID storage setup if working with large datasets
 10. Use `templates/` for standard project structures and prompts (see `readme-template.md` for README with Technical Baseline)
 
 ### Using AI assistance
-1. **Cursor only** for coding (see `ai-usage-policy.md`)
-2. **Session discipline** — Use parallel sessions for focused work, follow session lifecycle (see `session-management-policy.md`)
-3. **English-first** for all prompts (see `prompts-policy.md`)
-4. **Plan Mode first** — Start with planning for multi-file tasks (see `ai-usage-policy.md`)
-5. **Spec-driven development** — Use Spec Kit/OpenSpec for multi-file features (see `spec-driven-development-policy.md`)
+1. **Cursor only** for coding (see `ai-workflow-policy.md` Part 1)
+2. **Session discipline** — Use parallel sessions for focused work, follow session lifecycle (see `ai-workflow-policy.md` Part 3)
+3. **English-first** for all prompts (see `ai-workflow-policy.md` Part 2)
+4. **Plan Mode first** — Start with planning for multi-file tasks (see `ai-workflow-policy.md` Part 1)
+5. **Spec-driven development** — Use Spec Kit/OpenSpec for multi-file features (see `ai-workflow-policy.md` Part 4)
 6. **Verification required** for all AI-generated code (verification-first paradigm)
 7. **Sandbox restriction** to `/home/alfonso/dev/repos/github.com/alfonsocruzvelasco/sandbox-claude-code/`
-8. **AI code review protocol** — Follow systematic review process (see `ai-usage-policy.md`)
-9. **AI security framework** — Follow comprehensive security controls (see `ai-coding-security-policy.md`)
+8. **AI code review protocol** — Follow systematic review process (see `ai-workflow-policy.md` Part 1)
+9. **AI security framework** — Follow comprehensive security controls (see `security-policy.md` Part 2)
 10. **Use templates** — Start from `policies/templates/` for common tasks (prompt-template.md, mcp-template.md, claude-md-template.md)
 11. **Reference theory** — Consult `policies/references/prompt-engineering-theory.md` for theoretical foundations
 
@@ -250,11 +244,11 @@ This repository is **infrastructure**, not documentation noise.
 3. Dependencies scanned for vulnerabilities
 4. ML/CV models and data access-controlled
 5. AI tools never receive secrets or sensitive data
-6. OAuth 2.0 tokens minimal-scope for AI/agents (see `ai-coding-security-policy.md` Section 3)
-7. SSH/infrastructure access never granted to AI tools (see `ai-coding-security-policy.md` Section 4)
-8. Tool use security enforced via Guardrails AI (see `ai-coding-security-policy.md` Section 5)
-9. All AI output passes four-layer verification gates before merge (see `ai-coding-security-policy.md` Section 10)
-10. Required security tooling deployed (see `ai-coding-security-policy.md` Section 13)
+6. OAuth 2.0 tokens minimal-scope for AI/agents (see `security-policy.md` Part 2, Section 3)
+7. SSH/infrastructure access never granted to AI tools (see `security-policy.md` Part 2, Section 4)
+8. Tool use security enforced via Guardrails AI (see `security-policy.md` Part 2, Section 5)
+9. All AI output passes four-layer verification gates before merge (see `security-policy.md` Part 2, Section 11)
+10. Required security tooling deployed (see `security-policy.md` Part 2, Section 14)
 11. **Run `ai-security-check.sh`** before committing AI-generated code (see `policies/system/scripts/ai-security-check.sh`)
 
 ### System infrastructure
