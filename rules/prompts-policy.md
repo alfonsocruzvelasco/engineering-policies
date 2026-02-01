@@ -1,7 +1,7 @@
 # Prompt Policies (Authoritative Reference Manual)
 
 **Status:** Authoritative
-**Last updated:** 2026-01-28
+**Last updated:** 2026-02-01
 **Purpose:** This is the operational playbook (the “what” and “how”) for prompt quality, verification, safety, agentic workflows, and token efficiency.
 **Scope:** Applies to all AI interactions (Cursor Pro, Claude Pro, ChatGPT Plus, Gemini Pro), with Cursor as the AI-first IDE.
 
@@ -25,19 +25,20 @@
 11. [How to Structure Requests](#11-how-to-structure-requests)
 12. [COSTAR Framework](#12-costar-framework-for-clarity)
 13. [CRISPE Framework](#13-crispe-framework-alternative)
-14. [Common Mistakes (And Fixes)](#14-common-mistakes-and-how-to-fix-them)
+15. [Slash Commands Library](#15-slash-commands-library)
+16. [Common Mistakes (And Fixes)](#16-common-mistakes-and-how-to-fix-them)
 
 ### Token optimization (integrated)
-14. [Token Optimization (Cursor-first)](#token-optimization-cursor-first)
-15. [Critical Token-Saving Strategies](#critical-token-saving-strategies)
-16. [Context Engineering for Cursor](#context-engineering-for-cursor)
-17. [Prompt Caching Optimization](#prompt-caching-optimization)
-18. [Multi-Agent Orchestration & Rate Limit Management](#multi-agent-orchestration--rate-limit-management)
-19. [Emergency Rate Limit Protocols](#emergency-rate-limit-protocols)
-20. [Measurement & Monitoring](#measurement--monitoring)
+17. [Token Optimization (Cursor-first)](#token-optimization-cursor-first)
+18. [Critical Token-Saving Strategies](#critical-token-saving-strategies)
+19. [Context Engineering for Cursor](#context-engineering-for-cursor)
+20. [Prompt Caching Optimization](#prompt-caching-optimization)
+21. [Multi-Agent Orchestration & Rate Limit Management](#multi-agent-orchestration--rate-limit-management)
+22. [Emergency Rate Limit Protocols](#emergency-rate-limit-protocols)
+23. [Measurement & Monitoring](#measurement--monitoring)
 
 ### Reference material
-21. [Theoretical Foundation](#15-theoretical-foundation)
+24. [Theoretical Foundation](#17-theoretical-foundation)
 22. [Framework Glossary](#framework-glossary)
 23. [Tools & Platforms](#tools-and-platforms)
 24. [Resources](#resources)
@@ -549,7 +550,140 @@ When working on features that span multiple files or require architectural decis
 
 ---
 
-## 15) Common Mistakes (And How to Fix Them)
+## 15) Slash Commands Library
+
+**Purpose:** Standardize common tasks into reusable slash commands and subagents to reduce prompt engineering overhead and ensure consistent behavior.
+
+**Integration:** Slash commands are defined in `CLAUDE.md` (see `templates/claude-md-template.md`). This section documents standard commands and how to create custom ones.
+
+### Standard Commands
+
+| Command | Purpose | Example |
+|---------|---------|---------|
+| `/plan` | Generate task plan | `/plan Implement user authentication` |
+| `/verify` | Run verification suite | `/verify` |
+| `/simplify` | Reduce code complexity | `/simplify module.py` |
+| `/doc` | Update documentation | `/doc api/` |
+| `/test` | Generate/run tests | `/test module.py` |
+| `/security` | Run security checks | `/security` |
+| `/perf` | Performance analysis | `/perf src/services/data_processor.py` |
+
+### Standard Command Details
+
+#### `/plan` — Planning Agent
+**Purpose:** Generate structured task plan for feature or refactoring
+**Output:** Task breakdown with acceptance criteria
+**Integration:** Works with `spec-driven-development-policy.md`
+**Example:** `/plan Add user authentication with JWT tokens`
+
+#### `/verify` — Verification Agent
+**Purpose:** Run full verification suite (tests, linting, security, type checking)
+**Checklist:** See `templates/claude-md-template.md` Subagents section
+**Integration:** Enforces `ai-coding-security-policy.md` verification gates
+**Example:** `/verify`
+
+#### `/simplify` — Code Simplification Agent
+**Purpose:** Reduce complexity in generated code
+**Checklist:** Remove unnecessary abstractions, inline single-use functions, simplify conditionals
+**Example:** `/simplify src/utils.py`
+
+#### `/doc` — Documentation Agent
+**Purpose:** Generate/update documentation
+**Checklist:** Update docstrings, generate API docs, update CHANGELOG
+**Example:** `/doc src/api/`
+
+#### `/test` — Test Generation Agent
+**Purpose:** Generate comprehensive tests for module
+**Checklist:** Cover happy path, edge cases, error cases, use fixtures
+**Example:** `/test src/models/user.py`
+
+#### `/security` — Security Check Agent
+**Purpose:** Perform security audit on changes
+**Checklist:** Scan for secrets, SQL injection risks, input validation, auth checks
+**Integration:** Uses `ai-coding-security-policy.md` security framework
+**Example:** `/security src/api/`
+
+#### `/perf` — Performance Check Agent
+**Purpose:** Analyze performance implications
+**Checklist:** Profile execution time, check for N+1 queries, review memory usage
+**Example:** `/perf src/services/data_processor.py`
+
+### Creating Custom Commands
+
+**Process:**
+1. Define in `CLAUDE.md` under "Subagents" section
+2. Specify trigger (`/[command-name]`), purpose, checklist
+3. Include example usage
+4. Document in session notes when first used
+5. Test before adding to shared `CLAUDE.md`
+
+**Template:**
+```markdown
+#### /[command-name] — [Agent Name]
+**Purpose:** [Clear purpose statement]
+**Checklist:**
+- [ ] Step 1: [Specific action]
+- [ ] Step 2: [Specific action]
+- [ ] Step N: [Specific action]
+**Example:** /[command-name] [target]
+```
+
+**Best practices:**
+- Keep focused (single responsibility)
+- Make triggers memorable (short, clear verbs)
+- Include explicit success criteria
+- Document expected inputs/outputs
+- Provide concrete examples
+- Test before sharing
+
+### Custom Command Examples
+
+#### `/ml-eval` — ML Model Evaluation Agent
+**Purpose:** Run full ML model evaluation pipeline
+**Checklist:**
+- Run inference on test set
+- Generate confusion matrix
+- Calculate metrics (precision, recall, F1)
+- Plot ROC curve
+- Save results to mlruns/
+**Example:** `/ml-eval model_v2.pth test_data/`
+
+#### `/migrate` — Database Migration Agent
+**Purpose:** Create and verify database migration
+**Checklist:**
+- Generate migration file
+- Review SQL for safety
+- Test migration up
+- Test migration down (rollback)
+- Update schema documentation
+**Example:** `/migrate add_user_email_index`
+
+### Command Usage Guidelines
+
+**When to use slash commands:**
+- ✅ Repetitive tasks (verification, testing, documentation)
+- ✅ Standardized workflows (planning, security checks)
+- ✅ Tasks with clear checklists
+- ✅ Operations that benefit from consistency
+
+**When NOT to use slash commands:**
+- ❌ One-off tasks (use regular prompts)
+- ❌ Creative/exploratory work (needs flexibility)
+- ❌ Tasks without clear structure (too ambiguous)
+
+**Integration with session management:**
+- Use slash commands in Implementation and Verification sessions
+- Document command usage in session notes
+- Update `CLAUDE.md` if command behavior needs refinement
+
+**See also:**
+- `templates/claude-md-template.md` — Subagents section for detailed checklists
+- `session-management-policy.md` — How commands fit into session workflows
+- `ai-usage-policy.md` — Slash Commands & Subagents section
+
+---
+
+## 16) Common Mistakes (And How to Fix Them)
 
 ### Mistake 1: Vague Prompts
 **Fix:** use Pattern 1 (Constraint-First).
@@ -568,7 +702,7 @@ When working on features that span multiple files or require architectural decis
 
 ---
 
-## 16) Theoretical Foundation
+## 17) Theoretical Foundation
 
 ### Fano's Inequality (Why Hallucinations Happen)
 

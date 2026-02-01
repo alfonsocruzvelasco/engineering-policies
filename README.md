@@ -118,6 +118,10 @@ The `/policies` folder is organized around **compiled policy bundles** (merged d
   *Spec-driven development for AI-augmented engineering*
   (Spec Kit, OpenSpec, MCP protocol selection, mandatory checkpoints, integration with prompts/MLOps policies)
 
+- **`policies/session-management-policy.md`** **[NEW 2026-02-01]**
+  *Session lifecycle management for Claude Code workflows*
+  (Session types, parallel workflows, session coordination, lifecycle templates, metrics tracking, anti-patterns, integration with other policies)
+
 ### Templates and references
 
 - **`policies/templates/`**
@@ -229,14 +233,16 @@ This repository is **infrastructure**, not documentation noise.
 
 ### Using AI assistance
 1. **Cursor only** for coding (see `ai-usage-policy.md`)
-2. **English-first** for all prompts (see `prompts-policy.md`)
-3. **Spec-driven development** — Use Spec Kit/OpenSpec for multi-file features (see `spec-driven-development-policy.md`)
-4. **Verification required** for all AI-generated code (verification-first paradigm)
-5. **Sandbox restriction** to `/home/alfonso/dev/repos/github.com/alfonsocruzvelasco/sandbox-claude-code/`
-6. **AI code review protocol** — Follow systematic review process (see `ai-usage-policy.md`)
-7. **AI security framework** — Follow comprehensive security controls (see `ai-coding-security-policy.md`)
-8. **Use templates** — Start from `policies/templates/` for common tasks (prompt-template.md, mcp-template.md)
-9. **Reference theory** — Consult `policies/references/prompt-engineering-theory.md` for theoretical foundations
+2. **Session discipline** — Use parallel sessions for focused work, follow session lifecycle (see `session-management-policy.md`)
+3. **English-first** for all prompts (see `prompts-policy.md`)
+4. **Plan Mode first** — Start with planning for multi-file tasks (see `ai-usage-policy.md`)
+5. **Spec-driven development** — Use Spec Kit/OpenSpec for multi-file features (see `spec-driven-development-policy.md`)
+6. **Verification required** for all AI-generated code (verification-first paradigm)
+7. **Sandbox restriction** to `/home/alfonso/dev/repos/github.com/alfonsocruzvelasco/sandbox-claude-code/`
+8. **AI code review protocol** — Follow systematic review process (see `ai-usage-policy.md`)
+9. **AI security framework** — Follow comprehensive security controls (see `ai-coding-security-policy.md`)
+10. **Use templates** — Start from `policies/templates/` for common tasks (prompt-template.md, mcp-template.md, claude-md-template.md)
+11. **Reference theory** — Consult `policies/references/prompt-engineering-theory.md` for theoretical foundations
 
 ### Security checklist
 1. No secrets in Git (see `security-policy.md`)

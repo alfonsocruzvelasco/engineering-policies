@@ -154,6 +154,8 @@ This prevents "AI churn" and maintains control.
 
 **Rule:** No coding without a plan for tasks spanning multiple files or requiring architectural decisions.
 
+**See also:** `session-management-policy.md` for Planning Session type and workflow.
+
 ### Parallel Workflows
 
 **Run multiple Claude Code sessions in parallel** to maintain focused context:
@@ -176,6 +178,8 @@ This prevents "AI churn" and maintains control.
    - Different team members working on different areas
 
 **Rule:** Don't let a single session grow too large. Split work across parallel sessions.
+
+**See also:** `session-management-policy.md` for comprehensive session lifecycle management, coordination guidelines, and metrics tracking.
 
 ### Shared Team Knowledge: CLAUDE.md
 
