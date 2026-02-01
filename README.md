@@ -157,12 +157,10 @@ flowchart TD
     B --> G[Probabilistic Systems Architecture<br/>Deterministic→Probabilistic shift, verification runtime, evals, agents]
     G --> C[MLOps Policy<br/>Experiment tracking, model serving, evals, monitoring]
     C --> D[Versioning and Documenting Policy<br/>Git, source control, documentation, versioning]
-    D --> E[Security Policy<br/>Secrets, IAM, OAuth, dependencies, ML/CV security]
-    E --> F[AI Usage & Prompts Policies<br/>Cursor sandbox, prompt engineering, MCP, tokens]
-    F --> I[Spec-Driven Development Policy<br/>Spec Kit, OpenSpec, MCP protocols, mandatory checkpoints]
-    F --> H[AI Coding Security Policy<br/>OWASP LLM Top 10, tool security, verification gates, security tooling]
-    I --> C
-    I --> F
+    D --> E[Security Policy<br/>Part 1: Core Security<br/>Part 2: AI-Assisted Coding Security]
+    E --> F[AI Workflow Policy<br/>Part 1: Core Workflow<br/>Part 2: Prompt Engineering<br/>Part 3: Session Management<br/>Part 4: Spec-Driven Development]
+    F --> C
+    F --> E
 
     style A fill:#e1f5ff
     style B fill:#e1f5ff
@@ -171,8 +169,6 @@ flowchart TD
     style D fill:#e1f5ff
     style E fill:#ffe1e1
     style F fill:#fff4e1
-    style H fill:#ffe1e1
-    style I fill:#fff4e1
 ```
 
 ---
