@@ -56,6 +56,8 @@ SPEC (source of truth) → PLAN (technical design) → TASKS (atomic units) → 
 
 ## Model Context Protocol (MCP)
 
+> **Comprehensive Reference:** For complete MCP ecosystem documentation (protocol architecture, MCP-UI framework, development patterns, official servers, production considerations), see `mcp-ecosystem-notes.md`.
+
 ### What It Is
 
 **MCP is an open protocol for standardized integration between LLM applications and external data sources/tools.**

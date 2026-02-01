@@ -844,6 +844,8 @@ MCP servers in Cursor provide structured access to tools (Databases, Git, APIs, 
 
 4. **Configuration:** See Part 2: Prompt Engineering and `templates/mcp-template.md` for detailed MCP setup and usage patterns.
 
+5. **Comprehensive reference:** For complete MCP ecosystem documentation, including protocol architecture, MCP-UI framework, development patterns, and production considerations, see `references/mcp-ecosystem-notes.md`.
+
 **Security:** MCP servers must be restricted to necessary directories/files. Never allow full system access.
 
 ## Using AI Tools for Structured ML/CV Engineering

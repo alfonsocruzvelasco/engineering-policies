@@ -7,6 +7,8 @@ domain: Machine Learning, Computer Vision, MLOps
 
 # ML/CV ENGINEERING PROTOCOL
 
+> **Comprehensive MCP Reference:** For complete MCP ecosystem documentation (protocol architecture, MCP-UI framework, development patterns, official servers, production considerations), see `references/mcp-ecosystem-notes.md`.
+
 ## When to Create MCP Servers (Decision Tree)
 
 **Use MCP when:**
