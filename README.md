@@ -80,13 +80,14 @@ The `/policies` folder is organized around **compiled policy bundles** (merged d
 
 ### Compiled engineering policy bundles
 
-- **`policies/production-policy.md`**
+- **`policies/production-policy.md`** **[UPDATED 2026-02-01]**
   *Daily reference for CV/ML engineering, data systems, and production tooling standards*
-  (data/storage rules, SQL discipline, Python/TypeScript/React/Node.js, Docker/Kubernetes/Kafka, testing + verification, model evaluation, feature engineering, data quality, Quick Reference Cards)
+  (data/storage rules, SQL discipline, Python/TypeScript/React/Node.js, Docker/Kubernetes/Kafka, testing + verification, model evaluation, feature engineering, data quality, **Git and Source Control Policy integrated**, Quick Reference Cards)
 
-- **`policies/probabilistic-systems-architecture-policy.md`** **[NEW 2026-01-30]**
-  *Architectural patterns for the deterministic → probabilistic systems shift*
+- **`policies/ai-systems-architecture-policy.md`** **[RENAMED 2026-02-01]**
+  *Architectural patterns for AI-powered systems (deterministic → probabilistic shift)*
   (The six pillars of probabilistic architecture, verification as runtime infrastructure, context management systems, dual-state architecture, evals over unit tests, agent runtime patterns, robotics-specific considerations, production readiness checklist)
+  *Previously named `probabilistic-systems-architecture-policy.md` — renamed for clarity*
 
 - **`policies/mlops-policy.md`**
   *Comprehensive MLOps practices for production ML/CV systems*
@@ -95,10 +96,6 @@ The `/policies` folder is organized around **compiled policy bundles** (merged d
 - **`policies/documentation-policy.md`** **[SPLIT 2026-02-01]**
   *Documentation standards and exception/decision logging*
   (documentation discipline, quality standards, domain-specific ML/CV documentation standards, language standards and framework versions, exception and decision log templates)
-
-- **`policies/git-and-source-control-policy.md`** **[SPLIT 2026-02-01]**
-  *Git workflow and repository management*
-  (repository setup, branching model, commit discipline, pull requests, code review standards, merging strategy, pre-commit hooks, CI/CD integration, Windows cross-platform constraints, operational checklists)
 
 - **`policies/versioning-and-release-policy.md`** **[SPLIT 2026-02-01]**
   *Versioning schemes and release processes*
@@ -163,11 +160,11 @@ The `/policies` folder is organized around **compiled policy bundles** (merged d
 ```mermaid
 graph TD
     A["Development Environment Policy<br/>Machine setup, directory layout, workspace isolation"] --> B["Production Policy<br/>Data, SQL, Python, TypeScript, Docker, K8s, Kafka"]
-    B --> G["Probabilistic Systems Architecture<br/>Deterministic to Probabilistic shift, verification runtime, evals, agents"]
+    B --> G["AI Systems Architecture<br/>Deterministic to Probabilistic shift, verification runtime, evals, agents"]
     G --> C["MLOps Policy<br/>Experiment tracking, model serving, evals, monitoring"]
     C --> D1["Documentation Policy<br/>Documentation standards, exception/decision log"]
-    C --> D2["Git and Source Control Policy<br/>Git workflow, branching, commits, PRs"]
     C --> D3["Versioning and Release Policy<br/>SemVer, tagging, releases, artifacts"]
+    B --> D2["Production Policy<br/>Includes Git and Source Control"]
     D1 --> E["Security Policy<br/>Part 1: Core Security<br/>Part 2: AI-Assisted Coding Security"]
     D2 --> E
     D3 --> E
@@ -182,6 +179,7 @@ graph TD
     style D1 fill:#e1f5ff
     style D2 fill:#e1f5ff
     style D3 fill:#e1f5ff
+    style G fill:#d4edda
     style E fill:#ffe1e1
     style F fill:#fff4e1
 ```
@@ -227,7 +225,7 @@ This repository is **infrastructure**, not documentation noise.
 ### Starting a new ML/CV project
 1. Review `development-environment-policy.md` for directory structure
 2. Review `production-policy.md` for language/tooling standards and ML/CV operations
-3. Review `probabilistic-systems-architecture-policy.md` for LLM/AI system architecture patterns
+3. Review `ai-systems-architecture-policy.md` for LLM/AI system architecture patterns
 4. Review `mlops-policy.md` for experiment tracking, model serving, and monitoring setup
 5. Review `versioning-and-documenting-policy.md` for Git workflow
 6. Review `security-policy.md` for secrets and ML/CV security

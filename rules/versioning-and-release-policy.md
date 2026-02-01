@@ -7,7 +7,7 @@ This policy defines how versions are assigned, how releases are produced, and ho
 
 **Note:** This policy was split from the consolidated `versioning-and-documenting-policy.md` for better organization. See also:
 - [Documentation Policy](documentation-policy.md) for documentation standards and exception/decision logging
-- [Git and Source Control Policy](git-and-source-control-policy.md) for Git workflow and repository management
+- [Production Policy](production-policy.md) Section 5 (Git and Source Control Policy) for Git workflow and repository management
 
 ## 1) Core principle
 

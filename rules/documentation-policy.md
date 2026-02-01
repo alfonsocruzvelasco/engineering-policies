@@ -6,7 +6,7 @@
 This policy ensures documentation is accurate, minimal, searchable, and maintained as a first-class artifact.
 
 **Note:** This policy was split from the consolidated `versioning-and-documenting-policy.md` for better organization. See also:
-- [Git and Source Control Policy](git-and-source-control-policy.md) for Git workflow and repository management
+- [Production Policy](production-policy.md) Section 5 (Git and Source Control Policy) for Git workflow and repository management
 - [Versioning and Release Policy](versioning-and-release-policy.md) for versioning schemes and release processes
 
 ---
