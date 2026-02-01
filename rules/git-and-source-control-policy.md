@@ -1,313 +1,13 @@
-# Versioning and Documenting Policy
+# Git and Source Control Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-01-30
+**Last updated:** 2026-02-01
 
-This document consolidates policies for documentation, exception tracking, Git/source control, and versioning/releases. Security policies have been moved to a separate [Security Policy](security-policy.md) document.
+This policy defines how code changes are authored, reviewed, merged, and managed in Git repositories. It applies to all repositories unless explicitly exempted in the exception log (see [Documentation Policy](documentation-policy.md)).
 
-## Index
-
-- [Documentation Policy](#documentation-policy)
-  - [Domain-Specific Documentation Standards](#9-domain-specific-documentation-standards)
-  - [Language Standards and Framework Versions](#language-standards-and-framework-versions)
-- [Exception and Decision Log](#exception-and-decision-log)
-- [Git, Source Control, and Release Policy](#git-source-control-and-release-policy)
-- [Versioning and Release Policy](#versioning-and-release-policy)
-
-**Note:** Security policy has been moved to a separate document. See [Security Policy](security-policy.md) for all security-related policies.
-
----
-
-# Documentation policy
-
-<a id="documentation-policy"></a>
-
-
-**Status:** Authoritative
-**Last updated:** 2026-01-30
-
-This policy ensures documentation is accurate, minimal, searchable, and maintained as a first-class artifact.
-
-## 1) Core principles
-
-- Documentation MUST be **close to code** and updated with changes.
-- Prefer **short, operational** writing: what to do, how to verify, how to rollback.
-- Avoid duplication. One source of truth per topic.
-- **Truth maintenance:** Documentation is treated as a tested artifact where possible. Polished but incorrect docs are worse than no docs. Documentation must be verifiable and maintainable.
-
-### Acronyms
-- **ADR** = Architecture Decision Record
-- **PR** = Pull Request
-
-## 2) Required documents per repository
-
-Each engineering repository MUST have:
-- `README.md` with: purpose, quickstart, environment, tests, key links, **Technical Baseline** (see [Language Standards and Framework Versions](#language-standards-and-framework-versions))
-- `docs/` (or equivalent) for deeper guides
-- `CHANGELOG.md` if the project has releases (see versioning policy)
-- Contribution notes (`CONTRIBUTING.md`) if multiple contributors exist
-
-## 3) Documentation structure
-
-Use this hierarchy:
-- **README**: entry point
-- **Guides**: “how-to” steps, reproducible
-- **Reference**: API/config reference, stable facts
-- **Decisions**: ADRs or decision log entries
-
-## 4) Quality standards
-
-Documentation MUST:
-- Use accurate commands and paths
-- Include verification steps ("how to confirm it worked")
-- Include rollback steps for impactful changes
-- State assumptions and constraints explicitly
-- Avoid screenshots as the only source of truth (text must exist)
-- **Be verifiable:** Where possible, documentation should be executable (scripts, tests, configs) or at least testable (commands that can be run to verify)
-- **Be maintainable:** Documentation that becomes stale is a liability. Prefer executable documentation (code, scripts, configs) over prose when possible.
-
-## 5) Update discipline
-
-- Any PR that changes behavior MUST update relevant docs or justify why not.
-- Broken docs are treated as bugs.
-- **Truth maintenance discipline:** With AI-assisted documentation generation, the risk is polished but incorrect docs. Every documentation update must be verified:
-  - Commands must be tested
-  - Examples must be runnable
-  - Code snippets must compile/execute
-  - Links must be valid
-- **Critical reading + reproducibility:** Documentation must enable reproducibility. If a reader cannot reproduce the documented behavior, the documentation is incorrect.
-
-## 6) Diagrams
-
-- Use diagrams only when they reduce complexity.
-- Diagrams MUST be editable text formats (e.g., Mermaid) or source-controlled assets.
-- Do not embed opaque diagrams with no source.
-
-## 7) Naming and style
-
-- Filenames SHOULD be lowercase with hyphens.
-- Use consistent section headers and avoid jargon without definition.
-
-## 8) Ownership
-
-Each major document SHOULD declare an owner (team or role) and a review cadence (e.g., quarterly for policies, monthly for runbooks).
-
-## 9) Domain-Specific Documentation Standards
-
-For **Machine Learning and Computer Vision** projects, comprehensive documentation standards are available in `references/ml-cv-documentation-standards.md`. This reference covers:
-
-- **Python docstring standards:** Google-style (industry standard) and NumPy-style (scientific/research contexts)
-- **Type hints (PEP 484):** Best practices for ML/CV code with tensor shape documentation
-- **C++/CUDA documentation:** Doxygen standards for performance-critical layers
-- **Documentation generation tools:** Sphinx, MkDocs, pdoc configuration for ML/CV projects
-- **Real-world examples:** Patterns from PyTorch, NumPy, Hugging Face, and other major ML/CV libraries
-- **Tooling ecosystem:** Linters, validators, type checkers, and pre-commit hooks
-- **Decision matrix:** When to use Google-style vs NumPy-style docstrings, when to use Doxygen
-
-**Key principle:** Use the documentation system native to the language of the layer you're working in:
-- **80% of ML/CV work** → Python docstrings (Google/NumPy style)
-- **15% of ML/CV work** → Mixed Python/C++ (docstrings + Doxygen)
-- **5% of ML/CV work** → Pure C++/CUDA (Doxygen)
-
-See `references/ml-cv-documentation-standards.md` for complete guidelines, templates, and examples.
-
-## 10) Language Standards and Framework Versions
-
-<a id="language-standards-and-framework-versions"></a>
-
-**Status:** Authoritative
-**Last updated:** 2026-01-30
-
-### Core Principle
-
-Language standards and critical framework versions MUST be documented **per-project** (in each repository), not globally in machine-level policies. This ensures reproducibility, prevents silent compiler drift, and maintains CI/local consistency.
-
-### What to Document
-
-#### 1. Language Standard (Mandatory)
-
-Every repository MUST document the language standard it targets:
-
-**Examples:**
-- `C++: C++20 (ISO, no GNU extensions)`
-- `Python: 3.11`
-- `TypeScript: ES2022 target`
-- `Rust: Edition 2021`
-
-**Why:** Prevents silent compiler drift, CI vs local mismatch, and dependency incompatibility.
-
-**Where:**
-- `README.md` → **Technical Baseline** section (see template below)
-- Build configuration files → **enforced in tooling** (`pyproject.toml`, `CMakeLists.txt`, `package.json`, `Cargo.toml`, etc.)
-
-**Policy alignment:** Versions are operational facts, not prose. Documentation must be verifiable and close to code.
-
-#### 2. Critical Framework/Runtime Versions (Only if they affect behavior)
-
-Record **only versions that influence compatibility or reproducibility**:
-
-**Good examples (major versions that affect behavior):**
-- `CUDA Toolkit: 12.4`
-- `PyTorch: 2.2`
-- `TensorRT: 10.x`
-- `OpenCV: 4.10`
-- `Node: 20 LTS`
-- `GCC: ≥14` (for C++20 support)
-
-**Bad examples (too granular, belongs in lockfiles):**
-- `numpy 2.1.3`
-- `requests 2.31.0`
-- `react 18.2.0`
-
-**Rule:** If a version is in a lockfile (`poetry.lock`, `package-lock.json`, `Cargo.lock`), it does NOT belong in README. Only document versions that:
-- Affect build compatibility
-- Require specific runtime versions
-- Impact reproducibility across environments
-- Are referenced in build configuration
-
-#### 3. Enforcement Requirement
-
-**Everything listed in Technical Baseline MUST be enforced in build config**, not just written:
-
-- Python version → `pyproject.toml` `requires-python` + `pyenv` or `Dockerfile`
-- C++ standard → `CMakeLists.txt` `set(CMAKE_CXX_STANDARD 20)`
-- TypeScript target → `tsconfig.json` `"target": "ES2022"`
-- Node version → `.nvmrc` or `Dockerfile` `FROM node:20`
-
-**Single source of truth:** Build configuration is authoritative. README summarizes and references it.
-
-### What NOT to Do
-
-Do **NOT**:
-- Store global language preferences in machine-level policies (`~/policies/`)
-- Hardcode versions in prose without tool enforcement
-- Duplicate dependency lists outside lock/config files
-- Document every transitive dependency version
-
-**Rationale:** Policies enforce **single source of truth** and **verifiable documentation**. Versions must be enforceable, not decorative.
-
-### README Template: Technical Baseline
-
-Each repository README MUST include a **Technical Baseline** section:
-
-```markdown
-## Technical Baseline
-
-| Component | Version | Notes |
-|-----------|---------|-------|
-| Python    | 3.11    | Managed via pyenv, enforced in `pyproject.toml` |
-| C++       | C++20   | ISO mode, no GNU extensions. Enforced in `CMakeLists.txt` |
-| Compiler  | GCC ≥14 | Must support C++20 fully |
-| CUDA      | 12.4    | Required for GPU builds |
-| PyTorch   | 2.2     | See `pyproject.toml` for exact version |
-| Node      | 20 LTS  | See `.nvmrc` |
-```
-
-**Requirements:**
-- Every version listed MUST be enforced in build configuration
-- Include a "Notes" column explaining where it's enforced
-- Keep it minimal — only critical versions
-- Reference lockfiles for exact dependency versions
-
-### Verification
-
-To verify compliance:
-1. Check that every version in Technical Baseline has a corresponding enforcement in build config
-2. Run build/CI to confirm versions are actually enforced
-3. Verify README and config files stay in sync (documentation drift is a bug)
-
-## 10) Exceptions
-
-If documentation lags by necessity, record the exception in `exception-and-decision-log.md` with a clear deadline to reconcile.
-
-
----
-
-# Exception and decision log
-
-<a id="exception-and-decision-log"></a>
-
-
-**Status:** Authoritative
-**Last updated:** 2026-01-16
-
-This file records:
-- **Exceptions**: deviations from policy (temporary or permanent)
-- **Decisions**: significant choices that affect architecture, workflow, or long-term maintenance
-
-## 1) Rules
-
-- Every entry MUST be dated.
-- Every entry MUST have an owner.
-- Exceptions MUST include a sunset date (or explicit “permanent with justification”).
-- Decisions MUST include alternatives considered and the rationale.
-
-### Acronyms
-- **ADR** = Architecture Decision Record
-- **SLA** = Service Level Agreement
-
----
-
-## Template: Decision (ADR-style)
-
-**Date:** YYYY-MM-DD
-**Type:** Decision
-**Title:** <short, specific>
-**Owner:** <name/role>
-
-**Context:**
-<what problem we are solving, constraints, assumptions>
-
-**Decision:**
-<what we will do>
-
-**Rationale:**
-<why this is the best trade-off>
-
-**Consequences:**
-- Positive:
-- Negative:
-- Follow-ups:
-
-**Alternatives considered:**
-- Option A:
-- Option B:
-
----
-
-## Template: Exception
-
-**Date:** YYYY-MM-DD
-**Type:** Exception
-**Policy violated:** <document + section>
-**Owner:** <name/role>
-**Risk level:** Low / Medium / High
-**Justification:** <why unavoidable>
-**Mitigations:**
-- <controls to reduce risk>
-
-**Sunset date:** YYYY-MM-DD
-**Rollback plan:** <how to return to compliance>
-
----
-
-## Log entries
-
-(Empty — add new entries below this line.)
-
-
----
-
-# Git, Source Control, and Release Policy
-
-<a id="git-source-control-and-release-policy"></a>
-
-
-**Status:** Authoritative
-**Last updated:** 2026-01-16
-
-This policy defines how code changes are authored, reviewed, merged, versioned, and released.
-It applies to all repositories unless explicitly exempted in the exception log.
+**Note:** This policy was split from the consolidated `versioning-and-documenting-policy.md` for better organization. See also:
+- [Documentation Policy](documentation-policy.md) for documentation standards and exception/decision logging
+- [Versioning and Release Policy](versioning-and-release-policy.md) for versioning schemes and release processes
 
 ## Acronyms
 
@@ -373,7 +73,7 @@ It applies to all repositories unless explicitly exempted in the exception log.
 *.jpeg binary
 *.pdf  binary
 *.zip  binary
-````
+```
 
 ## 3) Branching model
 
@@ -411,7 +111,7 @@ It applies to all repositories unless explicitly exempted in the exception log.
     * `chore: …`
     * `refactor: …`
     * `test: …`
-19. **Imperative mood** in subject lines (“add”, not “added”).
+19. **Imperative mood** in subject lines ("add", not "added").
 20. **Explain why, not just what**, in the body when context matters.
 21. **No local noise commits** (debug prints, accidental formatting), unless isolated and intentional.
 
@@ -473,8 +173,7 @@ This policy MUST be enforced by GitHub **Rulesets** (preferred) or Branch Protec
 - Block force pushes, restrict deletions
 - Enforce linear history
 
-Operational rule: **No tooling may bypass these gates**, including AI agents. Any bypass capability is treated as an exception and must be recorded in `exception-and-decision-log.md` with risk and sunset date.
-
+Operational rule: **No tooling may bypass these gates**, including AI agents. Any bypass capability is treated as an exception and must be recorded in the Exception and Decision Log (see [Documentation Policy](documentation-policy.md)) with risk and sunset date.
 
 27. **At least one qualified reviewer** is required for non-trivial changes.
 28. Reviewers MUST verify:
@@ -486,7 +185,6 @@ Operational rule: **No tooling may bypass these gates**, including AI agents. An
 29. **Review intent and design**, not formatting (formatting is automated).
 30. **Reject PRs that mix concerns** (feature  refactor  formatting).
 31. **All review conversations are resolved** before merge.
-
 
 Purpose: ensure AI assistants and coding agents cannot weaken review discipline.
 
@@ -526,7 +224,6 @@ Purpose: ensure AI assistants and coding agents cannot weaken review discipline.
 **Security note**
 AI tools do not bypass server-side merge protection. Only credentials with bypass rights (admins/apps explicitly granted bypass) can bypass rules. This is a governance failure and MUST be treated as a security incident.
 
-
 ## 7) Merging strategy
 
 32. **Default merge strategy: squash merge** (clean, linear history).
@@ -543,7 +240,7 @@ AI tools do not bypass server-side merge protection. Only credentials with bypas
 
 ## 9) Versioning and releases
 
-40. **Semantic Versioning (SemVer) is mandatory** unless explicitly exempted.
+40. **Semantic Versioning (SemVer) is mandatory** unless explicitly exempted. See [Versioning and Release Policy](versioning-and-release-policy.md) for details.
 41. **Git tags:**
 
     * Annotated tags only.
@@ -554,7 +251,7 @@ AI tools do not bypass server-side merge protection. Only credentials with bypas
     * Git commit
     * CI run
     * dependency versions
-44. **Changelog is maintained**, either manually or generated from commits.
+44. **Changelog is maintained**, either manually or generated from commits. See [Versioning and Release Policy](versioning-and-release-policy.md) for changelog requirements.
 45. **Hotfix releases increment patch versions** and follow the same CI path.
 
 ## 10) CI/CD integration
@@ -636,8 +333,6 @@ pre-commit run --all-files
 59. **Milestones reflect reality**, not aspiration.
 60. **Issues are closed via PRs** with explicit linkage.
 
-
-
 ## 13) Documentation and discoverability
 
 61. **README.md explains:**
@@ -648,16 +343,12 @@ pre-commit run --all-files
 62. **CONTRIBUTING.md** is required for externally visible repos.
 63. **ARCHITECTURE.md** (or equivalent) is required for non-trivial systems.
 
-
-
 ## 14) Security practices
 
 64. **Branch protection rules enabled.**
 65. **Dependency and secret scanning enabled.** See [Security Policy](security-policy.md) for detailed security practices.
 66. **Least-privilege access enforced.**
 67. **Security fixes handled discreetly** until coordinated disclosure.
-
-
 
 ## 15) Windows dependencies and cross-platform constraints
 
@@ -686,21 +377,17 @@ git config --global core.autocrlf false
 git config --global core.eol lf
 ```
 
-```
 * If a repo is already polluted with mixed endings, normalize once:
-```
 
 ```bash
 git rm --cached -r .
 git reset --hard
 ```
 
-```
 (Only do this as an intentional, reviewed change in a dedicated PR.)
-```
 
 71. **Editors must respect `.gitattributes`**
-* Enable “use editorconfig / git attributes” behavior when available.
+* Enable "use editorconfig / git attributes" behavior when available.
 * If an editor insists on CRLF for `.sh` or `.yml`, that editor config is non-compliant.
 
 72. **Executable bit and scripts**
@@ -726,26 +413,20 @@ git config --global core.longpaths true
     * Using tools that inject zero-width / non-breaking spaces into source files.
     * Editing shell scripts in editors that silently convert LF → CRLF.
 
-
-
 ## 16) Large repositories and monorepos (if applicable)
 
 75. **Clear ownership per area** via CODEOWNERS.
 76. **Avoid cross-cutting PRs** unless necessary.
 77. **Tooling must support partial builds/tests** to keep CI fast.
 
-
-
 ## 17) Explicit anti-patterns (forbidden)
 
 78. Direct commits to `main`.
 79. Mega-PRs touching unrelated areas.
-80. Commit messages like “fix stuff”, “WIP”.
-81. Merging broken builds “to fix later”.
+80. Commit messages like "fix stuff", "WIP".
+81. Merging broken builds "to fix later".
 82. Force-pushing shared branches.
 83. Using issues as chat logs.
-
-
 
 ## 18) Gold-standard checklist
 
@@ -758,7 +439,7 @@ git config --global core.longpaths true
 
 ## 19) Operational checklists (daily use)
 
-This section exists to reduce mistakes by making the “happy path” explicit.
+This section exists to reduce mistakes by making the "happy path" explicit.
 
 ### 19.1 Create a new repository/project (local-first)
 
@@ -797,7 +478,6 @@ This section exists to reduce mistakes by making the “happy path” explicit.
    git push -u origin main
    ```
 
-
 ### 19.2 Modify an existing repository/project (standard workflow)
 
 1. **Sync and verify current branch**
@@ -832,7 +512,7 @@ This section exists to reduce mistakes by making the “happy path” explicit.
    git push
    ```
 
-### 19.3 “Push safety” quick checks (must pass before every push)
+### 19.3 "Push safety" quick checks (must pass before every push)
 
 1. `git status` is clean (no surprises).
 2. Hooks passed: `pre-commit run --all-files`.
@@ -855,7 +535,7 @@ Purpose: ensure the IDE never introduces hidden diffs (CRLF, BOM, trailing white
 2) **Encoding (UTF‑8, no BOM)**
 * Settings → Editor → **File Encodings**
   * **Global Encoding:** `UTF-8`
-  * **Project Encoding:** `UTF-8` (explicit, not “system default”)
+  * **Project Encoding:** `UTF-8` (explicit, not "system default")
   * **Default encoding for properties files:** `UTF-8`
   * **Create UTF-8 files:** `with NO BOM`
   * **Transparent native-to-ascii conversion:** `OFF`
@@ -906,7 +586,6 @@ git add -p
 git commit -m "type(scope): summary"
 git push
 ```
-
 
 ### 19.5 Git inside IDEs (VS Code + JetBrains) — daily workflow
 
@@ -983,7 +662,7 @@ Git change intent is expressed by **staging**.
 
 **Principles**
 - You stage only what you want to commit.
-- Unstaged changes are “not yet approved for commit”.
+- Unstaged changes are "not yet approved for commit".
 
 **In IDEs**
 - **VS Code**: Source Control view
@@ -1121,7 +800,7 @@ Operational rule:
 
 #### 19.5.6 Merge conflicts (resolution protocol)
 
-Conflicts MUST be resolved **carefully and deliberately**. Never “accept all” blindly.
+Conflicts MUST be resolved **carefully and deliberately**. Never "accept all" blindly.
 
 **A) First response**
 1) Stop and inspect:
@@ -1139,7 +818,7 @@ git diff --name-only --diff-filter=U
 
 **B) Resolve**
 - Preferred: resolve in IDE merge tool.
-  - VS Code: “Resolve in Merge Editor”
+  - VS Code: "Resolve in Merge Editor"
   - JetBrains: 3-way merge tool
 
 Rules:
@@ -1191,7 +870,7 @@ Then push.
 
 #### 19.5.7 Professional daily operations (amend, fixup, stash, revert, rebase)
 
-These operations are common in professional teams and prevent messy histories and risky “panic Git”.
+These operations are common in professional teams and prevent messy histories and risky "panic Git".
 
 ##### A) Rebase discipline: clean history without accidental merge commits
 
@@ -1232,7 +911,7 @@ git rebase --abort
 ```
 
 Operational rule:
-- Avoid IDE “Pull” actions that default to merge commits unless they are explicitly configured for rebase/ff-only.
+- Avoid IDE "Pull" actions that default to merge commits unless they are explicitly configured for rebase/ff-only.
 
 ##### B) Amend + fixup: keep commits clean
 
@@ -1253,7 +932,7 @@ git rebase -i --autosquash origin/main
 ```
 
 IDE mapping:
-- JetBrains has “Amend” and interactive rebase tooling built in.
+- JetBrains has "Amend" and interactive rebase tooling built in.
 - VS Code supports amend and interactive rebase via Source Control / Command Palette.
 
 ##### C) Stash: safe context switching
@@ -1310,12 +989,12 @@ Avoid on pushed branches:
 
 ##### F) Commit signing (optional, but professional-grade)
 
-If your team expects “Verified” commits, configure signing:
+If your team expects "Verified" commits, configure signing:
 - GPG signing OR SSH commit signing (GitHub-supported)
 
 Policy guidance:
 - Enable if required by target employers/teams.
-- If not required, don’t block progress; it can be added later.
+- If not required, don't block progress; it can be added later.
 
 ##### G) PR hygiene (IDE or CLI)
 
@@ -1336,7 +1015,6 @@ pre-commit run --all-files
 
 3) Keep PRs small and coherent; avoid mixing unrelated changes.
 
-
 ---
 
 **Note:** Security policies have been moved to a separate document. See [Security Policy](security-policy.md) for:
@@ -1351,83 +1029,3 @@ pre-commit run --all-files
 - API security best practices
 - ML/CV engineering security best practices
 - Incident response
-
----
-
-# Versioning and release policy
-
-<a id="versioning-and-release-policy"></a>
-
-
-**Status:** Authoritative
-**Last updated:** 2026-01-16
-
-This policy defines how versions are assigned, how releases are produced, and how artifacts are published.
-
-## 1) Core principle
-
-Releases must be reproducible from:
-- a Git commit
-- a version tag
-- a build pipeline that produces signed/traceable artifacts
-
-### Acronyms
-- **SemVer** = Semantic Versioning
-- **CI** = Continuous Integration
-- **CD** = Continuous Delivery
-
-## 2) Versioning scheme
-
-Default: **SemVer** (`MAJOR.MINOR.PATCH`)
-
-- MAJOR: incompatible changes
-- MINOR: backward-compatible features
-- PATCH: backward-compatible fixes
-
-Pre-releases MAY use:
-- `-alpha.N`, `-beta.N`, `-rc.N`
-
-## 3) Tagging policy
-
-- Every release MUST have an annotated tag: `vMAJOR.MINOR.PATCH`
-- Tags MUST point to a commit on the protected release path (`main` or release branch).
-
-## 4) Changelog policy
-
-- Maintain `CHANGELOG.md` using “Keep a Changelog” structure:
-  - Added / Changed / Deprecated / Removed / Fixed / Security
-- Every release MUST update the changelog.
-
-## 5) Release process (standard)
-
-A release MUST:
-1. Ensure CI is green on the target commit
-2. Update `CHANGELOG.md`
-3. Bump version (single source of truth: `pyproject.toml` or equivalent)
-4. Tag the release
-5. Build artifacts in CI
-6. Publish artifacts (package registry and/or object storage)
-7. Record release metadata (artifact hashes, environment) in release notes
-
-## 6) Artifact policy
-
-Artifacts MUST be:
-- content-addressed or integrity-checked (hash recorded)
-- traceable to source commit and dataset snapshots where relevant
-
-Model artifacts:
-- MUST NOT be “latest”; they MUST be versioned and immutable once referenced.
-- Store in object storage with hashes; store metadata in SQL or a registry.
-
-## 7) Compatibility policy
-
-Breaking changes MUST:
-- be called out explicitly in the changelog
-- include migration notes
-- be versioned with MAJOR bump
-
-## 8) Hotfix policy
-
-Hotfix releases:
-- MUST follow the same CI and tagging rules
-- SHOULD be minimal diffs

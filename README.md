@@ -92,9 +92,18 @@ The `/policies` folder is organized around **compiled policy bundles** (merged d
   *Comprehensive MLOps practices for production ML/CV systems*
   (experiment tracking, model versioning & registry, model serving & inference, model monitoring, hyperparameter tuning, distributed training, model optimization, deployment patterns, lifecycle management, reproducibility, cost optimization, latency engineering for real-time systems, **probabilistic systems testing & evals**)
 
-- **`policies/versioning-and-documenting-policy.md`**
-  *Governance bundle*
-  (documentation discipline, exception/decision log process, Git/source control rules, versioning/release rules)
+- **`policies/documentation-policy.md`** **[SPLIT 2026-02-01]**
+  *Documentation standards and exception/decision logging*
+  (documentation discipline, quality standards, domain-specific ML/CV documentation standards, language standards and framework versions, exception and decision log templates)
+
+- **`policies/git-and-source-control-policy.md`** **[SPLIT 2026-02-01]**
+  *Git workflow and repository management*
+  (repository setup, branching model, commit discipline, pull requests, code review standards, merging strategy, pre-commit hooks, CI/CD integration, Windows cross-platform constraints, operational checklists)
+
+- **`policies/versioning-and-release-policy.md`** **[SPLIT 2026-02-01]**
+  *Versioning schemes and release processes*
+  (Semantic Versioning, tagging policy, changelog policy, release process, artifact policy, compatibility policy, hotfix policy)
+  *Previously consolidated in `versioning-and-documenting-policy.md`*
 
 - **`policies/security-policy.md`**
   *Security and compliance baseline*
@@ -156,8 +165,12 @@ graph TD
     A["Development Environment Policy<br/>Machine setup, directory layout, workspace isolation"] --> B["Production Policy<br/>Data, SQL, Python, TypeScript, Docker, K8s, Kafka"]
     B --> G["Probabilistic Systems Architecture<br/>Deterministic to Probabilistic shift, verification runtime, evals, agents"]
     G --> C["MLOps Policy<br/>Experiment tracking, model serving, evals, monitoring"]
-    C --> D["Versioning and Documenting Policy<br/>Git, source control, documentation, versioning"]
-    D --> E["Security Policy<br/>Part 1: Core Security<br/>Part 2: AI-Assisted Coding Security"]
+    C --> D1["Documentation Policy<br/>Documentation standards, exception/decision log"]
+    C --> D2["Git and Source Control Policy<br/>Git workflow, branching, commits, PRs"]
+    C --> D3["Versioning and Release Policy<br/>SemVer, tagging, releases, artifacts"]
+    D1 --> E["Security Policy<br/>Part 1: Core Security<br/>Part 2: AI-Assisted Coding Security"]
+    D2 --> E
+    D3 --> E
     E --> F["AI Workflow Policy<br/>Part 1: Core Workflow<br/>Part 2: Prompt Engineering<br/>Part 3: Session Management<br/>Part 4: Spec-Driven Development"]
     F --> C
     F --> E
@@ -166,7 +179,9 @@ graph TD
     style B fill:#e1f5ff
     style G fill:#d4edda
     style C fill:#e1f5ff
-    style D fill:#e1f5ff
+    style D1 fill:#e1f5ff
+    style D2 fill:#e1f5ff
+    style D3 fill:#e1f5ff
     style E fill:#ffe1e1
     style F fill:#fff4e1
 ```
