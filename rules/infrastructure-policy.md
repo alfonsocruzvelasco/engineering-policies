@@ -1,0 +1,184 @@
+# Infrastructure Policy
+
+**Status:** Authoritative
+**Last updated:** 2026-02-02
+**Purpose:** Infrastructure standards for Docker/Podman, Kubernetes, and Kafka
+
+---
+
+## Docker/Podman/Kubernetes/Kafka
+
+Below is a professional-team rule set for **Docker / Kubernetes / Podman / Kafka**, written as enforceable policy suitable for real production teams.
+
+## 1) Core principles
+
+1. **Reproducibility over convenience.** Images, manifests, and configs must build and deploy identically in CI and production.
+2. **Immutability by default.** Containers are immutable artifacts; configuration and data are external.
+3. **Declarative everything.** Desired state is described in version control, not applied manually.
+4. **Security is continuous.** Least privilege, image scanning, and network controls are baseline, not add-ons.
+5. **Observability is mandatory.** Every service is measurable, debuggable, and traceable.
+
+## 2) Containers: Docker & Podman fundamentals
+
+6. **One process per container** (one responsibility).
+7. **Containers are stateless.** Persistent data lives in volumes or external services.
+8. **No SSH into containers** as an operational strategy. Debug via logs, metrics, and ephemeral debug containers.
+9. **Podman vs Docker is a runtime choice**, not a design change:
+
+   * OCI-compliant images only
+   * No Docker-specific hacks if Podman is supported.
+10. **Rootless containers preferred** where possible (especially with Podman).
+
+## 3) Dockerfile authoring rules
+
+11. **Minimal base images**:
+
+    * distroless / slim / alpine only when compatible
+    * pin base image versions (no `latest`).
+12. **Multi-stage builds** are mandatory for compiled languages.
+13. **Explicit COPY lists.** No `COPY . .` without `.dockerignore`.
+14. **No secrets in images**:
+
+    * no `.env`
+    * no tokens
+    * no private keys.
+15. **Non-root user** inside containers unless there is a documented exception.
+16. **Deterministic builds**:
+
+    * pinned package versions where feasible
+    * reproducible dependency installs.
+17. **Entrypoint vs CMD are intentional**:
+
+    * ENTRYPOINT defines the executable
+    * CMD defines defaults.
+18. **Healthcheck defined** for long-running services.
+
+## 4) Image management and registries
+
+19. **Images are versioned and immutable** once pushed.
+20. **Tags have meaning**:
+
+    * semantic version or git SHA
+    * never rely on mutable tags.
+21. **Images are built in CI**, not on developer machines.
+22. **Image scanning is mandatory** (CVEs, base image issues).
+23. **Private registries are authenticated via CI secrets**, not developer machines.
+
+## 5) Kubernetes fundamentals
+
+24. **Kubernetes manifests are declarative** and stored in Git.
+25. **No manual `kubectl apply` in production** outside break-glass procedures.
+26. **Namespaces reflect environments or domains** (not everything in `default`).
+27. **Everything runs as a Pod abstraction**, never directly as containers.
+28. **Resource requests and limits are mandatory** for all workloads.
+29. **Liveness and readiness probes are required** for long-running services.
+30. **Graceful shutdown is implemented** (SIGTERM handling).
+
+## 6) Kubernetes configuration discipline
+
+31. **ConfigMaps for configuration**, **Secrets for secrets**.
+32. **Secrets are not stored in Git in plaintext**.
+33. **Environment variables vs files**: choose one pattern per service and standardize.
+34. **No hardcoded service URLs**; use service discovery.
+35. **Labels and annotations are consistent** (app, version, environment, owner).
+
+## 7) Kubernetes workload rules
+
+36. **Deployments for stateless services.**
+37. **StatefulSets for stateful workloads** (databases, Kafka brokers).
+38. **Jobs/CronJobs for batch work**, not Deployments.
+39. **Horizontal Pod Autoscaler (HPA)** is configured where traffic varies.
+40. **No single-replica production services** unless explicitly justified.
+
+## 8) Networking and security
+
+41. **NetworkPolicies are defined**; default-deny where feasible.
+42. **Service-to-service traffic is explicit**, not implicit.
+43. **Ingress rules are minimal and audited.**
+44. **TLS everywhere** (internal and external) where feasible.
+45. **RBAC is least-privilege**:
+
+    * service accounts per workload
+    * no cluster-admin defaults.
+46. **No privileged containers** unless formally approved.
+
+## 9) Podman-specific considerations
+
+47. **OCI compatibility is required** (images must run under Docker and Podman).
+48. **Rootless execution tested** in CI or staging.
+49. **Systemd integration (podman generate systemd)** is used only for non-Kubernetes deployments.
+50. **Do not rely on Docker socket semantics** (`/var/run/docker.sock`).
+
+## 10) Kafka fundamentals
+
+51. **Kafka is treated as critical infrastructure**, not a side component.
+52. **Topics are versioned and managed declaratively** (IaC or admin tooling).
+53. **Partitions, replication factor, and retention are explicit** and documented.
+54. **No auto-topic creation in production.**
+55. **Producers and consumers define ownership** of topics clearly.
+
+## 11) Kafka producers
+
+56. **Keys are intentional** (ordering and partitioning matter).
+57. **Idempotent producers enabled** when supported.
+58. **Retries and timeouts are configured explicitly.**
+59. **No fire-and-forget sends** for critical data.
+60. **Schemas are versioned** (Avro/Protobuf/JSON Schema) and backward-compatible.
+
+## 12) Kafka consumers
+
+61. **Consumer groups are explicit and stable.**
+62. **Offset commit strategy is deliberate** (auto vs manual).
+63. **At-least-once vs exactly-once semantics are documented.**
+64. **Poison messages are handled** (DLQ, retries, backoff).
+65. **Consumers are idempotent** where possible.
+
+## 13) Kafka operations and reliability
+
+66. **Monitoring is mandatory**:
+
+    * broker health
+    * consumer lag
+    * disk usage
+67. **Retention and compaction policies are reviewed regularly.**
+68. **No schema breaking changes without coordination.**
+69. **Backpressure and burst handling are tested.**
+70. **Kafka upgrades are planned and tested** (never ad hoc).
+
+## 14) Observability
+
+71. **Structured logs** (JSON) for containers.
+72. **Metrics exposed** (Prometheus-compatible where applicable).
+73. **Tracing enabled** for request and message flows.
+74. **Correlation IDs propagate** across HTTP, gRPC, and Kafka.
+75. **Dashboards exist for critical services** before incidents happen.
+
+## 15) CI/CD expectations
+
+76. **CI builds images, runs tests, scans images.**
+77. **CD deploys via GitOps or controlled pipelines**, not manual pushes.
+78. **Rollback strategy is defined and tested.**
+79. **Config drift detection is enabled.**
+80. **No production deploys without passing CI gates.**
+
+## 16) Common anti-patterns to ban
+
+81. `latest` image tags in production.
+82. Containers running as root without justification.
+83. Manual edits to live Kubernetes resources.
+84. Secrets baked into images or committed to Git.
+85. Kafka topics created ad hoc by applications.
+86. Consumers without lag monitoring.
+87. Missing resource limits leading to noisy-neighbor failures.
+
+## 17) Minimal “gold standard” checklist
+
+88. Dockerfiles are multi-stage, non-root, scanned.
+89. Images are built in CI and deployed immutably.
+90. Kubernetes workloads have requests/limits, probes, and RBAC.
+91. Kafka topics and schemas are versioned and monitored.
+92. Logs, metrics, and traces are available for every service.
+93. Rollbacks are fast and documented.
+
+
+---

@@ -81,8 +81,29 @@ The `/policies` folder is organized around **compiled policy bundles** (merged d
 ### Compiled engineering policy bundles
 
 - **`policies/production-policy.md`** **[UPDATED 2026-02-01]**
-  *Daily reference for CV/ML engineering, data systems, and production tooling standards*
-  (data/storage rules, SQL discipline, Python/TypeScript/React/Node.js, Docker/Kubernetes/Kafka, testing + verification, model evaluation, feature engineering, data quality, **Git and Source Control Policy integrated**, Quick Reference Cards)
+  *Core production engineering policy for CV/ML engineering, data systems, and tooling standards* **[SPLIT 2026-02-02]**
+  (data/storage rules, SQL discipline, development environment setup, Git and Source Control Policy integrated, coding style, documentation, IDE policies, quality gates, Quick Reference Cards)
+  *See also: [Testing Policy](rules/testing-policy.md), [Language Policies](rules/language-policies.md), [Web Policies](rules/web-policies.md), [Infrastructure Policy](rules/infrastructure-policy.md), [ML/CV Operations Policy](rules/ml-cv-operations-policy.md)*
+
+- **`policies/testing-policy.md`** **[EXTRACTED 2026-02-02]**
+  *Comprehensive testing standards for CV/ML engineering*
+  (test classification, cross-cutting policies, language-specific testing policies, test execution environments, coverage requirements, test data management, test maintenance, TDD guidance, performance testing, contract testing, monitoring, anti-patterns, enforcement)
+
+- **`policies/language-policies.md`** **[EXTRACTED 2026-02-02]**
+  *Language-specific engineering standards*
+  (Python, TypeScript/Node.js, Java, C/C++, Rust, CUDA)
+
+- **`policies/web-policies.md`** **[EXTRACTED 2026-02-02]**
+  *Web technology standards*
+  (API design REST/gRPC, JavaScript/React, HTML/CSS)
+
+- **`policies/infrastructure-policy.md`** **[EXTRACTED 2026-02-02]**
+  *Infrastructure standards*
+  (Docker/Podman, Kubernetes, Kafka)
+
+- **`policies/ml-cv-operations-policy.md`** **[EXTRACTED 2026-02-02]**
+  *ML/CV-specific operations*
+  (model evaluation frameworks, feature engineering, data quality, model debugging, production inference)
 
 - **`policies/ai-systems-architecture-policy.md`** **[RENAMED 2026-02-01]**
   *Architectural patterns for AI-powered systems (deterministic → probabilistic shift)*
