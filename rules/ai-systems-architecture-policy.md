@@ -650,6 +650,8 @@ class SpatiotemporalRAG:
         return math.exp(-age_seconds / half_life_seconds)
 ```
 
+**See also:** [RAG Engineering Notes](references/rag-engineering-notes.md) for production RAG system design, chunking strategies, retrieval pipelines, reranking, and evaluation frameworks.
+
 ---
 
 ## Dual-State Architecture

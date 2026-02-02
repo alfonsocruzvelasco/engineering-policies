@@ -671,7 +671,9 @@ results = [c for c in candidates if matches_filter(c)][:10]
 4. **Over-fetching without re-ranking:** Returning raw ANN results without business logic
 5. **Not monitoring recall:** ANN indices degrade over time (data drift, fragmentation)
 
-**See also:** [Vector Database Engineering Guide](references/vector-db-engineering-guide.md) for comprehensive coverage of ANN structures, data plumbing, production patterns, and benchmarking strategies.
+**See also:**
+- [Vector Database Engineering Guide](references/vector-db-engineering-guide.md) for comprehensive coverage of ANN structures, data plumbing, production patterns, and benchmarking strategies.
+- [RAG Engineering Notes](references/rag-engineering-notes.md) for production RAG system design, chunking strategies, retrieval pipelines, reranking, and evaluation frameworks.
 
 ---
 
