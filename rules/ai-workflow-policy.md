@@ -2260,9 +2260,11 @@ Assume I don't trust your answer. Give me:
 - **C**ontext: what's the situation?
 - **O**bjective: what are you optimizing for?
 - **S**tyle: what tone/format do you want?
-- **T**ask: what’s the specific ask?
+- **T**ask: what's the specific ask?
 - **A**ction: what should the assistant do?
 - **R**esult: what output format?
+
+**See also:** [Fairest Agent Comparison Metric](../references/fairest-agent-comparison.md) for evaluation protocols and comparison methodology when comparing COSTAR against other prompting strategies.
 
 ---
 
@@ -2274,6 +2276,8 @@ Assume I don't trust your answer. Give me:
 - **S**tatement: what's the core request?
 - **P**ersonality: what tone should be used?
 - **E**xperiment: what should be tested?
+
+**See also:** [Fairest Agent Comparison Metric](../references/fairest-agent-comparison.md) for evaluation protocols and comparison methodology when comparing CRISPE against other prompting strategies.
 
 ---
 

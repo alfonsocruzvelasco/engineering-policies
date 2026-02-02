@@ -165,6 +165,7 @@ The `/policies` folder is organized around **compiled policy bundles** (merged d
   - `vector-db-engineering-guide.md` — Vector database engineering guide for ML/CV (ANN structures, data plumbing, production patterns)
   - `rag-engineering-notes.md` — RAG (Retrieval-Augmented Generation) engineering notes for production systems (chunking, retrieval, reranking, prompt design, evaluation)
   - `software-architecture-in-machine-to-machine-systems.md` — Comprehensive guide on software architecture evolution for autonomous systems, robots, IoT devices, and AI agents (safety-critical design, ethical-aware architecture, control surfaces, system survivability)
+  - `fairest-agent-comparison.md` — Methodology for objectively comparing AI agents and prompting strategies (Pareto frontier analysis, utility scores, evaluation protocols for COSTAR/CRISPE/RTF/spec-driven approaches)
   - `gemini-integration-in-new-chrome.md` — Gemini integration documentation
   - PDF references: Vector database survey, ANN search papers, security practices, API hooks usage, OWASP Top 10 for LLMs coverage matrix, secure code practices, security vulnerabilities in AI-generated code
 

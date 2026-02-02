@@ -210,6 +210,8 @@ Model quality > temperature tuning.
 This is the **missing layer** in most prompt engineering:
 You must **measure** prompt quality like ML model performance.
 
+**See also:** [Fairest Agent Comparison Metric](fairest-agent-comparison.md) for comprehensive methodology on comparing prompting strategies (COSTAR, CRISPE, RTF, spec-driven) using Pareto frontier analysis and utility scores.
+
 ---
 
 ## 11.1 Offline Evaluation (Before Deployment)
