@@ -873,6 +873,8 @@ class GeometricVerifier:
         return abs(detected_size - expected_size) / expected_size < 0.3  # 30% tolerance
 ```
 
+**See also:** [Software Architecture in Machine-to-Machine Systems](../references/software-architecture-in-machine-to-machine-systems.md) for comprehensive architectural guidance on autonomous systems, safety-critical design, ethical-aware architecture (E-MAPE-K), control surfaces, system survivability, and architectural patterns for robots, IoT devices, and AI agents.
+
 ---
 
 ## Production Readiness Checklist
