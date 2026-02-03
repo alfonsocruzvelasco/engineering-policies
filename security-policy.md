@@ -685,6 +685,7 @@ AI-assisted code must pass:
 * Input validation present
 * Auth/authz verified
 * Dependency scan clean
+* Security review completed (see Section 19.1 for review methods)
 
 **Correctness:**
 * Tests pass
@@ -697,6 +698,27 @@ AI-assisted code must pass:
 **Governance:**
 * Human code review
 * Branch protection + CI enforced
+
+### 19.1 Security Review Methods
+
+Security review must use **at least one** of the following methods:
+
+**Method 1: Traditional SAST (Required for CI/CD)**
+* Semgrep (pattern-based static analysis)
+* CodeQL (comprehensive CWE mapping)
+* Bandit (Python-specific security linter)
+
+**Method 2: Semantic Security Analysis (Recommended for AI-Generated Code)**
+* Claude Code `/security-review` command - Uses Claude Opus 4.1 for context-aware semantic analysis that catches logic flaws, business logic vulnerabilities, and context-specific security issues that pattern-based tools miss. Particularly valuable for AI-generated code where logic errors are common.
+
+**Integration Strategy:**
+* **CI/CD pipelines:** Use traditional SAST (Semgrep/CodeQL) as mandatory gates
+* **Development workflow:** Use Claude Code `/security-review` during development and before PR submission
+* **PR reviews:** Both SAST results and semantic analysis findings should be reviewed
+
+**Rationale:** Traditional SAST tools (Semgrep, CodeQL) excel at detecting known vulnerability patterns but may miss logic flaws, business logic vulnerabilities, and context-specific issues. Claude Code's semantic analysis complements traditional SAST by understanding code intent and catching vulnerabilities that require contextual understanding. Research shows AI-generated code has higher rates of logic errors (45% vulnerability rate, Veracode 2025), making semantic analysis particularly valuable.
+
+**See also:** Section 15.1.1 (Claude Code Security Review) for detailed usage instructions.
 
 **Final Policy Anchor:**
 > **AI systems with tool or API access must be treated as potentially compromised actors. All credentials are least-privilege, all tool use is constrained, and all AI outputs are untrusted until verified.**
@@ -1681,6 +1703,12 @@ repos:
   * Command injection
   * SQL injection
   * Path traversal
+* **Semantic Analysis** (Recommended): Claude Code `/security-review` or GitHub Action `anthropics/claude-code-security-review` for:
+  * Logic flaws and business logic vulnerabilities
+  * Context-specific security issues
+  * Silent security regressions
+  * AI-generated code vulnerabilities
+  * See Section 15.1.1 for detailed usage
 * **SCA**: Dependency vulnerability scan
   * Fail on HIGH/CRITICAL CVEs
   * License compliance check
@@ -1927,6 +1955,96 @@ pip install bandit --break-system-packages
 ```
 
 **Rationale**: Research shows 45% of AI-generated code contains vulnerabilities (Veracode 2025). These tools implement the SAST requirements from Section 10.3 (CI/CD Pipeline Gates).
+
+#### 15.1.1 Semantic Security Analysis (Claude Code)
+
+**Claude Code `/security-review`** - AI-powered semantic security analysis using Claude Opus 4.1:
+
+Claude Code includes a built-in `/security-review` command that performs deep semantic analysis of code changes. Unlike pattern-based SAST tools, it understands code context and intent, making it particularly effective at detecting:
+
+* Logic flaws and business logic vulnerabilities
+* Context-specific security issues (e.g., missing validation in specific code paths)
+* Silent security regressions (weakened auth checks, missing validation)
+* Complex injection vectors that require understanding code flow
+* AI-generated code vulnerabilities (hallucinated APIs, incorrect security patterns)
+
+**Usage:**
+
+**In Claude Code (Development Workflow):**
+```
+/security-review
+```
+
+The command analyzes all pending changes and provides:
+* Detailed vulnerability explanations with context
+* Severity ratings
+* Remediation guidance
+* False positive filtering (automatically excludes low-impact findings)
+
+**GitHub Actions Integration (CI/CD):**
+
+For automated security reviews in pull requests, use the official GitHub Action:
+
+```yaml
+# .github/workflows/security.yml
+name: Security Review
+
+permissions:
+  pull-requests: write
+  contents: read
+
+on:
+  pull_request:
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 2
+
+      - uses: anthropics/claude-code-security-review@main
+        with:
+          comment-pr: true
+          claude-api-key: ${{ secrets.CLAUDE_API_KEY }}
+          exclude-directories: "node_modules,venv,.git"
+```
+
+**Configuration Options:**
+* `claude-model`: Claude model to use (default: `claude-opus-4-1-20250805`)
+* `claudecode-timeout`: Analysis timeout in minutes (default: 20)
+* `exclude-directories`: Comma-separated directories to exclude
+* `false-positive-filtering-instructions`: Path to custom filtering rules
+* `custom-security-scan-instructions`: Path to organization-specific security requirements
+
+**Integration with Existing SAST:**
+
+Claude Code `/security-review` **complements** traditional SAST tools:
+
+| Tool Type | Strengths | Use Case |
+|-----------|-----------|----------|
+| **Semgrep/CodeQL** | Pattern matching, known CVEs, fast, deterministic | CI/CD gates, blocking known vulnerabilities |
+| **Claude Code `/security-review`** | Semantic understanding, logic flaws, context-aware | Development workflow, PR review, catching novel vulnerabilities |
+
+**Best Practice:** Use both in a layered approach:
+1. **Pre-commit:** Semgrep/Bandit (fast, blocks obvious issues)
+2. **Development:** Claude Code `/security-review` (catches logic flaws during coding)
+3. **CI/CD:** Semgrep/CodeQL (mandatory gates, deterministic)
+4. **PR Review:** Review findings from both SAST and semantic analysis
+
+**Rationale:** Section 15.6 cautions against "AI security tools that are just wrappers" and "black-box AI scanners." Claude Code `/security-review` is acceptable because:
+* It's from Anthropic (trusted source, transparent about capabilities)
+* It uses Claude Opus 4.1 (well-documented model, not a black box)
+* It provides detailed explanations (not just "vulnerability detected")
+* It complements rather than replaces traditional SAST
+* It's particularly valuable for AI-generated code where logic errors are common
+
+**See also:**
+* [Claude Code Security Review Documentation](https://support.claude.com/en/articles/11932705-automated-security-reviews-in-claude-code)
+* [GitHub Action Repository](https://github.com/anthropics/claude-code-security-review)
+* Section 19.1 (Security Review Methods) for integration into verification gates
 
 #### Pre-commit Hooks Framework
 
@@ -2628,7 +2746,7 @@ Based on research findings and security principles:
 
 **❌ Avoid:**
 
-1. **AI security tools that are just wrappers** - Use established tools (Semgrep, CodeQL, Bandit) instead of unproven "AI security scanners"
+1. **AI security tools that are just wrappers** - Use established tools (Semgrep, CodeQL, Bandit) instead of unproven "AI security scanners". **Exception:** Claude Code `/security-review` is acceptable (see Section 15.1.1) because it's from a trusted source (Anthropic), uses a well-documented model (Claude Opus 4.1), provides detailed explanations, and complements rather than replaces traditional SAST.
 
 2. **Unverified prompt injection "filters"** - Section 7 shows these are easily circumvented. Focus on architectural defenses (trust hierarchy, input validation)
 
@@ -2636,7 +2754,14 @@ Based on research findings and security principles:
 
 4. **Auto-merge bots for AI PRs** - Never allow automated merging of AI-generated code without human review (Layer 2: Code Review)
 
-5. **"AI-powered" security tools without transparency** - Prefer tools with clear static analysis rules over black-box AI scanners
+5. **"AI-powered" security tools without transparency** - Prefer tools with clear static analysis rules over black-box AI scanners. **Exception:** Claude Code `/security-review` is acceptable because it provides detailed vulnerability explanations, uses a transparent model (Claude Opus 4.1), and is designed to complement traditional SAST rather than replace it.
+
+**Acceptable AI Security Tools Criteria:**
+* From trusted, established vendors (e.g., Anthropic, GitHub)
+* Transparent about methodology and model used
+* Provides detailed explanations, not just binary "vulnerable/not vulnerable"
+* Complements traditional SAST rather than replacing it
+* Designed for specific use cases (e.g., semantic analysis for logic flaws) rather than general-purpose scanning
 
 ### 15.7 Verification Commands
 

@@ -1194,7 +1194,9 @@ This discipline prevents time waste and maintains code quality.
 - [ ] All existing tests pass
 - [ ] No new warnings introduced
 - [ ] Static analysis clean (ruff, mypy, etc.)
-- [ ] Security scans pass (CodeQL, Dependabot)
+- [ ] Security scans pass (CodeQL, Dependabot, or Claude Code `/security-review`)
+
+**Note:** For AI-generated code, Claude Code `/security-review` is recommended as it catches logic flaws and context-specific vulnerabilities that pattern-based tools may miss. See [Security Policy](security-policy.md) Section 15.1.1 for detailed usage.
 
 **Cursor integration:**
 ```bash
@@ -1391,9 +1393,11 @@ In the AI/agent era, human line-by-line code review becomes less effective as th
    - "Click and see" rather than "read and imagine"
 
 4. **Security Scanning**
-   - SAST (Static Application Security Testing)
+   - SAST (Static Application Security Testing): Semgrep, CodeQL
+   - Semantic Security Analysis: Claude Code `/security-review` (recommended for AI-generated code)
    - Dependency scanning (Dependabot)
    - Secret scanning
+   - See [Security Policy](security-policy.md) Section 19.1 for security review methods
    - License compliance
 
 5. **Performance Benchmarks**
