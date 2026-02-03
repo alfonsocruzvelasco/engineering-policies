@@ -17,6 +17,7 @@
 - [Cursor Modes](#cursor-modes)
 - [Guardrails](#guardrails)
 - [AI Model Usage Policy](#ai-model-usage-policy--local-vs-cloud)
+- [Strategic Agent Delegation for Skill Building](#strategic-agent-delegation-for-skill-building)
 - [Git Discipline](#git-discipline)
 - [MCP (Model Context Protocol)](#mcp-model-context-protocol)
 - [Tool Use Security](#tool-use-security-api-calling-agents)
@@ -955,6 +956,198 @@ That mindset is what separates:
 **Beginner ML user** → **ML/CV Engineer**
 
 See `mlops-policy.md` Section 1.1 for detailed guidance on structured ML/CV engineering.
+
+---
+
+## Strategic Agent Delegation for Skill Building
+
+**Purpose:** This section provides a strategic framework for using AI agents during learning and skill-building phases, with specific focus on ML/CV engineering career development. It addresses the critical question: **"Which skills must I build manually, and which workflows can agents accelerate without creating dependencies that hinder growth?"**
+
+**Core Principle:**
+Agent delegation decisions must be driven by skill-building goals, not convenience. The objective is to build deep competency in core ML/CV engineering skills while using agents to accelerate non-core tasks that would otherwise consume time better spent on learning.
+
+### The Core Tension
+
+The critical question is not "which tasks should I delegate to agents?" but rather: **"Which skills do I need to build, and which workflows can agents accelerate without creating dependencies that hurt my growth?"**
+
+### Strategic Framework for Agent Use
+
+#### 1. Skills You MUST Build Manually (Minimize Agent Use)
+
+For ML/CV engineering positions (e.g., companies like Mobileye), you need deep competency in:
+
+* **Core CV algorithms implementation** (object detection, segmentation, tracking)
+* **Debugging model failures** (understanding why predictions fail)
+* **Performance optimization** (real-time inference, memory constraints)
+* **Reading research papers → implementation**
+
+**Agent rule here:** Use agents for *scaffolding and boilerplate*, never for *core logic*.
+
+**Example:** Agent generates test harness → You implement the actual CV algorithm.
+
+#### 2. High-Value Agent Delegation (Accelerate Without Dependency)
+
+Based on SWE-bench (which tests agents on real GitHub issues), agents excel at:
+
+**a) Repository infrastructure** (50%+ success rate on these)
+* Setting up project structure per `development-environment-policy.md`
+* Creating proper `.gitignore`, Docker configs, CI/CD scaffolding
+* Boilerplate test files with proper fixtures
+
+**b) Documentation and specifications**
+* Converting rough notes → proper markdown specs (aligns with spec-driven workflow)
+* Generating docstrings from code you wrote
+* Creating API documentation
+
+**c) Refactoring well-understood code**
+* Breaking monolithic scripts into modules
+* Applying consistent naming conventions (per policy requirements)
+* Updating imports after restructuring
+
+**d) Data pipeline boilerplate**
+* Dataset loading scripts (structure only - you verify correctness)
+* Basic preprocessing pipelines
+* Logging and metrics collection setup
+
+#### 3. Medium-Risk Agent Use (Use with Heavy Verification)
+
+**Debugging assistance:**
+* Agents can suggest hypotheses, but YOU must understand the root cause
+* Let agents generate test cases to reproduce bugs
+* Never blindly apply "fixes" without understanding them
+
+**Implementation from specs:**
+* If you have a detailed spec (per spec-driven approach), agents can scaffold implementation
+* But YOU must review every line and understand the approach
+
+#### 4. Current Skill-Building Priority
+
+For ML/CV engineering career goals, focus manual effort on:
+
+**Computer Vision fundamentals:**
+```
+~/dev/repos/github.com/alfonsocruzvelasco/cv-fundamentals/
+├── object-detection/      # YOLO, R-CNN family (manual)
+├── segmentation/          # U-Net, Mask R-CNN (manual)
+├── tracking/              # Kalman filters, SORT (manual)
+└── datasets/              # Agent: download scripts
+                           # You: understanding data characteristics
+```
+
+**ML Engineering skills:**
+```
+~/dev/repos/github.com/alfonsocruzvelasco/mlops-practice/
+├── model-optimization/    # Quantization, pruning (manual)
+├── deployment/            # TensorRT, ONNX (manual concepts, agent scaffolding)
+├── monitoring/            # Metric definitions (manual), collection code (agent)
+└── infra/                 # Docker/k8s configs (agent with your review)
+```
+
+### Concrete Workflow Recommendation
+
+#### Phase 1: Foundation (Now - 6 months)
+**Agent allocation: 20% of tasks**
+
+```
+Learning Projects → Manual Implementation
+├── Implement classic CV papers from scratch
+├── Debug why models fail (manual only)
+├── Optimize inference speed (manual profiling, agent logging)
+└── Build test datasets (agent download, you analyze)
+```
+
+**Agent tasks:**
+* Project setup per policies
+* Test harness generation
+* Documentation after you understand the code
+* Refactoring after your manual implementation works
+
+#### Phase 2: Portfolio Building (6-12 months)
+**Agent allocation: 30% of tasks**
+
+```
+Portfolio Projects → Production Quality
+├── Real-time object detection system (edge deployment)
+├── Custom dataset annotation pipeline
+├── Model compression case study
+└── Multi-camera tracking system
+```
+
+**Agent tasks:**
+* Infrastructure setup (Docker, deployment scripts)
+* Data pipeline boilerplate
+* Documentation and README
+* CI/CD configuration
+* Code organization/refactoring
+
+**Manual tasks:**
+* All core CV/ML algorithms
+* Performance optimization
+* Architecture decisions
+* Debugging model behavior
+
+### Budget Optimization
+
+Given multiple AI tool subscriptions:
+
+**Keep:**
+* **Cursor Pro** - Primary coding environment, integrated workflow
+* **Claude Pro** - Deep technical discussions, policy adherence, architecture review
+
+**Evaluate:**
+* **ChatGPT Plus vs Gemini Pro** - Pick ONE for quick lookups/explanations. Based on SWE-bench, Claude/GPT-4 tier models perform similarly (~45-50%). Test both for 1 month, keep the one that explains CV concepts better for your learning style.
+
+**Savings:** ~$20/month → Invest in Weights & Biases or better GPU cloud credits
+
+### Measuring Success
+
+Per objective evaluation focus, track:
+
+```python
+# Weekly self-assessment
+metrics = {
+    'manual_implementation_hours': X,  # Should be >60% of coding time
+    'agent_generated_loc': Y,          # Lines you reviewed and understood
+    'concepts_deeply_understood': Z,   # CV algorithms you can implement from memory
+    'production_ready_projects': N     # Portfolio pieces
+}
+```
+
+**Red flag:** If `agent_generated_loc / total_loc > 0.5` in learning projects, you're building dependency, not skills.
+
+### Decision Framework
+
+**Use agents for tasks that match this pattern:**
+
+```
+IF task is:
+    - Repetitive (config files, boilerplate, project structure)
+    - Well-specified (you know exactly what needs to happen)
+    - Verifiable (you can review correctness quickly)
+    - NOT core to CV/ML engineering skills
+THEN: Delegate to agent
+ELSE: Manual implementation
+```
+
+**Concrete task list for agent delegation:**
+1. Repository setup per `development-environment-policy.md`
+2. Docker/compose configurations (after you design the architecture)
+3. Test file scaffolding (you write assertions)
+4. Data loading boilerplate (you verify correctness)
+5. Documentation generation (after you understand the code)
+6. Refactoring working code to follow naming conventions
+7. Creating issues/specs in spec-driven workflow
+8. Updating imports after restructuring
+
+**Never delegate to agents:**
+1. Implementing CV algorithms (YOLO, R-CNN, trackers, etc.)
+2. Debugging why your model predictions are wrong
+3. Architecture decisions for ML systems
+4. Performance optimization critical path
+5. Understanding research papers
+6. Designing experiments
+
+**The meta-skill you're building:** Knowing when human intelligence is irreplaceable vs when automation accelerates. That's exactly what ML/CV engineering roles value.
 
 ---
 
