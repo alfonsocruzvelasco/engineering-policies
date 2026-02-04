@@ -26,13 +26,14 @@
 - [Data Security (CV/ML Context)](#11-data-security-cvml-context)
 - [ML/CV Engineering Security Best Practices](#12-mlcv-engineering-security-best-practices)
 - [AI Coding Hazards (Security and Privacy)](#13-ai-coding-hazards-security-and-privacy)
-- [Code Injection Defenses](#14-code-injection-defenses-best-practices)
-- [API Security Best Practices](#15-api-security-best-practices)
-- [Model and Artifact Security](#16-model-and-artifact-security)
-- [Incident Response](#17-incident-response)
-- [Prompt Injection Defense (Critical for AI Coding)](#18-prompt-injection-defense-critical-for-ai-coding)
-- [Mandatory Verification Gates (Before Merge)](#19-mandatory-verification-gates-before-merge)
-- [Exceptions](#20-exceptions)
+- [External AI Code Generation Usage Policy](#14-external-ai-code-generation-usage-policy)
+- [Code Injection Defenses](#15-code-injection-defenses-best-practices)
+- [API Security Best Practices](#16-api-security-best-practices)
+- [Model and Artifact Security](#17-model-and-artifact-security)
+- [Incident Response](#18-incident-response)
+- [Prompt Injection Defense (Critical for AI Coding)](#19-prompt-injection-defense-critical-for-ai-coding)
+- [Mandatory Verification Gates (Before Merge)](#20-mandatory-verification-gates-before-merge)
+- [Exceptions](#21-exceptions)
 
 ---
 
@@ -487,7 +488,212 @@ AI tools accelerate work but introduce predictable risks. This section is mandat
 
 ---
 
-## 14) Code injection defenses (best practices)
+## 14) External AI Code Generation Usage Policy
+
+**Scope:** This section defines mandatory security controls for using external AI code-generation models (cloud-hosted services such as Claude, GPT-5.2, Gemini, Sonnet, Opus, and similar services). Local models running on organizational infrastructure are excluded from this policy.
+
+**Core Principle:**
+External AI code-generation models MUST be treated as untrusted junior engineers with no organizational loyalty, no security clearance, and no accountability. All interactions with external AI models are considered potential data exfiltration vectors and must be subject to strict controls.
+
+### 14.1 Risk Model for External AI Code Generators
+
+**Primary Threat Vectors:**
+
+1. **Data Exfiltration**
+   * Prompts, code, and context sent to external AI services are stored, logged, and may be used for model training
+   * Sensitive information (secrets, proprietary code, customer data) MUST NEVER be shared with external AI models
+   * Even sanitized or redacted data may be reconstructed through inference or correlation attacks
+
+2. **Code Injection via AI Output**
+   * AI-generated code may contain vulnerabilities, backdoors, or malicious patterns
+   * Hallucinated APIs, incorrect security patterns, and weakened validation are common failure modes
+   * AI output MUST be treated as untrusted until verified through security gates
+
+3. **Supply Chain Compromise**
+   * AI-suggested dependencies may be malicious, vulnerable, or license-incompatible
+   * All AI-suggested packages MUST be reviewed and scanned before use
+   * Dependency injection via AI recommendations is a documented attack vector
+
+4. **Prompt Injection and Instruction Override**
+   * External content (documentation, issues, web pages) may contain embedded instructions that override system policies
+   * AI models may follow instructions from untrusted sources if not properly constrained
+   * All retrieved content MUST be treated as data, never as instructions
+
+5. **Model Training Data Contamination**
+   * Code shared with external AI models may be incorporated into training datasets
+   * Proprietary algorithms, business logic, and security controls may be exposed to competitors
+   * All code shared with external AI models MUST be considered public information
+
+### 14.2 Data Sharing Restrictions
+
+**MUST NOT Share with External AI Models:**
+
+* **Secrets and Credentials:**
+  * API keys, tokens, passwords, private keys, certificates
+  * Database connection strings, service account credentials
+  * OAuth2 client secrets, refresh tokens, session cookies
+  * Cloud provider credentials, IAM role ARNs, access keys
+
+* **Proprietary and Confidential Information:**
+  * Proprietary algorithms, business logic, trade secrets
+  * Customer data, PII, PHI, financial information
+  * Internal architecture diagrams, security configurations
+  * Model weights, training data, inference data
+  * Source code from private repositories (unless explicitly approved)
+
+* **Infrastructure and Operational Details:**
+  * Network topologies, IP addresses, hostnames
+  * Deployment configurations, environment variables
+  * Security policies, access control lists, firewall rules
+  * Incident response procedures, security audit findings
+
+* **Authentication and Authorization Logic:**
+  * Implementation details of auth/authz systems
+  * Token validation logic, session management code
+  * Permission models, role definitions, access control matrices
+
+**MAY Share with External AI Models (with Restrictions):**
+
+* **Public Documentation:**
+  * Public API documentation, open-source library references
+  * Publicly available code examples, tutorials, best practices
+  * Standard algorithms, data structures, design patterns
+
+* **Sanitized Code Snippets:**
+  * Code with all secrets, credentials, and sensitive data removed
+  * Code that does not reveal proprietary algorithms or business logic
+  * Code that has been reviewed and approved for external sharing
+
+* **Error Messages and Stack Traces (Sanitized):**
+  * Error messages with secrets, paths, and sensitive data redacted
+  * Stack traces with internal file paths and variable values removed
+  * Generic error descriptions that do not reveal system internals
+
+**Data Minimization Principle:**
+* Share the MINIMUM amount of code and context necessary to accomplish the task
+* Remove all comments, docstrings, and metadata that may reveal sensitive information
+* Use generic variable names and remove business-specific terminology where possible
+* Sanitize all file paths, URLs, and identifiers before sharing
+
+### 14.3 Required Human Review and Verification Steps
+
+**Mandatory Review Gates:**
+
+1. **Pre-Sharing Review (Before Sending to External AI):**
+   * Human review MUST verify that no secrets, credentials, or sensitive data are present
+   * Human review MUST verify that proprietary algorithms and business logic are not exposed
+   * Human review MUST verify that infrastructure details and operational information are excluded
+   * All code and context MUST be sanitized before transmission to external AI services
+
+2. **Post-Generation Review (After Receiving AI Output):**
+   * All AI-generated code MUST be reviewed by a human engineer before execution
+   * Security review MUST be performed for code touching authentication, authorization, cryptography, input validation, or I/O operations
+   * Code review MUST verify that AI output matches intent and does not introduce vulnerabilities
+   * Dependency review MUST verify that all suggested packages are legitimate, maintained, and license-compatible
+
+3. **Verification Gates (Before Merge):**
+   * All AI-generated code MUST pass the same CI/CD gates as human-written code
+   * Security scanning (SAST, SCA, secret scanning) MUST pass without exceptions
+   * All tests MUST pass, including security test cases
+   * Code review approval MUST be obtained from at least one human engineer
+   * Branch protection rules MUST be enforced (no force push, no direct commits to protected branches)
+
+**Review Checklist (MUST Complete Before Merge):**
+
+* [ ] No secrets, credentials, or sensitive data in code or commits
+* [ ] Input validation present and correct for all user-controlled inputs
+* [ ] Authentication and authorization checks verified and tested
+* [ ] No SQL injection, command injection, or path traversal vulnerabilities
+* [ ] Dependencies reviewed and scanned for vulnerabilities
+* [ ] Error handling does not leak sensitive information
+* [ ] Logging excludes secrets, PII, and sensitive data
+* [ ] Resource cleanup implemented (connections, files, locks)
+* [ ] Security test cases added for new security-sensitive code paths
+* [ ] Code matches requirements and does not introduce unintended functionality
+
+### 14.4 Restrictions on Tool Access and Autonomy
+
+**External AI Models MUST NOT:**
+
+* **Direct Infrastructure Access:**
+  * Execute commands on production systems
+  * Access databases, file systems, or cloud resources directly
+  * Modify production configurations or deployments
+  * Access credential stores, secret managers, or KMS systems
+
+* **Autonomous Actions:**
+  * Commit code to repositories without human approval
+  * Merge pull requests or approve changes
+  * Deploy applications or services
+  * Create or modify IAM roles, policies, or permissions
+  * Access audit logs or security monitoring systems
+
+* **Unrestricted Tool Execution:**
+  * Execute arbitrary shell commands
+  * Download or execute binaries
+  * Access network resources outside approved endpoints
+  * Modify system configurations or environment variables
+
+**Required Controls:**
+
+* **Human-in-the-Loop Requirement:**
+  * All code generated by external AI models MUST be reviewed and approved by a human engineer before execution
+  * All tool invocations MUST require explicit human approval for sensitive operations
+  * No autonomous agent workflows using external AI models are permitted without explicit policy exception
+
+* **Sandboxed Execution:**
+  * AI-generated code MUST be tested in isolated environments before production use
+  * All AI-generated code MUST be executed in containers or VMs with restricted permissions
+  * Network access MUST be restricted to approved endpoints only
+
+* **Least Privilege Principle:**
+  * External AI models MUST NOT receive credentials or tokens with production access
+  * All API keys and tokens used for AI model access MUST be scoped to read-only operations where possible
+  * Separate credentials MUST be used for AI model access (never reuse production credentials)
+
+### 14.5 Logging and Audit Expectations
+
+**MANDATORY Logging Requirements:**
+
+1. **Interaction Logging:**
+   * All prompts sent to external AI models MUST be logged (with secrets redacted)
+   * All AI-generated code and responses MUST be logged
+   * Timestamps, user identifiers, and session identifiers MUST be recorded
+   * Model identifiers (Claude, GPT-5.2, Gemini, etc.) MUST be logged
+
+2. **Access Logging:**
+   * All API calls to external AI services MUST be logged
+   * Token usage, cost, and rate limit information MUST be tracked
+   * Failed authentication attempts MUST be logged and alerted
+   * Unusual usage patterns (excessive API calls, large prompts) MUST trigger alerts
+
+3. **Code Generation Logging:**
+   * All AI-generated code MUST be attributed to the AI model and user
+   * Git commits containing AI-generated code MUST include metadata indicating AI assistance
+   * Code review comments and security findings MUST be logged
+   * All verification gate results (tests, scans, reviews) MUST be logged
+
+4. **Audit Trail Requirements:**
+   * All logs MUST be retained for a minimum of 90 days
+   * Logs MUST be tamper-proof (append-only, cryptographically signed where feasible)
+   * Logs MUST be searchable and queryable for forensic analysis
+   * Access to audit logs MUST be restricted and logged
+
+5. **Compliance and Reporting:**
+   * Regular audits MUST be conducted to verify compliance with this policy
+   * Security incidents involving external AI models MUST be documented and reported
+   * Usage statistics and cost attribution MUST be tracked and reported
+   * Policy violations MUST be logged, investigated, and remediated
+
+**Log Retention and Access:**
+* Logs MUST be stored in centralized, access-controlled systems
+* Log access MUST require authentication and authorization
+* Log access MUST be audited (who accessed what logs, when, and why)
+* Logs containing sensitive information MUST be encrypted at rest and in transit
+
+---
+
+## 15) Code injection defenses (best practices)
 
 This section covers injection risks across SQL, shell, template engines, and interpreters.
 
@@ -531,7 +737,7 @@ This section covers injection risks across SQL, shell, template engines, and int
 
 ---
 
-## 15) API security best practices
+## 16) API security best practices
 
 ### Authentication and authorization
 
@@ -572,7 +778,7 @@ This section covers injection risks across SQL, shell, template engines, and int
 
 ---
 
-## 16) Model and Artifact Security
+## 17) Model and Artifact Security
 
 ### Model storage security
 
@@ -603,7 +809,7 @@ This section covers injection risks across SQL, shell, template engines, and int
 
 ---
 
-## 17) Incident response
+## 18) Incident response
 
 If you suspect exposure or compromise:
 
@@ -621,7 +827,7 @@ If you suspect exposure or compromise:
 
 ---
 
-## 18) Prompt Injection Defense (Critical for AI Coding)
+## 19) Prompt Injection Defense (Critical for AI Coding)
 
 **Prompt Injection (PI)** = instructions embedded in untrusted content (web pages, PDFs, emails, issues, logs, PRs, third-party docs) that attempt to override system/developer/user rules or trigger unsafe actions.
 
@@ -676,7 +882,7 @@ If untrusted content contains instructions like "ignore", "override", "exfiltrat
 
 ---
 
-## 19) Mandatory Verification Gates (Before Merge)
+## 20) Mandatory Verification Gates (Before Merge)
 
 AI-assisted code must pass:
 
@@ -725,7 +931,7 @@ Security review must use **at least one** of the following methods:
 
 ---
 
-## 20) Exceptions
+## 21) Exceptions
 
 Exceptions are extremely rare and must be documented with:
 
