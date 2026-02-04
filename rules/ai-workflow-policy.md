@@ -20,6 +20,7 @@
 - [Strategic Agent Delegation for Skill Building](#strategic-agent-delegation-for-skill-building)
 - [Git Discipline](#git-discipline)
 - [MCP (Model Context Protocol)](#mcp-model-context-protocol)
+- [Claude Code Skills Management](#claude-code-skills-management)
 - [Tool Use Security](#tool-use-security-api-calling-agents)
 - [Stewardship Model](#stewardship-model-ownership-beyond-authorship)
 - [Verification-First Mindset](#verification-first-mindset)
@@ -848,6 +849,223 @@ MCP servers in Cursor provide structured access to tools (Databases, Git, APIs, 
 5. **Comprehensive reference:** For complete MCP ecosystem documentation, including protocol architecture, MCP-UI framework, development patterns, and production considerations, see `references/mcp-ecosystem-notes.md`.
 
 **Security:** MCP servers must be restricted to necessary directories/files. Never allow full system access.
+
+## Claude Code Skills Management
+
+**Purpose:** Enforce token budget limits and progressive disclosure architecture for Claude Code agent skills to prevent context bloat and maintain performance.
+
+**Scope:** All `SKILL.md` files used with Claude Code (Claude.ai, Claude Desktop, or Claude Code IDE).
+
+### Core Requirements
+
+1. **Token Budget Enforcement (Mandatory)**
+   - All `SKILL.md` files MUST pass `skills-lint` validation
+   - Token budgets MUST be enforced per model (gpt-4, gpt-4o, gpt-5)
+   - CI/CD pipelines MUST fail if any skill exceeds token budgets
+   - Pre-commit hooks SHOULD run `skills-lint` to catch violations early
+
+2. **Progressive Disclosure Structure (Mandatory)**
+   - `SKILL.md` MUST remain lightweight: workflow + triggers + pointers
+   - Detailed content MUST be moved to `/docs` subdirectories
+   - Executable scripts MUST live in separate files (not embedded in `SKILL.md`)
+   - `SKILL.md` SHOULD stay under ~500 lines per Claude's guidance
+
+3. **Rationale:**
+   - Claude's skills model depends on progressive disclosure: lightweight metadata always loaded; instructions loaded when triggered; deeper resources live as files/scripts
+   - Token/size linting directly supports this architecture
+   - Prevents "slow drift" past recommended limits
+   - Context estate (token budget) is the primary constraint for Claude Code performance
+
+### Skills-Lint Integration
+
+**Tool:** [`skills-lint`](https://haasstefan.github.io/skills-lint/) — Token budget linter for agent skill files
+
+**Installation:**
+```bash
+npm install -g @haasstefan/skills-lint
+```
+
+**Usage:**
+```bash
+# Lint all skills in a directory
+skills-lint .github/skills/
+
+# Lint specific skill
+skills-lint .github/skills/code-review/SKILL.md
+```
+
+**Output:** Reports token counts per model (gpt-4, gpt-4o, gpt-5) with warnings and errors based on configured thresholds.
+
+### CI/CD Integration (Mandatory)
+
+**All repositories containing Claude Code skills MUST:**
+
+1. **Install `skills-lint` in CI:**
+   ```yaml
+   # .github/workflows/skills-lint.yml
+   name: Skills Lint
+   on:
+     pull_request:
+       paths:
+         - '**/SKILL.md'
+         - '.github/skills/**'
+   jobs:
+     lint:
+       runs-on: ubuntu-latest
+       steps:
+         - uses: actions/checkout@v4
+         - uses: actions/setup-node@v4
+         - run: npm install -g @haasstefan/skills-lint
+         - run: skills-lint .github/skills/ || exit 1
+   ```
+
+2. **Fail build on violations:**
+   - Any `SKILL.md` exceeding token budget MUST block merge
+   - Warnings SHOULD be reported but not block (configurable per team)
+   - Errors MUST block merge
+
+3. **Pre-commit hook (Recommended):**
+   ```yaml
+   # .pre-commit-config.yaml
+   - repo: local
+     hooks:
+       - id: skills-lint
+         name: skills-lint
+         entry: skills-lint
+         language: node
+         types: [text]
+         files: SKILL\.md$
+   ```
+
+### Progressive Disclosure Structure Requirements
+
+**Required structure for all skills:**
+
+```
+skill-name/
+├── SKILL.md              # Lightweight: workflow + triggers + pointers (~500 lines max)
+├── docs/                 # Detailed documentation
+│   ├── architecture.md
+│   ├── examples.md
+│   └── troubleshooting.md
+├── scripts/              # Executable scripts (not embedded in SKILL.md)
+│   ├── setup.sh
+│   └── validate.py
+└── references/           # External references
+    └── best-practices.md
+```
+
+**`SKILL.md` content guidelines:**
+
+✅ **MUST include:**
+- Skill metadata (name, version, description)
+- Trigger conditions (when skill activates)
+- Workflow overview (high-level steps)
+- Pointers to detailed docs (`docs/`, `scripts/`, `references/`)
+
+❌ **MUST NOT include:**
+- Full code implementations (move to `scripts/`)
+- Extensive examples (move to `docs/examples.md`)
+- Detailed troubleshooting (move to `docs/troubleshooting.md`)
+- Long reference lists (move to `references/`)
+
+**Example structure:**
+
+```markdown
+# Skill Name
+
+## Overview
+Brief description of what this skill does.
+
+## Triggers
+- When user asks: "How do I..."
+- When context contains: [patterns]
+
+## Workflow
+1. Step 1 (see `docs/architecture.md` for details)
+2. Step 2 (see `scripts/setup.sh` for implementation)
+3. Step 3 (see `docs/examples.md` for examples)
+
+## References
+- Architecture: `docs/architecture.md`
+- Examples: `docs/examples.md`
+- Scripts: `scripts/`
+```
+
+### Token Budget Thresholds
+
+**Recommended thresholds (per `skills-lint` defaults):**
+
+| Model   | Warning Threshold | Error Threshold | Rationale                          |
+|---------|-------------------|-----------------|------------------------------------|
+| gpt-4   | 2,000 tokens      | 4,000 tokens    | Legacy model, stricter limits       |
+| gpt-4o  | 8,000 tokens      | 16,000 tokens   | Current model, moderate limits     |
+| gpt-5   | 16,000 tokens     | 32,000 tokens   | Future model, higher limits         |
+
+**Custom thresholds:** Teams MAY adjust thresholds based on:
+- Model availability and usage
+- Skill complexity requirements
+- Performance constraints
+
+**Enforcement:** Errors MUST block CI/CD. Warnings SHOULD be reviewed but may not block (team decision).
+
+### What Skills-Lint Does NOT Cover
+
+**Important:** `skills-lint` is NOT a replacement for:
+
+1. **Correctness testing** — "Does the skill actually do the right thing?"
+   - **Solution:** Use eval-style tests (see [OpenAI eval guidance](https://developers.openai.com/blog/eval-skills/))
+   - **Integration:** Add skill correctness tests to CI/CD alongside `skills-lint`
+
+2. **Semantic validation** — "Does the skill structure make sense?"
+   - **Solution:** Manual review, peer review, or semantic analysis tools
+   - **Integration:** Code review process for skill changes
+
+3. **Security validation** — "Does the skill expose security risks?"
+   - **Solution:** Security review (see [Security Policy](security-policy.md) Section 15.1.1)
+   - **Integration:** Security scanning in CI/CD
+
+**Best practice:** Combine `skills-lint` (token budget) + correctness tests (functionality) + security review (safety) for comprehensive skill validation.
+
+### ML/CV Skills Setup
+
+**For ML/CV engineering skills (see `templates/ml-cv-skills-template.md`):**
+
+1. **Apply progressive disclosure:**
+   - Keep `SKILL.md` as workflow + triggers + pointers
+   - Move detailed patterns to `docs/patterns.md`
+   - Move code templates to `scripts/templates/`
+   - Move decision trees to `docs/decision-trees.md`
+
+2. **Enforce token budgets:**
+   - Run `skills-lint` before committing skill changes
+   - Fail CI/CD if budgets exceeded
+   - Split large skills into smaller, focused skills if needed
+
+3. **Example ML/CV skill structure:**
+   ```
+   pytorch-cv-patterns/
+   ├── SKILL.md                    # ~200 lines: triggers + workflow + pointers
+   ├── docs/
+   │   ├── architecture-selection.md
+   │   ├── loss-functions.md
+   │   └── dataloader-configs.md
+   ├── scripts/
+   │   ├── focal-loss.py
+   │   └── dataloader-template.py
+   └── references/
+       └── onnx-export-guide.md
+   ```
+
+### References
+
+- **Skills-lint:** [https://haasstefan.github.io/skills-lint/](https://haasstefan.github.io/skills-lint/)
+- **Claude Skills Best Practices:** [https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices)
+- **Claude Skills Overview:** [https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview)
+- **Testing Agent Skills:** [https://developers.openai.com/blog/eval-skills/](https://developers.openai.com/blog/eval-skills/)
+- **Skills Template:** `templates/ml-cv-skills-template.md`
+
+**See also:** `templates/ml-cv-skills-template.md` for ML/CV-specific skill examples and structure.
 
 ## Using AI Tools for Structured ML/CV Engineering
 

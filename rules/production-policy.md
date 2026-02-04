@@ -2179,7 +2179,21 @@ repos:
       - id: ruff
         args: [--fix]
       - id: ruff-format
+
+  # Required for repos containing Claude Code skills (SKILL.md files)
+  # See ai-workflow-policy.md Section "Claude Code Skills Management" for details
+  - repo: local
+    hooks:
+      - id: skills-lint
+        name: skills-lint
+        entry: skills-lint
+        language: node
+        types: [text]
+        files: SKILL\.md$
+        pass_filenames: true
 ```
+
+**Note:** The `skills-lint` hook is only required for repositories containing Claude Code skills (`SKILL.md` files). See [AI Workflow Policy](ai-workflow-policy.md) Section "Claude Code Skills Management" for installation, configuration, and rationale.
 
 54. **Installation and usage (developer workstation):**
 
