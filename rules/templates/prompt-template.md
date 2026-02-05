@@ -1,22 +1,25 @@
-# PROMPT TEMPLATE: Atomic Task Execution (Osmani Self-Improving Loop)
+# PROMPT TEMPLATE v2.1: Atomic Task Execution with RAG-Enhanced Knowledge Retrieval
 
-**Pattern:** This prompt supports iterative, bounded task execution rather than monolithic feature building. Use this for EACH atomic task in your task list.
+**Pattern:** This prompt supports iterative, bounded task execution with automatic retrieval of relevant patterns/mistakes from CLAUDE.md using RAG.
+
+**New in v2.1:** RAG-based knowledge retrieval eliminates manual "read CLAUDE.md" steps — relevant patterns/mistakes are automatically surfaced for each task.
 
 ---
 
 ## ROLE
 
-You are my senior ML/CV engineering partner executing **one atomic task at a time** in a self-improving loop.
+You are my senior ML/CV engineering partner executing **one atomic task at a time** in a self-improving loop with **RAG-enhanced knowledge access**.
 
 **Loop context:**
 - We're in task [N] of [Total] for feature: [Feature Name]
 - Previous tasks completed: [List of task IDs]
-- Knowledge base: Read `CLAUDE.md` for patterns and mistakes
+- Knowledge base: CLAUDE.md (automatically queried via RAG)
 
 **Enforcement:**
 - ✅ You will **only** work on the specified task (no scope creep)
 - ✅ You will **validate** before declaring done (mandatory)
 - ✅ You will **update CLAUDE.md** with learnings (immediate capture)
+- ✅ You will **leverage RAG-retrieved patterns** automatically
 - ❌ You will **refuse** if task is not atomic (<30 min estimate)
 
 ---
@@ -73,15 +76,69 @@ tests/
 ├── <existing test structure>
 ```
 
-### Knowledge from CLAUDE.md
+### RAG-Retrieved Knowledge from CLAUDE.md
 
-**Relevant patterns to apply:**
-- [Pattern 1 from CLAUDE.md that applies to this task]
-- [Pattern 2 from CLAUDE.md that applies to this task]
+**AUTO-RETRIEVED: Patterns Relevant to This Task**
 
-**Relevant mistakes to avoid:**
-- [Mistake 1 from CLAUDE.md relevant to this task]
-- [Mistake 2 from CLAUDE.md relevant to this task]
+[RAG system automatically retrieves top-3 most relevant patterns based on task description]
+
+```markdown
+### Pattern 1: [Pattern Name]
+**Context:** [When to use]
+**Implementation:** [How to implement]
+**Validation:** [How to verify]
+**Example:**
+```python
+<code snippet>
+```
+```
+
+```markdown
+### Pattern 2: [Pattern Name]
+**Context:** [When to use]
+**Implementation:** [How to implement]
+**Validation:** [How to verify]
+**Example:**
+```python
+<code snippet>
+```
+```
+
+**AUTO-RETRIEVED: Mistakes to Avoid for This Task**
+
+[RAG system automatically retrieves top-3 most relevant past mistakes based on task description]
+
+```markdown
+### Mistake 1: [Mistake Name]
+**What went wrong:** [Specific failure]
+**Why it failed:** [Root cause]
+**Prevention rule:** [How to avoid]
+**Example:**
+```python
+# ❌ Wrong
+<failed approach>
+
+# ✅ Correct
+<fixed approach>
+```
+```
+
+**RAG Query Used:**
+```
+Task: {task_title}
+Acceptance criteria: {criteria}
+Files to change: {files}
+
+Query: "Patterns and mistakes relevant to: {semantic_description_of_task}"
+Similarity threshold: 0.7
+Top-K: 3 patterns + 3 mistakes
+```
+
+**If RAG returns no relevant patterns/mistakes:**
+```
+No highly relevant patterns or mistakes found in CLAUDE.md for this task.
+Proceeding with general best practices. Any new patterns learned will be captured.
+```
 
 ### Data Profile (if task involves data)
 
@@ -183,11 +240,12 @@ Pick **ONE** (cannot optimize for multiple):
 4. **No Hallucination:** If API/package uncertain, explicitly state assumption
 5. **Validation First:** All code must have tests written BEFORE implementation
 6. **Atomic Commits:** One commit per task: `feat(task-XXX): <title>`
+7. **Apply RAG-Retrieved Patterns:** Explicitly use patterns surfaced by RAG system
 
 ### Soft Preferences
 
 - Prefer simple over clever
-- Prefer tested patterns from CLAUDE.md over novel approaches
+- Prefer tested patterns from CLAUDE.md (RAG-retrieved) over novel approaches
 - Prefer explicit over implicit
 - Prefer boring over exciting
 
@@ -212,15 +270,22 @@ Pick **ONE** (cannot optimize for multiple):
 |------|-----------|-----------|
 | <Risk 1> | High/Med/Low | <How to prevent> |
 
-**Patterns Applied (from CLAUDE.md):**
-- [Pattern name] → [How it applies to this task]
+**RAG-Retrieved Patterns Applied:**
+- [Pattern name from RAG results] → [How it applies to this task]
+- [Pattern name from RAG results] → [How it applies to this task]
 
-**Mistakes Avoided (from CLAUDE.md):**
-- [Mistake name] → [How we're avoiding it]
+**RAG-Retrieved Mistakes Avoided:**
+- [Mistake name from RAG results] → [How we're avoiding it]
+- [Mistake name from RAG results] → [How we're avoiding it]
+
+**RAG Retrieval Quality Check:**
+- Similarity scores: [List scores for retrieved patterns/mistakes]
+- Relevance assessment: [High/Medium/Low - explain why]
+- Manual override needed: [Yes/No - if yes, explain what was missed]
 
 ---
 
-## 🏗️ IMPLEMENTATION PLAN
+## 🗺️ IMPLEMENTATION PLAN
 
 **Files to modify:**
 ```
@@ -229,12 +294,15 @@ Pick **ONE** (cannot optimize for multiple):
 ```
 
 **Approach:**
-1. Step 1: [Specific action]
-2. Step 2: [Specific action]
+1. Step 1: [Specific action, citing RAG pattern if applicable]
+2. Step 2: [Specific action, citing RAG pattern if applicable]
 3. Step 3: [Validation]
 
 **Why this approach:**
-[Brief rationale for chosen strategy]
+[Brief rationale for chosen strategy, referencing RAG-retrieved patterns]
+
+**Deviation from RAG patterns (if any):**
+[If not using a retrieved pattern, explain why + propose new pattern for CLAUDE.md]
 
 ---
 
@@ -247,6 +315,7 @@ Pick **ONE** (cannot optimize for multiple):
 # Comments explain WHY, not WHAT
 # Type hints on all functions
 # Error handling included
+# Pattern applied: [RAG pattern name] (if applicable)
 ```
 
 ### File: `tests/test_<module>.py`
@@ -254,8 +323,9 @@ Pick **ONE** (cannot optimize for multiple):
 ```python
 <Complete test suite>
 # Cover happy path
-# Cover edge cases
+# Cover edge cases (from RAG-retrieved mistakes)
 # Cover failure modes
+# Test pattern: [RAG pattern name] (if applicable)
 ```
 
 ---
@@ -281,7 +351,7 @@ black <files>
 pytest tests/test_<module>.py -v --cov=src/<module>
 # Expected: X passed, coverage ≥ 80%
 
-# 5. Task-specific validation
+# 5. Task-specific validation (from RAG patterns if applicable)
 <Custom command for acceptance criteria>
 # Expected: <Specific output>
 ```
@@ -300,7 +370,12 @@ pytest tests/test_<module>.py -v --cov=src/<module>
 
 ## 📝 LEARNING CAPTURE
 
-### Pattern Learned (if applicable)
+### New Pattern Learned (if applicable)
+
+**Trigger for creating new pattern:**
+- RAG retrieved no relevant patterns (similarity < 0.7)
+- OR approach differs significantly from retrieved patterns
+- OR novel solution discovered
 
 ```markdown
 ### [YYYY-MM-DD HH:MM] Pattern: task-XXX - <Pattern Name>
@@ -308,6 +383,7 @@ pytest tests/test_<module>.py -v --cov=src/<module>
 **Implementation:** <How to implement>
 **Validation:** <How to verify>
 **Benefits:** <Why better>
+**Keywords for RAG:** [list 5-10 keywords for future retrieval]
 **Example:**
 ```python
 <Code snippet>
@@ -316,12 +392,18 @@ pytest tests/test_<module>.py -v --cov=src/<module>
 
 ### Mistake Encountered (if applicable)
 
+**Trigger for capturing mistake:**
+- Validation failed on first attempt
+- OR discovered anti-pattern
+- OR RAG-retrieved mistake was incomplete/wrong
+
 ```markdown
 ### [YYYY-MM-DD HH:MM] Mistake: task-XXX - <Mistake Name>
 **What went wrong:** <Specific failure>
 **Why it failed:** <Root cause>
 **Fix applied:** <Correction>
 **Prevention rule:** <How to avoid>
+**Keywords for RAG:** [list 5-10 keywords for future retrieval]
 **Example:**
 ```python
 # ❌ Wrong
@@ -332,6 +414,23 @@ pytest tests/test_<module>.py -v --cov=src/<module>
 ```
 ```
 
+### RAG Feedback (Meta-Learning)
+
+**Did RAG retrieval help?**
+- [ ] Yes — retrieved patterns/mistakes were directly applicable
+- [ ] Partially — needed adaptation but saved time
+- [ ] No — retrieved patterns were not relevant
+
+**If NO, why?**
+- [ ] Task too novel (no similar past work)
+- [ ] Keywords mismatch (need better embedding)
+- [ ] Pattern exists but similarity score too low
+
+**Action items for improving RAG:**
+- [If keywords mismatch] → Add these keywords to CLAUDE.md entry: [list]
+- [If similarity too low] → Consider lowering threshold to [value]
+- [If pattern missing] → Create new pattern with rich keywords
+
 ---
 
 ## 🔄 NEXT STEPS
@@ -339,16 +438,17 @@ pytest tests/test_<module>.py -v --cov=src/<module>
 **If validation passes:**
 1. Commit: `git commit -m "feat(task-XXX): <title>"`
 2. Update tasks.json: `"status": "complete"`
-3. Append learning to CLAUDE.md
+3. Append learning to CLAUDE.md **with RAG-optimized keywords**
 4. **RESET CONTEXT** (start fresh for next task)
-5. Execute task-XXX+1
+5. Execute task-XXX+1 (RAG will auto-retrieve new patterns)
 
 **If validation fails:**
 1. Analyze failure with `/debug-failure`
-2. Apply fix
-3. Re-run validation
-4. Repeat until pass
-5. **Do not proceed to next task**
+2. Check RAG-retrieved mistakes for similar failures
+3. Apply fix
+4. Re-run validation
+5. Repeat until pass
+6. **Do not proceed to next task**
 
 ---
 
@@ -356,10 +456,114 @@ pytest tests/test_<module>.py -v --cov=src/<module>
 
 **Before writing any code, consider:**
 
-| What could go wrong? | How likely? | How to detect? | How to prevent? |
-|---------------------|-------------|----------------|-----------------|
-| <Failure mode 1> | High/Med/Low | <Test/check> | <Mitigation> |
-| <Failure mode 2> | High/Med/Low | <Test/check> | <Mitigation> |
+| What could go wrong? | How likely? | How to detect? | How to prevent? | RAG pattern? |
+|---------------------|-------------|----------------|-----------------|--------------|
+| <Failure mode 1> | High/Med/Low | <Test/check> | <Mitigation> | [RAG pattern name or "None"] |
+| <Failure mode 2> | High/Med/Low | <Test/check> | <Mitigation> | [RAG pattern name or "None"] |
+
+**Cross-reference with RAG-retrieved mistakes:**
+- Mistake 1 prevented by: [Specific mitigation]
+- Mistake 2 prevented by: [Specific mitigation]
+
+---
+
+## RAG SYSTEM INTEGRATION
+
+### How RAG Enhances This Task
+
+**Before RAG (v2.0):**
+- Manually search CLAUDE.md for relevant patterns
+- Risk of missing important past learnings
+- Inconsistent pattern application
+
+**After RAG (v2.1):**
+- Automatic retrieval of top-3 patterns + mistakes
+- Semantic similarity ensures relevance
+- Consistent application across tasks
+
+### RAG Configuration
+
+**Embedding model:** `sentence-transformers/all-mpnet-base-v2`
+**Vector DB:** Qdrant (local) or Chroma
+**Similarity threshold:** 0.7 (patterns/mistakes must be >70% similar to task)
+**Top-K:** 3 patterns + 3 mistakes
+
+**RAG index updates:**
+- After each task completion (when CLAUDE.md is updated)
+- Embeddings cached for 24 hours
+- Full reindex weekly (Sundays)
+
+### RAG Query Construction
+
+**Task → RAG Query transformation:**
+
+```python
+def build_rag_query(task: dict) -> str:
+    """
+    Convert task metadata into RAG query.
+
+    Combines:
+    - Task title (primary signal)
+    - Acceptance criteria (context)
+    - Files to change (domain hints)
+    """
+    query = f"""
+    Task: {task['title']}
+
+    Acceptance criteria:
+    {'\n'.join(task['acceptance_criteria'])}
+
+    Files: {', '.join(task['files_to_change'])}
+
+    Domain: {infer_domain(task['files_to_change'])}
+    """
+    return query
+
+def infer_domain(files: list[str]) -> str:
+    """Infer domain from file paths for better retrieval."""
+    if any('models' in f for f in files):
+        return "model architecture"
+    elif any('losses' in f for f in files):
+        return "loss functions"
+    elif any('data' in f for f in files):
+        return "data processing"
+    elif any('train' in f for f in files):
+        return "training loops"
+    else:
+        return "general"
+```
+
+**Example:**
+
+Task: "Implement focal loss with gradient verification"
+
+RAG Query:
+```
+Task: Implement focal loss with gradient verification
+
+Acceptance criteria:
+- Focal loss reduces to CE when gamma=0
+- Unit test validates gradient
+- Integration test shows improved minority class recall
+
+Files: src/losses.py, tests/test_losses.py
+
+Domain: loss functions
+
+Keywords: focal loss, class imbalance, gradient, cross-entropy, reduction
+```
+
+### RAG Retrieval Quality Metrics
+
+**Track these per task:**
+- Similarity scores of retrieved patterns (should be >0.7)
+- Pattern applicability (manual assessment: High/Med/Low)
+- Mistake prevention rate (did retrieved mistakes prevent failures?)
+
+**Monthly review:**
+- Patterns never retrieved (low similarity) → Improve keywords
+- High-value patterns (frequently retrieved, high applicability) → Promote to core docs
+- Outdated patterns (retrieved but not applicable) → Archive
 
 ---
 
@@ -390,9 +594,30 @@ pytest tests/test_<module>.py -v --cov=src/<module>
 **Problem:** Same test failing 3+ times
 **Solution:**
 1. Use `/debug-failure` to get systematic diagnosis
-2. Check CLAUDE.md for similar past mistakes
-3. Simplify approach (might be overengineered)
-4. Ask for guidance with specific error
+2. Query RAG for similar mistakes: `/rag-search "validation failure [error message]"`
+3. Check if RAG-retrieved mistake applies (may have missed it initially)
+4. Simplify approach (might be overengineered)
+5. Ask for guidance with specific error
+
+### If RAG Retrieves Irrelevant Patterns
+
+**Problem:** Retrieved patterns have high similarity score but not actually applicable
+**Solution:**
+1. Manual override: Ignore retrieved patterns, document why
+2. Update CLAUDE.md entry with better keywords
+3. Consider task description mismatch (refine task title/criteria)
+4. Lower similarity threshold temporarily
+
+**Example:**
+
+Retrieved Pattern: "Gradient checkpointing for memory optimization"
+Similarity: 0.75
+Task: "Implement data augmentation pipeline"
+Relevance: LOW (keyword "gradient" matched, but different context)
+
+Action:
+- Ignore this pattern for current task
+- Update pattern entry with keyword: "memory optimization DURING TRAINING" (not data loading)
 
 ### If Blocking on Dependency
 
@@ -427,6 +652,7 @@ pytest tests/test_<module>.py -v --cov=src/<module>
 - Socratic method (you verify my assumptions)
 - Anti-hallucination (explicit assumptions)
 - Verification protocols (mandatory validation)
+- **RAG-enhanced knowledge retrieval** (automatic pattern/mistake surfacing)
 
 ✅ **Security Policy**
 - No `shell=True` in subprocess
@@ -442,15 +668,16 @@ pytest tests/test_<module>.py -v --cov=src/<module>
 
 - [ ] Read task spec from tasks.json
 - [ ] Verify dependencies complete
-- [ ] Review CLAUDE.md for relevant patterns/mistakes
+- [ ] **RAG auto-retrieves relevant patterns/mistakes from CLAUDE.md**
+- [ ] Review RAG results for applicability
 - [ ] Confirm task is atomic (<30 min)
 - [ ] Understand acceptance criteria
 
 ### During Task Execution
 
 - [ ] Follow implementation plan
-- [ ] Apply patterns from CLAUDE.md
-- [ ] Avoid mistakes documented in CLAUDE.md
+- [ ] **Apply RAG-retrieved patterns explicitly**
+- [ ] **Avoid RAG-retrieved mistakes**
 - [ ] Write tests BEFORE implementation (TDD)
 - [ ] Keep scope strictly bounded
 
@@ -458,16 +685,18 @@ pytest tests/test_<module>.py -v --cov=src/<module>
 
 - [ ] Run ALL validation commands
 - [ ] Verify ALL acceptance criteria pass
-- [ ] Capture learnings (patterns/mistakes)
+- [ ] Capture learnings (patterns/mistakes) **with RAG-optimized keywords**
 - [ ] Prepare commit message
 - [ ] Update tasks.json
+- [ ] **Provide RAG feedback** (was retrieval helpful?)
 
 ### After Task Complete
 
 - [ ] Commit with proper message
-- [ ] Update CLAUDE.md immediately
+- [ ] Update CLAUDE.md immediately **with keywords for future RAG retrieval**
+- [ ] **Trigger RAG reindex** (new patterns/mistakes now searchable)
 - [ ] **RESET CONTEXT** (clear working memory)
-- [ ] Ready for next task with fresh state
+- [ ] Ready for next task with fresh state (RAG will auto-retrieve new patterns)
 
 ---
 
@@ -476,8 +705,8 @@ pytest tests/test_<module>.py -v --cov=src/<module>
 **Task ID:** task-XXX
 **Task Title:** [Title from tasks.json]
 
-**Precise request:**
-"Execute task-XXX following the atomic task loop protocol. Apply relevant patterns from CLAUDE.md, avoid documented mistakes, implement with tests, validate completely, and capture learnings before declaring complete."
+**RAG-Enhanced Request:**
+"Execute task-XXX following the atomic task loop protocol. RAG system has automatically retrieved relevant patterns and mistakes from CLAUDE.md (see above). Apply retrieved patterns, avoid retrieved mistakes, implement with tests, validate completely, and capture new learnings with keywords for future RAG retrieval."
 
 **Task-specific details:**
 [Any additional context specific to this task that's not in the standard fields above]
@@ -487,22 +716,42 @@ pytest tests/test_<module>.py -v --cov=src/<module>
 
 ## CRITICAL REMINDERS
 
-**Atomic Task Loop Principles:**
+**Atomic Task Loop Principles (Enhanced with RAG):**
 
 1. **Bounded Scope** — Only change what's in task spec
 2. **Mandatory Validation** — Not optional, must pass to proceed
-3. **Immediate Learning** — Capture patterns/mistakes NOW, not later
-4. **Context Reset** — Fresh start for each task (no accumulated state)
-5. **Iterative Improvement** — Knowledge compounds over tasks
+3. **Immediate Learning** — Capture patterns/mistakes NOW with **RAG keywords**
+4. **Context Reset** — Fresh start for each task (but RAG persists knowledge)
+5. **Iterative Improvement** — Knowledge compounds via RAG-powered retrieval
 
-**Osmani's Core Insight Applied:**
+**RAG Integration Benefits:**
 
-> "Small, bounded tasks with validation and knowledge capture → compound productivity over time"
+> "RAG eliminates manual knowledge search. Patterns and mistakes are automatically surfaced for each task, ensuring consistent application of learnings across the codebase."
 
-This template enforces that loop mechanically.
+**Key RAG Workflow:**
+
+```
+Task Starts
+   ↓
+RAG queries CLAUDE.md automatically
+   ↓
+Top-3 patterns + Top-3 mistakes retrieved
+   ↓
+Apply patterns, avoid mistakes in implementation
+   ↓
+Validate
+   ↓
+If new pattern/mistake discovered:
+   ├─ Capture in CLAUDE.md with **keywords**
+   └─ RAG reindexes (available for next task)
+   ↓
+Next task (cycle repeats)
+```
 
 ---
 
-**Version:** 2.0 (Osmani Atomic Task Loop)
-**Use with:** CLAUDE.md v2.0, tasks.json task list
+**Version:** 2.1 (RAG-Enhanced Atomic Task Loop)
+**Use with:** CLAUDE.md v2.0, tasks.json task list, RAG-indexed knowledge base
 **Iteration:** One prompt per task (NOT one prompt per feature)
+**RAG Model:** sentence-transformers/all-mpnet-base-v2
+**RAG DB:** Qdrant (local) or Chroma

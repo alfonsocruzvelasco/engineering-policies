@@ -650,7 +650,9 @@ class SpatiotemporalRAG:
         return math.exp(-age_seconds / half_life_seconds)
 ```
 
-**See also:** [RAG Engineering Notes](references/rag-engineering-notes.md) for production RAG system design, chunking strategies, retrieval pipelines, reranking, and evaluation frameworks.
+**See also:**
+- [RAG Engineering Notes](references/rag-engineering-notes.md) for production RAG system design, chunking strategies, retrieval pipelines, reranking, and evaluation frameworks.
+- [RAG Production Notes](references/rag-production-notes.md) for comprehensive production RAG implementation guide including AST-based semantic chunking, hybrid retrieval, privacy-preserving architecture, incremental updates with Merkle trees, multi-modal RAG for code+papers+logs, and Cursor-style production patterns.
 
 ---
 
