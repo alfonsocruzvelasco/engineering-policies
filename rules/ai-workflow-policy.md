@@ -108,6 +108,8 @@ All AI output must pass **security, verification, and operational gates**. Respo
 5. **No new dependencies unless explicitly requested.**
 6. **Never touch files outside the repo.** (No `~/.config`, no system changes, no random scripts.)
 
+**See:** `~/policies/references/task-management-guide.md` for comprehensive guidance on atomic task decomposition and self-improving loop execution patterns.
+
 ---
 
 ## Daily Workflow
@@ -2723,10 +2725,12 @@ When working on features that span multiple files or require architectural decis
 5. **Tasks** (`/speckit.tasks`)
    - Break into atomic units (1 file/function max)
    - Verify dependencies are explicit
+   - **See:** `~/policies/references/task-management-guide.md` for comprehensive task decomposition methodology and self-improving loop execution
 
 6. **Implement** (`/speckit.implement` or `/openspec:apply`)
    - AI executes tasks sequentially
    - Verify each checkpoint before proceeding
+   - **See:** `~/policies/references/self-improving-loop-integration.md` for Osmani's self-improving loop pattern (implement → validate → commit → learn → reset)
 
 7. **Archive** (`/openspec:archive`)
    - Merge approved deltas back into source specs
@@ -4067,7 +4071,9 @@ This policy **supplements** (does not replace):
 
 ## References
 
-See: `~/policies/references/spec-protocols-guide.md` for full protocol documentation
+- `~/policies/references/spec-protocols-guide.md` — Full protocol documentation (Spec Kit, OpenSpec, MCP)
+- `~/policies/references/task-management-guide.md` — Comprehensive guide on breaking features into atomic tasks and executing them in a self-improving loop (task decomposition, tasks.json schema, execution workflow, best practices, troubleshooting, metrics)
+- `~/policies/references/self-improving-loop-integration.md` — Integration guide for Addy Osmani's self-improving loop pattern, including modifications to CLAUDE.md, prompt, and MCP templates
 
 
 ---

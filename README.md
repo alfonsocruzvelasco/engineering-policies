@@ -166,6 +166,9 @@ The `/policies` folder is organized around **compiled policy bundles** (merged d
   - `rag-engineering-notes.md` — RAG (Retrieval-Augmented Generation) engineering notes for production systems (chunking, retrieval, reranking, prompt design, evaluation)
   - `software-architecture-in-machine-to-machine-systems.md` — Comprehensive guide on software architecture evolution for autonomous systems, robots, IoT devices, and AI agents (safety-critical design, ethical-aware architecture, control surfaces, system survivability)
   - `fairest-agent-comparison.md` — Methodology for objectively comparing AI agents and prompting strategies (Pareto frontier analysis, utility scores, evaluation protocols for COSTAR/CRISPE/RTF/spec-driven approaches)
+  - `self-improving-loop-integration.md` — Integration guide for Addy Osmani's self-improving loop pattern (atomic tasks → validation → knowledge capture → context reset), including modifications to CLAUDE.md, prompt, and MCP templates
+  - `task-management-guide.md` — Comprehensive guide on breaking features into atomic tasks and executing them in a self-improving loop (task decomposition, tasks.json schema, execution workflow, best practices, troubleshooting, metrics)
+  - `strategic-learning-model-usage.md` — Strategic framework for using AI agents during learning and skill-building phases, distinguishing between skills to build manually and tasks to delegate to agents
   - `gemini-integration-in-new-chrome.md` — Gemini integration documentation
   - PDF references: Vector database survey, ANN search papers, security practices, API hooks usage, OWASP Top 10 for LLMs coverage matrix, secure code practices, security vulnerabilities in AI-generated code
 
