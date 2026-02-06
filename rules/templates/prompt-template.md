@@ -38,6 +38,43 @@ Process:
 4) List exact validation commands to run.
 ```
 
+## Verification Checkpoints (Mandatory)
+
+### Policy Verification
+Before starting: Verify no constraint violations in task request.
+- Check: Does task violate scope, limits, or constraints?
+- If violated → Stop, report violation, do not proceed.
+
+### Phase Verification (After Each Step)
+Required:
+- All commands exit code == 0
+- Expected files present
+- No skipped steps
+- No merged or reordered steps
+
+If any check fails → Mark phase as FAILED, do not proceed.
+
+### Final Acceptance Gate
+Accept output ONLY if:
+- Policy verification passed
+- All phase verifications passed
+- Output matches definition of done exactly
+
+Otherwise: REJECT.
+
+---
+
+## Model-Specific Parameters (Optional)
+
+### For Opus 4.6/4.5
+Add: `/effort=low` (routine tasks) | `medium` (balanced) | `high` (complex/critical)
+
+### For Codex Models (GPT-5.3 Codex, GPT-5.2 Codex)
+Emphasis: "Produce unified diff only. No explanations unless requested."
+
+### For Local Models (qwen3-coder, etc.)
+Constraint: "Minimize token usage. Terse responses. Code only."
+
 ---
 
 ## Optional Add-ons (Use Only When Needed)

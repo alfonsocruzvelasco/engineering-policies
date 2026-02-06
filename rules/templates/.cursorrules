@@ -5,20 +5,28 @@
 - Never access files outside the repo
 - No system, environment, or user-config changes
 
-## AI Role
+## AI Role (Global)
 - Advisory only
 - No autonomous execution
 - No delegation or background agents
-- No shell commands unless explicitly requested
+- Human is always the final decision-maker
+
+## Codex-Specific Rules
+- Codex is advisory-only (drafts, explanations, suggestions)
+- Codex MUST NOT apply changes automatically
+- Codex MUST NOT plan or execute multi-step tasks autonomously
+- Codex MUST NOT make architecture or design decisions
+- Codex MUST NOT touch security-critical code unless explicitly requested
+- Codex MUST NOT run shell commands unless explicitly requested
 
 ## Workflow
-- Diff-first always
+- One task per interaction
+- Diff-first always (unified diff)
 - Never auto-apply changes
 - Human review required before acceptance
 - Verification required (tests or exact repro commands)
 
 ## Limits
 - Max 200 lines per diff
-- One task per interaction
 - No refactors unless explicitly requested
 - No new dependencies unless explicitly requested

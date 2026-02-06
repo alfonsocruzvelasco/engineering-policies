@@ -5,6 +5,8 @@
 
 **Scope:** This policy governs all AI-assisted development workflows, including Cursor usage, prompt engineering, session management, and spec-driven development. It consolidates the previously separate policies: `ai-workflow-policy.md (Part 1: Core Workflow)`, `ai-workflow-policy.md (Part 2: Prompt Engineering)`, `ai-workflow-policy.md (Part 3: Session Management)`, and `ai-workflow-policy.md (Part 4: Spec-Driven Development)`.
 
+**Agent Selection:** For quick model selection across 9+ available agents, see [Agent Selection Guide](AGENT-SELECTION.md).
+
 ---
 
 ## Quick Navigation
@@ -84,11 +86,13 @@ All AI output must pass **security, verification, and operational gates**. Respo
 
 ## Sandbox Restriction
 
-**Hard boundary:** Cursor is restricted to the **only sandbox** in the system:
+**Hard boundary:** Cursor is restricted to the sandbox:
 
 ```
-/home/alfonso/dev/repos/github.com/alfonsocruzvelasco/sandbox-claude-code/
+${SANDBOX_ROOT:-~/dev/repos/github.com/${GH_USER:-alfonsocruzvelasco}/sandbox-claude-code/}
 ```
+
+**Configuration:** Set `SANDBOX_ROOT` environment variable to customize path. Default uses `GH_USER` or falls back to `alfonsocruzvelasco`.
 
 **Rules:**
 - Cursor MUST NOT access files outside this sandbox
@@ -118,23 +122,11 @@ All AI output must pass **security, verification, and operational gates**. Respo
 
 ### Task Card Prompt Template
 
-Use English for reliability. Paste this template for each task:
+**See:** [Prompt Template](templates/prompt-template.md) for the canonical task card.
 
-```text
-Task: <one sentence>
+**Do not duplicate here.** Link only.
 
-Context:
-- Repo: /home/alfonso/dev/repos/github.com/alfonsocruzvelasco/sandbox-claude-code
-- Constraints: small change, no new deps, no refactors unless asked, follow existing style.
-- Definition of done: <specific observable outcome>
-
-Process:
-1) Ask 2–5 clarifying questions if needed.
-2) Propose a short plan (bullets).
-3) Produce a unified diff only.
-4) Tell me exact commands to run to validate.
-Do not modify files outside the repo.
-```
+**Agent Selection:** Before starting a task, consult [Agent Selection Guide](AGENT-SELECTION.md) to choose the appropriate model.
 
 ### Review-Before-Apply Workflow
 
