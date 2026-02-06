@@ -16,7 +16,9 @@
 - [Daily Workflow](#daily-workflow)
 - [Cursor Modes](#cursor-modes)
 - [Guardrails](#guardrails)
+- [Codex Extension Policy (Cursor)](#codex-extension-policy-cursor)
 - [AI Model Usage Policy](#ai-model-usage-policy--local-vs-cloud)
+- [Frontier Model Selection: Opus 4.6 vs GPT-5.3 Codex](#frontier-model-selection-opus-46-vs-gpt-53-codex)
 - [Strategic Agent Delegation for Skill Building](#strategic-agent-delegation-for-skill-building)
 - [Git Discipline](#git-discipline)
 - [MCP (Model Context Protocol)](#mcp-model-context-protocol)
@@ -398,6 +400,35 @@ Cursor respects these much better than repeating rules each time.
 - No refactors unless explicitly requested
 - No new dependencies without approval
 ```
+
+## Codex Extension Policy (Cursor)
+
+**Status:** Authoritative
+**Scope:** OpenAI Codex extension inside Cursor
+**Rule:** Codex is **advisory-only**.
+
+**Hard constraints (non-negotiable):**
+
+* No autonomous execution (Agent disabled)
+* No delegation / cloud "run tasks"
+* No auto-apply
+* Diff-first always
+* Verification required (tests or repro) before acceptance
+* Repo scope only (enforced by `.cursorrules`)
+
+**Required settings (must be explicit):**
+
+* `cursor.ai.enableAgent = false`
+* `cursor.ai.autoApply = false`
+* `cursor.ai.requireReview = true`
+* `cursor.ai.maxDiffLines = 200`
+* `.cursorrules` present at repo root
+
+**Enforcement note:** `.cursorrules` is the repo-local enforcement layer; policy is the governance layer.
+
+This is fully consistent with existing "workflow control" and "small patch" rules.
+
+---
 
 ### .claudeignore Configuration
 
@@ -792,10 +823,11 @@ Local models are accelerators. Cloud models are decision tools. Use each where i
 **Status:** Authoritative
 **Last updated:** 2026-02-06
 **Reference:** [Opus 4.6 & GPT-5.3 Codex Policy Impact Analysis](references/opus-4.6-gpt-5.3-codex-policy-impact-analysis.md)
+**Primary Model:** Opus 4.6 (enabled and in active use)
 
 ### Core Principle
 
-**Opus 4.6:** Trust policies to stay enforced (stronger constraint obedience)
+**Opus 4.6:** Trust policies to stay enforced (stronger constraint obedience) — **Primary model for policy reasoning and constraint enforcement**
 **GPT-5.3 Codex:** Trust procedures to be followed exactly (stronger procedural accuracy)
 
 ### Model Selection Decision Tree
@@ -1498,6 +1530,8 @@ Just because an agent *can* call an API or tool does not mean it *should*.
 * Access credential stores
 * Modify production data without approval
 * Download or execute binaries
+
+**Codex extension must remain advisory-only; agent/delegation features are disabled by policy.** See [Codex Extension Policy (Cursor)](#codex-extension-policy-cursor) for required settings.
 
 **Guardrails AI Integration:**
 * Use Guardrails AI to enforce policy-based runtime checks for tool calls
