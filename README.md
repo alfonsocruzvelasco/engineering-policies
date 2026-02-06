@@ -152,7 +152,7 @@ The `/policies` folder is organized around **compiled policy bundles** (merged d
   - `claude-md-template.md` — CLAUDE.md template for shared team knowledge and patterns
   - `mcp-template.md` — Model Context Protocol template for ML/CV production
   - `ml-cv-skills-template.md` — Skills assessment template for ML/CV engineers
-  - `prompt-template.md` — Task card template for daily AI interactions (v3: concise, verification checkpoints, model-specific parameters)
+  - `prompt-template.md` — Task card template for daily AI interactions (v3: concise, verification checkpoints, model-specific parameters, Osmani self-improving loop)
   - `.cursorrules` — Authoritative Cursor/Codex rules template (scope, AI role, workflow, limits)
   - `terraform-devops-skills-template.md` — Skills assessment template for DevOps/Infrastructure engineers
 
@@ -174,6 +174,7 @@ The `/policies` folder is organized around **compiled policy bundles** (merged d
   - `fairest-agent-comparison.md` — Methodology for objectively comparing AI agents and prompting strategies (Pareto frontier analysis, utility scores, evaluation protocols for COSTAR/CRISPE/RTF/spec-driven approaches)
   - `self-improving-loop-integration.md` — Integration guide for Addy Osmani's self-improving loop pattern (atomic tasks → validation → knowledge capture → context reset), including modifications to CLAUDE.md, prompt, and MCP templates
   - `task-management-guide.md` — Comprehensive guide on breaking features into atomic tasks and executing them in a self-improving loop (task decomposition, tasks.json schema, execution workflow, best practices, troubleshooting, metrics)
+  - `prompt-osmani-self-improving-loop.md` — Complete Osmani-style prompt template for atomic task execution (detailed version with full structure, learning capture, iteration protocol, troubleshooting)
   - `strategic-learning-model-usage.md` — Strategic framework for using AI agents during learning and skill-building phases, distinguishing between skills to build manually and tasks to delegate to agents
   - `gemini-integration-in-new-chrome.md` — Gemini integration documentation
   - PDF references: Vector database survey, ANN search papers, security practices, API hooks usage, OWASP Top 10 for LLMs coverage matrix, secure code practices, security vulnerabilities in AI-generated code

@@ -20,6 +20,8 @@ This template intentionally replaces the previous verbose template. Governance l
 
 ## Task Card (Use This for Every Task)
 
+**Atomic Task Principle:** Each task must be completable in <30 minutes. If larger, break into subtasks.
+
 ```text
 Task: <one clear sentence>
 
@@ -32,10 +34,12 @@ Definition of done:
 - <1–3 observable checks> (tests or exact repro commands)
 
 Process:
-1) Ask up to 3 clarifying questions ONLY if blocked.
-2) Propose a short plan (3–6 bullets).
-3) Output a unified diff only.
-4) List exact validation commands to run.
+1) Consult CLAUDE.md for relevant patterns/mistakes (if exists).
+2) Ask up to 3 clarifying questions ONLY if blocked.
+3) Propose a short plan (3–6 bullets).
+4) Output a unified diff only.
+5) List exact validation commands to run.
+6) After validation passes: capture learnings in CLAUDE.md, then reset context for next task.
 ```
 
 ## Verification Checkpoints (Mandatory)
@@ -87,11 +91,22 @@ Risks:
 - <risk 2>
 ```
 
-### Prior Knowledge
+### Prior Knowledge (Osmani Loop)
 
 ```text
-If relevant, consult CLAUDE.md for prior mistakes/patterns and apply them. If none found, proceed with best practices.
+Before starting: Read CLAUDE.md for patterns/mistakes relevant to this task.
+- Apply documented patterns
+- Avoid documented mistakes
+- If no relevant patterns found, proceed with best practices
+- After task completion: Update CLAUDE.md with new patterns/mistakes learned
 ```
+
+**Self-Improving Loop:**
+1. Pick atomic task (<30 min)
+2. Consult CLAUDE.md for patterns/mistakes
+3. Implement with validation
+4. Capture learnings in CLAUDE.md
+5. Reset context for next task
 
 ---
 
@@ -116,7 +131,20 @@ Otherwise, **always** use the Task Card above.
 
 ---
 
+## Self-Improving Loop (Osmani Pattern)
+
+**Core principle:** Small, bounded tasks with validation and knowledge capture → compound productivity over time.
+
+**Required after each task:**
+- Validation passes → Update CLAUDE.md with learnings → Reset context → Next task
+- Validation fails → Fix → Re-validate → Do not proceed until pass
+
+**Context reset:** Each task starts fresh. No accumulated state between tasks.
+
+---
+
 ## Versioning
 
 * v3 replaces v2.x entirely
+* Integrates Osmani self-improving loop principles
 * Future changes must keep this file ≤ 1 page

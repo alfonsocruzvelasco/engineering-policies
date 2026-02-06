@@ -122,7 +122,9 @@ ${SANDBOX_ROOT:-~/dev/repos/github.com/${GH_USER:-alfonsocruzvelasco}/sandbox-cl
 
 ### Task Card Prompt Template
 
-**See:** [Prompt Template](templates/prompt-template.md) for the canonical task card.
+**See:** [Prompt Template](templates/prompt-template.md) for the canonical task card (v3 with Osmani self-improving loop).
+
+**For detailed Osmani-style template:** See [Prompt Osmani Self-Improving Loop](references/prompt-osmani-self-improving-loop.md) for complete structure with learning capture, iteration protocol, and troubleshooting.
 
 **Do not duplicate here.** Link only.
 
