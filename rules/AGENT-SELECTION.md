@@ -37,13 +37,16 @@
 
 ---
 
-### Step 3: Creative/Exploratory?
-**Is this creative work, exploration, or open-ended problem solving?**
+### Step 3: Creative/Exploratory/Scientific Research?
+**Is this creative work, exploration, scientific research, or open-ended problem solving?**
 
 → **YES:** Use **Gemini 3 Pro** or **Composer 1**
 - Creative problem solving
 - Exploratory research
+- Scientific research workflows (see `references/accelerating-scientific-research-with-gemini.pdf`)
 - Open-ended design work
+- Literature review and synthesis
+- Hypothesis generation
 
 → **NO:** Continue to Step 4
 
@@ -70,8 +73,8 @@
 | **Sonnet 4.5** | Architecture decisions, design reviews | High reasoning quality | Standard |
 | **GPT-5.3 Codex** | Procedural execution, refactors | Step-by-step accuracy, 25% faster | N/A |
 | **GPT-5.2 Codex** | Procedural execution | Mechanical transformation | N/A |
-| **Gemini 3 Pro** | Creative/exploratory work | Open-ended problem solving | N/A |
-| **Composer 1** | Creative work | Multi-modal capabilities | N/A |
+| **Gemini 3 Pro** | Creative/exploratory work, scientific research | Open-ended problem solving, literature synthesis | N/A |
+| **Composer 1** | Creative work, scientific research | Multi-modal capabilities, research workflows | N/A |
 | **Haiku 4.5** | Speed-critical tasks | Fast responses | N/A |
 | **qwen3-coder (local)** | Routine coding, refactors | Local execution, zero API cost | N/A |
 
@@ -106,6 +109,9 @@
 | "Design new feature architecture" | Opus 4.6 | Architecture decision |
 | "Debug complex logic error" | Opus 4.6 | Deep reasoning required |
 | "Format code, fix linting" | Haiku 4.5 or qwen3-coder | Speed, routine |
+| "Review scientific literature on X" | Gemini 3 Pro | Scientific research, synthesis |
+| "Generate research hypotheses" | Gemini 3 Pro | Exploratory, creative |
+| "Analyze experimental results" | Gemini 3 Pro or Opus 4.6 | Research workflow, reasoning |
 
 ---
 

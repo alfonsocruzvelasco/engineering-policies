@@ -1455,6 +1455,78 @@ metrics = {
 
 **Red flag:** If `agent_generated_loc / total_loc > 0.5` in learning projects, you're building dependency, not skills.
 
+---
+
+## Scientific Research Workflows
+
+**Reference:** See `references/accelerating-scientific-research-with-gemini.pdf` for comprehensive guidance on using AI agents for scientific research.
+
+### When to Use AI for Scientific Research
+
+**Appropriate tasks:**
+- Literature review and synthesis
+- Hypothesis generation and refinement
+- Experimental design suggestions
+- Data analysis interpretation
+- Paper writing assistance (drafting, editing)
+- Code generation for data analysis pipelines
+- Visualization generation
+
+**Inappropriate tasks:**
+- Replacing domain expertise
+- Making scientific claims without validation
+- Bypassing peer review
+- Generating experimental data
+- Replacing statistical analysis with AI summaries
+
+### Recommended Models for Scientific Research
+
+**Primary:** **Gemini 3 Pro** or **Composer 1**
+- Strong performance on scientific literature synthesis
+- Good at exploratory problem solving
+- Effective for hypothesis generation
+- Multi-modal capabilities (papers, figures, data)
+
+**Alternative:** **Opus 4.6** (for policy/compliance-heavy research)
+- When research must align with strict governance
+- When constraint checking is required
+- For safety-critical research workflows
+
+### Scientific Research Workflow Pattern
+
+1. **Literature Review Phase**
+   - Use Gemini 3 Pro to synthesize papers
+   - Generate summaries and identify gaps
+   - Create annotated bibliographies
+
+2. **Hypothesis Generation**
+   - Use Gemini 3 Pro for creative exploration
+   - Generate multiple hypotheses
+   - Evaluate feasibility
+
+3. **Experimental Design**
+   - Use Opus 4.6 for policy-compliant designs
+   - Use GPT-5.3 Codex for procedural implementation
+   - Generate code for data collection/analysis
+
+4. **Analysis and Interpretation**
+   - Use Gemini 3 Pro for exploratory analysis
+   - Use Opus 4.6 for rigorous interpretation
+   - Validate all AI-generated insights
+
+5. **Writing and Documentation**
+   - Use Gemini 3 Pro for drafting
+   - Use GPT-5.3 Codex for structured sections
+   - Always review and validate scientific claims
+
+### Best Practices
+
+- **Always validate:** AI-generated scientific insights must be verified
+- **Maintain expertise:** AI augments, does not replace domain knowledge
+- **Document AI usage:** Track which parts used AI assistance
+- **Peer review:** All AI-assisted work must go through standard peer review
+- **Reproducibility:** Ensure AI-generated code/analysis is reproducible
+
 ### Decision Framework
 
 **Use agents for tasks that match this pattern:**
@@ -3249,9 +3321,17 @@ NEVER make sequential calls when operations are independent.
 
 ## Context Engineering for Cursor
 
+**Reference:** See `references/context-engineering-for-coding-agents.pdf` for comprehensive guidance on context engineering principles for coding agents.
+
 ### The Minimal Context Principle
 
 Use the smallest possible set of high-signal tokens to maximize success probability.
+
+**Key principles from context engineering research:**
+- **Progressive disclosure:** Load only what's needed for the current task
+- **Semantic relevance:** Prioritize context by semantic similarity to task, not just file proximity
+- **Context compression:** Use summaries and abstractions over raw code when possible
+- **Boundary management:** Clear context boundaries prevent token waste and confusion
 
 ### Cursor-specific patterns
 
@@ -3502,6 +3582,7 @@ Optimization targets:
 * Anthropic Prompt Engineering
 * Claude 4 Best Practices
 * Anthropic Context Engineering Guide
+* Context Engineering for Coding Agents (see `references/context-engineering-for-coding-agents.pdf`)
 * OpenAI prompt caching documentation
 * Cursor docs (Rules, Skills, Worktrees, MCP)
 * **MCP Documentation:** See Part 1: Core Workflow [MCP section](ai-workflow-policy.md (Part 1: Core Workflow)#mcp-model-context-protocol) for basic MCP info. Detailed MCP setup, usage patterns, and best practices are documented in this `ai-workflow-policy.md (Part 2: Prompt Engineering)` file (see MCP sections below)
