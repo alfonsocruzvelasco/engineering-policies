@@ -1,0 +1,24 @@
+# Cursor / Codex Rules — Authoritative
+
+## Scope
+- Work ONLY inside this repository
+- Never access files outside the repo
+- No system, environment, or user-config changes
+
+## AI Role
+- Advisory only
+- No autonomous execution
+- No delegation or background agents
+- No shell commands unless explicitly requested
+
+## Workflow
+- Diff-first always
+- Never auto-apply changes
+- Human review required before acceptance
+- Verification required (tests or exact repro commands)
+
+## Limits
+- Max 200 lines per diff
+- One task per interaction
+- No refactors unless explicitly requested
+- No new dependencies unless explicitly requested

@@ -383,23 +383,14 @@ Cursor respects these much better than repeating rules each time.
 
 **Example `.cursorrules`:**
 
-```markdown
-# Cursor Rules for Sandbox
+See [`.cursorrules` template](templates/.cursorrules) for the authoritative version. The template includes:
 
-## Scope
-- Work only within this repo: /home/alfonso/dev/repos/github.com/alfonsocruzvelasco/sandbox-claude-code/
-- Never access files outside this directory
+* Scope boundaries (repo-only, no external files)
+* AI role constraints (advisory-only, no autonomy)
+* Workflow requirements (diff-first, review required, verification required)
+* Limits (max 200 lines, one task per interaction)
 
-## Workflow
-- Always propose diffs before applying
-- Max 200 lines changed per iteration
-- Include test command or repro steps
-
-## Style
-- Follow existing code style
-- No refactors unless explicitly requested
-- No new dependencies without approval
-```
+Copy this template to your repo root and customize the path if needed.
 
 ## Codex Extension Policy (Cursor)
 
