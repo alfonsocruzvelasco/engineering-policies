@@ -1648,12 +1648,14 @@ When AI introduces **agents** (multi-step tool-using workflows) and **artifacts*
 1. **Tool interface layer — MCP (Model Context Protocol):** Standardize how agents access tools (filesystem, git, databases, browsers) so capabilities are explicit, auditable, and portable.
 2. **Durable workflow layer — Temporal (or equivalent):** Orchestrate long-running, retryable workflows with explicit state, idempotency, and compensation semantics.
 3. **Observability layer — OpenTelemetry (OTel):** Trace agent runs end-to-end (spans for tool calls, sub-steps, retries) so failures can be debugged with evidence instead of narratives.
-4. **Lineage layer — OpenLineage:** Capture artifact lineage (inputs → jobs/runs → outputs) so you can answer “what changed, what broke downstream, and why” deterministically.
+4. **Lineage layer — OpenLineage:** Capture artifact lineage (inputs → jobs/runs → outputs) so you can answer "what changed, what broke downstream, and why" deterministically.
 
 **Policy stance:**
 - For *coding inside Cursor*: keep the scope strict (sandbox-only) and use MCP servers only with least-privilege access.
 - For *complex agentic automation*: prefer the four-layer model above rather than bespoke scripts that lack replayability, audit trails, and lineage.
 - For *any artifact that can impact results* (datasets, checkpoints, configs): treat it as versioned output with traceability (who/what produced it, from which inputs, under which config).
+
+**See also:** [Agent HQ & Agent Orchestration — Complete Study Notes](../references/agent-hq-orchestration-complete-notes.md) for comprehensive coverage of GitHub Agent HQ, Mission Control, `@` handlers, AGENTS.md patterns, multi-agent workflows, and Control Plane governance.
 
 ---
 
