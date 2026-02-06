@@ -156,7 +156,7 @@ The `/policies` folder is organized around **compiled policy bundles** (merged d
   - `.cursorrules` — Authoritative Cursor/Codex rules template (scope, AI role, workflow, limits)
   - `terraform-devops-skills-template.md` — Skills assessment template for DevOps/Infrastructure engineers
 
-- **`policies/AGENT-SELECTION.md`**
+- **Agent Selection** (integrated in `ai-workflow-policy.md`)
   *Quick decision tree for selecting the right AI agent from 9+ available models*
   (Policy/architecture → Opus 4.6, Procedural → GPT-5.3 Codex, Creative → Gemini 3 Pro, Speed → Haiku 4.5, model characteristics matrix, effort parameter guidance)
 
@@ -306,7 +306,7 @@ This repository is **infrastructure**, not documentation noise.
 8. **AI code review protocol** — Follow systematic review process (see `ai-workflow-policy.md` Part 1)
 9. **AI security framework** — Follow comprehensive security controls (see `security-policy.md` Part 2)
 10. **Use templates** — Start from `policies/templates/` for common tasks (`prompt-template.md`, `mcp-template.md`, `claude-md-template.md`, `.cursorrules`)
-11. **Select the right agent** — Consult `policies/AGENT-SELECTION.md` for model selection decision tree
+11. **Select the right agent** — See [Agent Selection Decision Tree](rules/ai-workflow-policy.md#agent-selection-decision-tree) in `ai-workflow-policy.md` for model selection
 12. **Reference theory** — Consult `policies/references/prompt-engineering-theory.md` for theoretical foundations
 13. **MCP integration** — See `policies/references/mcp-ecosystem-notes.md` for comprehensive MCP documentation
 

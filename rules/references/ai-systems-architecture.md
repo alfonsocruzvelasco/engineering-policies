@@ -4,8 +4,6 @@
 **Last updated:** 2026-02-01
 **Purpose:** Govern the architectural shift from deterministic to probabilistic systems, establishing patterns for AI-powered software architecture in production
 
-**Note:** This policy was renamed from `probabilistic-systems-architecture-policy.md` to `ai-systems-architecture-policy.md` for clarity. The name "probabilistic systems" was confusing as it suggested probability theory rather than AI/LLM-powered systems.
-
 ---
 
 ## Table of Contents

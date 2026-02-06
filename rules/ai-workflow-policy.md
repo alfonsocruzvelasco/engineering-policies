@@ -5,7 +5,7 @@
 
 **Scope:** This policy governs all AI-assisted development workflows, including Cursor usage, prompt engineering, session management, and spec-driven development. It consolidates the previously separate policies: `ai-workflow-policy.md (Part 1: Core Workflow)`, `ai-workflow-policy.md (Part 2: Prompt Engineering)`, `ai-workflow-policy.md (Part 3: Session Management)`, and `ai-workflow-policy.md (Part 4: Spec-Driven Development)`.
 
-**Agent Selection:** For quick model selection across 9+ available agents, see [Agent Selection Guide](AGENT-SELECTION.md).
+**Agent Selection:** For quick model selection across 9+ available agents, see [Agent Selection Decision Tree](#agent-selection-decision-tree) below.
 
 ---
 
@@ -128,7 +128,7 @@ ${SANDBOX_ROOT:-~/dev/repos/github.com/${GH_USER:-alfonsocruzvelasco}/sandbox-cl
 
 **Do not duplicate here.** Link only.
 
-**Agent Selection:** Before starting a task, consult [Agent Selection Guide](AGENT-SELECTION.md) to choose the appropriate model.
+**Agent Selection:** Before starting a task, consult the [Agent Selection Decision Tree](#agent-selection-decision-tree) to choose the appropriate model.
 
 ### Review-Before-Apply Workflow
 
@@ -815,34 +815,70 @@ Local models are accelerators. Cloud models are decision tools. Use each where i
 **Opus 4.6:** Trust policies to stay enforced (stronger constraint obedience) — **Primary model for policy reasoning and constraint enforcement**
 **GPT-5.3 Codex:** Trust procedures to be followed exactly (stronger procedural accuracy)
 
-### Model Selection Decision Tree
+### Agent Selection Decision Tree
 
-**Use Opus 4.6 for:**
-- Policy reasoning and constraint enforcement
-- Architecture decisions and design reviews
-- Long-term operating manuals and governance
-- Safety-critical code reviews
-- Long-form handovers and context continuity
-- Authoritative document interpretation
+```mermaid
+flowchart TD
+    Start([Start: Select AI Agent]) --> Q1{Policy/Architecture<br/>Decision?}
 
-**Use GPT-5.3 Codex for:**
-- Procedural execution (step-by-step implementation)
-- Refactors and mechanical transformations
-- Template instantiation and structured output
-- Deterministic step-by-step procedures
-- Coding standards enforcement
-- SOPs and runbooks execution
+    Q1 -->|YES| Opus[Use Opus 4.6/4.5<br/>or Sonnet 4.5]
+    Opus --> OpusDetails[Policy reasoning<br/>Architecture decisions<br/>Constraint enforcement<br/>Safety-critical reviews<br/>Long-form handovers]
 
-### Selection Matrix
+    Q1 -->|NO| Q2{Procedural/<br/>Implementation?}
 
-| Task Type | Use Model | Reason |
-|-----------|-----------|--------|
+    Q2 -->|YES| Codex[Use GPT-5.3 Codex<br/>or GPT-5.2 Codex]
+    Codex --> CodexDetails[Procedural execution<br/>Refactors<br/>Mechanical transformations<br/>Template instantiation<br/>SOPs and runbooks]
+
+    Q2 -->|NO| Q3{Creative/Exploratory/<br/>Scientific Research?}
+
+    Q3 -->|YES| Gemini[Use Gemini 3 Pro<br/>or Composer 1]
+    Gemini --> GeminiDetails[Creative problem solving<br/>Exploratory research<br/>Scientific research workflows<br/>Literature review<br/>Hypothesis generation]
+
+    Q3 -->|NO| Q4{Speed Priority?}
+
+    Q4 -->|YES| Haiku[Use Haiku 4.5]
+    Haiku --> HaikuDetails[Fast responses<br/>Low-complexity tasks<br/>Routine operations]
+
+    Q4 -->|NO| Default[Use Opus 4.6<br/>Default for high-quality work]
+
+    style Opus fill:#e1f5ff
+    style Codex fill:#fff4e1
+    style Gemini fill:#e8f5e9
+    style Haiku fill:#fce4ec
+    style Default fill:#e1f5ff
+```
+
+### Model Characteristics Matrix
+
+| Model | Best For | Key Capability | Effort Parameter |
+|-------|----------|---------------|------------------|
+| **Opus 4.6** | Policy reasoning, architecture, governance | 1M token context, constraint obedience | `/effort=low/medium/high` |
+| **Opus 4.5** | Policy reasoning, long context | Strong constraint adherence | `/effort=low/medium/high` |
+| **Sonnet 4.5** | Architecture decisions, design reviews | High reasoning quality | Standard |
+| **GPT-5.3 Codex** | Procedural execution, refactors | Step-by-step accuracy, 25% faster | N/A |
+| **GPT-5.2 Codex** | Procedural execution | Mechanical transformation | N/A |
+| **Gemini 3 Pro** | Creative/exploratory work, scientific research | Open-ended problem solving, literature synthesis | N/A |
+| **Composer 1** | Creative work, scientific research | Multi-modal capabilities, research workflows | N/A |
+| **Haiku 4.5** | Speed-critical tasks | Fast responses | N/A |
+| **qwen3-coder (local)** | Routine coding, refactors | Local execution, zero API cost | N/A |
+
+### Common Task → Model Mappings
+
+| Task Type | Recommended Model | Reason |
+|-----------|-------------------|--------|
 | "Should we adopt X architecture?" | Opus 4.6 | Policy reasoning, constraints |
 | "Implement X using Y pattern" | GPT-5.3 Codex | Procedural execution |
 | "Review this against our policies" | Opus 4.6 | Constraint checking |
 | "Refactor module X to pattern Y" | GPT-5.3 Codex | Mechanical transformation |
 | "Explain why we have rule X" | Opus 4.6 | Governance context |
 | "Execute deployment checklist" | GPT-5.3 Codex | Step-by-step SOP |
+| "Write unit tests for X" | GPT-5.3 Codex or qwen3-coder | Procedural, routine |
+| "Design new feature architecture" | Opus 4.6 | Architecture decision |
+| "Debug complex logic error" | Opus 4.6 | Deep reasoning required |
+| "Format code, fix linting" | Haiku 4.5 or qwen3-coder | Speed, routine |
+| "Review scientific literature on X" | Gemini 3 Pro | Scientific research, synthesis |
+| "Generate research hypotheses" | Gemini 3 Pro | Exploratory, creative |
+| "Analyze experimental results" | Gemini 3 Pro or Opus 4.6 | Research workflow, reasoning |
 
 ### Effort Parameter (Opus 4.6)
 
