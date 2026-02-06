@@ -787,6 +787,109 @@ Local models are accelerators. Cloud models are decision tools. Use each where i
 
 ---
 
+## Frontier Model Selection: Opus 4.6 vs GPT-5.3 Codex
+
+**Status:** Authoritative
+**Last updated:** 2026-02-06
+**Reference:** [Opus 4.6 & GPT-5.3 Codex Policy Impact Analysis](references/opus-4.6-gpt-5.3-codex-policy-impact-analysis.md)
+
+### Core Principle
+
+**Opus 4.6:** Trust policies to stay enforced (stronger constraint obedience)
+**GPT-5.3 Codex:** Trust procedures to be followed exactly (stronger procedural accuracy)
+
+### Model Selection Decision Tree
+
+**Use Opus 4.6 for:**
+- Policy reasoning and constraint enforcement
+- Architecture decisions and design reviews
+- Long-term operating manuals and governance
+- Safety-critical code reviews
+- Long-form handovers and context continuity
+- Authoritative document interpretation
+
+**Use GPT-5.3 Codex for:**
+- Procedural execution (step-by-step implementation)
+- Refactors and mechanical transformations
+- Template instantiation and structured output
+- Deterministic step-by-step procedures
+- Coding standards enforcement
+- SOPs and runbooks execution
+
+### Selection Matrix
+
+| Task Type | Use Model | Reason |
+|-----------|-----------|--------|
+| "Should we adopt X architecture?" | Opus 4.6 | Policy reasoning, constraints |
+| "Implement X using Y pattern" | GPT-5.3 Codex | Procedural execution |
+| "Review this against our policies" | Opus 4.6 | Constraint checking |
+| "Refactor module X to pattern Y" | GPT-5.3 Codex | Mechanical transformation |
+| "Explain why we have rule X" | Opus 4.6 | Governance context |
+| "Execute deployment checklist" | GPT-5.3 Codex | Step-by-step SOP |
+
+### Effort Parameter (Opus 4.6)
+
+**Adaptive thinking with `/effort` parameter:**
+
+- **`/effort=low`**: Fast inference, lower cost, acceptable for routine tasks (target: 80% accuracy)
+- **`/effort=medium`**: Balanced quality/speed/cost
+- **`/effort=high`**: Extended thinking, maximum quality, use for critical decisions
+
+**Selection guidance:**
+- Task complexity < threshold → `low`
+- Task complexity < high threshold → `medium`
+- Critical decisions or high complexity → `high`
+
+**Empirical calibration:**
+- Build decision tree: "Does low-effort produce acceptable accuracy 80% of the time for task class X?"
+- Measure: accuracy, latency, cost across effort levels
+- Deliverable: Calibration curves for task_complexity → effort_level mapping
+
+### Key Capabilities
+
+**Opus 4.6 Distinctive Capabilities:**
+- 1M token context window (beta)
+- Adaptive thinking (contextual effort adjustment)
+- `/effort` parameter (low/medium/high)
+- Agent teams (parallel subtask execution)
+- 500+ zero-day vulnerability discovery capability
+- 68.8% ARC AGI 2 (vs. 54.2% GPT-5.2)
+- Compaction (self-summarization for long tasks)
+
+**GPT-5.3 Codex Distinctive Capabilities:**
+- 25% faster inference than GPT-5.2-Codex
+- Fewer tokens for same quality
+- State-of-the-art SWE-bench Pro (56.8%)
+- State-of-the-art Terminal-Bench 2.0 (77.3%)
+- Self-improving (debugged its own training)
+- Real-time steering during execution
+- Designated "high-capability" for cybersecurity
+
+### Policy Implications
+
+**For Opus 4.6:**
+- ✅ Encode harder constraints directly into system/policy templates
+- ✅ Remove redundant reminder clauses ("do not reopen decisions", "no alternatives")
+- ✅ Trust single-statement constraints to persist
+- ❌ Don't over-explain or repeat constraints (increases noise)
+
+**For GPT-5.3 Codex:**
+- ✅ Rely on procedural templates (checklists, runbooks, migration plans)
+- ✅ Use numbered, atomic steps instead of prose
+- ✅ Remove defensive wording like "do not assume", "do not infer"
+- ❌ Don't over-narrate steps (model will execute mechanically)
+
+### Integration with Existing Workflow
+
+**Template updates:**
+- [Prompt Template](templates/prompt-template.md) includes model selection guidance and `/effort` parameter
+- Policy templates can be shortened (fewer repetitions needed)
+- Execution templates can be more mechanical (numbered steps)
+
+**See also:** [Opus 4.6 & GPT-5.3 Codex Policy Impact Analysis](references/opus-4.6-gpt-5.3-codex-policy-impact-analysis.md) for comprehensive implementation guidelines.
+
+---
+
 ## Git Discipline
 
 **For every AI change:**

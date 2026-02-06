@@ -216,6 +216,39 @@ pytest tests/test_<module>.py -v --cov=src/<module> --cov-report=term-missing
 
 ---
 
+## MODEL SELECTION & EFFORT PARAMETER
+
+### Model Selection
+
+**Use Opus 4.6 for:**
+- Policy reasoning and constraint enforcement
+- Architecture decisions
+- Long-term operating manuals
+- Governance and safety reviews
+
+**Use GPT-5.3 Codex for:**
+- Procedural execution (step-by-step implementation)
+- Refactors and mechanical transformations
+- Template instantiation
+- Deterministic step-by-step procedures
+
+**Decision tree:**
+- Policy/constraint question? → Opus 4.6
+- Implementation/procedure? → GPT-5.3 Codex
+
+### Effort Parameter (Opus 4.6)
+
+**Adaptive thinking with `/effort` parameter:**
+
+- **`/effort=low`**: Fast inference, lower cost, acceptable for routine tasks (80% accuracy target)
+- **`/effort=medium`**: Balanced quality/speed/cost
+- **`/effort=high`**: Extended thinking, maximum quality, use for critical decisions
+
+**Selection guidance:**
+- Task complexity < threshold → `low`
+- Task complexity < high threshold → `medium`
+- Critical decisions or high complexity → `high`
+
 ## OPTIMIZATION PRIORITY (for THIS task)
 
 Pick **ONE** (cannot optimize for multiple):
@@ -227,12 +260,13 @@ Pick **ONE** (cannot optimize for multiple):
 - [ ] **Learning** — Maximize my understanding (trading speed)
 
 **Selected:** [ONE priority for this specific task]
+**Effort level:** [low/medium/high - if using Opus 4.6]
 
 ---
 
 ## CONSTRAINTS
 
-### Hard Rules (Non-Negotiable)
+### Authoritative Rules (Non-Negotiable)
 
 1. **Scope:** Only change files listed in task spec
 2. **Dependencies:** Do not modify code from uncompleted future tasks
@@ -241,6 +275,15 @@ Pick **ONE** (cannot optimize for multiple):
 5. **Validation First:** All code must have tests written BEFORE implementation
 6. **Atomic Commits:** One commit per task: `feat(task-XXX): <title>`
 7. **Apply RAG-Retrieved Patterns:** Explicitly use patterns surfaced by RAG system
+
+## Policy Verification Checkpoint
+
+Verify compliance with all Authoritative Rules.
+
+If any rule is violated:
+- Stop.
+- Report the violation.
+- Do not propose alternatives or workarounds.
 
 ### Soft Preferences
 
@@ -355,6 +398,17 @@ pytest tests/test_<module>.py -v --cov=src/<module>
 <Custom command for acceptance criteria>
 # Expected: <Specific output>
 ```
+
+#### Procedural Verification Checkpoint
+
+Required:
+- All command exit codes == 0
+- Expected files / artifacts present
+- No skipped, merged, or reordered steps
+
+If any check fails:
+- Mark phase as FAILED
+- Do not proceed
 
 ---
 
@@ -750,8 +804,20 @@ Next task (cycle repeats)
 
 ---
 
-**Version:** 2.1 (RAG-Enhanced Atomic Task Loop)
+## Final Acceptance Gate
+
+Accept output ONLY if:
+- Policy Verification passed
+- All Procedural Verification checkpoints passed
+- Output matches the requested format exactly
+
+Otherwise: REJECT.
+
+---
+
+**Version:** 2.2 (RAG-Enhanced Atomic Task Loop with Opus 4.6/GPT-5.3 Codex Support)
 **Use with:** CLAUDE.md v2.0, tasks.json task list, RAG-indexed knowledge base
 **Iteration:** One prompt per task (NOT one prompt per feature)
 **RAG Model:** sentence-transformers/all-mpnet-base-v2
 **RAG DB:** Qdrant (local) or Chroma
+**Model Selection:** Opus 4.6 for policy reasoning, GPT-5.3 Codex for procedural execution
