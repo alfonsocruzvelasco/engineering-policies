@@ -121,7 +121,7 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
   - **Part 1: Core Workflow** — Cursor usage, sandbox enforcement, daily workflow, Cursor modes, guardrails, AI model usage (local vs cloud), Git discipline, MCP (Model Context Protocol), tool use security, verification-first mindset, operational readiness requirements
   - **Part 2: Prompt Engineering** — Operating principles, English-first architecture, prompt templates, COSTAR/CRISPE frameworks, slash commands library, token optimization, context engineering
   - **Part 3: Session Management** — Session types, parallel workflows, session lifecycle, metrics tracking, anti-patterns
-  - **Part 4: Spec-Driven Development** — Protocol selection (Spec Kit/OpenSpec/MCP), mandatory checkpoints, integration patterns
+  - **Part 4: Spec-Driven Development** — Protocol selection (**OpenSpec preferred for ML/CV**), mandatory checkpoints, integration patterns
   *Previously separate files: `ai-usage-policy.md`, `prompts-policy.md`, `session-management-policy.md`, `spec-driven-development-policy.md`*
 
 ### Security and compliance policies
@@ -167,6 +167,7 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
   - `ml-cv-documentation-standards.md` — Comprehensive ML/CV code documentation standards (Google-style, NumPy-style, Doxygen for C++/CUDA)
   - `mcp-ecosystem-notes.md` — Comprehensive Model Context Protocol (MCP) ecosystem documentation
   - `spec-protocols-guide.md` — Guide on specification protocols (Spec Kit, OpenSpec, MCP)
+  - `openspec-ml-cv-reference.md` — **AUTHORITATIVE** OpenSpec engineering reference for ML/CV teams (invariants, constraints, decision trees, ML/CV-specific patterns, failure modes, examples) — **OpenSpec is the preferred/default protocol for ML/CV engineering**
   - `python-3-14+-no-gil-support.md` — Python 3.14+ free-threaded mode (no-GIL) support and implications for ML/CV engineering
   - `vector-db-engineering-guide.md` — Vector database engineering guide for ML/CV (ANN structures, data plumbing, production patterns)
   - `rag-engineering-notes.md` — RAG (Retrieval-Augmented Generation) engineering notes for production systems (chunking, retrieval, reranking, prompt design, evaluation)
@@ -293,7 +294,7 @@ This repository is **infrastructure**, not documentation noise.
 9. Review `rules/versioning-and-release-policy.md` for versioning schemes and release processes
 10. Review `rules/security-policy.md` for secrets handling and ML/CV security
 11. Review `rules/ai-workflow-policy.md` Part 1 for Cursor sandbox rules and daily workflow
-12. Review `rules/ai-workflow-policy.md` Part 4 for structured spec workflows (Spec Kit/OpenSpec/MCP)
+12. Review `rules/ai-workflow-policy.md` Part 4 for structured spec workflows (**OpenSpec preferred for ML/CV**, see `rules/references/openspec-ml-cv-reference.md`)
 13. Check `rules/system/raid/` for RAID storage setup if working with large datasets
 14. Use `rules/templates/` for standard project structures and prompts (see `readme-template.md` for README with Technical Baseline)
 
@@ -303,7 +304,7 @@ This repository is **infrastructure**, not documentation noise.
 2. **Session discipline** — Use parallel sessions for focused work, follow session lifecycle (see `ai-workflow-policy.md` Part 3)
 3. **English-first** for all prompts (see `ai-workflow-policy.md` Part 2)
 4. **Plan Mode first** — Start with planning for multi-file tasks (see `ai-workflow-policy.md` Part 1)
-5. **Spec-driven development** — Use Spec Kit/OpenSpec/MCP for multi-file features (see `ai-workflow-policy.md` Part 4)
+5. **Spec-driven development** — Use **OpenSpec (preferred for ML/CV)** or Spec Kit/MCP for multi-file features (see `ai-workflow-policy.md` Part 4 and `rules/references/openspec-ml-cv-reference.md`)
 6. **Verification required** for all AI-generated code (verification-first paradigm)
 7. **Sandbox restriction** to `/home/alfonso/dev/repos/github.com/alfonsocruzvelasco/sandbox-claude-code/`
 8. **AI code review protocol** — Follow systematic review process (see `ai-workflow-policy.md` Part 1)

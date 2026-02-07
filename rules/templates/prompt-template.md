@@ -126,6 +126,9 @@ Only escalate to a spec-driven prompt when:
 * The task spans many files/modules
 * Behavior is production-critical
 * A design decision is required
+* Working on existing ML/CV code (use **OpenSpec** - see `rules/references/openspec-ml-cv-reference.md`)
+
+**For ML/CV work on existing code:** **OpenSpec is mandatory** to prevent silent regressions and preserve data/architecture invariants. Use `/openspec:proposal` to create proposal before implementation.
 
 Otherwise, **always** use the Task Card above.
 

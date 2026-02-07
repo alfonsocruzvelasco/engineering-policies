@@ -3148,10 +3148,12 @@ When working on features that span multiple files or require architectural decis
    - Establish non-negotiable principles before any feature work
    - Update when architectural decisions change
 
-2. **Specify** (`/speckit.specify` or `/openspec:proposal`)
+2. **Specify** (`/openspec:proposal` **PREFERRED** for existing code** or `/speckit.specify` for greenfield)
+   - **For existing code:** Use OpenSpec to create proposal with invariants, constraints, scope, non-goals
    - Define WHAT and WHY (not HOW)
-   - Focus: User stories, acceptance criteria, success metrics
+   - Focus: User stories, acceptance criteria, success metrics, **data/architecture invariants**
    - Never: Tech stack, implementation details
+   - **OpenSpec requirement:** Document invariants (data format, label schema, preprocessing pipeline, model boundaries)
 
 3. **Clarify** (`/speckit.clarify`)
    - Run structured clarification BEFORE planning
@@ -4482,22 +4484,40 @@ This policy mandates spec-driven development for all AI-augmented engineering wo
 Traditional: Code → Tests → Docs (afterthought)
 Required: **Spec → Plan → Tasks → Verify → Code**
 
+**OpenSpec is the default protocol for ML/CV engineering** because:
+- ML/CV work is high-risk for AI drift (pipelines are multi-stage and stateful)
+- Data invariants matter more than code elegance
+- Silent regressions are common in ML/CV systems
+- Models, data, and code evolve independently
+- OpenSpec locks down invariants that must not move
+
+**Reference:** See `rules/references/openspec-ml-cv-reference.md` for comprehensive OpenSpec guidance for ML/CV teams.
+
 ## Protocol Selection Matrix
+
+**Default Rule:** **OpenSpec is the preferred protocol for all ML/CV engineering work** unless explicitly greenfield (0→1 new system).
 
 | Scenario | Protocol | Rationale |
 |----------|----------|-----------|
-| New ML model architecture | **Spec Kit** | 0→1 greenfield with 4-stage workflow |
-| Updating existing training pipeline | **OpenSpec** | Brownfield with explicit delta tracking |
+| **Updating existing training pipeline** | **OpenSpec** (PREFERRED) | Brownfield with explicit delta tracking, preserves invariants |
+| **Modifying existing ML/CV code** | **OpenSpec** (PREFERRED) | Prevents silent regressions, locks down data/architecture invariants |
+| **Dataset processing changes** | **OpenSpec** (PREFERRED) | Critical for data format, label schema, preprocessing pipeline invariants |
+| **Model architecture updates** | **OpenSpec** (PREFERRED) | Tracks changes to existing models, preserves checkpoint compatibility |
+| New ML model architecture (0→1) | **Spec Kit** | Greenfield with 4-stage workflow |
 | Exposing datasets/models to AI tools | **MCP** | Standardized context integration |
+
+**Enforcement:** For any work on existing codebases, pipelines, or models, OpenSpec is **mandatory**. See `rules/references/openspec-ml-cv-reference.md` for comprehensive guidance.
 
 ## Mandatory Checkpoints
 
 ### Before Writing Code
-- [ ] Constitution exists and reflects current standards
+- [ ] **OpenSpec proposal created** (`/openspec:proposal` or `openspec init`) for any work on existing code
+- [ ] Constitution exists and reflects current standards (Spec Kit only)
 - [ ] Spec has measurable acceptance criteria
-- [ ] All ambiguities clarified via `/speckit.clarify`
-- [ ] Validation passed (`openspec validate --strict`)
+- [ ] All ambiguities clarified via `/speckit.clarify` (Spec Kit) or OpenSpec proposal review
+- [ ] **OpenSpec validation passed** (`openspec validate --strict`) for OpenSpec proposals
 - [ ] Tech stack approved (matches constitution)
+- [ ] **Invariants documented** (data format, label schema, preprocessing pipeline, model architecture boundaries)
 
 ### During Implementation
 - [ ] Tasks are atomic (1 file or function)
@@ -4509,7 +4529,8 @@ Required: **Spec → Plan → Tasks → Verify → Code**
 - [ ] All tasks checked off in tasks.md
 - [ ] Acceptance tests passing (matches spec scenarios)
 - [ ] No spec drift (implementation matches spec)
-- [ ] Archive complete (OpenSpec: `openspec archive --yes`)
+- [ ] **OpenSpec archive complete** (`openspec archive --yes`) - **MANDATORY for all OpenSpec proposals**
+- [ ] **Invariants verified** (data format unchanged, label schema unchanged, preprocessing order preserved, model architecture boundaries respected)
 
 ## Integration with Existing Policies
 
@@ -4520,9 +4541,11 @@ This policy **supplements** (does not replace):
 
 ## References
 
-- `~/policies/references/spec-protocols-guide.md` — Full protocol documentation (Spec Kit, OpenSpec, MCP)
-- `~/policies/references/task-management-guide.md` — Comprehensive guide on breaking features into atomic tasks and executing them in a self-improving loop (task decomposition, tasks.json schema, execution workflow, best practices, troubleshooting, metrics)
-- `~/policies/references/self-improving-loop-integration.md` — Integration guide for Addy Osmani's self-improving loop pattern, including modifications to CLAUDE.md, prompt, and MCP templates
+- **`rules/references/openspec-ml-cv-reference.md`** — **AUTHORITATIVE** OpenSpec engineering reference for ML/CV teams (invariants, constraints, decision trees, ML/CV-specific patterns, failure modes, examples)
+- `rules/references/spec-protocols-guide.md` — Full protocol documentation (Spec Kit, OpenSpec, MCP)
+- `rules/references/task-management-guide.md` — Comprehensive guide on breaking features into atomic tasks and executing them in a self-improving loop (task decomposition, tasks.json schema, execution workflow, best practices, troubleshooting, metrics)
+- `rules/references/self-improving-loop-integration.md` — Integration guide for Addy Osmani's self-improving loop pattern, including modifications to CLAUDE.md, prompt, and MCP templates
+- **OpenSpec Repository:** https://github.com/Fission-AI/OpenSpec
 
 
 ---
