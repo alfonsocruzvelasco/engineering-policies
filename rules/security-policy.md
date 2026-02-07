@@ -27,6 +27,7 @@
 - [ML/CV Engineering Security Best Practices](#12-mlcv-engineering-security-best-practices)
 - [AI Coding Hazards (Security and Privacy)](#13-ai-coding-hazards-security-and-privacy)
 - [External AI Code Generation Usage Policy](#14-external-ai-code-generation-usage-policy)
+  - [Prohibited External AI Tool Classes](#146-prohibited-external-ai-tool-classes)
 - [Code Injection Defenses](#15-code-injection-defenses-best-practices)
 - [API Security Best Practices](#16-api-security-best-practices)
 - [Model and Artifact Security](#17-model-and-artifact-security)

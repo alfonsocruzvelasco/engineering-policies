@@ -13,7 +13,7 @@ Convenience symlinks:
 - `~/policies` -> `~/dev/repos/github.com/alfonsocruzvelasco/engineering-policies/`
 
 **Status:** Authoritative
-**Last updated:** 2026-02-02
+**Last updated:** 2026-02-07
 
 This repository is the **single source of truth** for how software is designed, built, reviewed, shipped, secured, and maintained across all of my development work.
 
@@ -195,7 +195,7 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
 
 ### Learning paths
 
-- **`rules/references/av-perception-learning-path.md`** (if exists) or learning path documentation
+- **AV Perception Learning Path** *(planned)*
   *Unified AV Perception Learning Path: Portfolio-First + Library-Guided Deep Study*
   (32-week curriculum for becoming a top-tier ML/CV engineer focused on autonomous vehicle perception, targeting Mobileye/Waymo Staff-Engineer standards)
 

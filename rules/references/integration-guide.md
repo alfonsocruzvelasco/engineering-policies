@@ -43,7 +43,7 @@ rules/
 ├── security-policy.md               (MODIFIED: Add Section 14.6)
 ├── ai-workflow-policy.md            (existing, may reference 14.6)
 ├── approved-ai-tools.md             (NEW: Tool registry)
-├── AI-TOOL-POLICY-QUICK-REFERENCE.md (NEW: Developer guide)
+├── ai-tool-policy-quick-reference.md  (NEW: Developer guide)
 ├── system/
 │   ├── scripts/
 │   │   ├── ai-security-check.sh    (existing)
@@ -161,10 +161,10 @@ rules/system/scripts/ai-prohibited-tools-check.sh --help
 
 ```bash
 # From repository root
-cp AI-TOOL-POLICY-QUICK-REFERENCE.md rules/AI-TOOL-POLICY-QUICK-REFERENCE.md
+cp ai-tool-policy-quick-reference.md rules/ai-tool-policy-quick-reference.md
 
 # Verify
-ls -lh rules/AI-TOOL-POLICY-QUICK-REFERENCE.md
+ls -lh rules/ai-tool-policy-quick-reference.md
 ```
 
 **Customization Required:**
@@ -223,7 +223,7 @@ pre-commit run --all-files
    ## Quick Links
 
    - [Security Policy](rules/security-policy.md)
-   - [AI Tool Policy Quick Reference](rules/AI-TOOL-POLICY-QUICK-REFERENCE.md)
+   - [AI Tool Policy Quick Reference](rules/ai-tool-policy-quick-reference.md)
    - [Approved AI Tools](rules/approved-ai-tools.md)
    ```
 
@@ -321,7 +321,7 @@ rm test-violation.md
 # (This is manual or use a markdown link checker)
 npm install -g markdown-link-check
 markdown-link-check rules/security-policy.md
-markdown-link-check rules/AI-TOOL-POLICY-QUICK-REFERENCE.md
+markdown-link-check rules/ai-tool-policy-quick-reference.md
 ```
 
 ---
@@ -335,7 +335,7 @@ git status
 # Add all new and modified files
 git add rules/security-policy.md
 git add rules/approved-ai-tools.md
-git add rules/AI-TOOL-POLICY-QUICK-REFERENCE.md
+git add rules/ai-tool-policy-quick-reference.md
 git add rules/system/scripts/ai-prohibited-tools-check.sh
 git add rules/security-exceptions.md
 git add .pre-commit-config.yaml
@@ -346,7 +346,7 @@ git commit -m "feat(security): Add Section 14.6 - Prohibited AI Tool Classes
 - Add comprehensive policy on prohibited external AI tools
 - Add approved-ai-tools.md registry for allowed tools
 - Add ai-prohibited-tools-check.sh detection script
-- Add AI-TOOL-POLICY-QUICK-REFERENCE.md for developers
+- Add ai-tool-policy-quick-reference.md for developers
 - Add pre-commit hooks for automated detection
 - Create security-exceptions.md for tracking exceptions
 - Update cross-references in ai-workflow-policy.md
@@ -380,7 +380,7 @@ tools. This policy clarifies which tools are approved and which are prohibited.
 1. Only tools listed in `approved-ai-tools.md` are approved for use
 2. Tools like "chawd.ai" and similar aggregators are prohibited
 3. Pre-commit hooks will now check for prohibited tool usage
-4. Quick reference guide available: `AI-TOOL-POLICY-QUICK-REFERENCE.md`
+4. Quick reference guide available: `ai-tool-policy-quick-reference.md`
 
 **Action Required:**
 1. Read the quick reference guide (10 min)
@@ -389,7 +389,7 @@ tools. This policy clarifies which tools are approved and which are prohibited.
 4. Update your .git/hooks if using custom pre-commit
 
 **Resources:**
-- Quick Reference: [link to AI-TOOL-POLICY-QUICK-REFERENCE.md]
+- Quick Reference: [link to ai-tool-policy-quick-reference.md]
 - Approved Tools: [link to approved-ai-tools.md]
 - Full Policy: security-policy.md Section 14.6
 
@@ -484,7 +484,7 @@ Before considering integration complete, verify:
 - [ ] Section 14.6 added to security-policy.md
 - [ ] Table of Contents updated with Section 14.6
 - [ ] approved-ai-tools.md created and customized
-- [ ] AI-TOOL-POLICY-QUICK-REFERENCE.md created
+- [ ] ai-tool-policy-quick-reference.md created
 - [ ] ai-prohibited-tools-check.sh added to system/scripts/
 - [ ] security-exceptions.md created
 - [ ] .pre-commit-config.yaml updated
