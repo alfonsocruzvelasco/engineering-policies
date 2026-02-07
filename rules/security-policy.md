@@ -693,6 +693,355 @@ External AI code-generation models MUST be treated as untrusted junior engineers
 
 ---
 
+### 14.6 Prohibited External AI Tool Classes
+
+**Scope:** This section defines categories of external AI code-generation tools and services that are **PROHIBITED** for use in engineering workflows due to unacceptable security, compliance, and operational risks.
+
+**Core Principle:**
+Not all AI code-generation services meet the minimum security, privacy, and operational standards required for serious engineering work. Tools that lack documented security controls, compliance certifications, or enterprise-grade access management represent unacceptable risks to intellectual property, credentials, and data sovereignty.
+
+---
+
+#### 14.6.1 Prohibited Tool Categories
+
+**CATEGORY 1: Unvetted AI Aggregators and Front-Ends**
+
+**Description:**
+Third-party services that provide web-based or API access to multiple AI models without enterprise-grade security controls. Often marketed as "free" or "convenient" alternatives to official provider APIs.
+
+**Common Names/Patterns:**
+* "chawd.ai", "chad.ai", and similar aggregator services
+* Browser-based "multi-model" chat interfaces without documented SLAs
+* Free AI coding assistants with unclear data retention policies
+* Community-hosted AI model front-ends
+* Self-described "AI playgrounds" or "AI experimenters"
+
+**Prohibited Characteristics:**
+* ❌ No documented data retention or deletion policy
+* ❌ No enterprise Service Level Agreement (SLA) or Terms of Service
+* ❌ No compliance certifications (SOC 2, ISO 27001, GDPR attestation)
+* ❌ No role-based access control (RBAC) or audit logging
+* ❌ Unclear data storage jurisdiction (no data sovereignty guarantees)
+* ❌ No security incident response process or disclosure timeline
+* ❌ Unknown infrastructure security posture (no published security whitepaper)
+* ❌ Model training data policy unclear or explicitly uses user data for training
+* ❌ No contractual privacy guarantees
+
+**Specific Risks:**
+
+1. **Data Exfiltration and Retention**
+   * User prompts, code snippets, credentials, and context are stored indefinitely
+   * No guaranteed deletion upon account closure
+   * Data may be sold to third parties or used for model training without consent
+   * **Example Attack:** Developer shares API debugging context; service logs contain production API keys
+
+2. **Lack of Access Control**
+   * No RBAC or permission model
+   * Shared session URLs may expose sensitive conversations
+   * No audit trail of who accessed what data
+   * **Example Attack:** Developer shares conversation link; colleague accesses proprietary code
+
+3. **Uncontrolled Code Execution**
+   * No sandboxed execution boundaries
+   * Generated code may contact external endpoints
+   * No verification of code provenance or integrity
+   * **Example Attack:** AI suggests npm package; package is typosquatted malware
+
+4. **Supply Chain Compromise**
+   * Third-party plugins with filesystem/network access
+   * No security vetting of integrations
+   * Dependency on unmaintained or insecure hosting
+   * **Example Attack:** Plugin exfiltrates environment variables containing AWS credentials
+
+5. **Regulatory Non-Compliance**
+   * No GDPR, HIPAA, or PCI compliance
+   * No data processing agreements (DPAs)
+   * No audit trail for compliance verification
+   * **Example Attack:** Healthcare data shared; HIPAA violation results in regulatory penalty
+
+6. **Model Training Data Leakage**
+   * User code may be incorporated into model training without consent
+   * Proprietary algorithms exposed to competitors via model inference
+   * No opt-out mechanism for data usage
+   * **Example Attack:** Proprietary ML architecture leaked; competitor reproduces approach
+
+---
+
+**CATEGORY 2: Unvetted Browser Extensions and IDE Plugins**
+
+**Description:**
+Third-party browser extensions or IDE plugins that claim to "enhance" or "extend" AI coding assistants without official endorsement from the AI provider.
+
+**Prohibited Characteristics:**
+* ❌ Not published by official AI model provider (Anthropic, OpenAI, Google, etc.)
+* ❌ Requests broad permissions (filesystem access, network access, clipboard access)
+* ❌ No security audit or code signing
+* ❌ Unknown update mechanism or auto-update without user control
+* ❌ Closed-source or obfuscated code
+
+**Specific Risks:**
+* Credential theft (API keys, session tokens)
+* Code exfiltration (entire repository contents)
+* Malicious code injection (backdoors, vulnerabilities)
+* Man-in-the-middle attacks (intercepting AI responses)
+
+---
+
+**CATEGORY 3: Self-Hosted AI Services Without Security Hardening**
+
+**Description:**
+Self-hosted or community-hosted AI model deployments that lack enterprise security controls.
+
+**Prohibited Characteristics:**
+* ❌ No authentication or authorization required
+* ❌ No TLS/encryption for data in transit
+* ❌ No access logging or audit trail
+* ❌ No patch management or security update process
+* ❌ Default credentials or weak authentication
+
+**Specific Risks:**
+* Unauthorized access to internal AI infrastructure
+* Data leakage via unencrypted communications
+* No accountability or forensic capability
+* Vulnerable to known exploits
+
+---
+
+#### 14.6.2 Required Tool Characteristics (Minimum Acceptable Standards)
+
+**APPROVED AI code-generation tools MUST have:**
+
+✅ **Documented Privacy and Data Handling:**
+* Published data retention policy (time-bounded or on-demand deletion)
+* Clear statement on model training data usage (opt-out available)
+* Published privacy policy compliant with GDPR, CCPA, or equivalent
+* Data Processing Agreement (DPA) available for enterprise customers
+
+✅ **Enterprise Security Controls:**
+* SOC 2 Type II, ISO 27001, or equivalent certification
+* Published security whitepaper or architecture documentation
+* Documented incident response and disclosure timeline
+* Regular third-party security audits
+
+✅ **Access Control and Auditability:**
+* Role-based access control (RBAC) with least privilege
+* Audit logging of all API calls and user interactions
+* MFA support for user authentication
+* Session management with timeout and revocation
+
+✅ **Compliance and Legal Framework:**
+* Enterprise Terms of Service and SLA
+* GDPR, HIPAA, or PCI compliance (as required by use case)
+* Contractual guarantees on data sovereignty
+* Indemnification and liability terms
+
+✅ **Operational Assurance:**
+* Published uptime SLA (e.g., 99.9% availability)
+* Documented support channels and response times
+* Transparent billing and cost attribution
+* API versioning and deprecation policy
+
+✅ **Code Execution Safeguards:**
+* Sandboxed execution environments
+* Network egress controls
+* Resource quotas and rate limits
+* Timeout enforcement
+
+---
+
+#### 14.6.3 Approved Tool Examples (As of 2026-02-01)
+
+**Enterprise-Grade AI Coding Tools:**
+
+* ✅ **Claude Code** (Anthropic) — CLI tool with sandboxed execution, enterprise API
+* ✅ **GitHub Copilot Enterprise** — SOC 2 compliant, no training on user data
+* ✅ **Cursor IDE** — Self-hosted models + enterprise API keys, configurable policies
+* ✅ **OpenAI API** (Enterprise tier) — DPA available, GDPR compliant
+* ✅ **Anthropic Claude API** (Team/Enterprise tier) — No training on user data, audit logs
+* ✅ **Google Gemini API** (Enterprise tier) — Data residency controls, compliance certifications
+* ✅ **AWS CodeWhisperer Professional** — Integrated with AWS IAM, audit logging
+* ✅ **Self-Hosted LLMs** (on organizational infrastructure) — Full control, must meet internal security policy
+
+**Evaluation Criteria:**
+* Each tool MUST be evaluated against the "Required Tool Characteristics" (Section 14.6.2)
+* Tools MUST be approved by Security/Engineering leadership before organizational use
+* Tool approvals MUST be documented in `approved-ai-tools.md` (maintained by Security team)
+* Tool approvals MUST be reviewed annually
+
+---
+
+#### 14.6.4 Enforcement and Violation Handling
+
+**Technical Enforcement:**
+
+1. **Network-Level Blocking:**
+   * Prohibited tool domains MUST be blocked at the network perimeter
+   * DNS filtering and firewall rules MUST prevent access to unvetted services
+   * VPN and proxy bypass attempts MUST be logged and alerted
+
+2. **Pre-Commit Hooks:**
+   * Git pre-commit hooks MUST scan for indicators of prohibited tool usage:
+     * Code comments referencing prohibited tool names
+     * URLs or API endpoints of prohibited services
+     * Credential patterns suggesting prohibited tool access
+
+3. **CI/CD Gates:**
+   * CI pipelines MUST scan commit history for prohibited tool indicators
+   * AI-generated code metadata MUST indicate approved tool usage
+   * Commits from unverified sources MUST trigger security review
+
+**Policy Enforcement:**
+
+1. **Developer Onboarding:**
+   * All developers MUST complete security training covering prohibited AI tools
+   * Training MUST include rationale and approved alternatives
+   * Acknowledgment of policy MUST be documented
+
+2. **Monitoring and Detection:**
+   * Network traffic logs MUST be monitored for prohibited tool access
+   * API usage logs MUST be reviewed for unauthorized AI service calls
+   * Security team MUST maintain threat intelligence on emerging prohibited tools
+
+3. **Violation Response:**
+   * First violation: Documented warning + mandatory retraining
+   * Second violation: Escalation to management + formal written warning
+   * Third violation: Potential termination + security incident investigation
+   * Malicious violations (intentional data exfiltration): Immediate termination + legal action
+
+**Exception Process:**
+
+* Exceptions MUST be rare and time-bounded
+* Exceptions MUST be approved by CISO + Engineering Leadership
+* Exceptions MUST include documented compensating controls:
+  * Air-gapped environment for tool usage
+  * No access to production credentials or data
+  * Manual security review of all generated code
+  * Dedicated security monitoring
+* Exceptions MUST have sunset date (maximum 90 days)
+* Exceptions MUST be logged in `security-exceptions.md`
+
+---
+
+#### 14.6.5 Rationale: Why These Restrictions Matter
+
+**Real-World Impact of Using Prohibited Tools:**
+
+1. **IP Leakage:**
+   * Proprietary ML architectures shared with unvetted tools may be incorporated into competitor products
+   * Business logic exposed via prompts may be reverse-engineered
+   * **Estimated Risk:** $500K - $5M in lost competitive advantage per incident
+
+2. **Credential Exposure:**
+   * API keys shared in debugging context may be logged and resold
+   * Production database credentials in error logs may enable data breaches
+   * **Estimated Risk:** $1M - $50M in breach response costs + regulatory fines
+
+3. **Regulatory Penalties:**
+   * GDPR violations for unauthorized data processing: Up to 4% of annual revenue
+   * HIPAA violations for PHI exposure: $100 - $50,000 per record
+   * PCI DSS violations for cardholder data exposure: $5,000 - $100,000 per month
+
+4. **Supply Chain Attacks:**
+   * Malicious packages suggested by unvetted tools may compromise build pipelines
+   * Backdoored dependencies may persist undetected for months
+   * **Estimated Risk:** $2M - $10M in incident response + remediation
+
+**Comparison: Prohibited vs Approved Tools**
+
+| Concern                  | Prohibited Tools ("chawd.ai")       | Approved Tools (Enterprise APIs)  |
+| ------------------------ | ----------------------------------- | --------------------------------- |
+| Data Retention           | ❌ Indefinite, no deletion policy   | ✅ Time-bounded or on-demand      |
+| Model Training Data      | ❌ User data may be used            | ✅ Opt-out or no training on data |
+| Access Control           | ❌ None or weak                     | ✅ RBAC + MFA                     |
+| Compliance               | ❌ No certifications                | ✅ SOC 2, ISO 27001, GDPR         |
+| Audit Trail              | ❌ None                             | ✅ Comprehensive logging          |
+| Incident Response        | ❌ Unknown                          | ✅ Documented SLA                 |
+| Data Sovereignty         | ❌ Unknown                          | ✅ Contractual guarantees         |
+| Security Posture         | ❌ Unverified                       | ✅ Third-party audits             |
+| Support & Liability      | ❌ None                             | ✅ Enterprise SLA + indemnity     |
+| Cost (TCO)               | ❌ "Free" but high hidden risk cost | ✅ Predictable + insured          |
+
+---
+
+#### 14.6.6 Developer Resources and Approved Alternatives
+
+**"But I need to [use case] — what should I use instead?"**
+
+| Use Case                          | Prohibited Approach                     | Approved Alternative                                          |
+| --------------------------------- | --------------------------------------- | ------------------------------------------------------------- |
+| Quick code generation             | "chawd.ai" browser interface            | Claude Code CLI, Cursor IDE with approved API keys            |
+| Multi-model comparison            | AI aggregator service                   | Local model evaluation harness (see `ai-eval-policy.md`)     |
+| Debugging assistance              | Sharing errors with unvetted tools      | Claude Code with sanitized error messages                     |
+| Architecture design               | Uploading proprietary code to free tool | Claude API (Enterprise tier) with approved context            |
+| Dependency recommendations        | Unvetted tool suggestions               | GitHub Dependabot + manual security review                    |
+| Code review                       | Unvetted tool with full repo access     | Claude Code `/security-review` with scoped file access        |
+| Documentation generation          | Sharing internal docs with free tool    | Self-hosted LLM or approved API with sanitized content        |
+| Test generation                   | Unvetted tool with production code      | Cursor IDE with test-only context + approved model            |
+| Refactoring assistance            | Unvetted tool with full codebase        | GitHub Copilot Enterprise with RBAC-controlled repo access    |
+| Learning/experimentation          | Unvetted tool with sensitive code       | Local LLM (Ollama, LM Studio) + air-gapped environment        |
+
+**Resources:**
+* **Tool Evaluation Checklist:** See `ai-tool-security-checklist.md` (Section 14.6.2 criteria)
+* **Approved Tool Registry:** See `approved-ai-tools.md` (maintained by Security team)
+* **Training Materials:** See `security-training/prohibited-ai-tools/` for slides and examples
+* **Self-Service Security Review:** Use Claude Code `/security-review` command for quick checks
+
+---
+
+#### 14.6.7 Integration with Existing Policies
+
+This section complements and extends:
+
+* **Section 14.1-14.5:** Core external AI code generation policy (data sharing, review, logging)
+* **Section 8:** API-Calling Agents (tool use security, OAuth2 controls)
+* **Section 19:** Prompt Injection Defense (treating AI as untrusted actor)
+* **Section 20:** Mandatory Verification Gates (security review requirements)
+* **ai-workflow-policy.md Part 1:** Core Security Position, Sandbox Restriction, Guardrails
+* **ai-workflow-policy.md Part 2:** Prompt Engineering best practices
+* **mlops-policy.md:** Model artifact security and compliance
+
+**Cross-Policy Consistency:**
+* All AI tools (approved or prohibited) MUST follow Section 14.1-14.5 data sharing restrictions
+* All AI-generated code MUST pass Section 20 verification gates
+* All tool usage MUST comply with logging requirements (Section 14.5)
+
+---
+
+#### 14.6.8 Review and Update Cadence
+
+**Policy Maintenance:**
+
+* **Quarterly Review:** Security team MUST review prohibited tool list for new threats
+* **Annual Recertification:** All approved tools MUST be re-evaluated against updated criteria
+* **Incident-Driven Updates:** Policy MUST be updated within 30 days of security incident
+* **Threat Intelligence Integration:** New prohibited tools MUST be added within 7 days of public disclosure
+
+**Version Control:**
+* This policy is versioned in Git alongside other security policies
+* Changes MUST be approved via PR review (Security + Engineering leadership)
+* Major changes MUST trigger developer retraining notification
+* Policy version MUST be referenced in all violation documentation
+
+**Change Log:**
+
+| Date       | Version | Change Summary                                        | Author          |
+| ---------- | ------- | ----------------------------------------------------- | --------------- |
+| 2026-02-07 | 1.0     | Initial policy: Prohibited AI tool classes defined    | Security Team   |
+| TBD        | 1.1     | [Future updates based on threat landscape]            | TBD             |
+
+---
+
+**Policy Owner:** Security Team (security@organization.com)
+**Enforcement Authority:** CISO + VP Engineering
+**Last Reviewed:** 2026-02-07
+**Next Review Due:** 2026-05-07
+
+---
+
+**End of Section 14.6**
+
+---
+
 ## 15) Code injection defenses (best practices)
 
 This section covers injection risks across SQL, shell, template engines, and interpreters.
