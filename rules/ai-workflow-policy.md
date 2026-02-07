@@ -13,9 +13,11 @@
 
 ### Part 1: Core Workflow
 - [Core Principle](#part-1-core-workflow)
+- [Explicit Operating Contract (Mandatory)](#explicit-operating-contract-mandatory)
 - [Core Security Position](#core-security-position)
 - [Sandbox Restriction](#sandbox-restriction)
 - [Daily Workflow](#daily-workflow)
+- [Task Tool Usage (Claude Code)](#task-tool-usage-claude-code)
 - [Cursor Modes](#cursor-modes)
 - [Guardrails](#guardrails)
 - [Codex Extension Policy (Cursor)](#codex-extension-policy-cursor)
@@ -33,6 +35,7 @@
 ### Part 2: Prompt Engineering
 - [Operating Principles](#part-2-prompt-engineering)
 - [English-First Architecture](#english-first-architecture-for-prompts)
+- [Vocabulary and Terminology (Claude Code)](#vocabulary-and-terminology-claude-code)
 - [Prompt Templates](#standard-prompt-template-quick)
 - [Frameworks (COSTAR, CRISPE)](#costar-framework-for-clarity)
 - [Slash Commands Library](#slash-commands-library)
@@ -65,6 +68,99 @@
 - **Diff-first** — see changes before committing
 - **Specification-first** — clarity of constraints, edge cases, and requirements is the bottleneck (see Part 4: Spec-Driven Development for structured spec workflows)
 - **Verification-first** — treat AI output like junior PR; verification becomes central
+
+## Explicit Operating Contract (Mandatory)
+
+**Hard rule:** Every AI interaction must start with an explicit operating contract. Before any non-trivial task, you MUST define:
+
+### 1. Role
+Define the AI's role and expertise level for this specific task.
+
+**Examples:**
+- "Act as a senior ML/CV engineer performing a code review."
+- "Act as a Python backend developer implementing a REST API endpoint."
+- "Act as a security auditor analyzing authentication flows."
+
+### 2. Scope
+Explicitly define what is in bounds and out of bounds.
+
+**Required elements:**
+- **In bounds:** What files, modules, or systems can be modified
+- **Out of bounds:** What must not be touched (e.g., "No rewrites / no new files / no architectural changes")
+- **Boundaries:** Specific constraints (e.g., "Only modify `src/api/` directory", "No changes to database schema")
+
+**Examples:**
+- "Scope: Review `src/auth/` only. Out of bounds: No changes to `src/db/` or test files."
+- "Scope: Fix bug in `calculate_loss()`. Out of bounds: No refactoring, no new features, no test changes."
+
+### 3. Risk Level
+Define the permission level and safety constraints.
+
+**Levels:**
+- **Read-only:** AI can only read and analyze, no modifications
+- **Suggest-only:** AI generates suggestions/diffs but does not apply changes
+- **Patch with diff:** AI can generate code changes but only via unified diff format (human review required)
+- **Autonomous (rare):** AI can apply changes directly (only for low-risk, well-tested operations)
+
+**Default:** "Suggest-only" or "Patch with diff" for code changes.
+
+**Examples:**
+- "Risk level: Read-only. Analyze code quality only, no modifications."
+- "Risk level: Suggest-only. Generate diff for review, do not apply."
+- "Risk level: Patch with diff. Generate unified diff, wait for human approval."
+
+### 4. Output Format
+Specify the expected output structure and format.
+
+**Options:**
+- **Checklist:** Structured list of items to verify
+- **Diff:** Unified diff format for code changes
+- **TODOs:** Task list with priorities
+- **Decision log:** Structured decisions with rationale
+- **Report:** Analysis or review document
+- **Code:** Direct code output (with specified format)
+
+**Examples:**
+- "Output format: Unified diff only. No explanations unless requested."
+- "Output format: Checklist of security issues with severity levels."
+- "Output format: Decision log with alternatives considered and rationale."
+
+### 5. Stopping Condition
+Define when the task is complete or when to stop.
+
+**Required elements:**
+- **Success criteria:** What constitutes completion
+- **Failure conditions:** When to stop and escalate
+- **Validation requirements:** How to verify completion
+
+**Examples:**
+- "Stopping condition: All tests pass AND diff reviewed by human."
+- "Stopping condition: Security review complete with zero critical findings OR human review requested."
+- "Stopping condition: Feature implemented per spec AND CLAUDE.md updated."
+
+### Operating Contract Template
+
+For every non-trivial task, include this structure in your prompt:
+
+```markdown
+**Operating Contract:**
+
+**Role:** [AI's role for this task]
+**Scope:**
+  - In bounds: [what can be modified]
+  - Out of bounds: [what must not be touched]
+**Risk level:** [Read-only | Suggest-only | Patch with diff | Autonomous]
+**Output format:** [Checklist | Diff | TODOs | Decision log | Report | Code]
+**Stopping condition:** [when task is complete]
+```
+
+### Enforcement
+
+- **Mandatory for:** All code changes, reviews, refactoring, architecture decisions
+- **Optional for:** Simple queries, documentation updates, single-line fixes
+- **Violation:** If operating contract is missing, AI MUST request clarification before proceeding
+
+**Rationale:** Explicit contracts eliminate ambiguity, prevent scope creep, reduce security risks, and ensure consistent output formats. This is a non-negotiable requirement for production-grade AI-assisted development.
 
 ## Core Security Position
 
@@ -189,6 +285,46 @@ This prevents "AI churn" and maintains control.
 
 **See also:** Part 3: Session Management for comprehensive session lifecycle management, coordination guidelines, and metrics tracking.
 
+### Task Tool Usage (Claude Code)
+
+**Mandatory workflow for multi-step tasks using Claude Code's task management:**
+
+1. **Always start with Plan Mode:**
+   - Use `/plan` or Plan Mode before any multi-file or complex task
+   - Let Claude decompose the task into atomic subtasks
+   - Review the plan before proceeding to implementation
+
+2. **Subtask size discipline:**
+   - **Subtasks MUST be small enough to complete in <50% context window**
+   - If a subtask would consume >50% context, break it down further
+   - Each subtask should be independently verifiable
+   - **Rationale:** Prevents context bloat and ensures reliable completion
+
+3. **Commit frequency:**
+   - **Commit as soon as each subtask is completed**
+   - Do not wait for the entire feature to be done
+   - Each commit should represent a working, verifiable state
+   - **Rationale:** Enables rollback, preserves progress, reduces risk
+
+4. **Task Tool best practices:**
+   - Use Task Tool for tracking multi-step work
+   - Mark subtasks complete only after verification (tests pass, diff reviewed)
+   - Update CLAUDE.md immediately if mistakes are discovered during task execution
+   - Use `/compact` manually at max 50% context usage (don't wait for auto-compact)
+
+5. **Vanilla Claude Code for small tasks:**
+   - For single-file edits or trivial changes, use vanilla Claude Code (no task tool)
+   - Task Tool is for orchestration, not for every interaction
+   - **Rule:** If task can be completed in one interaction, skip task tool
+
+6. **Anti-patterns:**
+   - ❌ Marathon coding sessions (>3 hours): Use 90-minute rule, commit frequently
+   - ❌ Large subtasks (>50% context): Break down further
+   - ❌ Delayed commits: Commit immediately after each subtask
+   - ❌ Skipping Plan Mode: Always plan multi-step work first
+
+**Reference:** Based on [Claude Code Best Practices](https://github.com/shanraisshan/claude-code-best-practice) — "vanilla cc is better than any workflows with smaller tasks" and "commit often, as soon as task is completed, commit."
+
 ### Shared Team Knowledge: CLAUDE.md
 
 **Maintain a shared `CLAUDE.md` file in each repository** that evolves with team knowledge:
@@ -216,6 +352,13 @@ This prevents "AI churn" and maintains control.
    - Update when patterns change
    - Review periodically for relevance
    - Keep concise and actionable
+
+5. **Size limit (CRITICAL):**
+   - **CLAUDE.md MUST NOT exceed 150 lines**
+   - If approaching limit, split content into domain-specific files (e.g., `CLAUDE-execution.md`, `CLAUDE-review.md`)
+   - Use progressive disclosure: Keep high-level patterns in CLAUDE.md, move detailed examples to `/docs` or `/claude/` subdirectory
+   - Regularly audit and remove outdated entries
+   - **Rationale:** Context bloat degrades AI performance. 150 lines is the empirically validated limit for reliable Claude Code behavior.
 
 **See:** `templates/claude-md-template.md` for a template structure.
 
@@ -2476,6 +2619,7 @@ This protocol ensures that.
 - **Explicit Instruction Levels:** Respect the requested level (Minimal/Thorough/Comprehensive). Do not over-explain if "Minimal" is requested.
 - **Reproducibility:** Commands, paths, and versions must be concrete.
 - **Verification-first:** With AI coding, verification becomes central. Tests become the steering wheel. Treat AI output like junior PR—verification is mandatory, not optional.
+- **Explicit Operating Contract:** Every non-trivial AI interaction must start with an explicit contract defining Role, Scope, Risk level, Output format, and Stopping condition (see Part 1: Core Workflow [Explicit Operating Contract](#explicit-operating-contract-mandatory) section).
 
 ---
 
@@ -2563,6 +2707,70 @@ Model Reasoning (English): "I'll check for SQL injection, XSS vulnerabilities...
   ↓
 Response Translation: "He encontrado 2 vulnerabilidades: inyección SQL en línea 45..."
 ```
+
+## Vocabulary and Terminology (Claude Code)
+
+**Use consistent terminology when working with Claude Code to avoid confusion and improve reliability:**
+
+### Core Concepts
+
+- **Skills:** Reusable knowledge, workflows, and slash commands that Claude can load on-demand or you invoke with `/skill-name`
+  - **Not:** "commands" or "macros" (skills are more powerful)
+  - **Use:** "Create a skill for X" not "Create a command for X"
+
+- **Subagents:** Isolated execution contexts that run their own loops and return summarized results
+  - **Not:** "agents" or "workers" (subagents are specific to Claude Code)
+  - **Use:** "Define a subagent for Y" not "Create an agent for Y"
+
+- **Memory:** Persistent context via CLAUDE.md files and `@path` imports that Claude sees every session
+  - **Not:** "context" or "knowledge base" (memory is Claude Code's specific mechanism)
+  - **Use:** "Update memory" or "CLAUDE.md" not "update context"
+
+- **Rules:** Modular topic-specific instructions in `.claude/rules/*.md` with optional path-scoping via frontmatter
+  - **Not:** "policies" or "config" (rules are Claude Code's enforcement mechanism)
+  - **Use:** "Add a rule" not "add a policy"
+
+- **Hooks:** Deterministic scripts that run outside the agentic loop on specific events
+  - **Not:** "scripts" or "automation" (hooks are event-driven)
+  - **Use:** "Configure a hook" not "write a script"
+
+- **MCP Servers:** Model Context Protocol connections to external tools, databases, and APIs
+  - **Not:** "APIs" or "integrations" (MCP is the specific protocol)
+  - **Use:** "Connect MCP server" not "integrate API"
+
+### Workflow Terms
+
+- **Plan Mode:** Claude Code's planning phase before implementation (`/plan` or Plan Mode)
+  - **Use:** "Start with Plan Mode" not "plan first"
+
+- **Task Tool:** Claude Code's task management system for multi-step work
+  - **Use:** "Use Task Tool" not "create tasks" or "task management"
+
+- **Compact:** Manual context compression (`/compact`)
+  - **Use:** "Run /compact" not "compress context" or "clear history"
+
+- **Vanilla Claude Code:** Direct interaction without task tool or complex workflows
+  - **Use:** "Use vanilla Claude Code" for simple, single-interaction tasks
+
+### Anti-Patterns (Terminology to Avoid)
+
+- ❌ "Agent" (use "subagent" for Claude Code, "AI" for general)
+- ❌ "Command" (use "skill" for reusable workflows)
+- ❌ "Context" (use "memory" or "CLAUDE.md")
+- ❌ "Policy" (use "rule" for `.claude/rules/`)
+- ❌ "Script" (use "hook" for event-driven automation)
+
+### Rationale
+
+Consistent terminology:
+- Reduces ambiguity in prompts
+- Improves Claude Code's understanding of intent
+- Aligns with Claude Code's architecture and documentation
+- Prevents confusion between general AI concepts and Claude Code-specific features
+
+**Reference:** Based on [Claude Code Best Practices](https://github.com/shanraisshan/claude-code-best-practice) and Claude Code official documentation.
+
+---
 
 ### Exceptions (Rare)
 
