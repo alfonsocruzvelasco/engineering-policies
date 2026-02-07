@@ -14,3 +14,108 @@ repos:
     hooks:
       - id: markdownlint
         args: ["--disable", "MD013"]  # allow long lines in policy docs
+
+  # Prohibited AI tool detection (Section 14.6.4 Technical Enforcement)
+  # Integration with: security-policy.md Section 14.6
+  - repo: local
+    hooks:
+      - id: prohibited-ai-tools-check
+        name: Check for prohibited AI tool references
+        entry: bash -c 'rules/system/scripts/ai-prohibited-tools-check.sh --strict'
+        language: system
+        pass_filenames: false
+        always_run: true
+        verbose: true
+
+  # Secret scanning (complementary control)
+  # Note: Requires .secrets.baseline file - run 'detect-secrets scan > .secrets.baseline' first
+  # Commented out until baseline is created
+  # - repo: https://github.com/Yelp/detect-secrets
+  #   rev: v1.4.0
+  #   hooks:
+  #     - id: detect-secrets
+  #       name: Detect secrets
+  #       args: ['--baseline', '.secrets.baseline']
+  #       exclude: |
+  #         (?x)^(
+  #           \.git/.*|
+  #           node_modules/.*|
+  #           __pycache__/.*|
+  #           \.venv/.*|
+  #           dist/.*|
+  #           build/.*|
+  #           rules/.*\.md$|
+  #           rules/references/.*
+  #         )$
+
+  # AI-generated code metadata check
+  - repo: local
+    hooks:
+      - id: ai-code-attribution
+        name: Verify AI-generated code attribution
+        entry: bash
+        args:
+          - -c
+          - |
+            git diff --cached --name-only | while read -r file; do
+              if ! grep -q "AI-Generated" "$file" 2>/dev/null; then
+                echo "Warning: $file may contain AI code without attribution"
+                exit 1
+              fi
+            done
+        language: system
+        files: '\.(py|js|ts|go|rs)$'
+        pass_filenames: true
+
+  # Network config scanning
+  - repo: local
+    hooks:
+      - id: check-npm-registry
+        name: Check npm registry configuration
+        entry: bash -c 'if [ -f .npmrc ]; then ! grep -E "chawd|chad|free-ai" .npmrc; fi'
+        language: system
+        files: '^\.npmrc$'
+
+      - id: check-pip-registry
+        name: Check pip registry configuration
+        entry: bash -c 'if [ -f pip.conf ]; then ! grep -E "chawd|chad|free-ai" pip.conf; fi'
+        language: system
+        files: '^pip\.conf$'
+
+  # Additional checks for specific file types
+  - repo: local
+    hooks:
+      # Python-specific checks
+      - id: python-ai-imports
+        name: Check for suspicious AI library imports
+        entry: bash -c 'grep -nE "import (chawd|chad|unvetted)" --include="*.py" -r . && exit 1 || exit 0'
+        language: system
+        types: [python]
+        pass_filenames: false
+
+      # JavaScript/TypeScript checks
+      - id: js-ai-packages
+        name: Check package.json for prohibited dependencies
+        entry: bash -c 'if [ -f package.json ]; then ! grep -E "chawd|chad|free-ai" package.json; fi'
+        language: system
+        files: '^package\.json$'
+
+      # Configuration file checks
+      - id: env-file-ai-check
+        name: Check .env files for AI tool references
+        entry: bash -c 'find . -name ".env*" -not -path "*/node_modules/*" -exec grep -l "CHAWD\|CHAD\|FREE_AI" {} \; | grep . && exit 1 || exit 0'
+        language: system
+        pass_filenames: false
+
+  # Documentation and policy enforcement
+  - repo: local
+    hooks:
+      - id: policy-compliance-reminder
+        name: Remind about AI tool policy compliance
+        entry: bash
+        args:
+          - -c
+          - 'echo "Reminder: All AI tools must be approved per security-policy.md Section 14.6. See approved-ai-tools.md for approved tools."'
+        language: system
+        verbose: true
+        always_run: false  # Only show on first commit of session

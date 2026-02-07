@@ -407,6 +407,12 @@ main() {
         ! -path "*/target/*" \
         ! -path "*/.idea/*" \
         ! -path "*/.vscode/*" \
+        ! -path "*/rules/security-policy.md" \
+        ! -path "*/rules/approved-ai-tools.md" \
+        ! -path "*/rules/ai-tool-policy-quick-reference.md" \
+        ! -path "*/rules/ai-workflow-policy.md" \
+        ! -path "*/rules/references/*" \
+        ! -path "*/rules/templates/*" \
         -print0)
 
     # Scan Git history (if repo is a Git repository)
