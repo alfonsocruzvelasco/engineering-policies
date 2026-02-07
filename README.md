@@ -126,11 +126,20 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
 
 ### Security and compliance policies
 
-- **`rules/security-policy.md`** **[CONSOLIDATED 2026-02-01]**
+- **`rules/security-policy.md`** **[CONSOLIDATED 2026-02-01, UPDATED 2026-02-07]**
   *Unified security policy consolidating core security baseline and AI-assisted coding security*
   - **Part 1: Core Security** — Secrets handling, IAM, OAuth 2.0, SSH & infrastructure access, API security, dependency security, cloud security, ML/CV security, prompt injection defense, mandatory verification gates
   - **Part 2: AI-Assisted Coding Security** — OWASP Top 10 for LLMs coverage, OAuth 2.0 for AI/agents, SSH & infrastructure access, API-calling agents security, tool use security with Guardrails AI, output sanitization, agent resource limits, prompt injection defense, ML/CV-specific security, supply chain security, four-layer verification gates, required security tooling, incident response
+  - **Section 14.6: Prohibited External AI Tool Classes** — Prohibited tool categories, required tool characteristics, approved tool examples, enforcement and violation handling, developer resources
   *Previously separate files: `security-policy.md` (core) and `ai-coding-security-policy.md` (AI-specific)*
+
+- **`rules/approved-ai-tools.md`** **[NEW 2026-02-07]**
+  *Authoritative registry of approved AI coding tools*
+  (approval criteria checklist, detailed tool profiles: Anthropic Claude API, OpenAI API, GitHub Copilot Enterprise, Cursor IDE, Claude Code, Ollama, recertification schedule, tool evaluation process, exception handling)
+
+- **`rules/ai-tool-policy-quick-reference.md`** **[NEW 2026-02-07]**
+  *Developer-facing quick reference guide for AI tool policy*
+  (decision tree, common scenarios, security best practices, violation consequences, support channels, self-check checklist)
 
 ### Documentation and versioning policies
 
@@ -181,6 +190,7 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
   - `agent-hq-orchestration-complete-notes.md` — Complete study notes on GitHub Agent HQ and agent orchestration (conceptual foundations, GitHub implementation, Mission Control, @ handlers, AGENTS.md, multi-agent workflows, Control Plane governance, best practices)
   - `ai-systems-architecture.md` — Architectural patterns for AI-powered systems (deterministic → probabilistic shift, six pillars, verification runtime, evals, agent runtime patterns)
   - `gemini-integration-in-new-chrome.md` — Gemini integration documentation
+  - `integration-guide.md` — Step-by-step integration guide for prohibited AI tools policy (Section 14.6), including file placement, pre-commit hook setup, CI/CD integration, and testing procedures
   - PDF references: Vector database survey, ANN search papers, security practices, API hooks usage, OWASP Top 10 for LLMs coverage matrix, secure code practices, security vulnerabilities in AI-generated code, accelerating scientific research with Gemini, context engineering for coding agents
 
 ### Learning paths
@@ -202,6 +212,7 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
   - **`workspace/`** — `/workspace` backing store policies and procedures
   - **`scripts/`** — System automation and security validation scripts
     - `ai-security-check.sh` — AI-generated code security validation script implementing four-layer defense-in-depth (secrets scanning, SAST, dependency scanning, critical pattern checks)
+    - `ai-prohibited-tools-check.sh` — Automated detection of prohibited AI tool usage (scans source files, Git history, network configs, environment variables, package manifests, generates violation reports)
     - `setup-sops-age.sh` — SOPS and Age key management setup script
 
 ---
@@ -327,6 +338,8 @@ This repository is **infrastructure**, not documentation noise.
 9. All AI output passes four-layer verification gates before merge (see `security-policy.md` Part 2, Section 11)
 10. Required security tooling deployed (see `security-policy.md` Part 2, Section 14)
 11. **Run `ai-security-check.sh`** before committing AI-generated code (see `rules/system/scripts/ai-security-check.sh`)
+12. **Use only approved AI tools** — Check `approved-ai-tools.md` before using any AI coding tool (see `security-policy.md` Section 14.6)
+13. **Pre-commit hooks active** — Prohibited AI tool detection runs automatically via `.pre-commit-config.yaml` (see `rules/system/scripts/ai-prohibited-tools-check.sh`)
 
 ### System infrastructure
 
@@ -340,6 +353,12 @@ This repository is **infrastructure**, not documentation noise.
      - **When to use**: Before committing any AI-generated code
      - **Requirements**: Must be run from repo root (where `.git` exists)
      - **Output**: Reports critical errors (blocking) and warnings (review required)
+   - **`ai-prohibited-tools-check.sh`** — Prohibited AI tool detection
+     - **Usage**: `./rules/system/scripts/ai-prohibited-tools-check.sh [--strict] [--repo-path PATH]`
+     - **Purpose**: Scans for prohibited AI tool usage (source files, Git history, network configs, environment variables, package manifests)
+     - **When to use**: Automatically via pre-commit hook, or manually for audits
+     - **Requirements**: Bash, grep, git (for history scanning)
+     - **Output**: Detailed violation report with file locations and patterns
    - **`setup-sops-age.sh`** — SOPS and Age key management setup
      - **Usage**: Run once to set up secret management: `./rules/system/scripts/setup-sops-age.sh`
      - **Purpose**: Installs `age` and `sops`, generates encryption keys, configures environment
