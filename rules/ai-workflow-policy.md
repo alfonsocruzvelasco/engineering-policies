@@ -3574,6 +3574,7 @@ NEVER make sequential calls when operations are independent.
 **References:**
 - See `references/context-engineering-for-coding-agents.pdf` for comprehensive guidance on context engineering principles for coding agents.
 - See `references/long-context-windows-opus-4.6+.md` for engineering reality of 1M+ token context windows, including context engineering as a first-class discipline, memory tier architecture, cost/latency trade-offs, and design rules for production systems.
+- See `references/rag-relevance-for-ides.md` for why RAG still matters in modern IDEs (precision and authority management over compression, Cursor RAG architecture, authority hierarchies, latency/cost realities, determinism and debuggability, modern RAG patterns, implementation guidance).
 
 ### The Minimal Context Principle
 

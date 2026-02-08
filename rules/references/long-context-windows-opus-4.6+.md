@@ -104,6 +104,8 @@ Query → Retrieve Broad Set →
 
 **Key Distinction**: RAG becomes **curation**, not compression[^11].
 
+**See also:** [RAG in Modern IDEs: Why It Still Matters](../rag-relevance-for-ides.md) for practical application of RAG as a governance layer in IDE tools like Cursor, including authority hierarchies, precision engineering, and implementation guidance.
+
 ### Supporting Research
 
 - Lewis et al. (2020) on retrieval-augmented generation foundations[^12]
