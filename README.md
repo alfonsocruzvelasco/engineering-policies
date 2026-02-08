@@ -196,10 +196,17 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
   - `agent-hq-orchestration-complete-notes.md` — Complete study notes on GitHub Agent HQ and agent orchestration (conceptual foundations, GitHub implementation, Mission Control, @ handlers, AGENTS.md, multi-agent workflows, Control Plane governance, best practices)
   - `cc-agent-teams-feature.md` — Complete Claude Code Agent Teams feature notes (comprehensive guide: setup, best use cases, display modes, usage patterns, token economics, technical architecture, coordination features, integration ecosystem, limitations, best practices, philosophy, references; released with Opus 4.6)
   - `long-context-windows-opus-4.6+.md` — Engineering reality of 1M token context windows (technical guide for ML engineers: context engineering discipline, RAG evolution, tooling shifts, evaluation challenges, cost/latency trade-offs, agent architecture shifts, design rules, templates, references; applies to Opus 4.6+ and other long-context models)
+  - `opus-4.6-gpt-5.3-codex-policy-impact-analysis.md` — Opus 4.6 & GPT-5.3 Codex policy and template impact analysis (model characteristics, effort parameter guidance, agent selection, policy enforcement implications)
   - `ai-systems-architecture.md` — Architectural patterns for AI-powered systems (deterministic → probabilistic shift, six pillars, verification runtime, evals, agent runtime patterns)
   - `gemini-integration-in-new-chrome.md` — Gemini integration documentation
   - `integration-guide.md` — Step-by-step integration guide for prohibited AI tools policy (Section 14.6), including file placement, pre-commit hook setup, CI/CD integration, and testing procedures
   - PDF references: Vector database survey, ANN search papers, security practices, API hooks usage, OWASP Top 10 for LLMs coverage matrix, secure code practices, security vulnerabilities in AI-generated code, accelerating scientific research with Gemini, context engineering for coding agents
+
+### Governance
+
+- **`learning-library-governance.md`**
+  *Learning Library Governance: rules for learning repositories vs project workspaces*
+  (graduation rule, focus rule, structural discipline — prevents scope drift in book code and course material repos)
 
 ### Learning paths
 
@@ -260,6 +267,7 @@ graph TD
     style D1 fill:#e1f5ff
     style D3 fill:#e1f5ff
     style E fill:#ffe1e1
+    style E1 fill:#e1f5ff
     style F fill:#fff4e1
 ```
 
@@ -317,7 +325,7 @@ This repository is **infrastructure**, not documentation noise.
 12. Review `rules/ai-workflow-policy.md` Part 1 for Cursor sandbox rules and daily workflow
 13. Review `rules/ai-workflow-policy.md` Part 4 for structured spec workflows (**OpenSpec preferred for ML/CV**, see `rules/references/openspec-ml-cv-reference.md`)
 14. Check `rules/system/raid/` for RAID storage setup if working with large datasets
-14. Use `rules/templates/` for standard project structures and prompts (see `readme-template.md` for README with Technical Baseline)
+15. Use `rules/templates/` for standard project structures and prompts (see `readme-template.md` for README with Technical Baseline)
 
 ### Using AI assistance
 

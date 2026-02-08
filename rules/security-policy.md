@@ -1,7 +1,7 @@
 # Security Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-02-01
+**Last updated:** 2026-02-07
 
 **Scope:** This policy defines how **credentials, secrets, dependencies, identity and access controls, APIs, and AI-assisted engineering risks** are handled. It applies to all environments (local, CI, staging, production) and all repositories, with special emphasis on ML/CV engineering security.
 
