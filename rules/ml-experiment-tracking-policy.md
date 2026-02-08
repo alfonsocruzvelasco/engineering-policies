@@ -1,5 +1,9 @@
 # ML Experiment Tracking Policy
 
+**Status:** Authoritative
+**Scope:** Learning-phase experiment tracking only.
+For production experiment tracking, see: [MLOps Policy](mlops-policy.md).
+
 ## Purpose
 Track ML/CV experiments during learning phase to build knowledge systematically and enable reproducibility.
 
