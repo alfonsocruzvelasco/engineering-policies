@@ -13,7 +13,7 @@ Convenience symlinks:
 - `~/policies` -> `~/dev/repos/github.com/alfonsocruzvelasco/engineering-policies/`
 
 **Status:** Authoritative
-**Last updated:** 2026-02-07
+**Last updated:** 2026-02-08
 
 This repository is the **single source of truth** for how software is designed, built, reviewed, shipped, secured, and maintained across all of my development work.
 
@@ -115,6 +115,11 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
 - **`rules/mlops-policy.md`**
   *Comprehensive MLOps practices for production ML/CV systems*
   (experiment tracking, model versioning & registry, model serving & inference, model monitoring, hyperparameter tuning, distributed training, model optimization, deployment patterns, lifecycle management, reproducibility, cost optimization, latency engineering for real-time systems, **probabilistic systems testing & evals**)
+
+- **`rules/ml-experiment-tracking-policy.md`** **[NEW 2026-02-07]**
+  *ML/CV experiment tracking for learning phase*
+  (minimal tracking discipline: EXPERIMENTS.md log, git tags, dependency locking, project structure, data documentation, progressive tooling levels, anti-patterns, Cursor integration, success criteria, upgrade triggers)
+  *Focus: Track enough to learn, not so much it slows you down. Start simple (Level 1: EXPERIMENTS.md + git tags), upgrade only when needed (Level 2: MLflow/W&B after 10+ experiments, Level 3: full MLOps when production-ready)*
 
 - **`rules/ai-workflow-policy.md`** **[CONSOLIDATED 2026-02-01]**
   *Comprehensive AI workflow policy consolidating core workflow, prompt engineering, session management, and spec-driven development*
@@ -229,6 +234,7 @@ graph TD
     B --> M["ML/CV Operations Policy<br/>Model evaluation, feature engineering, data quality"]
     B --> G["AI Systems Architecture<br/>Deterministic to Probabilistic shift, verification runtime, evals, agents"]
     G --> O["MLOps Policy<br/>Experiment tracking, model serving, evals, monitoring"]
+    O --> E1["ML Experiment Tracking Policy<br/>Learning-phase tracking: EXPERIMENTS.md, git tags, minimal discipline"]
     O --> D1["Documentation Policy<br/>Documentation standards, exception/decision log"]
     O --> D3["Versioning and Release Policy<br/>SemVer, tagging, releases, artifacts"]
     D1 --> E["Security Policy<br/>Part 1: Core Security<br/>Part 2: AI-Assisted Coding Security"]
@@ -300,13 +306,14 @@ This repository is **infrastructure**, not documentation noise.
 4. Review `rules/testing-policy.md` for testing standards and CI/CD integration
 5. Review `rules/references/ai-systems-architecture.md` for LLM/AI system architecture patterns
 6. Review `rules/mlops-policy.md` for experiment tracking, model serving, and monitoring setup
-7. Review `rules/ml-cv-operations-policy.md` for ML/CV-specific operations (model evaluation, feature engineering, data quality)
-8. Review `rules/production-policy.md` §8 (Git and Source Control) for Git workflow and branching model
-9. Review `rules/versioning-and-release-policy.md` for versioning schemes and release processes
-10. Review `rules/security-policy.md` for secrets handling and ML/CV security
-11. Review `rules/ai-workflow-policy.md` Part 1 for Cursor sandbox rules and daily workflow
-12. Review `rules/ai-workflow-policy.md` Part 4 for structured spec workflows (**OpenSpec preferred for ML/CV**, see `rules/references/openspec-ml-cv-reference.md`)
-13. Check `rules/system/raid/` for RAID storage setup if working with large datasets
+7. Review `rules/ml-experiment-tracking-policy.md` for learning-phase experiment tracking (EXPERIMENTS.md, git tags, minimal tracking discipline)
+8. Review `rules/ml-cv-operations-policy.md` for ML/CV-specific operations (model evaluation, feature engineering, data quality)
+9. Review `rules/production-policy.md` §8 (Git and Source Control) for Git workflow and branching model
+10. Review `rules/versioning-and-release-policy.md` for versioning schemes and release processes
+11. Review `rules/security-policy.md` for secrets handling and ML/CV security
+12. Review `rules/ai-workflow-policy.md` Part 1 for Cursor sandbox rules and daily workflow
+13. Review `rules/ai-workflow-policy.md` Part 4 for structured spec workflows (**OpenSpec preferred for ML/CV**, see `rules/references/openspec-ml-cv-reference.md`)
+14. Check `rules/system/raid/` for RAID storage setup if working with large datasets
 14. Use `rules/templates/` for standard project structures and prompts (see `readme-template.md` for README with Technical Baseline)
 
 ### Using AI assistance
