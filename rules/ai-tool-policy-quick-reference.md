@@ -11,6 +11,7 @@
 
 ### ❌ PROHIBITED (Never Use These)
 - "chawd.ai", "chad.ai" and similar aggregator services
+- **OpenClaw (formerly Molt/Clawdbot)** — See `rules/references/open-claw-security-policy.md` for detailed risk assessment (excessive permissions, insecure credentials, network exposure, 1.5M token breach)
 - Free AI coding tools without enterprise agreements
 - Unvetted browser extensions for AI coding
 - Self-hosted AI without security hardening

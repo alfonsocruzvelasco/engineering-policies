@@ -962,6 +962,8 @@ Self-hosted or community-hosted AI model deployments that lack enterprise securi
 | Support & Liability      | ❌ None                             | ✅ Enterprise SLA + indemnity     |
 | Cost (TCO)               | ❌ "Free" but high hidden risk cost | ✅ Predictable + insured          |
 
+**See also:** [OpenClaw Security Policy & Risk Assessment](../references/open-claw-security-policy.md) for detailed analysis of OpenClaw (formerly Molt/Clawdbot) security vulnerabilities, including architectural risks, prompt injection threats, and mandatory isolation requirements. OpenClaw is **PROHIBITED** under this policy due to excessive default permissions, insecure credential storage, network exposure, and the MoltBook data breach (1.5M API tokens leaked).
+
 ---
 
 #### 14.6.6 Developer Resources and Approved Alternatives

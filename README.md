@@ -200,6 +200,7 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
   - `ai-systems-architecture.md` — Architectural patterns for AI-powered systems (deterministic → probabilistic shift, six pillars, verification runtime, evals, agent runtime patterns)
   - `gemini-integration-in-new-chrome.md` — Gemini integration documentation
   - `integration-guide.md` — Step-by-step integration guide for prohibited AI tools policy (Section 14.6), including file placement, pre-commit hook setup, CI/CD integration, and testing procedures
+  - `open-claw-security-policy.md` — OpenClaw Security Policy & Risk Assessment (detailed analysis of OpenClaw/Molt/Clawdbot security vulnerabilities, architectural risks, prompt injection threats, mandatory isolation requirements, risk matrix, threat model; OpenClaw is PROHIBITED under security-policy.md Section 14.6)
   - PDF references: Vector database survey, ANN search papers, security practices, API hooks usage, OWASP Top 10 for LLMs coverage matrix, secure code practices, security vulnerabilities in AI-generated code, accelerating scientific research with Gemini, context engineering for coding agents
 
 ### Governance
