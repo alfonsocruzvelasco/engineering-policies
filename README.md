@@ -193,6 +193,7 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
   - `prompt-osmani-self-improving-loop.md` — Complete Osmani-style prompt template for atomic task execution (detailed version with full structure, learning capture, iteration protocol, troubleshooting)
   - `strategic-learning-model-usage.md` — Strategic framework for using AI agents during learning and skill-building phases, distinguishing between skills to build manually and tasks to delegate to agents
   - `agent-hq-orchestration-complete-notes.md` — Complete study notes on GitHub Agent HQ and agent orchestration (conceptual foundations, GitHub implementation, Mission Control, @ handlers, AGENTS.md, multi-agent workflows, Control Plane governance, best practices)
+  - `cc-agent-teams-feature.md` — Claude Code Agent Teams feature overview (experimental multi-agent parallel execution, team lead coordination, inter-agent messaging, token economics, best use cases, integration patterns, released with Opus 4.6)
   - `ai-systems-architecture.md` — Architectural patterns for AI-powered systems (deterministic → probabilistic shift, six pillars, verification runtime, evals, agent runtime patterns)
   - `gemini-integration-in-new-chrome.md` — Gemini integration documentation
   - `integration-guide.md` — Step-by-step integration guide for prohibited AI tools policy (Section 14.6), including file placement, pre-commit hook setup, CI/CD integration, and testing procedures

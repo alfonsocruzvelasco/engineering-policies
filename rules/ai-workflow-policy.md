@@ -1047,7 +1047,7 @@ flowchart TD
 - 1M token context window (beta)
 - Adaptive thinking (contextual effort adjustment)
 - `/effort` parameter (low/medium/high)
-- Agent teams (parallel subtask execution)
+- Agent teams (parallel subtask execution) — *See [Claude Code Agent Teams Feature](../references/cc-agent-teams-feature.md) for detailed usage, best practices, and token economics*
 - 500+ zero-day vulnerability discovery capability
 - 68.8% ARC AGI 2 (vs. 54.2% GPT-5.2)
 - Compaction (self-summarization for long tasks)
@@ -1798,7 +1798,9 @@ When AI introduces **agents** (multi-step tool-using workflows) and **artifacts*
 - For *complex agentic automation*: prefer the four-layer model above rather than bespoke scripts that lack replayability, audit trails, and lineage.
 - For *any artifact that can impact results* (datasets, checkpoints, configs): treat it as versioned output with traceability (who/what produced it, from which inputs, under which config).
 
-**See also:** [Agent HQ & Agent Orchestration — Complete Study Notes](../references/agent-hq-orchestration-complete-notes.md) for comprehensive coverage of GitHub Agent HQ, Mission Control, `@` handlers, AGENTS.md patterns, multi-agent workflows, and Control Plane governance.
+**See also:**
+- [Agent HQ & Agent Orchestration — Complete Study Notes](../references/agent-hq-orchestration-complete-notes.md) for comprehensive coverage of GitHub Agent HQ, Mission Control, `@` handlers, AGENTS.md patterns, multi-agent workflows, and Control Plane governance.
+- [Claude Code Agent Teams Feature](../references/cc-agent-teams-feature.md) for Claude Code's experimental multi-agent parallel execution capabilities (team lead coordination, inter-agent messaging, best use cases, token economics, integration patterns).
 
 ---
 
