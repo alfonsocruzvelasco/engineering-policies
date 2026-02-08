@@ -1044,7 +1044,7 @@ flowchart TD
 ### Key Capabilities
 
 **Opus 4.6 Distinctive Capabilities:**
-- 1M token context window (beta)
+- 1M token context window (beta) — *See [Engineering Reality of 1M Token Context Windows](../references/long-context-windows-opus-4.6+.md) for comprehensive technical guide on context engineering, cost/latency trade-offs, memory tier architecture, and design rules*
 - Adaptive thinking (contextual effort adjustment)
 - `/effort` parameter (low/medium/high)
 - Agent teams (parallel subtask execution) — *See [Claude Code Agent Teams Feature](../references/cc-agent-teams-feature.md) for detailed usage, best practices, and token economics*
@@ -3571,7 +3571,9 @@ NEVER make sequential calls when operations are independent.
 
 ## Context Engineering for Cursor
 
-**Reference:** See `references/context-engineering-for-coding-agents.pdf` for comprehensive guidance on context engineering principles for coding agents.
+**References:**
+- See `references/context-engineering-for-coding-agents.pdf` for comprehensive guidance on context engineering principles for coding agents.
+- See `references/long-context-windows-opus-4.6+.md` for engineering reality of 1M+ token context windows, including context engineering as a first-class discipline, memory tier architecture, cost/latency trade-offs, and design rules for production systems.
 
 ### The Minimal Context Principle
 
