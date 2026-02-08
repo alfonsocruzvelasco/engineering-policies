@@ -1800,7 +1800,7 @@ When AI introduces **agents** (multi-step tool-using workflows) and **artifacts*
 
 **See also:**
 - [Agent HQ & Agent Orchestration — Complete Study Notes](../references/agent-hq-orchestration-complete-notes.md) for comprehensive coverage of GitHub Agent HQ, Mission Control, `@` handlers, AGENTS.md patterns, multi-agent workflows, and Control Plane governance.
-- [Claude Code Agent Teams Feature](../references/cc-agent-teams-feature.md) for Claude Code's experimental multi-agent parallel execution capabilities (team lead coordination, inter-agent messaging, best use cases, token economics, integration patterns).
+- [Claude Code Agent Teams — Complete Feature Notes](../references/cc-agent-teams-feature.md) for comprehensive coverage of Claude Code's experimental multi-agent parallel execution (setup, best use cases, display modes, usage patterns, token economics, technical architecture, coordination features, integration ecosystem, limitations, best practices, philosophy, references).
 
 ---
 
