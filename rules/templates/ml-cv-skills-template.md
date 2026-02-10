@@ -2,6 +2,8 @@
 
 Complete skill set for production ML/CV engineering. These skills work together with the ML/CV Engineer MCP to enforce best practices and provide instant access to production-grade patterns.
 
+**Understanding Claude Skills:** For a comprehensive overview of what Claude Skills are, their use cases, limitations, and architectural implications, see: [`claude-skills-definiton-use-cases-and-limitations.md`](../references/claude-skills-definiton-use-cases-and-limitations.md)
+
 ## 📦 Included Skills
 
 ### 1. **pytorch-cv-patterns** (7.4 KB)
