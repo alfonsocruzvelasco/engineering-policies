@@ -174,6 +174,58 @@ Before a tool can be added to this registry, it MUST satisfy ALL of the followin
 - MUST verify DPA availability and enterprise compliance before production use
 - MUST NOT use for repositories containing secrets or production credentials
 
+**Evaluation Mode (Free Tier - Policy-Compliant Pattern):**
+
+For minimal, policy-compliant evaluation use only (no production, no real code):
+
+**0. Label the mode correctly (non-negotiable):**
+- You are using **GLM-5 in EVALUATION MODE**
+- Capability sampling only
+- No trust assumptions
+- No durability expectations
+
+**1. Where you may use it (hard boundary):**
+- ✅ **Only** inside a **dedicated sandbox repo**
+- ✅ Repo contains: toy code, synthetic examples, throwaway files
+- ✖ Never: real projects, client code, personal data, configs, secrets, paths, usernames
+- **Rule:** If you wouldn't paste it into a public gist, don't paste it here
+
+**2. Safe interaction pattern in Cursor:**
+- **Allowed prompts:** Generic, abstract, content-free
+  - "Review this function and suggest edge cases."
+  - "Generate unit tests for this toy algorithm."
+  - "Explain tradeoffs in this design pattern."
+  - "Refactor this dummy code for clarity."
+- **Forbidden prompts:** Stack traces with paths, internal architecture, real filenames/repo names, personal/sensitive topics
+- **Assume everything is logged**
+
+**3. Code handling rule:**
+- GLM-5 output is **never trusted**
+- **Never pasted directly** into real code
+- Must be manually reviewed line by line
+- Treat as: "Untrusted external suggestion"
+
+**4. Time-box the evaluation:**
+- Set short evaluation window (1-3 days)
+- Evaluation questions only:
+  - Is reasoning quality interesting?
+  - Is long-context handling noticeably better?
+  - Is latency acceptable?
+- If answer isn't clear **yes**, stop using it
+
+**5. What "free" means:**
+- No payment, no expectations, no guarantees
+- Does **not** mean: low risk, private, ephemeral
+
+**6. Exit conditions (immediately stop if):**
+- You feel tempted to paste real code
+- You want to rely on it repeatedly
+- You forget it's evaluation-only
+- Signal that tool needs either: paid tier + verified DPA, or removal from active use
+
+**7. Operational rule:**
+> **Use GLM-5 like a public whiteboard: useful for ideas, unsafe for content.**
+
 **Integration:**
 - OpenAI SDK compatible: override base URL to Z.ai endpoint
 - See vendor documentation for OpenAI SDK compatibility setup
