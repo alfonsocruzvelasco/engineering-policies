@@ -2791,6 +2791,8 @@ Success is **statistical**, not binary. This requires a fundamental shift in tes
 
 **See [AI Systems Architecture Policy](./ai-systems-architecture-policy.md) Section on "Evals Over Unit Tests" for detailed implementation.**
 
+**See also:** [AI Mutation Testing & Debugging Reference](./references/ai-mutation-testing-debugging-reference.md) for mutation testing applied to AI systems, LLM debugging methods, and observability infrastructure patterns.
+
 ---
 
 ## Implementation Checklist

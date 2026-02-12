@@ -262,6 +262,8 @@ jobs:
           fi
 ```
 
+**See also:** [AI Mutation Testing & Debugging Reference](ai-mutation-testing-debugging-reference.md) for mutation testing as a complement to evals — mutation score reveals whether tests actually catch defects beyond coverage metrics.
+
 ---
 
 #### 5. The "Context Window" is the New RAM (Memory Layer)

@@ -1419,6 +1419,8 @@ jobs:
 
 ### 7.5 Coverage Requirements
 
+**See also:** [AI Mutation Testing & Debugging Reference](../references/ai-mutation-testing-debugging-reference.md) for mutation testing fundamentals — mutation score reveals whether tests actually catch defects, not just execute code.
+
 #### 7.5.1 Unit Test Coverage
 
 **Minimum thresholds:**

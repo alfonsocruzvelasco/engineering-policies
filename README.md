@@ -13,7 +13,7 @@ Convenience symlinks:
 - `~/policies` -> `~/dev/repos/github.com/alfonsocruzvelasco/engineering-policies/`
 
 **Status:** Authoritative
-**Last updated:** 2026-02-08
+**Last updated:** 2026-02-12
 
 This repository is the **single source of truth** for how software is designed, built, reviewed, shipped, secured, and maintained across all of my development work.
 
@@ -202,7 +202,9 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
   - `gemini-integration-in-new-chrome.md` — Gemini integration documentation
   - `integration-guide.md` — Step-by-step integration guide for prohibited AI tools policy (Section 14.6), including file placement, pre-commit hook setup, CI/CD integration, and testing procedures
   - `open-claw-security-policy.md` — OpenClaw Security Policy & Risk Assessment (detailed analysis of OpenClaw/Molt/Clawdbot security vulnerabilities, architectural risks, prompt injection threats, mandatory isolation requirements, risk matrix, threat model; OpenClaw is PROHIBITED under security-policy.md Section 14.6)
-  - PDF references: Vector database survey, ANN search papers, security practices, API hooks usage, OWASP Top 10 for LLMs coverage matrix, secure code practices, security vulnerabilities in AI-generated code, accelerating scientific research with Gemini, context engineering for coding agents
+  - `bypassing-cc-prompts-limit.md` — Technical workarounds for bypassing Claude Code prompt limits (infinite session log hack, subscription strategies, context sharding, brain swapping method)
+  - `ai-mutation-testing-debugging-reference.md` — AI mutation testing & debugging reference (mutation testing fundamentals, LLM debugging methods, OpenAI/Anthropic testing approaches, circuit tracing, alignment as correctness testing, practical implementation guidance)
+  - PDF references: Vector database survey, ANN search papers, security practices, API hooks usage, OWASP Top 10 for LLMs coverage matrix, secure code practices, security vulnerabilities in AI-generated code, accelerating scientific research with Gemini, context engineering for coding agents, haven't written code in two months, mutation testing via iterative LLM-driven scientific debugging, mutation-guided LLM-based test generation at Meta, SWE-Bench benchmark mutation approach
 
 ### Governance
 

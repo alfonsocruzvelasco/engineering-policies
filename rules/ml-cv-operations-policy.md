@@ -558,6 +558,8 @@ shap.plots.waterfall(shap_values[0])
 4. Validate fix (test on production-like data)
 5. Deploy fix (gradual rollout, monitor)
 
+**See also:** [AI Mutation Testing & Debugging Reference](../references/ai-mutation-testing-debugging-reference.md) for LLM debugging methods, multi-LLM pipeline debugging, and Anthropic's circuit tracing tools for model interpretability.
+
 ---
 
 ---

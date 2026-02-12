@@ -1842,6 +1842,8 @@ The engineering "contract" expands from "deliver feature" to:
 
 **Craft implication:** With AI coding, verification becomes central. Tests become the steering wheel.
 
+**See also:** [AI Mutation Testing & Debugging Reference](../references/ai-mutation-testing-debugging-reference.md) for mutation testing fundamentals (test quality beyond coverage), LLM debugging workflows, and practical implementation guidance.
+
 **Mandatory Verification Gates (Before Merge):**
 
 AI-assisted code must pass:
