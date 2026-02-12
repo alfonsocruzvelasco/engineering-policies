@@ -1,7 +1,7 @@
 # Approved AI Tools Registry
 
 **Status:** Authoritative
-**Last Updated:** 2026-02-07
+**Last Updated:** 2026-02-12
 **Policy Reference:** security-policy.md Section 14.6
 **Owner:** Security Team (security@organization.com)
 **Review Cadence:** Quarterly
@@ -134,6 +134,56 @@ Before a tool can be added to this registry, it MUST satisfy ALL of the followin
 **Cost Model:** Per-token pricing, varies by model
 **Documentation:** https://platform.openai.com/docs
 **Support:** Enterprise support available
+
+---
+
+#### Z.ai (GLM-5 API)
+**Tier:** Enterprise/Paid Only (no free tier)
+**Approval Date:** 2026-02-12
+**Approved By:** CISO, VP Engineering
+**Next Review:** 2026-05-12
+
+**Use Cases:**
+- Code generation (OpenAI SDK compatible)
+- Natural language processing
+- Data analysis
+- Content generation
+
+**Security Features:**
+- ✅ Bring-your-own API key (BYO key)
+- ✅ OpenAI SDK compatibility (drop-in replacement)
+- ✅ Privacy mode available
+- ✅ MIT-licensed model (GLM-5 on Hugging Face)
+- ⚠️ Data retention/training policy: **MUST be explicitly documented by vendor before use**
+- ⚠️ DPA and enterprise compliance: **MUST be verified before production use**
+
+**Access Control:**
+- API key authentication (BYO key)
+- Base URL override for OpenAI SDK compatibility
+- Rate limiting per API key
+- Usage tracking via API key
+
+**Restrictions:**
+- MUST use enterprise/paid tier only (no free tier)
+- MUST use sandbox-only repositories (no production code access)
+- MUST sanitize all prompts before sending
+- MUST enable privacy mode if available
+- MUST perform manual review of all generated code
+- MUST maintain audit logs of all API usage
+- MUST verify vendor data retention and training policies before use
+- MUST verify DPA availability and enterprise compliance before production use
+- MUST NOT use for repositories containing secrets or production credentials
+
+**Integration:**
+- OpenAI SDK compatible: override base URL to Z.ai endpoint
+- See vendor documentation for OpenAI SDK compatibility setup
+
+**Cost Model:** Per-token pricing (enterprise/paid tier only)
+**Documentation:**
+- Quick Start + OpenAI SDK compatibility: https://z.ai/docs
+- Other Tools (Base URL override): https://z.ai/docs/other-tools
+- GLM-5 model card/license: https://huggingface.co/models/GLM-5 (MIT license)
+**Support:** Enterprise support (verify availability)
 
 ---
 
@@ -389,6 +439,7 @@ All approved tools MUST be recertified annually:
 | ------------------------- | -------------------- | -------------- |
 | Anthropic Claude API      | 2027-02-01           | Security Team  |
 | OpenAI API                | 2027-02-01           | Security Team  |
+| Z.ai (GLM-5 API)          | 2026-05-12           | Security Team  |
 | GitHub Copilot Enterprise | 2027-02-01           | Security Team  |
 | Cursor IDE                | 2027-02-01           | Security Team  |
 | Claude Code               | 2027-02-01           | Security Team  |
@@ -401,7 +452,7 @@ All approved tools MUST be recertified annually:
 | Date       | Change                                     | Approver        |
 | ---------- | ------------------------------------------ | --------------- |
 | 2026-02-07 | Initial registry with 6 approved tools     | CISO, VP Eng    |
-| TBD        | [Future changes]                           | TBD             |
+| 2026-02-12 | Added Z.ai (GLM-5 API) - Enterprise tier   | CISO, VP Eng    |
 
 ---
 
