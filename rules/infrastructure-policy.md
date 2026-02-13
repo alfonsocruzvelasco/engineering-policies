@@ -1,7 +1,7 @@
 # Infrastructure Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-02-02
+**Last updated:** 2026-02-13
 **Purpose:** Infrastructure standards for Docker/Podman, Kubernetes, and Kafka
 
 ---
@@ -102,6 +102,64 @@ Below is a professional-team rule set for **Docker / Kubernetes / Podman / Kafka
     * no cluster-admin defaults.
 46. **No privileged containers** unless formally approved.
 
+### 8.1) Ingress NGINX deprecation and migration (CRITICAL)
+
+**⚠️ DEPRECATION NOTICE: Kubernetes Ingress NGINX is being retired in March 2026**
+
+**Status:** Kubernetes Steering and Security Response Committees announced retirement effective March 2026 ([source](https://thenewstack.io/kubernetes-to-retire-ingress-nginx/)).
+
+**Critical Security Concerns:**
+* Ingress NGINX has been prone to security vulnerabilities, including "IngressNightmare" (March 2025) with CVSS 9.8 critical vulnerabilities allowing unauthenticated remote code execution
+* Only 1-2 maintainers supporting a tool used by 50% of Kubernetes users
+* **No more bug fixes, security patches, or updates after March 2026**
+* Existing deployments will continue to work but will be vulnerable to unpatched exploits
+
+**Migration Requirements:**
+* **MUST migrate away from Ingress NGINX before March 2026**
+* **No drop-in replacement exists** — migration requires planning and testing
+* **Gateway API is the modern, recommended alternative** (Kubernetes-native, more secure, better designed)
+* Alternative: Chainguard EmeritOSS program (commercial support option, but not recommended for new deployments)
+
+**Migration Strategy:**
+1. **Immediate action (before March 2026):**
+   - Audit all clusters for Ingress NGINX usage
+   - Document all Ingress resources and configurations
+   - Plan migration timeline (allow 2-3 months for testing and rollout)
+
+2. **Gateway API migration path:**
+   - Use Gateway API (Kubernetes SIG Network standard)
+   - Gateway API provides better security, extensibility, and standardization
+   - Supports HTTPRoute, TCPRoute, UDPRoute, TLSRoute resources
+   - Better separation of concerns (Gateway vs Route resources)
+
+3. **Testing requirements:**
+   - Test Gateway API implementation in non-production environments first
+   - Validate TLS termination, routing rules, and load balancing behavior
+   - Ensure observability and monitoring tools work with Gateway API
+   - Test rollback procedures
+
+4. **Production migration:**
+   - Migrate incrementally (service by service or namespace by namespace)
+   - Maintain both Ingress NGINX and Gateway API during transition
+   - Monitor for routing issues, performance degradation, or errors
+   - Complete migration before March 2026 retirement date
+
+**Prohibited:**
+* ❌ **DO NOT** deploy new Ingress NGINX installations
+* ❌ **DO NOT** rely on Ingress NGINX after March 2026 without commercial support (Chainguard EmeritOSS)
+* ❌ **DO NOT** assume Ingress NGINX will continue to receive security patches
+
+**Required:**
+* ✅ **MUST** use Gateway API for all new ingress configurations
+* ✅ **MUST** migrate existing Ingress NGINX deployments before March 2026
+* ✅ **MUST** document migration plan and timeline
+* ✅ **MUST** test Gateway API thoroughly before production deployment
+
+**Reference:**
+* [Kubernetes Ingress NGINX Retirement Announcement](https://thenewstack.io/kubernetes-to-retire-ingress-nginx/)
+* [Gateway API Documentation](https://gateway-api.sigs.k8s.io/)
+* [Chainguard EmeritOSS (commercial support option)](https://www.chainguard.dev/unchained/chainguard-announces-emeritoss-program)
+
 ## 9) Podman-specific considerations
 
 47. **OCI compatibility is required** (images must run under Docker and Podman).
@@ -170,8 +228,9 @@ Below is a professional-team rule set for **Docker / Kubernetes / Podman / Kafka
 85. Kafka topics created ad hoc by applications.
 86. Consumers without lag monitoring.
 87. Missing resource limits leading to noisy-neighbor failures.
+88. **Using Ingress NGINX (deprecated, retiring March 2026)** — use Gateway API instead.
 
-## 17) Minimal “gold standard” checklist
+## 17) Minimal "gold standard" checklist
 
 88. Dockerfiles are multi-stage, non-root, scanned.
 89. Images are built in CI and deployed immutably.
@@ -179,6 +238,7 @@ Below is a professional-team rule set for **Docker / Kubernetes / Podman / Kafka
 91. Kafka topics and schemas are versioned and monitored.
 92. Logs, metrics, and traces are available for every service.
 93. Rollbacks are fast and documented.
+94. **Ingress uses Gateway API (not deprecated Ingress NGINX)** — migration completed before March 2026.
 
 
 ---
