@@ -1,7 +1,7 @@
 # Security Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-02-07
+**Last updated:** 2026-02-13
 
 **Scope:** This policy defines how **credentials, secrets, dependencies, identity and access controls, APIs, and AI-assisted engineering risks** are handled. It applies to all environments (local, CI, staging, production) and all repositories, with special emphasis on ML/CV engineering security.
 
@@ -101,14 +101,31 @@
 * Vault or cloud secret manager (with audit logs)
 * CI secret store (scoped, audited, environment-limited)
 
-### Local development (`.env` discipline)
+### Runtime credential injection (mandatory for production/staging)
 
-`.env` files are allowed **only** if:
+**Credentials MUST be injected at runtime via secret managers.**
+
+* Production and staging environments: **DEPRECATED** to use `.env` files
+* Credentials must be retrieved from secret managers at application startup or runtime
+* Secret managers must provide audit logs of credential access
+
+**Cloud provider implementations:**
+* **Google Cloud**: Use Secret Manager with runtime injection (see [Google Cloud credential security best practices](https://cloud.google.com/docs/security/best-practices))
+* **AWS**: Use AWS Secrets Manager or Parameter Store with runtime retrieval
+* **Azure**: Use Azure Key Vault with managed identities for runtime access
+
+**Local development (`.env` discipline):**
+
+`.env` files are allowed **only** for local development if:
 
 * excluded via `.gitignore`
 * minimally scoped (project-only, least privilege)
 * paired with `.env.example` that contains **no secrets**
 * never printed or dumped into logs
+* **AND** one of the following:
+  - Paired with secret manager sync tooling
+  - Credentials expire within 24 hours
+  - Usage is logged and audited
 
 ### ML/CV-specific secret considerations
 
@@ -132,6 +149,30 @@
 * RBAC is mandatory for data access and production actions.
 * Separate roles for **read**, **write**, and **admin** wherever feasible.
 * Service accounts must have isolated scopes and rotated credentials.
+* Use IAM recommender to prune unused permissions for service accounts, ensuring only the absolute minimum access required.
+
+### Credential lifecycle and auditing
+
+**Dormant Credential Decommissioning:**
+* Audit all active credentials monthly
+* Decommission any credential with no activity in the last 30 days
+* Log decommissioning actions with justification
+* Review service account keys, API keys, and personal access tokens
+
+**Mandatory Rotation Policies:**
+* Service account keys: Maximum 90-day lifespan (enforce via organizational policy `iam.serviceAccountKeyExpiryHours=2160` for Google Cloud)
+* API keys: Maximum 180-day lifespan with usage tracking
+* Personal access tokens: Maximum 30-day lifespan
+* Long-lived credentials require explicit justification and compensating controls
+
+**Google Cloud Specific:**
+* Enable `iam.managed.disableServiceAccountKeyCreation` where service account keys are not needed
+* Use Workload Identity Federation instead of user-managed keys when possible
+* Apply least privilege: Use IAM recommender to identify and remove unused permissions
+
+**AWS/Azure Equivalents:**
+* AWS: Use IAM Access Analyzer to identify unused permissions; enforce credential rotation via IAM policies
+* Azure: Use Azure AD Privileged Identity Management (PIM) for just-in-time access; enforce credential expiration policies
 
 ### Tokens and session hygiene
 
@@ -332,6 +373,39 @@ This section applies to AWS/GCP/Azure and on-prem equivalents.
 * GPU compute instances must use least-privilege IAM roles
 * Model inference endpoints must be behind WAF and rate-limited
 * Training job logs must not contain sensitive data or model weights
+
+### Cloud cost anomaly detection (security control)
+
+**Billing anomaly monitoring is a security control.**
+
+Sudden consumption spikes are often the first indicator of compromised credentials. All cloud accounts MUST have:
+
+* **Billing anomaly alerts** enabled on all cloud accounts
+* **Budget alerts** set at 50%, 80%, and 100% of expected spend
+* **Alert routing** to security team (not just finance)
+* **Review SLA**: Billing anomalies must be reviewed within 2 hours during business hours, 4 hours outside business hours
+
+**Google Cloud:**
+* Configure billing anomaly detection in Billing Console
+* Set budget alerts with email/Slack notifications to security team
+* Enable billing export to BigQuery for automated anomaly detection
+
+**AWS:**
+* Enable AWS Cost Anomaly Detection
+* Configure AWS Budgets with alerts routed to security team
+* Set up CloudWatch alarms for unexpected cost spikes
+
+**Azure:**
+* Enable Azure Cost Management alerts
+* Configure budget alerts with action groups routing to security team
+* Use Azure Monitor for cost anomaly detection
+
+**Response Procedure:**
+1. Immediately investigate any billing anomaly alert
+2. Check for unauthorized resource creation or API usage
+3. Review credential access logs for suspicious activity
+4. Rotate credentials if compromise is suspected
+5. Document incident per Section 18 (Incident Response)
 
 ---
 
@@ -1121,6 +1195,31 @@ This section covers injection risks across SQL, shell, template engines, and int
 * Audit logging for sensitive operations is required.
 * Version APIs intentionally; deprecations are documented and enforced.
 
+### API key restrictions (mandatory)
+
+**Never leave API keys unrestricted.** All API keys MUST have:
+
+* **API Restrictions**: Limit to specific APIs only (e.g., "Maps JavaScript API only", "Translation API only")
+* **Application Restrictions**: One of:
+  - IP addresses (for server-side keys)
+  - HTTP referrers (for web apps)
+  - iOS/Android bundle IDs (for mobile apps)
+
+**Enforcement:**
+* Pre-commit hook checks for unrestricted API key creation patterns
+* CI fails if API keys lack both API and application restrictions
+* Code review must verify API key restrictions before merge
+* Regular audits to identify and restrict unrestricted keys
+
+**Google Cloud API Keys:**
+* Apply API restrictions in Google Cloud Console
+* Configure application restrictions (IP allowlists, HTTP referrers, bundle IDs)
+* Monitor API key usage and rotate if compromised
+
+**AWS/Azure Equivalents:**
+* AWS: Use API Gateway usage plans with API keys; restrict by IP or stage
+* Azure: Use API Management policies to restrict API keys by IP, domain, or subscription
+
 ### ML/CV API security
 
 * Model inference APIs must validate input shapes and types
@@ -1169,6 +1268,30 @@ If you suspect exposure or compromise:
 2. Identify scope and impact.
 3. Purge leaked artifacts where possible (including chat transcripts, logs, CI outputs).
 4. Record the incident in `exception-and-decision-log.md` with mitigation and follow-up actions.
+
+### Security contact management
+
+**Essential Contacts must be maintained and up-to-date in all cloud providers.**
+
+* Maintain up-to-date Essential Contacts in all cloud providers (Google Cloud, AWS, Azure)
+* Ensure security notifications reach on-call rotation
+* Test notification delivery quarterly
+* Include security team, infrastructure team, and on-call rotation contacts
+
+**Google Cloud:**
+* Configure Essential Contacts in Google Cloud Console
+* Set security notification categories (Security, Technical, Billing)
+* Verify contact email addresses are monitored
+
+**AWS:**
+* Configure AWS Account Contacts in Account Settings
+* Set up SNS topics for security notifications
+* Verify contact information in AWS Support Center
+
+**Azure:**
+* Configure Account Administrators and Service Administrators
+* Set up Azure Monitor action groups for security alerts
+* Verify contact information in Azure Portal
 
 ### ML/CV-specific incident response
 
