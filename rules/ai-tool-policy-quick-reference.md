@@ -29,6 +29,54 @@
 
 ---
 
+## 📖 AI Tool Mode: Read-Only / Code Comprehension
+
+**Definition:**
+Tools that analyze, summarize, or visualize existing codebases without generating or applying code changes. These tools provide code comprehension, architecture analysis, and risk identification capabilities in a read-only mode.
+
+**Examples:**
+- Repository structure analysis
+- Call graph generation
+- Architecture summarization
+- Dependency mapping
+- Risk identification
+- Code complexity analysis
+- Design pattern detection
+
+**Permissions:**
+- Read-only access to repositories
+- No code generation
+- No patch suggestion
+- No execution
+- No external data enrichment
+
+**Allowed Outputs:**
+- Architecture summaries
+- Risk lists
+- Design critiques
+- Refactoring proposals (text only, no code diffs)
+- Documentation suggestions
+- Code quality assessments
+
+**Prohibited:**
+- Code diffs
+- Inline edits
+- Dependency suggestions
+- Execution or build steps
+- Code generation of any kind
+- Automated changes to repositories
+
+**Use Cases:**
+- Understanding legacy codebases
+- Identifying security risks
+- Analyzing architecture patterns
+- Documenting systems
+- Planning refactoring efforts
+
+**Note:** Even in read-only mode, tools must still be approved per `approved-ai-tools.md` and follow all data sanitization requirements. Read-only tools still process code and may log or store it, so the same security standards apply.
+
+---
+
 ## 🎯 Quick Decision Tree
 
 ```
@@ -808,5 +856,5 @@ Schedule monthly reviews of your AI tool usage:
 
 **Questions?** Ask in #security-policy or email security@organization.com
 
-**Last Updated:** 2026-02-07
-**Next Review:** 2026-05-07
+**Last Updated:** 2026-02-13
+**Next Review:** 2026-05-13
