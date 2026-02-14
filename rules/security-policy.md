@@ -1,7 +1,7 @@
 # Security Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-02-13
+**Last updated:** 2026-02-14
 
 **Scope:** This policy defines how **credentials, secrets, dependencies, identity and access controls, APIs, and AI-assisted engineering risks** are handled. It applies to all environments (local, CI, staging, production) and all repositories, with special emphasis on ML/CV engineering security.
 
@@ -101,13 +101,18 @@
 * Vault or cloud secret manager (with audit logs)
 * CI secret store (scoped, audited, environment-limited)
 
-### Runtime credential injection (mandatory for production/staging)
+### 3.1) Runtime credential injection
 
-**Credentials MUST be injected at runtime via secret managers.**
+**Mandatory for production/staging environments:**
 
-* Production and staging environments: **DEPRECATED** to use `.env` files
-* Credentials must be retrieved from secret managers at application startup or runtime
-* Secret managers must provide audit logs of credential access
+* Credentials MUST be injected at runtime via secret managers (Google Secret Manager, AWS Secrets Manager, Azure Key Vault)
+* `.env` files are PROHIBITED in production and staging
+* Local development `.env` files MUST expire within 24 hours or sync from secret manager
+
+**Google Cloud specific:**
+* Use Secret Manager with automatic rotation
+* Enable Secret Manager audit logging
+* Prefer Workload Identity over service account keys
 
 **Cloud provider implementations:**
 * **Google Cloud**: Use Secret Manager with runtime injection (see [Google Cloud credential security best practices](https://cloud.google.com/docs/security/best-practices))
@@ -151,28 +156,48 @@
 * Service accounts must have isolated scopes and rotated credentials.
 * Use IAM recommender to prune unused permissions for service accounts, ensuring only the absolute minimum access required.
 
-### Credential lifecycle and auditing
+### 4.1) Credential lifecycle and auditing
 
-**Dormant Credential Decommissioning:**
+**Dormant credential decommissioning:**
 * Audit all active credentials monthly
-* Decommission any credential with no activity in the last 30 days
-* Log decommissioning actions with justification
-* Review service account keys, API keys, and personal access tokens
+* Decommission any credential with no activity in last 30 days
+* Document decommissioning in audit log
 
-**Mandatory Rotation Policies:**
-* Service account keys: Maximum 90-day lifespan (enforce via organizational policy `iam.serviceAccountKeyExpiryHours=2160` for Google Cloud)
-* API keys: Maximum 180-day lifespan with usage tracking
+**Mandatory rotation policies:**
+* Service account keys: Maximum 90-day lifespan
+* API keys: Maximum 180-day lifespan
 * Personal access tokens: Maximum 30-day lifespan
-* Long-lived credentials require explicit justification and compensating controls
 
-**Google Cloud Specific:**
-* Enable `iam.managed.disableServiceAccountKeyCreation` where service account keys are not needed
-* Use Workload Identity Federation instead of user-managed keys when possible
-* Apply least privilege: Use IAM recommender to identify and remove unused permissions
+**Google Cloud enforcement:**
+* Implement `iam.serviceAccountKeyExpiryHours=2160` (90 days)
+* Enable `iam.managed.disableServiceAccountKeyCreation` where service account keys are unnecessary
+* Use Workload Identity Federation instead of user-managed keys
 
 **AWS/Azure Equivalents:**
 * AWS: Use IAM Access Analyzer to identify unused permissions; enforce credential rotation via IAM policies
 * Azure: Use Azure AD Privileged Identity Management (PIM) for just-in-time access; enforce credential expiration policies
+
+### 4.2) Developer account and device security
+
+**Personal vs work account boundaries:**
+* Work credentials NEVER stored in personal cloud storage (Google Drive, Dropbox, iCloud)
+* Work code NEVER committed from personal GitHub/GitLab accounts
+* Separate browsers/profiles for personal vs work activities
+
+**BYOD (Bring Your Own Device) standards:**
+* Full-disk encryption mandatory
+* Automatic screen lock after 5 minutes
+* OS security updates applied within 7 days
+* No credential storage in browser password managers (use OS keychain or password manager with MFA)
+
+**Phishing-resistant authentication:**
+* Hardware security keys (YubiKey, Titan) required for GitHub, cloud providers, package managers
+* SMS/TOTP MFA is baseline; hardware keys preferred for privileged accounts
+* Security key backup required (minimum 2 keys registered)
+
+**Developer onboarding/offboarding:**
+* Credential rotation required within 24 hours of role change or termination
+* Access reviews quarterly for all developer accounts
 
 ### Tokens and session hygiene
 
@@ -337,6 +362,29 @@ Just because an agent *can* call an API or tool does not mean it *should*.
 * Data processing libraries (PIL, OpenCV, etc.) must be pinned and scanned for vulnerabilities
 * Model serialization formats (pickle, ONNX, etc.) must be validated before deserialization
 
+### 9.5) Package manager authentication hardening
+
+**Publishing requirements (mandatory):**
+* OIDC-based authentication REQUIRED for npm, PyPI, RubyGems publishing
+* Long-lived tokens (PATs, legacy tokens) PROHIBITED for publishing
+* MFA REQUIRED on all package maintainer accounts
+
+**npm specific:**
+* Use `npm publish --provenance` for supply chain transparency
+* Enable `automation` tokens only via OIDC from trusted CI/CD
+* Disable legacy token authentication in npm organization settings
+
+**PyPI specific:**
+* Use Trusted Publishers (OIDC) for all automated publishing
+* Require 2FA on all maintainer accounts
+* API tokens limited to specific projects with minimum scope
+
+**Token hygiene:**
+* Read-only tokens for CI/CD dependency installation
+* Write tokens only in isolated publishing jobs
+* Rotate tokens immediately if CI/CD pipeline compromised
+* Never commit tokens to `.npmrc`, `.pypirc`, or equivalent files
+
 ---
 
 ## 10) Cloud security baseline (common cloud technologies)
@@ -374,31 +422,27 @@ This section applies to AWS/GCP/Azure and on-prem equivalents.
 * Model inference endpoints must be behind WAF and rate-limited
 * Training job logs must not contain sensitive data or model weights
 
-### Cloud cost anomaly detection (security control)
+### 10.3) Cloud cost anomaly detection
 
-**Billing anomaly monitoring is a security control.**
+**Billing monitoring is a security control.**
 
-Sudden consumption spikes are often the first indicator of compromised credentials. All cloud accounts MUST have:
-
-* **Billing anomaly alerts** enabled on all cloud accounts
-* **Budget alerts** set at 50%, 80%, and 100% of expected spend
-* **Alert routing** to security team (not just finance)
-* **Review SLA**: Billing anomalies must be reviewed within 2 hours during business hours, 4 hours outside business hours
+* Enable billing anomaly alerts on all cloud accounts
+* Set budget alerts at 50%, 80%, 100% of expected monthly spend
+* Route alerts to security team (sudden spikes indicate credential compromise)
+* Review billing anomalies within 2 hours during business hours
 
 **Google Cloud:**
 * Configure billing anomaly detection in Billing Console
-* Set budget alerts with email/Slack notifications to security team
-* Enable billing export to BigQuery for automated anomaly detection
+* Set budget alerts with email + PagerDuty integration
+* Enable cost breakdown by service to identify attack patterns
 
 **AWS:**
 * Enable AWS Cost Anomaly Detection
-* Configure AWS Budgets with alerts routed to security team
-* Set up CloudWatch alarms for unexpected cost spikes
+* Configure AWS Budgets with SNS notifications
 
 **Azure:**
-* Enable Azure Cost Management alerts
-* Configure budget alerts with action groups routing to security team
-* Use Azure Monitor for cost anomaly detection
+* Enable Cost Management anomaly detection
+* Set budget alerts with action groups
 
 **Response Procedure:**
 1. Immediately investigate any billing anomaly alert
@@ -525,6 +569,42 @@ All AI output must pass **security, verification, and operational gates**. Respo
 | Prompt injection            | AI follows malicious embedded instructions | Treat retrieved text as data, never instructions  |
 
 AI tools accelerate work but introduce predictable risks. This section is mandatory whenever AI influences production code, configs, or documentation.
+
+### 13.1) AI threat modeling: Adversarial AI usage
+
+**Recognize that threat actors use AI tools (ChatGPT, Gemini, Claude) for:**
+* Reconnaissance (profiling public code, commits, documentation)
+* Social engineering (crafting convincing phishing emails)
+* Malware/exploit generation
+* Automated vulnerability scanning
+
+**Defensive measures:**
+
+**1. Public exposure awareness:**
+* Treat all public GitHub commits, documentation, and tech blog posts as OSINT sources
+* Never commit metadata that reveals infrastructure details (IP ranges, internal domains, tech stack versions)
+* Review public profiles quarterly for sensitive information leakage
+
+**2. AI-assisted phishing defenses:**
+* Hardware security keys prevent credential phishing (even against convincing AI-generated emails)
+* Verify unexpected requests via out-of-band communication (phone call, Signal, Slack)
+* Flag emails requesting credential actions or urgent changes (AI phishing often uses urgency)
+
+**3. Reconnaissance resistance:**
+* Limit public package dependency listings (use private registries where possible)
+* Redact version numbers from public error messages
+* Use generic descriptions in public repos (avoid revealing ML model architecture details)
+
+**4. Model extraction & API abuse awareness:**
+* Rate limit API endpoints (prevent automated model probing)
+* Monitor for unusual query patterns (sequential probing, embedding extraction attempts)
+* Log all model API access with request fingerprinting
+* Alert on bulk downloads or systematic enumeration
+
+**Threat scenarios:**
+* Attacker uses AI to analyze your GitHub commits → identifies you use `opencv-python==4.5.1` → sends typo-squatted package `opencv-python2` via convincing email
+* Attacker uses AI to draft convincing "security update required" email → steals npm token → publishes malicious package version
+* Attacker uses AI to profile your ML stack → crafts poisoned model artifact matching your framework versions → uploads to public model hub
 
 ### Hard rules (security + privacy)
 
@@ -1238,9 +1318,52 @@ This section covers injection risks across SQL, shell, template engines, and int
 * Model versions must be immutable once published
 * Model metadata must not leak sensitive information
 
+### 17.1) Model artifact verification (mandatory)
+
+**Pre-download verification:**
+* Only download models from allowlisted registries (Hugging Face, TensorFlow Hub, custom internal registry)
+* Verify cryptographic signatures before download (reject unsigned artifacts)
+* Check artifact hashes against known-good values
+* Reject models without provenance metadata
+
+**Allowlisted model sources:**
+* Hugging Face: Only verified organizations or models with >1000 downloads and active maintenance
+* TensorFlow Hub: Only Google-official or vetted publisher models
+* Internal registry: Signed by authorized ML engineers only
+
+**Hash verification workflow:**
+```python
+import hashlib
+
+def verify_model_hash(model_path: str, expected_hash: str) -> bool:
+    """Verify model artifact matches expected SHA-256 hash."""
+    sha256_hash = hashlib.sha256()
+    with open(model_path, "rb") as f:
+        for byte_block in iter(lambda: f.read(4096), b""):
+            sha256_hash.update(byte_block)
+
+    computed_hash = sha256_hash.hexdigest()
+    if computed_hash != expected_hash:
+        raise ValueError(f"Hash mismatch: {computed_hash} != {expected_hash}")
+    return True
+
+# Usage
+verify_model_hash("model.pkl", "abc123...")  # Fail fast if hash mismatch
+```
+
+**Signed artifact requirements:**
+* Internal models: Signed with GPG key from authorized ML engineer
+* External models: Verified signature from publisher or cryptographic provenance
+* CI/CD rejects unsigned models in training pipelines
+
+**Model registry security:**
+* Private registry requires authentication (no anonymous downloads)
+* Audit logs for all model downloads
+* Alert on bulk downloads or unusual access patterns
+
 ### Model distribution security
 
-* Model downloads must verify checksums and signatures
+* Model downloads must verify checksums and signatures (see Section 17.1 for mandatory verification workflow)
 * Model registries must enforce access controls
 * Model updates must be tested and validated before distribution
 * Model rollbacks must be supported and audited
@@ -1403,6 +1526,50 @@ Security review must use **at least one** of the following methods:
 
 **Final Policy Anchor:**
 > **AI systems with tool or API access must be treated as potentially compromised actors. All credentials are least-privilege, all tool use is constrained, and all AI outputs are untrusted until verified.**
+
+### 20.4) Anomaly detection and monitoring gates
+
+**Runtime anomaly detection (mandatory for production):**
+
+**1. Dependency installation anomalies:**
+* Alert on packages not in lock file
+* Alert on packages from new/unknown registries
+* Alert on bulk dependency updates (>10 packages in single commit)
+
+**2. Model download anomalies:**
+* Alert on models from non-allowlisted sources
+* Alert on model downloads outside business hours
+* Alert on bulk model downloads (>5 models in 24 hours)
+
+**3. API access anomalies:**
+* Alert on API calls from new IP addresses
+* Alert on burst API usage (>10x baseline)
+* Alert on unusual API endpoints (never-before-seen paths)
+
+**4. Cloud resource anomalies:**
+* Alert on new compute instances launched
+* Alert on privilege escalation attempts
+* Alert on cross-region resource creation
+
+**Implementation:**
+```bash
+# Example: CloudWatch alert for unusual pip installs
+aws cloudwatch put-metric-alarm \
+  --alarm-name "unusual-pip-install" \
+  --metric-name "PipInstallCount" \
+  --threshold 10 \
+  --comparison-operator GreaterThanThreshold \
+  --evaluation-periods 1
+
+# Example: Detect non-allowlisted model downloads
+grep -v "huggingface.co\|tensorflow.org\|internal-registry" model_downloads.log | \
+  wc -l  # Should be 0
+```
+
+**Monitoring tooling:**
+* CloudWatch (AWS), Cloud Monitoring (GCP), or Datadog
+* Falco for runtime container monitoring
+* SIEM integration for correlation across systems
 
 ---
 
