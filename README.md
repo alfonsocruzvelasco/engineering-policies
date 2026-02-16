@@ -209,7 +209,7 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
 
 ### Governance
 
-- **`learning-library-governance.md`**
+- **`rules/system/learning-library-governance.md`**
   *Learning Library Governance: rules for learning repositories vs project workspaces*
   (graduation rule, focus rule, structural discipline — prevents scope drift in book code and course material repos)
 
