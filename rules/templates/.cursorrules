@@ -1,5 +1,7 @@
 # Cursor / Codex Rules — Authoritative
 
+**Context File Philosophy:** Research (Gloaguen et al., 2026) shows that comprehensive context files reduce agent performance by ~3% and increase costs by 20%+. Minimal developer-written files improve performance by ~4%. This `.cursorrules` file is intentionally minimal—only essential constraints, no comprehensive documentation.
+
 ## Scope
 - Work ONLY inside this repository
 - Never access files outside the repo

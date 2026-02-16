@@ -327,40 +327,51 @@ This prevents "AI churn" and maintains control.
 
 ### Shared Team Knowledge: CLAUDE.md
 
-**Maintain a shared `CLAUDE.md` file in each repository** that evolves with team knowledge:
+**Research-based guidance:** Gloaguen et al. (2026) evaluated context files (AGENTS.md, CLAUDE.md) across 4 agents and 2 benchmarks (SWE-bench Lite + AgentBench). **Key findings:**
+- LLM-generated comprehensive context files **reduce performance by ~3%** and **increase costs by 20%+**
+- Developer-written minimal context files **improve performance by ~4%**
+- Repository overviews don't help agents find files faster
+- Unnecessary requirements make tasks harder
+- **Best practice:** Include ONLY non-standard tooling and hard constraints
+
+**Reference:** Thibaud Gloaguen, Niels Mündler, Mark Müller, Veselin Raychev, Martin Vechev. "Evaluating AGENTS.md: Are Repository-Level Context Files Helpful for Coding Agents?" arXiv:2602.11988v1, February 2026.
+
+**Maintain a minimal `CLAUDE.md` file** when non-standard requirements exist:
 
 1. **Purpose:**
-   - Capture mistakes Claude makes so it won't repeat them
-   - Document project-specific patterns and preferences
-   - Record successful workflows and approaches
-   - Share learnings across team members
+   - Document ONLY non-standard tooling requirements
+   - Document ONLY hard constraints specific to this repository
+   - **NOT** for comprehensive pattern libraries or repository overviews
 
 2. **Location:**
    - Repository root: `CLAUDE.md`
    - Version controlled (committed to git)
-   - Updated continuously as patterns emerge
+   - Updated only when non-standard requirements change
 
-3. **Content structure:**
-   - Project-specific rules and constraints
-   - Common mistakes and how to avoid them
-   - Preferred patterns and anti-patterns
-   - Verification requirements
-   - Integration points and dependencies
+3. **Content structure (minimal):**
+   - Non-standard build/test commands (if different from defaults)
+   - Repository-specific hard constraints
+   - Required tooling that agents wouldn't know by default
 
-4. **Maintenance:**
-   - Add entries when Claude makes a mistake
-   - Update when patterns change
-   - Review periodically for relevance
-   - Keep concise and actionable
+4. **What NOT to include:**
+   - Repository overviews or directory structures (agents can discover these)
+   - Comprehensive pattern libraries (use separate `LEARNING_LOG.md` for personal notes)
+   - Workflow loops or session templates (agents already know standard workflows)
+   - Common mistakes that apply to all projects (agents already know these)
+   - RAG setup instructions (not needed for standard tooling)
 
 5. **Size limit (CRITICAL):**
-   - **CLAUDE.md MUST NOT exceed 150 lines**
-   - If approaching limit, split content into domain-specific files (e.g., `CLAUDE-execution.md`, `CLAUDE-review.md`)
-   - Use progressive disclosure: Keep high-level patterns in CLAUDE.md, move detailed examples to `/docs` or `/claude/` subdirectory
-   - Regularly audit and remove outdated entries
-   - **Rationale:** Context bloat degrades AI performance. 150 lines is the empirically validated limit for reliable Claude Code behavior.
+   - **Learning projects: <50 lines** (prefer skipping entirely for standard tooling)
+   - **Production projects: <150 lines** (only if complex non-standard requirements exist)
+   - **Rationale:** Research shows comprehensive context files reduce performance and increase costs. Minimal files with only non-standard requirements provide the 4% improvement benefit.
 
-**See:** `templates/claude-md-template.md` for a template structure.
+6. **When to skip CLAUDE.md entirely:**
+   - Standard Python/ML/CV workflows (pytest, black, mypy)
+   - Standard Git workflows
+   - Standard CI/CD patterns
+   - **Rationale:** Agents already know standard tooling. The 4% improvement applies primarily to non-standard requirements.
+
+**See:** `templates/claude-md-template.md` for minimal template structure (v3.0).
 
 ### Slash Commands & Subagents
 
