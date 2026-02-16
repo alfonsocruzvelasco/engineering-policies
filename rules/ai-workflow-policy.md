@@ -367,7 +367,7 @@ This prevents "AI churn" and maintains control.
    - Comprehensive pattern libraries (use separate `LEARNING_LOG.md` for personal notes)
    - Workflow loops or session templates (agents already know standard workflows)
    - Common mistakes that apply to all projects (agents already know these)
-   - RAG setup instructions (not needed for standard tooling)
+   - RAG setup instructions (not needed for standard tooling; if building RAG systems, see [RAG vs RERAG Technical Reference](../references/rag-vs-rerag-technical-reference.md) for architectural guidance)
 
 5. **Size limit (CRITICAL):**
    - **Learning projects: <50 lines** (prefer skipping entirely for standard tooling)

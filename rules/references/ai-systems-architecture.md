@@ -122,6 +122,8 @@ Keeping transactional and semantic stores in sync.
 - Stale semantic data MUST be flagged (TTL on embeddings)
 - Retrieval MUST validate against transactional source for critical operations
 
+**See also:** [RAG vs RERAG Technical Reference](../rag-vs-rerag-technical-reference.md) for detailed guidance on retrieval architectures (traditional RAG vs MetaAI's RERAG with token-level embeddings, relevance filtering, and compression), when to use each approach, and implementation considerations for production systems.
+
 ---
 
 #### 3. Natural Language as API (Interface Layer)
