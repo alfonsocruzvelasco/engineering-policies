@@ -334,6 +334,15 @@ This prevents "AI churn" and maintains control.
 - Unnecessary requirements make tasks harder
 - **Best practice:** Include ONLY non-standard tooling and hard constraints
 
+**Critical Behavioral Finding (Emphasized):**
+> **"Behaviorally, both LLM-generated and developer-provided context files encourage broader exploration (e.g., more thorough testing and file traversal), and coding agents tend to respect their instructions. Ultimately, we conclude that unnecessary requirements from context files make tasks harder, and human-written context files should describe only minimal requirements."** — Gloaguen et al. (2026)
+
+**Implication for practice:**
+- Agents **will follow instructions** in context files, including unnecessary ones
+- Every requirement increases exploration, testing, and file traversal → **increases cost by 20%+**
+- Unnecessary requirements make tasks harder (agents spend time on irrelevant exploration)
+- **Question every line:** "Is this requirement truly necessary, or would an experienced engineer already know this?"
+
 **Reference:** Thibaud Gloaguen, Niels Mündler, Mark Müller, Veselin Raychev, Martin Vechev. "Evaluating AGENTS.md: Are Repository-Level Context Files Helpful for Coding Agents?" arXiv:2602.11988v1, February 2026.
 
 **Maintain a minimal `CLAUDE.md` file** when non-standard requirements exist:
@@ -364,6 +373,7 @@ This prevents "AI churn" and maintains control.
    - **Learning projects: <50 lines** (prefer skipping entirely for standard tooling)
    - **Production projects: <150 lines** (only if complex non-standard requirements exist)
    - **Rationale:** Research shows comprehensive context files reduce performance and increase costs. Minimal files with only non-standard requirements provide the 4% improvement benefit.
+   - **Behavioral rationale:** Agents respect instructions and will explore/test more when given more requirements. Unnecessary requirements increase exploration without benefit, making tasks harder and more expensive.
 
 6. **When to skip CLAUDE.md entirely:**
    - Standard Python/ML/CV workflows (pytest, black, mypy)

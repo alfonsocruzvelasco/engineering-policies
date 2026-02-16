@@ -4,6 +4,11 @@
 
 **Research:** Gloaguen et al. (2026) found that comprehensive context files reduce agent performance by ~3% and increase costs by 20%+. Minimal developer-written files improve performance by ~4%. See `ai-workflow-policy.md` Section "Shared Team Knowledge: CLAUDE.md" for details.
 
+**Critical Behavioral Finding:**
+> **"Both LLM-generated and developer-provided context files encourage broader exploration (e.g., more thorough testing and file traversal), and coding agents tend to respect their instructions. Ultimately, we conclude that unnecessary requirements from context files make tasks harder, and human-written context files should describe only minimal requirements."** — Gloaguen et al. (2026)
+
+**Implication:** Agents will follow instructions in context files, including unnecessary ones. Every requirement you add increases exploration, testing, and file traversal—which increases cost and can make tasks harder. **Only include requirements that are truly necessary.**
+
 **Size limit:** <50 lines for learning projects, <150 lines for production projects with complex constraints.
 
 **What to include:**
