@@ -217,7 +217,7 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
 
 - **`rules/system/learning-ai-usage-boundary.md`**
   *Learning Repository AI Usage Boundary: explicit AI usage boundaries for learning repositories*
-  (learning-only classification, BYOAI-safe design, permitted vs restricted AI usage, ai-assisted-engineering folder boundaries, policy compliance statement, documentation requirements)
+  (learning-only classification, BYOAI-safe design, permitted vs restricted AI usage, ai-assisted-engineering folder boundaries, Cursor plugin workspace usage in learning repos, policy compliance statement, documentation requirements)
 
 ### Learning paths
 

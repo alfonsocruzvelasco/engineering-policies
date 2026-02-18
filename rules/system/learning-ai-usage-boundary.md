@@ -111,7 +111,30 @@ They **MUST** live in:
 
 ---
 
-## 4. Policy Compliance Statement
+## 4. Cursor Plugin Workspace (Learning)
+
+Cursor plugin artifacts live under `.cursor/` in learning repos.
+
+- **Rules:** `.cursor/rules/` (active guidance, standards)
+- **Skills:** `.cursor/skills/`
+- **Agents:** `.cursor/agents/`
+- **Commands:** `.cursor/commands/`
+- **MCP Servers:** `.cursor/mcp/`
+- **Hooks:** `.cursor/hooks/`
+
+**Scope:** Learning repos and non-proprietary codebases only. Human remains accountable.
+
+**Boundaries:**
+- ✅ Permitted in learning repositories (study corpus, reference implementations)
+- ✅ Permitted in personal, non-proprietary projects
+- ❌ **Not permitted** in company/proprietary codebases without explicit approval
+- ❌ **Not permitted** for production systems without security review
+
+**Accountability:** The human developer remains fully accountable for all AI-assisted outputs, regardless of Cursor plugin configuration.
+
+---
+
+## 5. Policy Compliance Statement
 
 ### Enterprise AI Governance Alignment
 
@@ -143,7 +166,7 @@ This learning repository structure:
 
 ---
 
-## 5. Documentation Requirements
+## 6. Documentation Requirements
 
 ### Required Documentation
 
@@ -176,7 +199,7 @@ For repositories with significant AI-assisted learning, consider adding a one-pa
 
 ---
 
-## 6. Enforcement
+## 7. Enforcement
 
 ### Self-Governance
 
@@ -197,7 +220,7 @@ Immediately stop and reassess if you find yourself:
 
 ---
 
-## 7. Relationship to Other Policies
+## 8. Relationship to Other Policies
 
 ### Related Documents
 
@@ -214,7 +237,7 @@ Immediately stop and reassess if you find yourself:
 
 ---
 
-## 8. Bottom Line
+## 9. Bottom Line
 
 **This is a policy-compliant learning control plane.**
 
