@@ -215,6 +215,10 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
   *Learning Library Governance: rules for learning repositories vs project workspaces*
   (graduation rule, focus rule, structural discipline — prevents scope drift in book code and course material repos)
 
+- **`rules/system/learning-ai-usage-boundary.md`**
+  *Learning Repository AI Usage Boundary: explicit AI usage boundaries for learning repositories*
+  (learning-only classification, BYOAI-safe design, permitted vs restricted AI usage, ai-assisted-engineering folder boundaries, policy compliance statement, documentation requirements)
+
 ### Learning paths
 
 - **AV Perception Learning Path** *(planned)*

@@ -54,3 +54,27 @@ Learning repositories must still follow core hygiene rules:
 * No long-running branches or feature development
 
 They are reference libraries, not engineering systems.
+
+---
+
+**5. AI Usage Boundary**
+
+Learning repositories are **learning-only corpora** with explicit AI usage boundaries.
+
+**Key principles:**
+- ✅ AI usage is **allowed by default** for tutoring, synthesis, and planning
+- ✅ No proprietary or employer data
+- ✅ No automated agents acting on production systems
+- ✅ BYOAI-safe by design
+
+**Critical distinction:**
+> **Learning corpus ≠ production codebase**
+
+This structure enforces separation between learning and production, preventing accidental policy violations.
+
+**For detailed AI usage boundaries, see:**
+- [`learning-ai-usage-boundary.md`](learning-ai-usage-boundary.md) — Complete AI usage policy for learning repositories
+- [`ai-workflow-policy.md`](../ai-workflow-policy.md) — Production AI usage policies and sandbox restrictions
+- [`security-policy.md`](../security-policy.md) — Security boundaries and prohibited tools
+
+**Special attention:** The `4-ml-systems-mlops/ai-assisted-engineering` folder is for **learning about** AI-assisted engineering patterns, not **deploying** autonomous agents. Any agent deployment must occur in sandbox repositories with explicit boundaries.
