@@ -1,7 +1,7 @@
 # AI Workflow Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-02-01
+**Last updated:** 2026-02-18
 
 **Scope:** This policy governs all AI-assisted development workflows, including Cursor usage, prompt engineering, session management, and spec-driven development. It consolidates the previously separate policies: `ai-workflow-policy.md (Part 1: Core Workflow)`, `ai-workflow-policy.md (Part 2: Prompt Engineering)`, `ai-workflow-policy.md (Part 3: Session Management)`, and `ai-workflow-policy.md (Part 4: Spec-Driven Development)`.
 
@@ -1914,6 +1914,50 @@ For every AI-generated change:
    - [ ] Style consistency maintained
    - [ ] Documentation updated
    - [ ] No obvious bugs or anti-patterns
+
+### Verification Instruments: Edge Tools with Low Blast Radius
+
+**Core principle:** Generated work is untrusted until verified.
+
+Verification instruments are specialized tools that serve as **verification oracles**, not productivity tools. They provide fast, deterministic feedback on AI-generated outputs, particularly for UI-visible effects and frontend changes.
+
+#### Rodney as Verification Instrument
+
+**Rodney** is a verification instrument for UI-visible effects of ML outputs and agent-generated frontend changes.
+
+**Rodney's allowed role:**
+
+**Rodney MAY:**
+* Assert UI-visible effects of ML outputs
+* Serve as a *smoke oracle* in CI
+* Validate agent-generated frontend changes
+* Fail fast with deterministic exit codes
+
+**Rodney MUST NOT:**
+* Replace real test frameworks
+* Encode business logic
+* Become a long-lived dependency
+* Drive development decisions
+
+**Policy alignment:**
+This matches the **"edge tool, low blast radius"** policy. Rodney is a verification instrument, not a productivity tool. It provides fast feedback loops for UI verification but does not replace comprehensive testing frameworks.
+
+**Integration pattern:**
+```bash
+# CI smoke test with Rodney
+rodney verify --ui-outputs ./ml-outputs --exit-code-on-failure
+# Exit code 0 = verification passed, non-zero = verification failed
+```
+
+**When to use:**
+* Quick smoke tests for ML model UI outputs
+* CI gates for agent-generated frontend changes
+* Fast feedback loops before comprehensive test suites
+
+**When NOT to use:**
+* Comprehensive test coverage (use real test frameworks)
+* Business logic validation (use unit/integration tests)
+* Long-term test maintenance (use maintainable test suites)
 
 ### Instrumentation + Falsification Workflow
 
