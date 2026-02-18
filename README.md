@@ -80,9 +80,9 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
 
 ### Core production engineering policies
 
-- **`rules/production-policy.md`** **[SPLIT 2026-02-02]**
+- **`rules/production-policy.md`** **[SPLIT 2026-02-02, UPDATED 2026-02-18]**
   *Core production engineering policy for CV/ML engineering, data systems, and tooling standards*
-  (data/storage rules, SQL discipline, development environment setup, Git and Source Control Policy integrated, coding style, documentation, IDE policies, quality gates, Quick Reference Cards)
+  (data/storage rules, SQL discipline, development environment setup, Git and Source Control Policy integrated, **scalable previews for code review (diffs + behavior + metrics)**, coding style, documentation, IDE policies, quality gates, Quick Reference Cards)
   *See also: [Testing Policy](rules/testing-policy.md), [Language Policies](rules/language-policies.md), [Web Policies](rules/web-policies.md), [Infrastructure Policy](rules/infrastructure-policy.md), [ML/CV Operations Policy](rules/ml-cv-operations-policy.md)*
 
 - **`rules/testing-policy.md`** **[EXTRACTED 2026-02-02]**

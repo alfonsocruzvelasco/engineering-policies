@@ -1,7 +1,7 @@
 # Production Engineering Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-01-19
+**Last updated:** 2026-02-18
 **Purpose:** Daily reference for CV/ML engineering, data systems, and tooling standards
 **Authority model:** Sections 1 (Data & Storage), 2 (SQL Databases), and 8 (Git and Source Control) are authoritative policy defined in this file.
 All other sections are navigation pointers; their referenced standalone policy files are authoritative.
@@ -2087,6 +2087,41 @@ This policy MUST be enforced by GitHub **Rulesets** (preferred) or Branch Protec
 - Enforce linear history
 
 Operational rule: **No tooling may bypass these gates**, including AI agents. Any bypass capability is treated as an exception and must be recorded in the Exception and Decision Log (see [Documentation Policy](documentation-policy.md)) with risk and sunset date.
+
+#### D) Scalable Previews for Code Review (Diffs + Behavior + Metrics)
+
+**Core principle:** Diffs are necessary but not sufficient. Every meaningful change must include **scalable previews** appropriate to the surface area: behavior, metrics, performance, and (for CV) visual outputs.
+
+**Gate rule:** If a change alters behavior and no preview is attached, it doesn't merge.
+
+##### Scalable Previews Checklist (ML/CV-Oriented)
+
+For any PR/change that affects runtime behavior, model outputs, or infrastructure:
+
+1. **Text diff review**
+   - Small PRs, clear intent, no drive-by refactors.
+
+2. **Behavior preview**
+   - Unit/integration tests (minimum).
+   - For ML: a deterministic "smoke eval" on a fixed subset.
+
+3. **Metric preview**
+   - Key metrics reported *in the PR* (before/after): mAP, loss, F1, etc.
+   - Explicit dataset split/version.
+
+4. **Visual preview (CV-specific)**
+   - Save a small grid of predictions (before/after) on the same images.
+   - Include failure cases, not only "nice" samples.
+
+5. **Performance preview**
+   - Latency (p50/p95), throughput, VRAM/RAM, model size.
+   - One baseline + one new result, same hardware.
+
+6. **Reproducibility and auditability**
+   - Exact command(s) to reproduce results.
+   - Artifacts stored outside repo (per your rules), with paths recorded.
+
+**Reference:** Based on "Diffs are Dead: Why You Need Scalable Previews" (DZone, 2026). See policy: Scalable Previews for Code Review.
 
 27. **At least one qualified reviewer** is required for non-trivial changes.
 28. Reviewers MUST verify:
