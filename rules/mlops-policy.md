@@ -22,9 +22,10 @@
 - [Model Deployment Patterns](#9-model-deployment-patterns)
 - [Model Lifecycle Management](#10-model-lifecycle-management)
 - [ML Reproducibility](#11-ml-reproducibility)
-- [Cost Optimization & Resource Management](#12-cost-optimization--resource-management)
-- [Research & Experimentation Methodology](#13-research--experimentation-methodology)
-- [Model Architecture & Design](#14-model-architecture--design)
+- [Engineering Harness Requirement for AI/ML Projects](#12-engineering-harness-requirement-for-aiml-projects)
+- [Cost Optimization & Resource Management](#13-cost-optimization--resource-management)
+- [Research & Experimentation Methodology](#14-research--experimentation-methodology)
+- [Model Architecture & Design](#15-model-architecture--design)
 - [Quick Reference Cards](#quick-reference-cards)
 
 ---
@@ -2009,9 +2010,9 @@ random.seed(42)
 
 ---
 
-## 12) Cost Optimization & Resource Management
+## 13) Cost Optimization & Resource Management
 
-### 12.1 GPU Resource Allocation
+### 13.1 GPU Resource Allocation
 
 **Training:**
 - Use spot instances for long-running jobs
@@ -2025,7 +2026,7 @@ random.seed(42)
 - Use CPU inference for small models
 - Consider edge deployment for low-latency requirements
 
-### 12.2 Inference Cost Optimization
+### 13.2 Inference Cost Optimization
 
 **Batch size optimization:**
 - Larger batches = better GPU utilization
@@ -2042,7 +2043,7 @@ random.seed(42)
 - Use CDN for static model artifacts
 - Cache preprocessing results
 
-### 12.3 Training Cost Tracking
+### 13.3 Training Cost Tracking
 
 **Track per experiment:**
 - GPU hours (training time × GPU count)
@@ -2056,7 +2057,7 @@ random.seed(42)
 - Use spot instances for hyperparameter tuning
 - Right-size training instances
 
-### 12.4 Cloud Cost Management
+### 13.4 Cloud Cost Management
 
 **Spot instances:**
 - Use for training jobs (can tolerate interruptions)
@@ -2073,7 +2074,7 @@ random.seed(42)
 - Scale up during peak traffic
 - Use predictive scaling if possible
 
-### 12.5 Cost vs Performance Tradeoff
+### 13.5 Cost vs Performance Tradeoff
 
 **Decision framework:**
 - **Accuracy:** Must meet minimum threshold
@@ -2089,7 +2090,7 @@ random.seed(42)
 
 ---
 
-## 13) Research & Experimentation Methodology
+## 14) Research & Experimentation Methodology
 
 ### 13.1 Experimental Design Principles
 
@@ -2341,7 +2342,7 @@ rejected, p_corrected, _, _ = multipletests(
 
 ---
 
-## 14) Model Architecture & Design
+## 15) Model Architecture & Design
 
 ### 14.1 Architecture Selection Framework
 
