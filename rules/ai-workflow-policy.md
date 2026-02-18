@@ -325,6 +325,50 @@ This prevents "AI churn" and maintains control.
 
 **Reference:** Based on [Claude Code Best Practices](https://github.com/shanraisshan/claude-code-best-practice) — "vanilla cc is better than any workflows with smaller tasks" and "commit often, as soon as task is completed, commit."
 
+### Claude Code Headless Mode (CLI / Agent SDK)
+
+**Reference:** See [`claude-code-headless.md`](../references/claude-code-headless.md) for complete technical reference and workflow patterns.
+
+**Core principle:** Headless mode forces a separation between **thinking** and **doing**. It lets you say: *"Think. Explain. Plan. But do not act."*
+
+**What it is:**
+The `-p` / `--print` flag runs Claude Code non-interactively. Claude reads a prompt, processes it, writes to stdout, and exits. No interactive session. No prompt loop.
+
+**When to use headless (`claude -p`):**
+- You want a read-only analysis you'll evaluate before acting
+- You're scripting a review step in CI (code review, security audit)
+- You're generating a plan or architecture proposal to review before acting
+- You want output as an artifact (JSON report, markdown doc, structured log)
+- You're doing batch analysis across multiple files
+
+**When to use interactive mode:**
+- You're pairing on a problem in real time
+- You're debugging and need conversational back-and-forth
+- You want to explore a solution space before committing to a direction
+
+**The tell:** If you'd want to read the output before deciding what to do next — use headless.
+
+**Permission model (key levers):**
+- `--allowedTools Read,Glob,Grep` — Read-only analysis (understanding codebases, audits)
+- `--permission-mode plan` — Read-only, explicit plan output (architecture reviews, pre-mortems)
+- `--disallowedTools Write,Edit,Bash` — Blocks specific capabilities (reviews where no changes should land)
+- `--dangerously-skip-permissions` — CI containers only — **never local**
+
+**Integration with verification:**
+Headless mode pairs naturally with verification instruments like Rodney:
+```
+Claude -p (headless)  →  reasoning & planning (output)
+         |
+    Human reviews
+         |
+    Rodney            →  reality check & verification
+```
+
+**Alignment with verification-first mindset:**
+Headless mode is the planning complement to test-driven development. It enforces **clarity before commitment** — AI may propose, analyze, plan, but may not execute unless you explicitly grant it. This matches the core stance: **the human is the final integrator.**
+
+**See also:** [`claude-code-headless.md`](../references/claude-code-headless.md) for detailed patterns, permission models, and workflow examples.
+
 ### Shared Team Knowledge: CLAUDE.md
 
 **Research-based guidance:** Gloaguen et al. (2026) evaluated context files (AGENTS.md, CLAUDE.md) across 4 agents and 2 benchmarks (SWE-bench Lite + AgentBench). **Key findings:**
@@ -1958,6 +2002,23 @@ rodney verify --ui-outputs ./ml-outputs --exit-code-on-failure
 * Comprehensive test coverage (use real test frameworks)
 * Business logic validation (use unit/integration tests)
 * Long-term test maintenance (use maintainable test suites)
+
+**Integration with Claude Code headless mode:**
+Rodney pairs naturally with Claude Code headless mode for a complete verification workflow:
+```bash
+# Step 1 — Claude proposes (headless)
+claude -p "Suggest a refactor plan for payment_processor.py" \
+  --allowedTools "Read,Glob" > refactor-plan.md
+
+# Step 2 — Human reviews refactor-plan.md
+
+# Step 3 — Human implements (or approves Claude implementation)
+
+# Step 4 — Rodney verifies
+rodney verify --ui-outputs ./ml-outputs --exit-code-on-failure
+```
+
+**See also:** [`claude-code-headless.md`](../references/claude-code-headless.md) for headless mode patterns and integration workflows.
 
 ### Instrumentation + Falsification Workflow
 
