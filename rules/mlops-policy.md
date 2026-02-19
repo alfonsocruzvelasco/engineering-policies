@@ -1,7 +1,7 @@
 # MLOps Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-01-28
+**Last updated:** 2026-02-18
 **Purpose:** Comprehensive MLOps practices for experiment tracking, model lifecycle, serving, monitoring, and optimization
 
 **See also:** [ML Experiment Tracking Policy](ml-experiment-tracking-policy.md) for learning-phase experiment tracking (EXPERIMENTS.md, git tags, minimal tracking discipline). Start there for new ML/CV projects; graduate to the tools in this policy (MLflow, W&B, DVC) when you have 10+ experiments.
@@ -1796,6 +1796,173 @@ jobs:
 - Global applications
 - Latency requirements
 - High availability
+
+---
+
+## 9.6 Layered Orchestration Architecture for AI/ML Systems
+
+**Reference:** See [`langgraph-engineering-notes.md`](../references/langgraph-engineering-notes.md) for LangGraph implementation details.
+
+**Architecture pattern:** Three-layer orchestration model for production AI/ML systems:
+
+```
+Data Orchestrator (Airflow/Dagster) → Controls schedules, retries, SLAs
+         ↓
+Task containers / model jobs / ETL
+         ↓
+Inside tasks: LangGraph → coarse AI coordination & agent workflows
+```
+
+### Layer 1: Data Orchestrator (Airflow/Dagster)
+
+**Responsibilities:**
+- Schedule execution (cron-like, event-driven, or manual triggers)
+- Retry logic and failure handling
+- SLA monitoring and alerting
+- Dependency management between tasks
+- Resource allocation and queuing
+- Cross-task state management
+
+**When to use:**
+- Long-running workflows (hours to days)
+- Multi-step pipelines with dependencies
+- Scheduled batch jobs (daily, weekly, hourly)
+- ETL/data processing workflows
+- Model training pipelines
+- Cross-service coordination
+
+**Tools:**
+- **Airflow:** Mature, Python-based, good for complex DAGs
+- **Dagster:** Data-aware, good for data pipelines, better observability
+- **Prefect:** Modern, Python-native, good for ML workflows
+
+**Default choice:** **Dagster** for data-aware pipelines, **Airflow** for complex scheduling needs.
+
+### Layer 2: Task Containers / Model Jobs / ETL
+
+**Responsibilities:**
+- Execute individual tasks (model training, inference, data processing)
+- Containerized execution (Docker/Podman)
+- Resource isolation and limits
+- Task-level logging and metrics
+- Idempotent task execution
+
+**Task types:**
+- **Model training jobs:** Long-running GPU workloads
+- **ETL jobs:** Data extraction, transformation, loading
+- **Inference jobs:** Batch prediction, model evaluation
+- **Data validation:** Schema checks, quality gates
+
+**Container requirements:**
+- All tasks MUST run in containers (see Core Principle #9)
+- Container images must be versioned and reproducible
+- Resource limits (CPU, memory, GPU) must be defined
+- Task outputs must be persisted to shared storage
+
+### Layer 3: LangGraph (Inside Tasks) — AI Coordination & Agent Workflows
+
+**Responsibilities:**
+- Coarse-grained AI coordination within a single task
+- Multi-step agent workflows with state management
+- Human-in-the-loop checkpoints
+- Agent-to-agent communication
+- Conditional routing and branching
+
+**When to use LangGraph inside tasks:**
+- Multi-step AI workflows (planning → execution → validation)
+- Agent coordination (supervisor → specialized agents)
+- Stateful AI processes (conversation, iterative refinement)
+- Human approval gates before irreversible actions
+- Complex branching logic based on AI decisions
+
+**When NOT to use LangGraph:**
+- Single-turn tasks (use simple tool use)
+- Linear pipelines (use plain Python functions)
+- Tasks that don't need state persistence
+- Tasks without branching or cycles
+
+**Integration pattern:**
+```python
+# Inside a task container (orchestrated by Airflow/Dagster)
+from langgraph.graph import StateGraph
+from langgraph.checkpoint.postgres import PostgresSaver
+
+# Define LangGraph workflow
+builder = StateGraph(State)
+builder.add_node("plan", plan_agent)
+builder.add_node("execute", execute_agent)
+builder.add_node("validate", validate_agent)
+builder.add_conditional_edges("plan", route_to_execute_or_retry)
+
+# Compile with checkpointer for fault tolerance
+checkpointer = PostgresSaver(connection_string=os.getenv("DB_URL"))
+graph = builder.compile(checkpointer=checkpointer)
+
+# Execute within task
+result = graph.invoke(
+    {"task": task_input},
+    config={"configurable": {"thread_id": f"task-{task_id}"}}
+)
+```
+
+**Key principles:**
+- LangGraph handles **coarse-grained** AI coordination (steps, not individual API calls)
+- Data orchestrator handles **fine-grained** scheduling (when tasks run, retries, SLAs)
+- Each layer has clear boundaries and responsibilities
+- Fault tolerance at both levels (orchestrator retries tasks, LangGraph checkpoints state)
+
+### Architecture Benefits
+
+**Separation of concerns:**
+- Orchestrator: **When** and **how often** tasks run
+- Task containers: **What** gets executed and **where** it runs
+- LangGraph: **How** AI agents coordinate within a task
+
+**Fault tolerance:**
+- Orchestrator handles task-level failures (retry, alert, rollback)
+- LangGraph handles agent-level failures (checkpoint, resume, human-in-the-loop)
+
+**Observability:**
+- Orchestrator: Task execution history, schedules, SLAs
+- Task containers: Resource usage, logs, exit codes
+- LangGraph: State transitions, agent decisions, token usage (via LangSmith)
+
+**Scalability:**
+- Orchestrator: Distribute tasks across clusters
+- Task containers: Scale horizontally with Kubernetes
+- LangGraph: Stateless graph execution (checkpointed state in DB)
+
+### Anti-Patterns to Avoid
+
+❌ **Using LangGraph as the orchestrator:** LangGraph is for AI coordination within tasks, not for scheduling or retries across tasks.
+
+❌ **Putting orchestrator logic in LangGraph:** Don't encode scheduling, retries, or SLA logic in LangGraph nodes. That belongs in Airflow/Dagster.
+
+❌ **Mixing layers:** Don't have LangGraph call orchestrator APIs or vice versa. Keep layers independent.
+
+❌ **Over-engineering:** If your workflow is linear and doesn't need AI coordination, use plain Python functions, not LangGraph.
+
+### Decision Tree
+
+**Use Data Orchestrator (Airflow/Dagster) when:**
+- You need scheduling, retries, or SLAs
+- You have multi-step pipelines with dependencies
+- You need to coordinate across services
+
+**Use LangGraph inside tasks when:**
+- You have multi-step AI workflows with branching
+- You need stateful agent coordination
+- You need human-in-the-loop checkpoints
+- You have conditional routing based on AI decisions
+
+**Use plain Python functions when:**
+- Workflow is linear and deterministic
+- No AI coordination needed
+- Simple data processing or model inference
+
+**See also:**
+- [`langgraph-engineering-notes.md`](../references/langgraph-engineering-notes.md) for LangGraph implementation details
+- [`ml-cv-operations-policy.md`](ml-cv-operations-policy.md) Section 15.5 for data pipeline orchestration patterns
 
 ---
 

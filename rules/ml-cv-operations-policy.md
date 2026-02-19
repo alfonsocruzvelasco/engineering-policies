@@ -415,6 +415,8 @@ def test_rotation_invariance():
 
 #### Data Pipeline Orchestration
 
+**Reference:** See [`mlops-policy.md`](mlops-policy.md) Section 9.6 "Layered Orchestration Architecture for AI/ML Systems" for the complete three-layer architecture pattern (Data Orchestrator → Task Containers → LangGraph).
+
 **Orchestration tools:**
 - **Airflow:** Mature, Python-based, good for complex DAGs
 - **Prefect:** Modern, Python-native, good for ML workflows
@@ -424,6 +426,17 @@ def test_rotation_invariance():
 - Linear pipelines (sequential steps)
 - DAG pipelines (parallel steps, dependencies)
 - Event-driven pipelines (triggered by events)
+
+**Architecture pattern (production systems):**
+```
+Data Orchestrator (Airflow/Dagster) → Controls schedules, retries, SLAs
+         ↓
+Task containers / model jobs / ETL
+         ↓
+Inside tasks: LangGraph → coarse AI coordination & agent workflows
+```
+
+**See also:** [`langgraph-engineering-notes.md`](../references/langgraph-engineering-notes.md) for LangGraph implementation details.
 
 #### Data Pipeline Testing Strategies
 
