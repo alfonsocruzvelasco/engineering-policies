@@ -649,9 +649,47 @@ Below is a professional-team rule set for **C / C++ / CMake**. It is written as 
 
 ---
 
+## Rust
+
+### Scope and intent
+
+Rust is used as a **systems and infrastructure language**, not as a primary
+ML/CV modeling or research language.
+
+Approved use cases include:
+- performance-critical tooling
+- dataset validation and ingestion
+- inference helpers and edge components
+- safe wrappers around C/C++/CUDA (FFI)
+
+Rust web frameworks and full-stack Rust are out of scope unless explicitly justified.
+
+### Toolchain and version discipline
+
+- Rust toolchains are managed via `rustup`.
+- **Stable Rust only** is permitted by default.
+- Each Rust repository MUST include a `rust-toolchain.toml` file at repo root.
+- The pinned toolchain version is authoritative for local development and CI.
+- Global defaults MAY exist but MUST NOT be relied upon for reproducibility.
+
+### Cargo usage rules
+
+- `cargo` is the authoritative build and dependency manager.
+- `Cargo.toml` is the single source of dependency truth.
+- `Cargo.lock` MUST be committed for binaries and tooling projects.
+- Build artifacts (`target/`) are never committed.
+
+### Testing baseline
+
+- Unit tests are mandatory (`cargo test`).
+- Tests must be deterministic and isolated from external state.
+- Integration and system tests follow the global Testing Policy.
+
+---
+
 # Rust/Cargo
 
-Below is a professional-team rule set for **Rust + Cargo** (first mention: **Cargo** = Rust’s official build system and package manager).
+Below is a professional-team rule set for **Rust + Cargo** (first mention: **Cargo** = Rust's official build system and package manager).
 
 ## 1) Core principles
 
