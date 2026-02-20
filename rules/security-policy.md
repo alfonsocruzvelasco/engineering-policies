@@ -1,7 +1,7 @@
 # Security Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-02-19
+**Last updated:** 2026-02-20
 
 **Scope:** This policy defines how **credentials, secrets, dependencies, identity and access controls, APIs, and AI-assisted engineering risks** are handled. It applies to all environments (local, CI, staging, production) and all repositories, with special emphasis on ML/CV engineering security.
 
@@ -314,8 +314,6 @@ LLM agents that call APIs or run tools introduce **server-side execution risk**.
 **Threat Reality:**
 Research shows LLM agents can be manipulated into executing harmful tool actions even when they "recognize" the request is malicious. Tool access turns prompt injection into **remote code execution**.
 
-**Incident Reference:** Amazon Q Developer extension (July 2025) - malicious prompt injection instructed AI agent to execute destructive bash commands (`rm`, `aws ec2 terminate-instances`, `aws iam delete-user`) without human authorization. This demonstrates the critical need for least privilege enforcement and human-in-the-loop gates for destructive operations.
-
 **Policy Rules:**
 
 **Principle: Capability ≠ Permission**
@@ -327,80 +325,26 @@ Just because an agent *can* call an API or tool does not mean it *should*.
 * Sensitive tools (filesystem, shell, DB, cloud APIs) require:
   * explicit human approval or
   * policy-based runtime checks
+* **Destructive operations** (see Section 19.6.3) MUST require mandatory Human-in-the-Loop (HITL) authorization:
+  * Filesystem: `rm -rf`, `format`, `wipe` operations outside sandbox
+  * Cloud Infrastructure: `terminate-instances`, `delete-bucket`, `delete-user`
+  * Database: `DROP TABLE`, `TRUNCATE`, destructive `DELETE` operations
+  * System: `shutdown`, `reboot`, `kill` processes, system configuration changes
 
 **Never allow agents to:**
 * Execute arbitrary shell commands
 * Access credential stores
 * Modify production data without approval
 * Download or execute binaries
+* **Autonomously execute destructive operations** (see Section 19.6.3 for mandatory HITL requirements)
+
+**Incident Reference:** [Amazon Q Incident (July 2025)](https://www.techradar.com/pro/hacker-adds-potentially-catastrophic-prompt-to-amazons-ai-coding-service-to-prove-a-point) - malicious prompt instructed AI to use filesystem and AWS CLI privileges to wipe systems and delete cloud resources. This incident demonstrates the critical need for mandatory HITL authorization for all destructive operations.
 
 **Guardrails AI Integration:**
 * Use Guardrails AI to enforce policy-based runtime checks for tool calls
 * Configure Guardrails to validate tool usage against security policies
 * Log all tool calls through Guardrails for audit trails
 * Set up Guardrails to block unauthorized tool access automatically
-
-### 8.1) AI Agent Privilege Management (Least Privilege Enforcement)
-
-**Principle of Least Privilege (PoLP) for AI Agents:**
-AI agents must operate with the **minimum permissions required** for their intended task. Over-privileged agents create insider threat risks when compromised via prompt injection.
-
-**Mandatory Controls:**
-
-**1. Permission Scoping**
-* AI agents MUST NOT have default access to:
-  * Full filesystem write permissions (restrict to sandboxed directories)
-  * Cloud infrastructure management APIs (EC2, IAM, S3 delete operations)
-  * Credential stores or secret managers
-  * Production databases or data stores
-* Each agent's permission set must be explicitly documented and reviewed
-* Permissions must be scoped to the minimum required for the agent's declared purpose
-
-**2. Sandboxing Requirements**
-* AI agents MUST execute in isolated environments:
-  * Filesystem: Restricted to designated sandbox directories (see `ai-workflow-policy.md` Section "Sandbox Restriction")
-  * Network: Blocked from accessing production endpoints unless explicitly allowlisted
-  * Process: Limited to specific command allowlists (no arbitrary shell execution)
-  * Cloud APIs: Read-only access by default; write/delete operations require explicit approval
-* Sandbox boundaries must be enforced at the runtime level, not just policy
-
-**3. Human-in-the-Loop (HITL) Gates for Destructive Operations**
-* The following operations REQUIRE explicit human authorization before execution:
-  * **Filesystem:** `rm`, `rmdir`, `unlink`, `delete`, file overwrites outside sandbox
-  * **Cloud Infrastructure:** `terminate-instances`, `delete-user`, `delete-bucket`, `delete-role`, any resource deletion
-  * **Database:** `DROP`, `DELETE` without WHERE clause, schema modifications
-  * **Credentials:** Any operation that creates, modifies, or deletes credentials or secrets
-  * **System Configuration:** Changes to security settings, firewall rules, IAM policies
-* HITL gates must use cryptographic authorization (signed approvals, not just UI clicks)
-* Approval workflow must be logged and auditable
-
-**4. Runtime Permission Validation**
-* Tool calls must be validated against an allowlist before execution
-* Validation must occur at the runtime layer (not just in the agent's prompt)
-* Failed validation must:
-  * Block the operation
-  * Log the attempt
-  * Alert security team if pattern indicates attack
-
-**5. Credential Isolation**
-* AI agents MUST NOT have access to:
-  * AWS profiles or credentials
-  * Cloud service account keys
-  * SSH keys or certificates
-  * API keys or tokens (except those explicitly scoped for the agent's task)
-* If cloud API access is required, use:
-  * Temporary, scoped credentials (STS tokens, OAuth scopes)
-  * Service accounts with minimal permissions
-  * Explicit allowlists of allowed API operations
-
-**Implementation Checklist:**
-- [ ] Agent permission matrix documented and reviewed
-- [ ] Sandbox boundaries enforced at runtime
-- [ ] HITL gates implemented for all destructive operations
-- [ ] Tool call validation layer deployed
-- [ ] Credential access restricted to minimum required
-- [ ] Audit logging enabled for all tool calls
-- [ ] Security team notified of any blocked operations
 
 ---
 
@@ -411,48 +355,6 @@ AI agents must operate with the **minimum permissions required** for their inten
 * Vulnerability scanning is enabled in CI where available.
 * Maintain an SBOM (SBOM = Software Bill of Materials) for production deliverables where feasible.
 * SAST (SAST = Static Application Security Testing) is required in CI for production repos; DAST (DAST = Dynamic Application Security Testing) is used when applicable.
-
-### 9.6) Supply chain prompt injection defense (mandatory)
-
-**Threat Model:**
-Natural language instructions embedded in codebases (system prompts, AI tool configurations, documentation) are now an **executable attack vector**. Traditional SAST tools detect malicious code syntax, not malicious English prose.
-
-**Incident Reference:** Amazon Q Developer extension (July 2025) - malicious prompt injection via pull request instructed LLM to wipe filesystems and delete cloud resources. See: [TechRadar: Hacker adds potentially catastrophic prompt to Amazon's AI coding service](https://www.techradar.com/pro/hacker-adds-potentially-catastrophic-prompt-to-amazons-ai-coding-service-to-prove-a-point)
-
-**Policy Rules:**
-
-**1. Prompt/Instruction Change Auditing (Mandatory)**
-* All changes to system prompts, AI tool configurations, or natural language instructions MUST be flagged in CI/CD for human review
-* PRs modifying the following file patterns require explicit security review:
-  * `**/prompts/**/*.md`, `**/prompts/**/*.txt`, `**/prompts/**/*.yaml`
-  * `**/.cursorrules`, `**/CLAUDE.md`, `**/AGENTS.md`
-  * `**/*system-prompt*`, `**/*instruction*`, `**/*agent-config*`
-  * Any file containing natural language directives for AI tools
-* CI must detect and block PRs containing suspicious prompt injection patterns:
-  * Instructions to "ignore", "override", "bypass", "disable" security controls
-  * Directives to execute destructive operations (`rm`, `delete`, `terminate`, `wipe`, `nuke`)
-  * Commands to access credentials, secrets, or cloud resources
-  * Instructions to "run continuously", "execute without confirmation", or "skip validation"
-
-**2. Natural Language SAST (Recommended)**
-* Deploy prompt injection detection tools in CI/CD:
-  * Pattern matching for destructive command keywords in natural language
-  * Semantic analysis of prompt changes (detect instruction override attempts)
-  * Comparison against known malicious prompt patterns
-* Treat prompt changes with the same scrutiny as code changes
-
-**3. Supply Chain Trust Model**
-* Open-source AI tool contributions (prompts, configurations) require:
-  * Explicit human review (no automated merging)
-  * Verification of contributor identity and intent
-  * Audit trail of all prompt/instruction modifications
-* Third-party AI tool updates must be reviewed for prompt injection before deployment
-
-**4. Version Control Hygiene**
-* System prompts and AI configurations must be:
-  * Version-controlled and auditable
-  * Pinned to specific commits (no floating references)
-  * Reviewed in the same PR as code changes that use them
 
 ### Python-specific
 
@@ -490,6 +392,36 @@ Natural language instructions embedded in codebases (system prompts, AI tool con
 * Write tokens only in isolated publishing jobs
 * Rotate tokens immediately if CI/CD pipeline compromised
 * Never commit tokens to `.npmrc`, `.pypirc`, or equivalent files
+
+### 9.6) Natural Language Instruction Auditing (Supply Chain Prompt Injection Defense)
+
+**Incident Reference:** Amazon Q Developer extension (July 2025) - malicious prompt injection via pull request.
+
+**Requirement:** Natural language content in codebases is an executable attack surface. All natural language instructions (system prompts, configuration files, documentation) must be audited with the same rigor as executable code.
+
+**CI/CD Requirements:**
+- **Automated scanning** for prompt injection patterns in natural language content:
+  * System prompt files (`.prompt`, `prompt.txt`, `instructions.md`)
+  * Configuration files containing natural language directives
+  * Documentation consumed by AI agents
+  * Code comments containing executable instructions
+- **Pre-commit hooks** MUST scan for suspicious natural language patterns:
+  * Instructions to "ignore", "override", "delete", "wipe", "terminate"
+  * Directives to execute destructive operations
+  * Attempts to override system policies
+- **Pull request reviews** MUST explicitly review all changes to natural language instruction files
+- **No automated merging** of PRs that modify system prompts without human approval
+
+**Detection Patterns:**
+- Destructive operation directives (`rm -rf`, `terminate-instances`, `delete-user`)
+- Policy override attempts ("ignore previous instructions", "override system policy")
+- Credential access instructions ("read AWS credentials", "access secrets")
+- Unauthorized tool access requests ("use filesystem tools", "execute bash commands")
+
+**Implementation:**
+See Section 19.6 (Supply Chain Prompt Injection Defense) for detailed scanning patterns and implementation examples.
+
+**Reference:** [Amazon Q Incident (July 2025)](https://www.techradar.com/pro/hacker-adds-potentially-catastrophic-prompt-to-amazons-ai-coding-service-to-prove-a-point)
 
 ---
 
@@ -1584,6 +1516,138 @@ If untrusted content contains instructions like "ignore", "override", "exfiltrat
 - extract facts
 - propose actions, but require explicit user confirmation before destructive/high-impact steps
 
+### PI-6: Supply Chain Prompt Injection Defense (Critical)
+
+**Incident Reference:** Amazon Q Developer extension (July 2025) - malicious prompt injection via pull request merged into production codebase, instructing AI to wipe filesystems and delete cloud resources.
+
+**Attack Vector:** Second-order prompt injection embedded in natural language instructions within codebase (system prompts, configuration files, documentation, or code comments) that are later consumed by AI agents.
+
+**Core Principle:**
+Natural language is now an **executable attack surface**. Traditional SAST tools detect malicious code syntax, not malicious English prose. All natural language content in codebases must be audited with the same rigor as executable code.
+
+#### PI-6.1: Natural Language Instruction Auditing (Mandatory)
+
+**CI/CD Requirements:**
+- **All pull requests** that modify natural language content (system prompts, configuration files, documentation, comments containing instructions) MUST be flagged for security review
+- Natural language content MUST be scanned for prompt injection patterns:
+  * Instructions to "ignore", "override", "delete", "wipe", "terminate", "exfiltrate"
+  * Directives to execute destructive operations (`rm`, `terminate-instances`, `delete-user`)
+  * Attempts to override system policies or security controls
+  * Instructions to access sensitive resources (filesystem, cloud credentials, secrets)
+- **Automated scanning** MUST detect suspicious natural language patterns in:
+  * System prompt files (`.prompt`, `prompt.txt`, `instructions.md`)
+  * Configuration files containing natural language directives
+  * Documentation that could be consumed by AI agents
+  * Code comments containing executable instructions
+
+**Implementation:**
+```bash
+# Example: Pre-commit hook to detect prompt injection patterns
+# .pre-commit-config.yaml
+repos:
+  - repo: local
+    hooks:
+      - id: check-prompt-injection
+        name: Scan for prompt injection patterns
+        entry: scripts/check-prompt-injection.sh
+        language: system
+        files: \.(prompt|txt|md|yaml|yml|json)$
+```
+
+**Code Review Requirements:**
+- **Human reviewers** MUST explicitly review all changes to natural language instruction files
+- Reviewers MUST verify that natural language content does not contain:
+  * Destructive operation directives
+  * Credential access instructions
+  * Policy override attempts
+  * Unauthorized tool access requests
+- **No automated merging** of PRs that modify system prompts or instruction files without explicit human approval
+
+#### PI-6.2: Second-Order Prompt Injection Prevention
+
+**Definition:** Second-order prompt injection occurs when malicious instructions are embedded in content that is later retrieved and processed by an AI agent (e.g., system prompts, RAG knowledge bases, configuration files).
+
+**Defense Strategy:**
+1. **Source Verification:** All natural language instructions consumed by AI agents MUST be:
+   * Sourced from trusted, version-controlled repositories
+   * Cryptographically signed or verified via checksums
+   * Reviewed and approved by authorized personnel
+2. **Content Isolation:** System prompts and instruction files MUST be:
+   * Stored separately from user-generated content
+   * Protected by access controls (read-only for AI agents)
+   * Never dynamically constructed from untrusted sources
+3. **Runtime Validation:** AI agents MUST:
+   * Reject instructions that attempt to override system policies
+   * Log all instruction consumption for audit trails
+   * Require explicit authorization for any instruction modification
+
+#### PI-6.3: Destructive Operation Authorization (Mandatory HITL)
+
+**Principle of Least Privilege for AI Agents:**
+AI agents MUST NOT have permissions to execute destructive operations without explicit human authorization.
+
+**Prohibited Autonomous Operations:**
+- **Filesystem:** `rm -rf`, `format`, `wipe`, `delete` operations outside sandbox
+- **Cloud Infrastructure:** `terminate-instances`, `delete-bucket`, `delete-user`, `revoke-access`
+- **Database:** `DROP TABLE`, `TRUNCATE`, `DELETE` without WHERE clause restrictions
+- **System:** `shutdown`, `reboot`, `kill` processes, modify system configuration
+
+**Required Authorization Gates:**
+1. **Human-in-the-Loop (HITL) Confirmation:**
+   * All destructive operations MUST require explicit human approval
+   * Approval MUST be cryptographically signed or logged with audit trail
+   * No batch or automated approval of destructive operations
+2. **Sandbox Restriction:**
+   * AI agents MUST operate within restricted sandboxes
+   * Sandbox boundaries MUST be enforced at runtime (not just policy)
+   * Violations MUST trigger immediate termination and alerting
+3. **Operation Logging:**
+   * All tool invocations MUST be logged with full context
+   * Destructive operation attempts MUST trigger security alerts
+   * Logs MUST be immutable and retained for forensic analysis
+
+**Implementation Example:**
+```python
+# Example: Destructive operation gate
+def execute_destructive_operation(operation, target):
+    """Require explicit human approval for destructive operations."""
+    if is_destructive(operation):
+        approval_token = request_human_approval(
+            operation=operation,
+            target=target,
+            requester=get_current_user(),
+            timestamp=datetime.now()
+        )
+        if not verify_approval_signature(approval_token):
+            raise SecurityError("Destructive operation requires human approval")
+
+    # Log operation with full audit trail
+    audit_log.log(
+        operation=operation,
+        target=target,
+        approver=approval_token.user,
+        timestamp=datetime.now()
+    )
+
+    return execute_operation(operation, target)
+```
+
+#### PI-6.4: Over-Privileged Agent Detection
+
+**Risk:** AI agents with excessive permissions (filesystem access, cloud CLI access, admin scopes) create severe insider threat risk if compromised via prompt injection.
+
+**Detection Requirements:**
+- **Permission Auditing:** Regularly audit AI agent permissions and tool access scopes
+- **Anomaly Detection:** Alert on unusual tool usage patterns (e.g., agent accessing filesystem outside sandbox)
+- **Access Reviews:** Quarterly reviews of AI agent permissions with justification for each granted permission
+
+**Remediation:**
+- Revoke unnecessary permissions immediately
+- Implement principle of least privilege (grant minimum required permissions)
+- Enforce sandbox boundaries at runtime, not just policy
+
+**Reference:** [Amazon Q Incident (July 2025)](https://www.techradar.com/pro/hacker-adds-potentially-catastrophic-prompt-to-amazons-ai-coding-service-to-prove-a-point) - malicious prompt instructed AI to use filesystem and AWS CLI privileges to wipe systems and delete cloud resources.
+
 ---
 
 ## 20) Mandatory Verification Gates (Before Merge)
@@ -1596,7 +1660,7 @@ AI-assisted code must pass:
 * Auth/authz verified
 * Dependency scan clean
 * Security review completed (see Section 19.1 for review methods)
-* **Prompt injection detection** (see Section 20.1 for prompt auditing requirements)
+* **Natural language instruction audit** (see Section 19.6 for prompt injection defense)
 
 **Correctness:**
 * Tests pass
@@ -1609,41 +1673,6 @@ AI-assisted code must pass:
 **Governance:**
 * Human code review
 * Branch protection + CI enforced
-
-### 20.1) Prompt and Instruction Change Auditing (Mandatory)
-
-**Requirement:** All changes to natural language instructions, system prompts, or AI tool configurations must be audited in CI/CD before merge.
-
-**Scope:**
-* System prompts, AI tool configurations, instruction files
-* Files matching patterns: `**/prompts/**`, `**/.cursorrules`, `**/CLAUDE.md`, `**/AGENTS.md`, `**/*system-prompt*`, `**/*instruction*`, `**/*agent-config*`
-* Any file containing natural language directives for AI tools
-
-**CI/CD Detection Requirements:**
-* **Pattern Matching:** Detect suspicious keywords in natural language:
-  * Destructive operations: `rm`, `delete`, `terminate`, `wipe`, `nuke`, `destroy`, `remove`
-  * Security bypass: `ignore`, `override`, `bypass`, `disable`, `skip validation`
-  * Credential access: `secrets`, `credentials`, `keys`, `tokens`, `aws profile`, `cloud credentials`
-  * Unauthorized execution: `run continuously`, `execute without confirmation`, `autonomous`
-* **Semantic Analysis:** Flag instructions that:
-  * Override system policies or security controls
-  * Request access to credentials or sensitive resources
-  * Instruct agents to execute destructive operations without human approval
-  * Attempt to modify agent behavior or privilege levels
-* **Change Detection:** Compare prompt changes against known malicious patterns (maintain threat intelligence database)
-
-**Blocking Rules:**
-* PRs containing suspicious prompt injection patterns MUST be blocked from merge
-* Human security review REQUIRED for any prompt/instruction changes
-* No automated merging of prompt/instruction modifications
-
-**Audit Trail:**
-* All prompt changes must be:
-  * Logged with author, timestamp, and change diff
-  * Reviewed by security team or designated reviewer
-  * Documented in security review checklist
-
-**Reference:** Amazon Q Developer extension incident (July 2025) - malicious prompt injection via pull request. See Section 9.6 for supply chain prompt injection defense requirements.
 
 ### 19.1 Security Review Methods
 
@@ -2693,6 +2722,11 @@ repos:
   * Command injection
   * SQL injection
   * Path traversal
+* **Natural Language Instruction Scanning** (Mandatory for AI agent codebases):
+  * Scan all natural language content (system prompts, configuration files, documentation)
+  * Detect prompt injection patterns in natural language (see Section 19.6)
+  * Flag PRs that modify instruction files for mandatory human review
+  * Block automated merging of system prompt changes
 * **Semantic Analysis** (Recommended): Claude Code `/security-review` or GitHub Action `anthropics/claude-code-security-review` for:
   * Logic flaws and business logic vulnerabilities
   * Context-specific security issues
