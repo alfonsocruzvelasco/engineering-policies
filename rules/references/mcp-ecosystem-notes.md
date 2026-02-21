@@ -516,9 +516,156 @@ const widgetUI = createUIResource({
 
 ---
 
-## 8. PRODUCTION CONSIDERATIONS
+## 8. CODE MODE: CONTEXT WINDOW OPTIMIZATION
 
-### 8.1 Monitoring & Observability
+### 8.1 Overview
+
+**Code Mode** is a technique for dramatically reducing context window usage in MCP servers by replacing thousands of individual tool definitions with a compact code execution pattern.
+
+**Key Innovation:** Instead of describing every API operation as a separate tool, the model writes code against a typed SDK and executes it safely in a sandboxed environment. The code acts as a compact plan, allowing the model to explore operations, compose multiple calls, and return only the data it needs.
+
+### 8.2 Server-Side Code Mode Pattern
+
+**Architecture:**
+```
+Traditional MCP: 2,500+ tools → 1.17M tokens
+Code Mode MCP: 2 tools (search + execute) → ~1,000 tokens
+```
+
+**Tool Surface:**
+```typescript
+[
+  {
+    "name": "search",
+    "description": "Search the API OpenAPI spec. All $refs are pre-resolved inline.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "JavaScript async arrow function to search the OpenAPI spec"
+        }
+      },
+      "required": ["code"]
+    }
+  },
+  {
+    "name": "execute",
+    "description": "Execute JavaScript code against the API.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "JavaScript async arrow function to execute"
+        }
+      },
+      "required": ["code"]
+    }
+  }
+]
+```
+
+**Execution Model:**
+- Code runs in a **Dynamic Worker isolate** (V8 sandbox)
+- No file system access
+- No environment variables (prevents prompt injection)
+- External fetches disabled by default
+- Outbound requests controlled via explicit handlers
+
+### 8.3 Comparison with Alternative Approaches
+
+| Approach | Token Cost | Pros | Cons |
+|----------|------------|------|------|
+| **Server-Side Code Mode** | Fixed (~1,000 tokens) | Fixed cost regardless of API size, progressive discovery, safe sandbox | Requires code execution infrastructure |
+| **Client-Side Code Mode** | Variable | Model writes TypeScript against typed SDKs | Requires secure sandbox on client, agent must ship with sandbox access |
+| **CLI Interfaces** | Variable | Self-documenting, progressive disclosure | Requires shell access, broader attack surface |
+| **Dynamic Tool Search** | Reduced but variable | Smaller tool set per task | Requires maintained search function, each tool still uses tokens |
+| **Traditional MCP** | Linear (grows with API size) | Explicit, auditable | Context window pressure for large APIs |
+
+**For large APIs (2,500+ endpoints):**
+- Code Mode reduces tokens by **99.9%** (1,000 tokens vs 1.17M tokens)
+- Footprint stays fixed regardless of API growth
+- New endpoints automatically discoverable without new tool definitions
+
+### 8.4 Implementation Example: Cloudflare MCP Server
+
+**Discovery Phase:**
+```javascript
+// Agent searches for WAF and ruleset endpoints
+async () => {
+  const results = [];
+  for (const [path, methods] of Object.entries(spec.paths)) {
+    if (path.includes('/zones/') &&
+        (path.includes('firewall/waf') || path.includes('rulesets'))) {
+      for (const [method, op] of Object.entries(methods)) {
+        results.push({ method: method.toUpperCase(), path, summary: op.summary });
+      }
+    }
+  }
+  return results;
+}
+```
+
+**Execution Phase:**
+```javascript
+// Agent executes API calls with chaining
+async () => {
+  const ddos = await cloudflare.request({
+    method: "GET",
+    path: `/zones/${zoneId}/rulesets/phases/ddos_l7/entrypoint`
+  });
+  const waf = await cloudflare.request({
+    method: "GET",
+    path: `/zones/${zoneId}/rulesets/phases/http_request_firewall_managed/entrypoint`
+  });
+  return { ddos, waf };
+}
+```
+
+### 8.5 When to Use Code Mode
+
+**Use Code Mode when:**
+- API has 100+ endpoints
+- API surface is large and growing
+- Progressive discovery is valuable
+- Fixed token budget is critical
+- Safe code execution infrastructure is available
+
+**Stick with traditional MCP when:**
+- API is small (< 50 endpoints)
+- Explicit tool definitions are required for compliance
+- Code execution infrastructure is not available
+- Security requirements prohibit code execution
+
+### 8.6 Security Considerations
+
+**Sandbox Requirements:**
+- Isolated execution environment (V8 isolate, WebAssembly, etc.)
+- No file system access
+- No environment variable access
+- Network access controlled via explicit handlers
+- Resource limits (CPU, memory, execution time)
+
+**Best Practices:**
+- Validate code before execution (syntax, allowed operations)
+- Rate limit code execution
+- Log all executed code for audit
+- Monitor for suspicious patterns
+- Implement timeouts and resource limits
+
+### 8.7 References
+
+- **Cloudflare Code Mode Blog Post:** `rules/references/code-mode-cloudflare.pdf` (2026-02-20)
+- **Cloudflare MCP Server:** https://mcp.cloudflare.com/mcp
+- **Cloudflare Agents SDK:** Open-source Code Mode SDK
+- **Anthropic Code Execution with MCP:** Independent exploration of similar pattern
+
+---
+
+## 9. PRODUCTION CONSIDERATIONS
+
+### 9.1 Monitoring & Observability
 
 **Recommended Integrations:**
 - Logfire (OpenTelemetry traces)
@@ -527,7 +674,7 @@ const widgetUI = createUIResource({
 - Raygun (crash reporting)
 - Sentry (error tracking)
 
-### 8.2 Rate Limiting & Throttling
+### 9.2 Rate Limiting & Throttling
 
 ```typescript
 class RateLimiter {
@@ -550,7 +697,7 @@ class RateLimiter {
 }
 ```
 
-### 8.3 Authentication & Authorization
+### 9.3 Authentication & Authorization
 
 **MCP Server Auth Patterns:**
 ```typescript
@@ -569,9 +716,9 @@ server.tool('protected_operation', 'Requires auth', {
 
 ---
 
-## 9. INTEGRATION WITH YOUR WORKFLOW
+## 10. INTEGRATION WITH YOUR WORKFLOW
 
-### 9.1 Specification Protocol Alignment
+### 10.1 Specification Protocol Alignment
 
 **Your Framework → MCP Mapping:**
 
@@ -582,7 +729,7 @@ server.tool('protected_operation', 'Requires auth', {
 | OpenSpec | Public API documentation | Registry format |
 | COSTAR/CRISPE/RTF | Tool descriptions | Prompt engineering for AI |
 
-### 9.2 4-Stage Development Process
+### 10.2 4-Stage Development Process
 
 **1. Vibe (Concept):**
 - Define server purpose (e.g., "UI component library access")
@@ -612,7 +759,7 @@ pnpm run inspect
 - Add to awesome-mcp-servers list
 - Monitor usage metrics
 
-### 9.3 Policy Framework Integration
+### 10.3 Policy Framework Integration
 
 **Update Your Policies:**
 
@@ -639,9 +786,9 @@ pnpm run inspect
 
 ---
 
-## 10. QUICK REFERENCE
+## 11. QUICK REFERENCE
 
-### 10.1 Essential Commands
+### 11.1 Essential Commands
 
 ```bash
 # Initialize new MCP server
@@ -661,7 +808,7 @@ code ~/.config/Claude\ Desktop/claude_desktop_config.json
 curl https://remote-server.example.com/sse
 ```
 
-### 10.2 Key URLs
+### 11.2 Key URLs
 
 - **Protocol Spec:** https://spec.modelcontextprotocol.io
 - **Official Docs:** https://modelcontextprotocol.io
@@ -670,7 +817,7 @@ curl https://remote-server.example.com/sse
 - **MCP-UI:** https://mcpui.dev
 - **Awesome List:** https://github.com/wong2/awesome-mcp-servers
 
-### 10.3 Schema Templates
+### 11.3 Schema Templates
 
 **Component Schema:**
 ```typescript
@@ -699,7 +846,7 @@ export const ToolResponseSchema = z.object({
 
 ---
 
-## 11. NEXT STEPS & ACTION ITEMS
+## 12. NEXT STEPS & ACTION ITEMS
 
 ### Immediate Actions:
 1. ✅ Review MCP protocol specification
