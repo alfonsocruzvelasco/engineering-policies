@@ -2688,6 +2688,9 @@ This protocol ensures that.
 
 8. **Veracode/security coverage reports**
    - AI code security flaws
+
+9. **"The Software Development Lifecycle Is Dead"** (Boris Tane, 2026-02-20; `rules/references/the-sdlc-is-dead-boris-tane.pdf`)
+   - SDLC stages collapsing into intent → build/test/deploy → observe loop; context engineering as core skill; observability as primary safety net when review/QA are absorbed by agent workflows
    - Systematic security checking necessity
 
 9. **CodeRabbit coverage reports**
