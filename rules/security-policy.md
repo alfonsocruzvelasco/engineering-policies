@@ -1,7 +1,7 @@
 # Security Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-02-20
+**Last updated:** 2026-02-22
 
 **Scope:** This policy defines how **credentials, secrets, dependencies, identity and access controls, APIs, and AI-assisted engineering risks** are handled. It applies to all environments (local, CI, staging, production) and all repositories, with special emphasis on ML/CV engineering security.
 
@@ -25,6 +25,7 @@
 - [Cloud Security Baseline](#10-cloud-security-baseline-common-cloud-technologies)
 - [Data Security (CV/ML Context)](#11-data-security-cvml-context)
 - [ML/CV Engineering Security Best Practices](#12-mlcv-engineering-security-best-practices)
+  - [ML/CV-specific vulnerability patterns (AI-assisted detection)](#126-mlcv-specific-vulnerability-patterns-ai-assisted-detection)
 - [AI Coding Hazards (Security and Privacy)](#13-ai-coding-hazards-security-and-privacy)
 - [External AI Code Generation Usage Policy](#14-external-ai-code-generation-usage-policy)
   - [Prohibited External AI Tool Classes](#146-prohibited-external-ai-tool-classes)
@@ -34,6 +35,7 @@
 - [Incident Response](#18-incident-response)
 - [Prompt Injection Defense (Critical for AI Coding)](#19-prompt-injection-defense-critical-for-ai-coding)
 - [Mandatory Verification Gates (Before Merge)](#20-mandatory-verification-gates-before-merge)
+  - [AI-assisted security review workflow](#205-ai-assisted-security-review-workflow)
 - [Exceptions](#21-exceptions)
 
 ---
@@ -586,6 +588,62 @@ This section applies to AWS/GCP/Azure and on-prem equivalents.
    * Limit API query rates to prevent model extraction
    * Monitor for suspicious query patterns
    * Use model watermarking where applicable
+
+### 12.6) ML/CV-specific vulnerability patterns (AI-assisted detection)
+
+**Traditional SAST tools often miss these vulnerabilities in ML/CV code.** Use Claude Code's `/security-review` to detect these patterns automatically.
+
+**1. Unsafe model deserialization:**
+```python
+# ❌ Vulnerable
+import pickle
+model = pickle.load(open('model.pkl', 'rb'))
+
+# ✅ Secure
+import torch
+model = torch.load('model.pt', weights_only=True)  # PyTorch safe mode
+```
+
+**2. Path traversal in dataset loading:**
+```python
+# ❌ Vulnerable
+def load_image(filename: str):
+    return cv2.imread(f"/datasets/{filename}")  # Directory traversal possible
+
+# ✅ Secure
+from pathlib import Path
+def load_image(filename: str):
+    base = Path("/datasets").resolve()
+    target = (base / filename).resolve()
+    if not target.is_relative_to(base):
+        raise ValueError("Path traversal detected")
+    return cv2.imread(str(target))
+```
+
+**3. Command injection in data augmentation:**
+```python
+# ❌ Vulnerable
+import os
+def augment_image(img_path: str, rotation: str):
+    os.system(f"convert {img_path} -rotate {rotation} output.jpg")  # Shell injection
+
+# ✅ Secure
+from PIL import Image
+def augment_image(img_path: str, rotation: int):
+    img = Image.open(img_path)
+    img.rotate(rotation).save("output.jpg")
+```
+
+**4. SQL injection in dataset metadata queries:**
+```python
+# ❌ Vulnerable
+cursor.execute(f"SELECT * FROM images WHERE label='{label}'")  # SQL injection
+
+# ✅ Secure
+cursor.execute("SELECT * FROM images WHERE label=?", (label,))  # Parameterized query
+```
+
+**Use Claude Code's `/security-review` to detect these patterns automatically.**
 
 ---
 
@@ -1741,6 +1799,60 @@ grep -v "huggingface.co\|tensorflow.org\|internal-registry" model_downloads.log 
 * CloudWatch (AWS), Cloud Monitoring (GCP), or Datadog
 * Falco for runtime container monitoring
 * SIEM integration for correlation across systems
+
+### 20.5) AI-assisted security review workflow
+
+**Pre-commit workflow (developer-driven):**
+
+1. **During development:**
+   - Claude Code inline suggestions enabled
+   - Developer fixes vulnerabilities as detected
+   - Focus on ML/CV-specific patterns (pickle, path traversal, command injection)
+
+2. **Before commit:**
+   - Run `/security-review` in Claude Code
+   - Address all HIGH and CRITICAL findings
+   - Document LOW/MEDIUM findings as exceptions if not actionable
+
+3. **Pre-commit hooks:**
+   - Semgrep + CodeQL run automatically
+   - Verify Claude Code fixes didn't introduce new issues
+   - Block commit if traditional SAST fails
+
+**Pre-merge workflow (reviewer-driven):**
+
+1. **Automated checks:**
+   - CI runs full security scan (Semgrep, CodeQL, dependency scan)
+   - SARIF results uploaded to GitHub Security tab
+
+2. **Human security review:**
+   - Reviewer verifies semantic correctness of fixes
+   - Checks for ML/CV-specific attack vectors
+   - Confirms compensating controls for accepted risks
+
+3. **Documentation:**
+   - Security findings documented in PR description
+   - Exceptions logged in `security-exceptions.md`
+
+**Example `/security-review` output:**
+```
+🔴 HIGH: Unsafe pickle deserialization in model_loader.py:45
+   Risk: Arbitrary code execution if model file is attacker-controlled
+   Fix: Use torch.load(weights_only=True) or validate model source
+
+🟡 MEDIUM: Path traversal possible in dataset.py:120
+   Risk: Unauthorized file access if filename parameter is user-controlled
+   Fix: Use pathlib.Path.is_relative_to() to validate paths
+
+🟢 LOW: Verbose error messages in api.py:200
+   Risk: Information disclosure of internal paths
+   Fix: Log detailed errors server-side, return generic message to client
+```
+
+**Mandatory fixes:**
+- HIGH/CRITICAL: Must fix before merge
+- MEDIUM: Fix or document exception with compensating controls
+- LOW: Fix if trivial, otherwise document for future sprint
 
 ---
 
@@ -3787,6 +3899,28 @@ Based on research findings and security principles:
 * Complements traditional SAST rather than replacing it
 * Designed for specific use cases (e.g., semantic analysis for logic flaws) rather than general-purpose scanning
 
+**Claude Code Security Features (Mandatory Usage):**
+* Enable `/security-review` command in all development workflows
+* Use inline security suggestions during code authoring (not just pre-commit)
+* Prioritize Claude Code findings for ML/CV-specific vulnerabilities:
+  - Pickle deserialization attacks in model loading
+  - Path traversal in dataset file access
+  - SQL injection in dataset metadata queries
+  - Command injection in data augmentation pipelines
+  - Insufficient input validation in inference APIs
+
+**Integration with existing toolchain:**
+* Claude Code runs **during development** (inline, real-time)
+* Semgrep/CodeQL run **pre-commit and CI/CD** (automated gates)
+* Human security review runs **pre-merge** (manual gate)
+
+**Workflow:**
+1. Claude Code detects vulnerability inline → Developer fixes immediately
+2. Semgrep/CodeQL verify fix pre-commit → Automated enforcement
+3. Human reviewer verifies semantic correctness pre-merge → Final gate
+
+**Reference:** [Claude Code Security](https://www.anthropic.com/news/claude-code-security) (Anthropic, 2026-02-20) — AI-assisted vulnerability detection that reads and reasons about code like a human security researcher; multi-stage verification to reduce false positives; mandatory for ML/CV attack surfaces that traditional SAST misses.
+
 ### 15.7 Verification Commands
 
 After installation, verify your security toolchain:
@@ -3954,6 +4088,8 @@ This document is part of a comprehensive policy framework. All sections integrat
 - [ ] Runtime monitoring deployed (Section 11.4)
 - [ ] Incident response procedures documented (Section 13)
 - [ ] Security review completed by human expert (Section 11.2)
+- [ ] Claude Code `/security-review` executed with findings addressed
+- [ ] ML/CV-specific vulnerability patterns verified (Section 12.6)
 
 **Zero-tolerance violations (block immediately):**
 - Hardcoded credentials in code
