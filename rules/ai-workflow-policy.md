@@ -1489,7 +1489,7 @@ Build systems where components call each other:
 - ❌ Create general-purpose AI agents
 - ❌ Become a "Claude Code power user"
 
-That's tool specialization, not ML engineering. Use AI tools **as helpers** to build structured ML/CV systems, not as your career focus.
+That's tool specialization, not ML engineering. Use AI tools **as helpers** to build structured ML/CV systems, not as your career focus. When agentic automation is needed, the right alternative is **structured plan memory and intent-anchored retrieval** (see [agent-architecture-intentcua-notes.md](../references/agent-architecture-intentcua-notes.md)), not ad-hoc orchestration.
 
 ### The Correct Integration
 
@@ -1863,6 +1863,15 @@ When AI introduces **agents** (multi-step tool-using workflows) and **artifacts*
 - For *complex agentic automation*: prefer the four-layer model above rather than bespoke scripts that lack replayability, audit trails, and lineage.
 - For *any artifact that can impact results* (datasets, checkpoints, configs): treat it as versioned output with traceability (who/what produced it, from which inputs, under which config).
 
+**Agentic architecture rules (evidence-based):**
+*Rationale: [IntentCUA](https://arxiv.org/abs/2602.17049) (arXiv:2602.17049) — structured intent abstraction + plan memory outperforms raw trajectory replay; see [agent-architecture-intentcua-notes.md](../references/agent-architecture-intentcua-notes.md).*
+
+- **Agents MUST store reusable skill abstractions, not raw trajectory traces.** Step-level trace replay drifts on long sequences; skill abstraction improves success (IntentCUA Table 1: +8.2pp on top of trace replay).
+- **Long-horizon tasks (≥ 10 steps) REQUIRE plan memory with intent-anchored retrieval.** Without plan-memory reuse, agents re-synthesize from scratch and accumulate errors (+7.87pp from plan-memory in IntentCUA).
+- **Planning MUST be intent-anchored, not step-anchored.** Intent groups (IG) and subgroups (SG) keep retrieval semantically coherent when context changes; step-level plans drift.
+- **Critic agent is mandatory for agentic stability, not optional.** Critic provides `{success, retryable, blocked}` gate after each plan unit; without it, local errors cascade into global re-planning.
+- **Skill hints MUST be parameterized schemas, not copy-pasted traces.** Runtime-filled typed arguments (e.g. `<url>`, `<query>`) preserve reusable structure and prevent overfitting to specific past inputs.
+
 **See also:**
 - [Agent HQ & Agent Orchestration — Complete Study Notes](../references/agent-hq-orchestration-complete-notes.md) for comprehensive coverage of GitHub Agent HQ, Mission Control, `@` handlers, AGENTS.md patterns, multi-agent workflows, and Control Plane governance.
 - [Claude Code Agent Teams — Complete Feature Notes](../references/cc-agent-teams-feature.md) for comprehensive coverage of Claude Code's experimental multi-agent parallel execution (setup, best use cases, display modes, usage patterns, token economics, technical architecture, coordination features, integration ecosystem, limitations, best practices, philosophy, references).
@@ -2227,12 +2236,20 @@ mypy src/
 - Document AI usage in PR descriptions
 
 **PR template requirements:**
+*Evidence: [How AI Coding Agents Communicate](https://arxiv.org/abs/2602.17084) (arXiv:2602.17084, MSR 2026) — structured PR descriptions correlate with higher merge rates and faster review; see [ai-pr-communication-notes.md](../references/ai-pr-communication-notes.md).*
+
+- AI-generated PRs MUST use **Markdown structure**: at minimum one `##` header per logical section (Problem, Solution, Testing). PR descriptions MUST be structured, not verbose.
+- **Conventional commit** titles are REQUIRED for AI-generated PRs.
+- The **Solution** section in the AI usage declaration MUST explain **intent** (why the change was made), not just describe the diff.
+- **Sentiment in review comments MUST NOT be used as a proxy for PR quality or acceptance** — negative comments often target presentation, not correctness.
+
 ```markdown
 ## AI Usage Declaration
 - [ ] AI tool used: [Cursor/Copilot/ChatGPT/Other]
 - [ ] AI-generated sections: [list files/functions]
 - [ ] Verification performed: [tests/manual checks]
 - [ ] Dependencies verified: [checked existence/licenses]
+- [ ] Solution intent explained (why this change, not only what changed)
 ```
 
 ### 7. Automate What You Can

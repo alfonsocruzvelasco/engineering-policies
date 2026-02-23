@@ -2043,6 +2043,9 @@ If it fails:
     * stay under ~400 lines changed unless justified
     * reference an issue or decision record when applicable
 26. **WIP PRs are allowed** but MUST be clearly labeled and never merged.
+27. **AI-generated PRs** MUST use **Markdown structure**: at minimum one `##` header per logical section (Problem, Solution, Testing). PR descriptions MUST be **structured, not verbose** — verbosity without structure increases review time and lowers merge rates. *Evidence: [How AI Coding Agents Communicate](https://arxiv.org/abs/2602.17084) (arXiv:2602.17084, MSR 2026); see [ai-pr-communication-notes.md](references/ai-pr-communication-notes.md).*
+28. **Conventional commit titles** (e.g. `feat:`, `fix:`, `docs:`) are **REQUIRED** for AI-generated PRs.
+29. **Sentiment in review comments MUST NOT be used as a proxy for PR quality or acceptance.** Negative comments often target presentation, not correctness; merge decisions must be based on verification and approval criteria, not comment tone.
 
 ### 5.6 Code review standards
 
