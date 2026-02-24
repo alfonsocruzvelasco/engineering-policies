@@ -31,6 +31,7 @@
 - [Stewardship Model](#stewardship-model-ownership-beyond-authorship)
 - [Verification-First Mindset](#verification-first-mindset)
 - [Operational Readiness Requirements](#operational-readiness-requirements)
+- [Session Priming for Conversational Workflows](#session-priming-for-conversational-workflows)
 
 ### Part 2: Prompt Engineering
 - [Operating Principles](#part-2-prompt-engineering)
@@ -426,6 +427,20 @@ Headless mode is the planning complement to test-driven development. It enforces
    - **Rationale:** Agents already know standard tooling. The 4% improvement applies primarily to non-standard requirements.
 
 **See:** `templates/claude-md-template.md` for minimal template structure (v3.0).
+
+### Session Priming for Conversational Workflows
+
+**Distinction:** The minimal CLAUDE.md rule above applies to **autonomous coding agents** (Claude Code, Codex, SWE-bench-style). **Session priming** applies to **conversational AI** (Cursor chat, Claude.ai, Copilot chat, Claude Projects) — stateless or project-scoped sessions where the model has no project knowledge unless you inject it. Do not use a long priming document as CLAUDE.md; that would trigger the 20%+ cost penalty for agents.
+
+**Policy:**
+
+- **Claude Projects:** Upload a **curated priming doc** (separate from CLAUDE.md) to Project Knowledge. Structure can follow the 7-section anatomy (architecture, stack, curated sources, structure, naming, examples, anti-patterns) but keep it **short** — target under 50 lines for focused projects; 1–3 pages max when necessary. See [knowledge-priming-notes.md](../references/knowledge-priming-notes.md).
+- **One-off chat sessions (Claude.ai, Copilot):** Paste a **minimal stack + anti-patterns** header before the first task (framework, key versions, "do not use X"). Do not paste full docs.
+- **Cursor chat:** Reference the priming doc via `@priming.md` (or `@docs/ai-priming.md`); do not duplicate its content into `.cursorrules` or CLAUDE.md.
+- **Curated knowledge sources:** Surface ADRs, `error-conventions.md`, and policy references in the priming doc (or in Section 3 "Curated Knowledge Sources") so the model is directed to trusted sources at session start. No policy currently requires this — this section establishes that requirement for conversational workflows.
+- **Stale priming is worse than none.** A priming doc that teaches outdated patterns actively harms output. Update triggers: new framework version, major refactor, repeated AI mistakes, new architectural pattern. Store priming docs in the repo (e.g. `docs/ai-priming.md`); changes require review. See update-trigger table in [knowledge-priming-notes.md](../references/knowledge-priming-notes.md).
+
+**Summary:** For **agents** → minimal CLAUDE.md (Gloaguen). For **conversational sessions** → separate, curated priming doc; keep it current; reference it, don't duplicate into agent context.
 
 ### Slash Commands & Subagents
 
