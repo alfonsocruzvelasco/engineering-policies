@@ -1876,6 +1876,7 @@ When AI introduces **agents** (multi-step tool-using workflows) and **artifacts*
 - [Agent HQ & Agent Orchestration — Complete Study Notes](../references/agent-hq-orchestration-complete-notes.md) for comprehensive coverage of GitHub Agent HQ, Mission Control, `@` handlers, AGENTS.md patterns, multi-agent workflows, and Control Plane governance.
 - [Claude Code Agent Teams — Complete Feature Notes](../references/cc-agent-teams-feature.md) for comprehensive coverage of Claude Code's experimental multi-agent parallel execution (setup, best use cases, display modes, usage patterns, token economics, technical architecture, coordination features, integration ecosystem, limitations, best practices, philosophy, references).
 - [Agents & Sub-Agents in ML/CV Engineering](../references/sub-agents-ml-cv-notes.md) for ML/CV-specific agent vs sub-agent design (pipeline/tool-calling/orchestration roles, when sub-agents add value vs anti-patterns, design checklist).
+- [Architecting Agentic MLOps: A2A + MCP](../references/architecting-agentic-mlops-a2a-mcp-notes.md) for the layered A2A (communication) + MCP (tools) pattern and orchestration-vs-execution decoupling; see PDF for full code patterns.
 
 ---
 
