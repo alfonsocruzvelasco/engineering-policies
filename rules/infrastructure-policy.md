@@ -1,7 +1,7 @@
 # Infrastructure Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-02-13
+**Last updated:** 2026-02-23
 **Purpose:** Infrastructure standards for Docker/Podman, Kubernetes, and Kafka
 
 ---
@@ -89,6 +89,27 @@ Below is a professional-team rule set for **Docker / Kubernetes / Podman / Kafka
 38. **Jobs/CronJobs for batch work**, not Deployments.
 39. **Horizontal Pod Autoscaler (HPA)** is configured where traffic varies.
 40. **No single-replica production services** unless explicitly justified.
+
+### 7.1) Kubernetes v1.35 (Timbernetes) and ML/CV workloads
+
+Kubernetes v1.35 strengthens its role as the operational substrate for AI/ML workloads. Plan Helm charts and Job specs against the new surfaces below so migration cost is low when features graduate.
+
+**Features relevant to ML/CV:**
+
+| Feature | Status | ML/CV significance |
+|--------|--------|---------------------|
+| **Workload API + gang scheduling** | Alpha | Distributed training (PyTorch DDP, JAX, Ray) requires all workers to launch simultaneously; partial deployment holds GPU allocation without progress. Native gang scheduling in kube-scheduler removes the need for Volcano/Yunikorn/custom webhooks for this guarantee. Write Job specs against the Workload API surface now for portability when it reaches beta/stable (v1.36–1.37). |
+| **In-place Pod resource resize** | GA | CPU/memory updates without container restart. Critical for inference: right-size vLLM/Triton pods after profiling without rollout or cold model reload. Makes Vertical Pod Autoscaler (VPA) practical for inference. |
+| **Dynamic Resource Allocation (DRA)** | Alpha enhancements | Consumable capacity, partitionable devices, device taints. Express multi-GPU topologies (e.g. MIG slices, device taints) at cluster level instead of node selectors and custom labels. Use for multi-GPU CV pipelines and structured accelerator claims. |
+| **Opportunistic batching** | Beta (on by default) | Scheduler reuses feasibility calculations for identical Pods (same requests, affinities, images). Faster startup for large distributed jobs (e.g. 64 worker pods); less wall-clock time between submit and GPU utilization. |
+| **Pod certificates (workload identity)** | Beta (on by default) | Native workload identity for zero-trust and mTLS; reduces reliance on external controllers or sidecars. |
+
+**Breaking changes — audit before upgrading to v1.35:**
+
+- **cgroup v1 removal:** kubelet will not start on nodes that do not support cgroup v2. Audit ML nodes (e.g. CentOS 7, older Ubuntu LTS); upgrade or replace nodes that still rely on cgroup v1.
+- **kube-proxy IPVS deprecation (nftables):** If service load balancing across inference replicas uses IPVS kube-proxy, plan migration to nftables. Intentional node fleet audit required before upgrade.
+
+**Policy:** For new ML/CV Kubernetes workloads (distributed training Jobs, inference Deployments), design against the Workload API and in-place resize semantics so that when gang scheduling and DRA reach stable, no spec rewrites are required. Do not rely on cgroup v1 or IPVS kube-proxy on nodes targeting v1.35+ without a documented migration plan.
 
 ## 8) Networking and security
 
@@ -229,6 +250,7 @@ Below is a professional-team rule set for **Docker / Kubernetes / Podman / Kafka
 86. Consumers without lag monitoring.
 87. Missing resource limits leading to noisy-neighbor failures.
 88. **Using Ingress NGINX (deprecated, retiring March 2026)** — use Gateway API instead.
+89. **Targeting Kubernetes v1.35+ with cgroup v1 or IPVS kube-proxy** without a migration plan — audit nodes and migrate to cgroup v2 and nftables before upgrade.
 
 ## 17) Minimal "gold standard" checklist
 
@@ -239,6 +261,7 @@ Below is a professional-team rule set for **Docker / Kubernetes / Podman / Kafka
 92. Logs, metrics, and traces are available for every service.
 93. Rollbacks are fast and documented.
 94. **Ingress uses Gateway API (not deprecated Ingress NGINX)** — migration completed before March 2026.
+95. **Kubernetes v1.35+ (ML/CV):** Node fleet uses cgroup v2 and nftables (not cgroup v1 / IPVS); distributed training and inference specs align with Workload API and in-place resize where applicable.
 
 
 ---
