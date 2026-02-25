@@ -1197,7 +1197,7 @@ MCP servers in Cursor provide structured access to tools (Databases, Git, APIs, 
 
 **When to use MCP:**
 - Accessing files > 50 lines (use Filesystem MCP)
-- Querying databases (use Postgres MCP)
+- Querying databases (use Postgres MCP; for ML/CV the locked implementation is postgres-mcp (crystaldba) — see `references/sql-and-mcp-notes-ml-cv.md`)
 - Reading Git history (use Git MCP)
 - Fetching web content (use Browser MCP)
 - **External tool integration:** BigQuery, Slack, error log fetching, and other external services
@@ -1227,7 +1227,7 @@ MCP servers in Cursor provide structured access to tools (Databases, Git, APIs, 
 
 4. **Configuration:** See Part 2: Prompt Engineering and `templates/mcp-template.md` for detailed MCP setup and usage patterns.
 
-5. **Comprehensive reference:** For complete MCP ecosystem documentation, including protocol architecture, MCP-UI framework, development patterns, and production considerations, see `references/mcp-ecosystem-notes.md`.
+5. **Comprehensive reference:** For complete MCP ecosystem documentation, including protocol architecture, MCP-UI framework, development patterns, and production considerations, see `references/mcp-ecosystem-notes.md`. For ML/CV SQL and Postgres-MCP locked decisions (PostgreSQL dialect, postgres-mcp crystaldba), see `references/sql-and-mcp-notes-ml-cv.md`.
 
 **Security:** MCP servers must be restricted to necessary directories/files. Never allow full system access.
 

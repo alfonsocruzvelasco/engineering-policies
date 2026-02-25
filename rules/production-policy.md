@@ -1415,6 +1415,8 @@ This section defines professional, enforceable rules for working with **SQL as a
 
 Scope: schema design, queries, migrations, performance, correctness, and operational safety — within modern data-intensive systems, including CV/ML engineering.
 
+**ML/CV decision record:** For ML/CV engineering, the locked SQL dialect is **PostgreSQL** and the reference MCP for database access is **postgres-mcp (crystaldba)**. See [SQL & MCP decision record](references/sql-and-mcp-notes-ml-cv.md).
+
 ### 2.1 SQL in CV/ML Architectures
 
 #### Context: SQL in modern CV/ML data architectures

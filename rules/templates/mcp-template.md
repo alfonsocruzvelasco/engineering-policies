@@ -615,7 +615,7 @@ Afternoon (MCP):
 **MCP setup priority for ML/CV:**
 1. **Filesystem MCP** (reading large files efficiently)
 2. **Git MCP** (deterministic history access)
-3. **Postgres MCP** (local dataset queries)
+3. **Postgres MCP** (local dataset queries) — locked implementation: postgres-mcp (crystaldba). See `references/sql-and-mcp-notes-ml-cv.md`.
 4. **Firecrawl MCP** (clean documentation access)
 
 ---
