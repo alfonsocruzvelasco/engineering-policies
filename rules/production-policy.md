@@ -2267,6 +2267,7 @@ pre-commit run --all-files
     * purpose of the repository
     * how to build and test
     * contribution workflow
+    * **ML/CV and integration-heavy systems:** Include an **Integration Reliability** section (input contracts, upstream failure modes, downstream consumers, low-confidence behavior, stress failure mode). See [readme-template.md](templates/readme-template.md). Model accuracy is not the main production risk; integration reliability is.
 62. **CONTRIBUTING.md** is required for externally visible repos.
 63. **ARCHITECTURE.md** (or equivalent) is required for non-trivial systems.
 

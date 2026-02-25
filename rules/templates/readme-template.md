@@ -50,6 +50,18 @@ pytest
 
 ---
 
+## Integration Reliability
+
+*(For ML/CV and integration-heavy systems. AI and ML systems often fail at integration boundaries, not model accuracy. Document contracts and failure paths.)*
+
+- **Input contracts:** Shape, dtype, value ranges
+- **Known upstream failure modes:** [e.g. dropped frames, corrupt inputs, missing data]
+- **Expected downstream consumers:** [e.g. decision logic, API, storage]
+- **Low-confidence behavior:** What happens when model confidence is below threshold
+- **Stress failure mode:** What breaks first under load or partial failure
+
+---
+
 ## Key Links
 
 - [Documentation](docs/)
