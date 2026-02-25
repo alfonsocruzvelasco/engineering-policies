@@ -347,6 +347,11 @@ For minimal, policy-compliant evaluation use only (no production, no real code):
 - MUST NOT run on production systems
 - MUST sanitize all prompts and context
 
+**Minimum safe version (repo-config RCE/key-exfil):**
+- Claude Code MUST be kept at or above vendor-fixed versions for known repo-level config vulnerabilities (see security-policy.md Section 19 PI-7.1).
+- Track Anthropic security advisories; update the minimum version floor below within 7 days of disclosure (per Section 14.6.8 cadence).
+- **Current minimum version floor:** *Verify against Anthropic security advisories before encoding; do not rely on unverified disclosure version numbers (e.g. `>= 2.0.65`) until confirmed.*
+
 **Cost Model:** API usage costs (Anthropic Claude pricing)
 **Documentation:** https://docs.anthropic.com/claude-code
 **Support:** Anthropic support portal
@@ -484,6 +489,7 @@ All approved tools MUST be recertified annually:
 - [ ] Assess developer feedback and satisfaction
 - [ ] Check for alternative tools with better security posture
 - [ ] Update tool version and configuration requirements
+- [ ] **Claude Code:** Update minimum safe version floor from Anthropic security advisories (per Section 19 PI-7.1; within 7 days of disclosure per Section 14.6.8)
 
 **Recertification Schedule:**
 

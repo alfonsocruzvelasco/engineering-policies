@@ -34,6 +34,7 @@
 - [Model and Artifact Security](#17-model-and-artifact-security)
 - [Incident Response](#18-incident-response)
 - [Prompt Injection Defense (Critical for AI Coding)](#19-prompt-injection-defense-critical-for-ai-coding)
+  - [PI-7: Repo-Level AI Agent Configuration (Project-Load Attack Surface)](#pi-7-repo-level-ai-agent-configuration-project-load-attack-surface)
 - [Mandatory Verification Gates (Before Merge)](#20-mandatory-verification-gates-before-merge)
   - [AI-assisted security review workflow](#205-ai-assisted-security-review-workflow)
 - [Exceptions](#21-exceptions)
@@ -514,6 +515,13 @@ This section applies to AWS/GCP/Azure and on-prem equivalents.
 * Inference outputs must not leak training data (membership inference attacks)
 * Batch inference jobs must use secure channels and access controls
 * Real-time inference endpoints must enforce rate limiting and authentication
+
+### Agent configuration files (repo-level AI config — CI/CD gates)
+
+Per Section 19 PI-7 (Repo-Level AI Agent Configuration):
+
+* Fail CI if repos contain `.claude/settings.json`, `.mcp.json`, or agent hook definitions without a documented exception in `security-exceptions.md`.
+* Flag any `ANTHROPIC_BASE_URL` or equivalent endpoint override in repo config.
 
 ---
 
@@ -1705,6 +1713,54 @@ def execute_destructive_operation(operation, target):
 - Enforce sandbox boundaries at runtime, not just policy
 
 **Reference:** [Amazon Q Incident (July 2025)](https://www.techradar.com/pro/hacker-adds-potentially-catastrophic-prompt-to-amazons-ai-coding-service-to-prove-a-point) - malicious prompt instructed AI to use filesystem and AWS CLI privileges to wipe systems and delete cloud resources.
+
+### PI-7: Repo-Level AI Agent Configuration (Project-Load Attack Surface)
+
+**Threat Reference:** Feb 2026 disclosure — Claude Code repo config (`.claude/settings.json`, `.mcp.json`, `ANTHROPIC_BASE_URL` overrides) can execute or exfiltrate credentials at project-load time, before trust prompts, via malicious repositories.
+
+**Core Principle:** Repo-level AI agent configuration files are EXECUTABLE ATTACK SURFACE, not passive config. Treat them identically to Dockerfiles or CI pipeline definitions.
+
+#### PI-7.1: Mandatory version floor (Claude Code)
+
+- Claude Code MUST be kept at or above vendor-fixed versions for known repo-config RCE/key-exfil issues.
+- Track Anthropic security advisories; update minimum version floor in `approved-ai-tools.md` within 7 days of disclosure (per Section 14.6.8 cadence).
+
+#### PI-7.2: Untrusted repo classification gate
+
+- Claude Code (and similar agents) MUST NOT be started inside a repository until the repo is classified TRUSTED.
+- TRUSTED requires: (a) provenance check (origin, maintainer, commit signature if available), (b) scan for agent config files (PI-7.3), (c) no unexpected MCP server endpoints or env overrides.
+- Applies to: cloned repos, opened PRs, third-party repositories, forks.
+
+#### PI-7.3: Agent config denylist (block by default)
+
+The following files are treated as EXECUTABLE POLICY SURFACE and are BLOCKED by default in untrusted repos:
+
+- `.claude/settings.json`
+- `.mcp.json`
+- Any repo-defined hooks for AI agents (per Section 6.2)
+
+Any repo config that:
+
+- enables all project MCP servers (`enableAllProjectMcpServers=true`), OR
+- sets/overrides model endpoint env vars (`ANTHROPIC_BASE_URL`)
+
+is automatically classified HIGH-RISK until reviewed.
+
+Exceptions require: documented security exception in `security-exceptions.md` + code-owner review.
+
+#### PI-7.4: Pre-commit/CI enforcement
+
+Add to CI/CD gates (see Section 11 and project CI configuration):
+
+- Fail CI if repos contain `.claude/settings.json`, `.mcp.json`, or agent hook definitions without a documented exception.
+- Flag any `ANTHROPIC_BASE_URL` or equivalent endpoint override in repo config.
+
+#### PI-7.5: Key containment (repo-open scenario)
+
+Extending Section 2 (Secrets Handling) for the repo-open threat model:
+
+- If a repo was opened in an agent context before TRUSTED classification was confirmed, treat any exposed API keys as COMPROMISED — rotate immediately per Section 18.
+- Anthropic/model API keys exposed to an untrusted repo context: assume exfiltration, revoke, re-issue.
 
 ---
 
