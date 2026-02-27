@@ -79,6 +79,9 @@ Emphasis: "Produce unified diff only. No explanations unless requested."
 ### For Local Models (qwen3-coder, etc.)
 Constraint: "Minimize token usage. Terse responses. Code only."
 
+### Prompt Repetition (Non-Reasoning Paths Only)
+When using non-reasoning inference (no CoT/extended thinking), repeat the task card to improve attention coverage. Do not repeat retrieved context or RAG documents. Highest value for structured lookup tasks (entity extraction, list retrieval). See `ai-workflow-policy.md §13.1` and `references/prompt-repetition-improves-non-reasoning-llms.pdf`.
+
 ---
 
 ## Optional Add-ons (Use Only When Needed)

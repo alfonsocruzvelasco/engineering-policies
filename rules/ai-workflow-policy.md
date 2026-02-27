@@ -3307,6 +3307,38 @@ Assume I don't trust your answer. Give me:
 
 ---
 
+## 13.1) Prompt Repetition (Non-Reasoning Inference Optimization)
+
+**Source:** Leviathan et al. (Google Research, arXiv:2512.14982). See `references/prompt-repetition-improves-non-reasoning-llms.pdf`.
+
+**Mechanism:** Causal attention means early tokens cannot attend to later tokens. Repeating the prompt (`<QUERY><QUERY>`) lets every token attend bidirectionally across the full query at prefill time. This patches an architectural limitation, not a superstition.
+
+**When to apply:**
+
+- **Non-reasoning inference only.** Reasoning models (CoT, extended thinking) self-repeat endogenously; prompt repetition is redundant and wastes prefill compute.
+- **Structured lookup tasks are highest priority:** entity extraction, slot filling, ordered list retrieval from long context (×3 repetition: NameIndex 21% → 97%).
+- **Instructions and constraints, not documents.** Never repeat retrieved RAG context — it doubles token cost, risks hitting context limits, and provides no structural benefit since the retriever already surfaced those tokens.
+
+**How to apply:**
+
+| Variant | Template | Use case |
+|---|---|---|
+| ×2 (default) | `<QUERY><QUERY>` | General non-reasoning tasks |
+| ×2 verbose | `<QUERY> Let me repeat that: <QUERY>` | When model needs delimiter |
+| ×3 | `<QUERY> Let me repeat that: <QUERY> Let me repeat that one more time: <QUERY>` | Structured lookup from long lists |
+
+**Where NOT to apply:**
+
+- Reasoning models (Opus 4.6 extended thinking, o-series, DeepSeek-R1) — neutral at best, wasteful
+- RAG-augmented prompts — repeat the instructions, never the retrieved context
+- Prompts already near context window limits
+
+**Results:** 47/70 benchmark-model wins, 0 losses (non-reasoning). No latency increase (prefill is parallelizable). No change to output format or length.
+
+**Integration:** Apply in templates and skills for non-reasoning inference paths. Treat as a systems-level knob, not a prompt trick.
+
+---
+
 ## 14) Spec-Driven Development Integration
 
 When working on features that span multiple files or require architectural decisions:
