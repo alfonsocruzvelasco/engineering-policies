@@ -428,6 +428,8 @@ Headless mode is the planning complement to test-driven development. It enforces
 
 **See:** `templates/claude-md-template.md` for minimal template structure (v3.0).
 
+**See also:** `templates/agents-md-template.md` for the canonical AGENTS.md template (non-discoverable tooling, hard constraints, security landmines, agent selection, verification gates — under 150 lines). Based on Gloaguen et al. and Osmani guidance above; see `references/stop-using-agent-md.pdf` for the full argument.
+
 ### Session Priming for Conversational Workflows
 
 **Distinction:** The minimal CLAUDE.md rule above applies to **autonomous coding agents** (Claude Code, Codex, SWE-bench-style). **Session priming** applies to **conversational AI** (Cursor chat, Claude.ai, Copilot chat, Claude Projects) — stateless or project-scoped sessions where the model has no project knowledge unless you inject it. Do not use a long priming document as CLAUDE.md; that would trigger the 20%+ cost penalty for agents.

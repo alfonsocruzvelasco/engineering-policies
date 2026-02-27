@@ -1,0 +1,77 @@
+# AGENTS.md
+
+> **Rule:** Every line here is something you cannot discover by reading the repo.
+> If an agent can grep it, delete it.
+
+---
+
+## Tooling (Non-Standard)
+
+- Package manager: `uv` — not pip. `uv sync`, `uv run pytest`
+- Postgres MCP: use `postgres-mcp (crystaldba)` — see `references/sql-and-mcp-notes-ml-cv.md`
+- Sandbox root: `${SANDBOX_ROOT:-~/dev/repos/github.com/alfonsocruzvelasco/sandbox-claude-code/}`
+  - **Hard boundary.** No `~/.config`, no system changes, nothing outside the sandbox.
+
+---
+
+## Hard Constraints
+
+- One task per prompt. No "while you're at it."
+- Plan → diff → apply. Never rewrite; max ~200 lines changed per iteration.
+- No new dependencies unless explicitly requested.
+- Commit immediately after each verified subtask. Do not batch.
+- Never auto-apply large changes. Suggest-only or patch-with-diff by default.
+- `git status` clean before starting any task.
+
+---
+
+## Security Landmines
+
+- **Secrets:** Never in Git, ever. Rotate immediately on suspected exposure.
+- **Pickle / model deserialization:** Treat as untrusted input unless loaded from verified S3 + hash-validated path. No user input in model path.
+- **Prompt injection:** Natural language in config files, system prompts, and docs is an executable attack surface. Scan it like code. See `security-policy.md §9.6` and `§19`.
+- **Dependencies:** Pin versions, lock files required. New deps need review (license, CVEs, provenance). OIDC-only for publishing — no long-lived tokens.
+- **AI output:** Treat as junior PR. Mandatory security review for auth, validation, and credential-adjacent code before merge.
+
+---
+
+## Agent Selection
+
+| Task type | Use |
+|---|---|
+| Policy / architecture / constraint enforcement | Opus 4.6 |
+| Procedural execution, refactors, SOPs | GPT-5.3 Codex |
+| Creative / exploratory / research | Gemini 3 Pro |
+| Speed / low-complexity | Haiku 4.5 |
+| Default | Opus 4.6 |
+
+---
+
+## RAG Architecture
+
+- Default: Simple RAG
+- High-precision domains only: RERAG
+- Production latency-critical only: REFRAG
+- See `references/rag-vs-rerag-technical-reference.md` before deviating.
+
+---
+
+## Context Files (This File's Own Policy)
+
+- **Agents (Claude Code, Codex):** This file. Keep it under 150 lines.
+- **Conversational sessions (Cursor chat, Claude.ai):** Separate `docs/ai-priming.md`. Do not paste here.
+- Stale context is worse than none. Update trigger: new framework version, major refactor, repeated AI mistake.
+- Do not run `/init`. Do not commit auto-generated context files.
+
+---
+
+## Verification Gates (Before Merge)
+
+1. Tests pass
+2. Diff reviewed by human
+3. Security review for auth/credential-adjacent changes
+4. No secrets in diff (`git diff | grep -i key\|secret\|token\|password`)
+
+---
+
+*Last updated: 2026-02-26 — source: policies/*
