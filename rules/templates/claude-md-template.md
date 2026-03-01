@@ -1,5 +1,7 @@
 # CLAUDE.md v3.0 — Minimal Context File
 
+**Tier:** HOT (always loaded at session start — project constitution per Vasilopoulos). See `../ai-workflow-policy.md` "Tiered Context Architecture" for HOT/WARM/COLD classification.
+
 **Purpose:** Provide ONLY non-standard tooling requirements and hard constraints for coding agents.
 
 **Research:** Gloaguen et al. (2026) found that comprehensive context files reduce agent performance by ~3% and increase costs by 20%+. Minimal developer-written files improve performance by ~4%. See `ai-workflow-policy.md` Section "Shared Team Knowledge: CLAUDE.md" for details.

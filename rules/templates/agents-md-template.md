@@ -1,5 +1,7 @@
 # AGENTS.md
 
+**Tier:** HOT (always loaded at session start). This is a project constitution per Vasilopoulos's tiered context architecture. See `../ai-workflow-policy.md` "Tiered Context Architecture" for HOT/WARM/COLD classification.
+
 > **Rule:** Every line here is something you cannot discover by reading the repo.
 > If an agent can grep it, delete it.
 

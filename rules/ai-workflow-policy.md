@@ -430,6 +430,39 @@ Headless mode is the planning complement to test-driven development. It enforces
 
 **See also:** `templates/agents-md-template.md` for the canonical AGENTS.md template (non-discoverable tooling, hard constraints, security landmines, agent selection, verification gates — under 150 lines). Based on Gloaguen et al. and Osmani guidance above; see `references/stop-using-agent-md.pdf` for the full argument.
 
+### Tiered Context Architecture (HOT / WARM / COLD)
+
+**Source:** Vasilopoulos (arXiv:2602.20478, Feb 2026) — three-tier codified context infrastructure validated across 283 sessions on a 108K-line system. See `references/codified-context-infrastructure-for-ai-agents-in-a-complex-codebase.pdf`.
+
+Context files are classified by **load frequency**, not importance:
+
+| Tier | Name | Loading | Content | Size budget |
+|---|---|---|---|---|
+| **HOT** | Constitution | Always loaded (every session) | Conventions, hard constraints, orchestration triggers, known failure modes | <660 lines |
+| **WARM** | Specialist agents | Invoked per task (via trigger table or manual selection) | Domain-scoped agent specs with embedded project knowledge | 115–1,233 lines each |
+| **COLD** | Knowledge base | Retrieved on demand (MCP or manual `@` reference) | Subsystem specs, architecture docs, decision records | Scoped per subsystem |
+
+**How this maps to your existing files:**
+
+| Your file | Tier | Rationale |
+|---|---|---|
+| `CLAUDE.md` / `AGENTS.md` | HOT | Always loaded by agent at session start |
+| `templates/agents-md-template.md` | HOT (template) | Source for per-repo HOT file |
+| `templates/claude-md-template.md` | HOT (template) | Source for per-repo HOT file |
+| Agent specs (domain-template, .cursorrules) | WARM | Loaded per-task or per-mode |
+| `rules/references/*` | COLD | Retrieved on demand; never bulk-loaded |
+| `rules/*.md` (policies) | COLD | Referenced, not loaded into agent context |
+
+**Key principles from Vasilopoulos:**
+
+- **G4: "If you explained it twice, write it down."** Repeated explanation across sessions → codify as a spec.
+- **G5: "When in doubt, create an agent and restart."** Building a specialist with embedded domain knowledge resolves problems that stall unguided sessions.
+- **G6: "Stale specs mislead."** Agents trust documentation absolutely; out-of-date specs cause silent failures. Update trigger: code changed without corresponding spec update.
+- **Staleness is the primary failure mode**, not missing content. A biweekly review pass across HOT/WARM files is recommended.
+- **HOT must stay concise.** The constitution answers "what rules must you always follow?"; COLD answers "how does subsystem X work in detail?"
+
+**Diagnostic step (recommended before restructuring):** Label every context-adjacent file in your project as HOT, WARM, or COLD. This surfaces misclassifications — procedures masquerading as norms, norms buried in procedures — before you restructure anything.
+
 ### Session Priming for Conversational Workflows
 
 **Distinction:** The minimal CLAUDE.md rule above applies to **autonomous coding agents** (Claude Code, Codex, SWE-bench-style). **Session priming** applies to **conversational AI** (Cursor chat, Claude.ai, Copilot chat, Claude Projects) — stateless or project-scoped sessions where the model has no project knowledge unless you inject it. Do not use a long priming document as CLAUDE.md; that would trigger the 20%+ cost penalty for agents.
