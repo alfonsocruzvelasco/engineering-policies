@@ -347,6 +347,14 @@ The `-p` / `--print` flag runs Claude Code non-interactively. Claude reads a pro
 - You're debugging and need conversational back-and-forth
 - You want to explore a solution space before committing to a direction
 
+**Agent pairing protocol (interactive mode):**
+
+1. **Ensure `AGENTS.md` exists** in the repository root before starting any agent session
+2. **Review it** before execution — stale context produces stale output
+3. **Treat it as the primary constraint source** — not the prompt, not the conversation history
+
+Agent work without `AGENTS.md` = non-professional workflow. See `development-environment-policy.md` "Agent Context Governance" for enforcement.
+
 **The tell:** If you'd want to read the output before deciding what to do next — use headless.
 
 **Permission model (key levers):**
@@ -1138,6 +1146,24 @@ flowchart TD
 | "Generate research hypotheses" | Gemini 3 Pro | Exploratory, creative |
 | "Analyze experimental results" | Gemini 3 Pro or Opus 4.6 | Research workflow, reasoning |
 
+### Agent Classification Layer
+
+Agents are not uniform. Different operational contexts require different governance, logging, and cost discipline.
+
+| Agent Class | Context | AGENTS.md | Logging | Token ceiling | Examples |
+|---|---|---|---|---|---|
+| **Exploratory** | Research, learning repos, prototyping | Recommended (lightweight) | Optional | Soft (advisory) | Literature review, hypothesis generation, sandbox experiments |
+| **Production** | Revenue-path code, deployed services, CI/CD | **Mandatory** (full template) | **Mandatory** (see `mlops-policy.md` §5.8) | Hard (abort on exceed) | Feature implementation, bug fixes, refactors in production repos |
+| **Infrastructure** | CI bots, PR reviewers, linters, automated pipelines | Mandatory (scoped to pipeline) | Mandatory | Hard | Code review agents, security scan agents, deployment agents |
+
+**Governance by class:**
+
+- **Exploratory agents** may exceed token ceilings without abort — log and review only
+- **Production agents** MUST respect cost budgets (see "Agent Cost Budgeting" above) — abort on exceed
+- **Infrastructure agents** MUST have deterministic behavior — same input produces same output class; flaky agents are decommissioned
+
+**Classification assignment:** Repository-level. Set in `AGENTS.md` header or infer from repository type (`~/learning-repos/` = exploratory; `~/dev/repos/` = production).
+
 ### Effort Parameter (Opus 4.6)
 
 **Adaptive thinking with `/effort` parameter:**
@@ -1407,6 +1433,29 @@ Brief description of what this skill does.
 - Examples: `docs/examples.md`
 - Scripts: `scripts/`
 ```
+
+### Agent Cost Budgeting
+
+For any automated or semi-automated agent workflow, cost is a design variable — not an externality.
+
+**Required per-task budget parameters:**
+
+| Parameter | Definition | Default ceiling |
+|---|---|---|
+| Max tokens per task | Total token budget (input + output) | 500K tokens |
+| Max runtime per task | Wall-clock abort threshold | 300 seconds |
+| Max tool calls per task | Complexity ceiling | 50 tool calls |
+
+**When thresholds are exceeded:**
+
+1. **Abort** the agent execution
+2. **Log** the failure with full metrics (see `mlops-policy.md` Section 5.8)
+3. **Review AGENTS.md** — threshold exceedance is a context quality signal, not a model failure
+4. **Refactor context** — reduce ambiguity, add missing constraints, tighten scope
+
+**Calibration:** Defaults above are starting points. Teams MUST calibrate against their actual task distribution within the first 20 agent executions and adjust. Track via `~/dev/devruns/<project>/agent-metrics/`.
+
+**Evidence:** Lulla et al. (2026) showed AGENTS.md presence reduces median runtime by 29% and output tokens by 17%. Context quality is the primary lever for cost control — model selection is secondary.
 
 ### Token Budget Thresholds
 

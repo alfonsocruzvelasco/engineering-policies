@@ -67,6 +67,42 @@
 
 ---
 
+## Architecture
+
+<!-- High-level component map. What are the major subsystems and how do they connect? -->
+<!-- Delete this section if trivially obvious from the directory structure. -->
+
+---
+
+## Directory Structure
+
+<!-- Explain only non-obvious folder purposes. If `src/`, `tests/`, `docs/` — skip. -->
+<!-- Focus on: "an agent opening this repo would get confused by X" -->
+
+---
+
+## Deployment Model
+
+<!-- Container? Bare metal? GPU? CI runner? What does the agent need to know to avoid wrong assumptions? -->
+
+---
+
+## Performance Constraints
+
+<!-- Time/memory expectations. Max inference latency, memory ceiling, batch size limits. -->
+<!-- Delete if no hard constraints exist. -->
+
+---
+
+## Agent Boundaries
+
+<!-- What the agent MUST NOT do. Explicit prohibitions beyond security. -->
+- Do not modify files outside the project root
+- Do not run commands that require network access without explicit approval
+- Do not refactor across module boundaries without a plan review
+
+---
+
 ## Verification Gates (Before Merge)
 
 1. Tests pass
@@ -76,4 +112,4 @@
 
 ---
 
-*Last updated: 2026-02-26 — source: policies/*
+*Last updated: 2026-03-03 — source: policies/*

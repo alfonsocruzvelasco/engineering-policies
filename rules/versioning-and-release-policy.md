@@ -76,3 +76,18 @@ Breaking changes MUST:
 Hotfix releases:
 - MUST follow the same CI and tagging rules
 - SHOULD be minimal diffs
+
+## 9) Agent Feedback Loop
+
+`AGENTS.md` is a living performance optimization artifact, not static documentation. It requires the same versioning discipline as any load-bearing configuration.
+
+**Trigger:** After **5+ agent executions** in a repository (cumulative, not per session):
+
+1. **Review failure cases** — what did the agent get wrong, and why?
+2. **Update AGENTS.md** — remove ambiguity, add missing constraints, clarify architecture
+3. **Remove stale content** — outdated instructions cause silent failures (Vasilopoulos G6)
+4. **Add missing architecture clarifications** — if the agent explored unnecessarily, the context was insufficient
+
+**Versioning:** AGENTS.md changes follow the same commit and changelog discipline as code. Significant rewrites SHOULD be noted in the changelog under "Infrastructure" or "Developer Experience."
+
+**Cross-reference:** Agent metrics in `~/dev/devruns/<project>/agent-metrics/` (see `mlops-policy.md` Section 5.8) are the primary input for this review. Efficiency is the feedback signal; AGENTS.md is the control surface.

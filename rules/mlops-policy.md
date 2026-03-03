@@ -828,6 +828,35 @@ graph LR
 - Testing model on real production data
 - Comparing model performance without risk
 
+### 5.8 Agent Observability & Cost Discipline
+
+AI coding agents are operational components. When used in production or semi-production workflows, they require the same observability discipline as any other service.
+
+**Required metrics (per agent execution):**
+
+| Metric | Why |
+|---|---|
+| Wall-clock execution time | Latency budget, regression detection |
+| Total tokens (input + output) | Cost accounting, budget enforcement |
+| Output tokens | Generation cost, efficiency tracking |
+| Number of tool calls | Complexity signal, agent behavior audit |
+| Retry count | Reliability signal, context quality diagnostic |
+| Failure mode | Root cause taxonomy, AGENTS.md improvement signal |
+
+**Storage:**
+
+```text
+~/dev/devruns/<project>/agent-metrics/
+├── YYYY-MM-DD-<task-hash>.json
+└── summary.csv
+```
+
+Aligns with `development-environment-policy.md` artifact boundaries (`~/dev/devruns/`).
+
+**Feedback loop:** These logs feed directly into the Agent Feedback Loop (see `versioning-and-release-policy.md`). If an agent class consistently exceeds cost or time budgets, the first corrective action is to review and improve the repository's `AGENTS.md`, not to blame the model.
+
+> log → evaluate → monitor → improve. Agents that aren't observed can't be improved.
+
 ---
 
 ## 6) Hyperparameter Tuning

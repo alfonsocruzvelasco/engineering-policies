@@ -388,6 +388,33 @@ Repos contain only:
 
 ---
 
+## Agent Context Governance (AGENTS.md Required)
+
+Every repository that uses an AI coding agent — Claude Code, Codex, Goose, OpenHands, or any equivalent — **MUST include a root-level `AGENTS.md`**.
+
+**Evidence basis:** Lulla et al. (ICSE JAWs 2026, arXiv:2601.20404) measured a **29% median runtime reduction** and **17% median output token reduction** across 124 PRs when AGENTS.md was present. This is not optional guidance — it is a measurable engineering constraint.
+
+**Required content (minimum viable):**
+
+| Section | Purpose |
+|---|---|
+| Project architecture overview | Component map, high-level structure |
+| Directory map | Key folders, what lives where |
+| Build & test commands | Exact commands the agent must use |
+| Coding standards | Language-specific constraints, linting rules |
+| Dependency management | Package manager, lock file requirements |
+| Security constraints | Forbidden actions, secrets policy, network rules |
+| Prohibited patterns | What the agent MUST NOT do |
+| Deployment assumptions | Container, bare metal, GPU, CI runner |
+
+**Size constraint:** <150 lines for production repos. Every line must be non-discoverable — if the agent can grep it from the codebase, delete it. See `ai-workflow-policy.md` "Shared Team Knowledge" for the research basis (Gloaguen et al.).
+
+**Template:** `templates/agents-md-template.md`
+
+**Enforcement:** Repositories without a root-level `AGENTS.md` are classified as **agent-unprepared**. Agent work in agent-unprepared repos is a non-professional workflow — higher cost, higher error rate, no constraint enforcement.
+
+---
+
 ## Final Mental Model
 
 Memorize:
