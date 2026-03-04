@@ -752,6 +752,23 @@ def authenticate_user(username, password):
 
 ---
 
+## AI Confirmation Risk
+
+AI systems tend to reinforce the user's hypothesis. Default LLM behavior is statistically indistinguishable from explicitly sycophantic prompting — discovery rates drop to 5.9% vs 29.5% with unbiased sampling (Batista & Griffiths, Princeton, 2026).
+
+**Never accept conclusions produced only through AI dialogue.** Always verify with:
+
+- **External data** — check sources the AI didn't generate
+- **Independent tools** — reproduce results outside the AI session
+- **Alternative models** — cross-check with a different model or agent
+- **Falsification** — ask "what would disprove this?" before accepting
+
+**For reasoning tasks:** Use the Hypothesis Stress Test (see `ai-workflow-policy.md §13.2`) — ASSUMPTION → COUNTER-ARGUMENT → DISPROOF TEST.
+
+**For documentation:** Separate Evidence from Model Interpretation (see `documentation-policy.md §6`).
+
+---
+
 ## 💡 Pro Tips
 
 ### Tip 1: Use Approved Alternatives First

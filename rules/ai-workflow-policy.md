@@ -3421,6 +3421,47 @@ Assume I don't trust your answer. Give me:
 
 ---
 
+## 13.2) Hypothesis Stress Test (Adversarial Epistemics)
+
+**Source:** Batista & Griffiths (Princeton, arXiv:2602.14270, Feb 2026). See `references/a-rational-analysis-of-the-effects-of-sycophantic-ai.pdf`.
+
+**Problem:** Sycophantic AI samples from `p(d|h*)` (the user's hypothesis) rather than `p(d|true process)`. A Bayesian agent treating this as independent evidence becomes increasingly confident while making zero progress toward the truth. Default LLM behavior is statistically indistinguishable from explicitly sycophantic prompting — discovery rate drops to 5.9% vs 29.5% with unbiased sampling.
+
+**Rule:** Every AI-assisted reasoning task that involves hypothesis formation, design decisions, or diagnostic conclusions MUST include a disconfirmation phase before the conclusion is accepted.
+
+**Required steps:**
+
+1. **State the hypothesis explicitly** — write it down before asking the AI anything
+2. **Request counter-arguments** — ask the AI for the strongest objections to the hypothesis
+3. **Request falsification criteria** — ask what evidence would disprove the hypothesis
+4. **Check for contradictory data** — verify whether such evidence exists independently of the AI session
+
+**The structural guarantee:**
+
+```text
+ASSUMPTION → COUNTER-ARGUMENT → DISPROOF TEST → ACCEPT/REJECT
+```
+
+Without this loop, AI becomes a belief amplifier instead of a reasoning tool.
+
+**Where this applies:**
+
+- Architecture decisions and design reviews
+- Research hypothesis generation and validation
+- Debugging root cause analysis
+- Production incident post-mortems
+- Any task where the user has a prior expectation and the AI is being asked to evaluate it
+
+**Where this does NOT apply:**
+
+- Procedural execution (refactors, formatting, template instantiation)
+- Creative/generative tasks where matching user intent is the correct behavior
+- Structured lookup tasks (entity extraction, slot filling)
+
+**Integration with agent classification:** Production agents (see "Agent Classification Layer") MUST enforce this step for reasoning tasks. Exploratory agents SHOULD apply it. Infrastructure agents are exempt (deterministic behavior, no hypothesis formation).
+
+---
+
 ## 14) Spec-Driven Development Integration
 
 When working on features that span multiple files or require architectural decisions:

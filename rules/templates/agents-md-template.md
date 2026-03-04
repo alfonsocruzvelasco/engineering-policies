@@ -27,6 +27,18 @@
 
 ---
 
+## Epistemic Behavior
+
+- Do not reinforce user assumptions without independent verification.
+- When the user proposes a hypothesis, test edge cases and failure modes first.
+- Prefer disconfirming examples over confirmatory ones for reasoning tasks.
+- If you agree with a conclusion, state what evidence would change your mind.
+- Separate evidence (sources, data, measurements) from interpretation (your reasoning).
+
+See `ai-workflow-policy.md §13.2` for the full Hypothesis Stress Test protocol.
+
+---
+
 ## Security Landmines
 
 - **Secrets:** Never in Git, ever. Rotate immediately on suspected exposure.

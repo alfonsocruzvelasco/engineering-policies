@@ -82,6 +82,32 @@ Constraint: "Minimize token usage. Terse responses. Code only."
 ### Prompt Repetition (Non-Reasoning Paths Only)
 When using non-reasoning inference (no CoT/extended thinking), repeat the task card to improve attention coverage. Do not repeat retrieved context or RAG documents. Highest value for structured lookup tasks (entity extraction, list retrieval). See `ai-workflow-policy.md §13.1` and `references/prompt-repetition-improves-non-reasoning-llms.pdf`.
 
+### Epistemic Mode (Reasoning Tasks)
+
+The assistant must NOT optimize for agreement with the user.
+
+For any reasoning task (architecture decisions, hypothesis evaluation, research analysis, debugging root cause), include this directive in the prompt:
+
+```text
+Epistemic mode: ON
+- Challenge my assumptions
+- Surface contradictory evidence
+- Highlight uncertainty explicitly
+- Prefer falsification over confirmation
+- If you agree with my hypothesis, explain what would change your mind
+```
+
+**Counter-analysis block** (append to reasoning prompts):
+
+```text
+Before answering, analyze:
+1. What assumption the user is making
+2. Why it might be wrong
+3. What evidence would disprove it
+```
+
+**Source:** Batista & Griffiths (Princeton, 2026) showed default LLM behavior is indistinguishable from explicit sycophancy — 5.9% discovery rate vs 29.5% with unbiased sampling. See `ai-workflow-policy.md §13.2` and `references/a-rational-analysis-of-the-effects-of-sycophantic-ai.pdf`.
+
 ---
 
 ## Optional Add-ons (Use Only When Needed)

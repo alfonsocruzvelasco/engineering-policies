@@ -60,22 +60,38 @@ Documentation MUST:
   - Links must be valid
 - **Critical reading + reproducibility:** Documentation must enable reproducibility. If a reader cannot reproduce the documented behavior, the documentation is incorrect.
 
-## 6) Diagrams
+## 6) AI Output Structure (Evidence vs Interpretation)
+
+AI-generated analysis, research summaries, and reasoning outputs MUST separate evidence from interpretation. AI reasoning is not evidence — it is model interpretation derived from evidence.
+
+**Required structure for AI-assisted reasoning outputs:**
+
+| Section | Content | Rule |
+|---|---|---|
+| **Evidence** | Sources, datasets, measurements, papers, code behavior | Must be independently verifiable |
+| **Model Interpretation** | AI reasoning derived from evidence | Clearly labeled as AI-generated analysis |
+| **Uncertainty** | What could make this conclusion wrong, confidence level, missing data | Must be explicit, never omitted |
+
+**Why:** Sycophantic AI generates confirmatory samples that inflate confidence without improving truth (Batista & Griffiths, Princeton, 2026). Separating evidence from interpretation prevents treating AI reasoning as data. See `ai-workflow-policy.md §13.2`.
+
+**Applies to:** Architecture decision records, research notes, debugging post-mortems, experiment analysis, any document where AI contributed to the reasoning chain. Does NOT apply to procedural outputs (code, configs, templates).
+
+## 7) Diagrams
 
 - Use diagrams only when they reduce complexity.
 - Diagrams MUST be editable text formats (e.g., Mermaid) or source-controlled assets.
 - Do not embed opaque diagrams with no source.
 
-## 7) Naming and style
+## 8) Naming and style
 
 - Filenames SHOULD be lowercase with hyphens.
 - Use consistent section headers and avoid jargon without definition.
 
-## 8) Ownership
+## 9) Ownership
 
 Each major document SHOULD declare an owner (team or role) and a review cadence (e.g., quarterly for policies, monthly for runbooks).
 
-## 9) Domain-Specific Documentation Standards
+## 10) Domain-Specific Documentation Standards
 
 For **Machine Learning and Computer Vision** projects, comprehensive documentation standards are available in `references/ml-cv-documentation-standards.md`. This reference covers:
 
@@ -94,7 +110,7 @@ For **Machine Learning and Computer Vision** projects, comprehensive documentati
 
 See `references/ml-cv-documentation-standards.md` for complete guidelines, templates, and examples.
 
-## 10) Language Standards and Framework Versions
+## 11) Language Standards and Framework Versions
 
 **Status:** Authoritative
 **Last updated:** 2026-01-30
@@ -197,7 +213,7 @@ To verify compliance:
 2. Run build/CI to confirm versions are actually enforced
 3. Verify README and config files stay in sync (documentation drift is a bug)
 
-## 11) Exceptions
+## 12) Exceptions
 
 If documentation lags by necessity, record the exception in the Exception and Decision Log (see below) with a clear deadline to reconcile.
 
