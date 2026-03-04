@@ -977,6 +977,86 @@ study.optimize(objective, n_trials=100)
 - Reducing search space
 - Understanding model sensitivity
 
+### 6.5 Algorithm Search & Discovery Framework
+
+**Source:** Li, Schultz, Hennes & Lanctot (Google DeepMind, arXiv:2602.16928, Feb 2026). See `references/discovering-multiagent-learning-algorithms-with-llm.pdf`.
+
+**Context:** LLM-driven code evolution (AlphaEvolve) can discover novel training algorithms that outperform hand-designed baselines. This shifts ML engineering from designing algorithms to designing search frameworks. The infrastructure below supports automated discovery of training algorithms, loss functions, scheduling rules, and optimization strategies.
+
+#### 6.5.1 Evaluation Harness (mandatory)
+
+Every ML project that supports algorithm search MUST include an objective fitness evaluation suite:
+
+```text
+<project>/
+├── evaluation/
+│   ├── benchmark.py        # Standard benchmark tasks
+│   ├── metrics.py          # Fitness metrics (mAP, latency, calibration error, etc.)
+│   └── run_suite.py        # Automated evaluation runner
+```
+
+The harness must:
+
+- Accept any algorithm variant as input (no hardcoded assumptions)
+- Return a scalar or ranked fitness metric
+- Be deterministic given a fixed seed
+- Log all results to experiment tracking (`mlops-policy.md` §2)
+
+**Fitness metric selection:** Choose the metric that most directly measures what you're optimizing. Examples: mAP (detection), exploitability (game-theoretic), latency (serving), calibration error (probabilistic), energy consumption (edge).
+
+#### 6.5.2 Swappable Algorithm Modules
+
+Training logic MUST be modular — not hardcoded into a monolithic training loop.
+
+```text
+<project>/
+├── training/
+│   ├── optimizer.py              # Optimizer selection and configuration
+│   ├── scheduler.py              # LR scheduling strategy
+│   ├── loss.py                   # Loss function variants
+│   └── exploration_strategy.py   # RL/search exploration policy (if applicable)
+```
+
+Each module must expose a standard interface so that a search system (LLM agent, AutoML, script) can mutate components independently. This is the "algorithm as genome" principle from the paper — the search system operates on code, not just hyperparameters.
+
+#### 6.5.3 Automated Search Loop
+
+For projects that perform algorithm discovery, require a search runner:
+
+```text
+<project>/
+├── scripts/
+│   └── search_loop.py    # Generate → Train → Evaluate → Log → Select
+```
+
+**Loop structure:**
+
+1. **Generate candidate** — produce an algorithm variant (LLM mutation, AutoML, manual)
+2. **Train** — run the variant through the training pipeline
+3. **Evaluate** — measure fitness via the evaluation harness (§6.5.1)
+4. **Log** — record full experiment metadata (§6.5.4)
+5. **Select** — keep best, discard or archive rest
+
+This is the same loop used in AlphaEvolve to discover VAD-CFR and SHOR-PSRO. The infrastructure must exist before the search begins.
+
+#### 6.5.4 Algorithm Discovery Logging
+
+Extends standard experiment logging (§2) with algorithm-discovery-specific fields:
+
+| Field | Purpose | Required |
+|---|---|---|
+| Algorithm variant ID | Unique identifier for the candidate | Yes |
+| Code diff | Exact code changes from parent variant | Yes |
+| Hyperparameters | Full hyperparameter snapshot | Yes (already in §2) |
+| Fitness metrics | Evaluation harness output | Yes |
+| Dataset version | Pinned dataset used for evaluation | Yes (already in §2) |
+| Parent variant | Lineage tracking — which variant was mutated | Yes |
+| Generation method | How the variant was produced (LLM, AutoML, manual) | Yes |
+
+**Storage:** Same experiment tracking infrastructure as §2 (`~/dev/devruns/<project>/`). Algorithm variants are versioned artifacts — treat them like model checkpoints.
+
+**Career signal:** Future ML engineering shifts from designing algorithms to designing search frameworks. The valuable skills are evaluation system design, benchmark engineering, experiment infrastructure, and large-scale experiment orchestration. This section codifies that infrastructure.
+
 ---
 
 ## 7) Distributed Training
