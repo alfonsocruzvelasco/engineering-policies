@@ -1812,6 +1812,20 @@ Security review must use **at least one** of the following methods:
 **Final Policy Anchor:**
 > **AI systems with tool or API access must be treated as potentially compromised actors. All credentials are least-privilege, all tool use is constrained, and all AI outputs are untrusted until verified.**
 
+### 20.2) Active Application Security Testing (Web/API Only)
+
+**Scope:** This section applies only to repositories that deploy a web-facing service or API. It does not apply to ML/CV pipelines, data processing, libraries, or policy repos with no HTTP attack surface.
+
+**Rule 1 — Testing scope:** Run active security testing (scanning, fuzzing, exploitation) only against **local, staging, or sandbox environments** you own or are explicitly authorized to assess. Active pentest tools have mutative side effects — they create users, modify data, trigger injections. Never run against production.
+
+**Rule 2 — Authorization:** Require **explicit written authorization** from the system owner before any active scanning or exploitation against non-personal systems. Unauthorized scanning is illegal under laws such as the CFAA. This applies equally to manual pentesting and autonomous AI pentesters.
+
+**Rule 3 — Proof-first reporting:** Prefer findings with **reproducible proof-of-concept exploits** over theoretical scanner alerts. A vulnerability that cannot be demonstrated is noise. Report format: vulnerability description + working PoC + affected code path + severity assessment.
+
+**Rule 4 — Human review:** Even when automation claims proof-by-exploitation, a **human must validate severity and legitimacy**. LLM-based security reports can contain hallucinated or weakly-supported findings. No automated finding ships to a remediation queue without human sign-off.
+
+**Reference:** Shannon Lite (Keygraph, AGPL-3.0) exemplifies this model — white-box source-aware testing, live exploit validation, proof-only reporting. See [github.com/KeygraphHQ/shannon](https://github.com/KeygraphHQ/shannon). Note: AGPL license; evaluate compliance implications before adoption.
+
 ### 20.4) Anomaly detection and monitoring gates
 
 **Runtime anomaly detection (mandatory for production):**
