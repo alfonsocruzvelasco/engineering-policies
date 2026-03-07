@@ -149,4 +149,4 @@ See `security-policy.md §19` and `references/agents-of-chaos.pdf`.
 
 ---
 
-*Last updated: 2026-03-03 — source: policies/*
+*Last updated: 2026-03-07 — source: policies/*

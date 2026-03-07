@@ -83,7 +83,7 @@ git checkout -b feature/prohibited-ai-tools-policy
 
 1. Open `rules/security-policy.md` in editor
 2. Find Section 14.5 (around line 694)
-3. Copy content from `section-14.6-prohibited-ai-tools.md`
+3. Copy content from `security-policy.md` Section 14.6
 4. Paste after Section 14.5
 5. Verify section numbering (should be 14.6)
 6. Update Table of Contents to include:
@@ -98,9 +98,9 @@ git checkout -b feature/prohibited-ai-tools-policy
 cd rules/
 
 # Insert Section 14.6 after line 694 (end of Section 14.5)
-# This requires the section-14.6-prohibited-ai-tools.md file
+# Section 14.6 content is now integrated directly in security-policy.md
 awk '/^## 15\)/ {
-    while ((getline line < "section-14.6-prohibited-ai-tools.md") > 0)
+    while ((getline line < "security-policy.md") > 0)
         print line;
     print "";
 }

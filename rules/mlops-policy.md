@@ -73,7 +73,7 @@
 8. **Stewardship over authorship.** Ownership shifts from authorship → stewardship. Before deploying, answer: why does it exist, what guarantees, failure modes, tests/invariants, rollback plan, who gets paged.
 9. **Infrastructure services must run in containers.** All infrastructure services used for ML systems must run in containers (Docker/Podman), not as host-level installations. This includes (but is not limited to): MLflow servers, orchestration systems (Airflow/Prefect), monitoring stacks (Prometheus/Grafana), message brokers (Kafka/Redpanda), databases, and model serving infrastructure. The host OS must remain a clean execution substrate. Reproducible environments are achieved via containers (and later Kubernetes), not manual system package installation.
 10. **Structured pipelines over notebooks.** ML/CV projects must be structured as modular, testable, repeatable pipelines — not notebooks, not scripts, not prompt-chaos. The mental model: **AI systems = modular, testable, repeatable pipelines**. This separates beginner ML users from ML/CV engineers.
-11. **Verification is runtime infrastructure.** In probabilistic systems (LLMs, vision models), verification is not a QA phase — it is a runtime architectural layer. All model outputs must pass verification gates before affecting state. See [AI Systems Architecture Policy](./ai-systems-architecture-policy.md).
+11. **Verification is runtime infrastructure.** In probabilistic systems (LLMs, vision models), verification is not a QA phase — it is a runtime architectural layer. All model outputs must pass verification gates before affecting state. See [AI Systems Architecture](references/ai-systems-architecture.md).
 12. **Evals over unit tests.** You cannot unit test a prompt or a vision model. Success is statistical (>90% accuracy on eval set), not binary. CI/CD runs evals, not just tests. Budget for eval costs ($2-10 per run) and runtime (~10-20 minutes).
 
 ---
@@ -3037,8 +3037,8 @@ model_quantized = torch.quantization.quantize(
 
 * [Production Policy](production-policy.md) — Data storage, SQL, Python, Docker, K8s
 * [Security Policy](security-policy.md) — ML/CV security best practices
-* [Versioning and Documenting Policy](versioning-and-documenting-policy.md) — Git, versioning, documentation
-* [AI Systems Architecture Policy](ai-systems-architecture-policy.md) — Architecture patterns for LLM/AI systems
+* [Versioning and Release Policy](versioning-and-release-policy.md) — Git, versioning, documentation
+* [AI Systems Architecture](references/ai-systems-architecture.md) — Architecture patterns for LLM/AI systems
 
 ---
 
@@ -3066,7 +3066,7 @@ Success is **statistical**, not binary. This requires a fundamental shift in tes
 - [ ] Geometric violation checks (robotics)
 - [ ] Performance baselines established
 
-**See [AI Systems Architecture Policy](./ai-systems-architecture-policy.md) Section on "Evals Over Unit Tests" for detailed implementation.**
+**See [AI Systems Architecture](references/ai-systems-architecture.md) Section on "Evals Over Unit Tests" for detailed implementation.**
 
 **See also:** [AI Mutation Testing & Debugging Reference](./references/ai-mutation-testing-debugging-reference.md) for mutation testing applied to AI systems, LLM debugging methods, and observability infrastructure patterns.
 

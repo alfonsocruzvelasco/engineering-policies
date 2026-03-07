@@ -1940,7 +1940,7 @@ All exceptions must be recorded in `exception-and-decision-log.md`.
 
 ## References
 
-* [Versioning and Documenting Policy](versioning-and-documenting-policy.md) — Git, source control, and release practices
+* [Versioning and Release Policy](versioning-and-release-policy.md) — Git, source control, and release practices
 * [Prompts Policy](ai-workflow-policy.md (Part 2: Prompt Engineering)) — Prompt injection defense
 * [Production Policy](production-policy.md) — Data storage and SQL security practices
 
@@ -4099,7 +4099,7 @@ This document is part of a comprehensive policy framework. All sections integrat
 - **Key Integration:** Canonical paths (`~/dev/repos/`, `~/dev/build/`, `~/datasets/`), AI sandbox enforcement
 - **Defers to this document for:** Security implications, path validation code (Section 5.3)
 
-**`ai-workflow-policy.md` (Part 2: Prompt Engineering), `production-policy.md`, `mlops-policy.md`, `versioning-and-documenting-policy.md`**
+**`ai-workflow-policy.md` (Part 2: Prompt Engineering), `production-policy.md`, `mlops-policy.md`, `versioning-and-release-policy.md`**
 - **Integrated:** Prompt injection, production standards, ML security, Git workflows
 - **See:** Section-specific cross-references throughout this document
 

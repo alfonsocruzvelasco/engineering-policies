@@ -656,7 +656,7 @@ async () => {
 
 ### 8.7 References
 
-- **Cloudflare Code Mode Blog Post:** `rules/references/code-mode-cloudflare.pdf` (2026-02-20)
+- **Cloudflare Code Mode Blog Post:** Cloudflare blog, "Code Mode: give agents an entire API in 1,000 tokens" (2026-02-20)
 - **Cloudflare MCP Server:** https://mcp.cloudflare.com/mcp
 - **Cloudflare Agents SDK:** Open-source Code Mode SDK
 - **Anthropic Code Execution with MCP:** Independent exploration of similar pattern

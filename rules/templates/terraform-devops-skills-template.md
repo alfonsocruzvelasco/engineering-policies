@@ -2,7 +2,7 @@
 
 Complete skill set for production Terraform infrastructure engineering. These skills enforce Anton Babenko's "Senior Architect" standards to eliminate technical debt and produce zero-refactor, production-grade infrastructure code.
 
-**Understanding Claude Skills:** For a comprehensive overview of what Claude Skills are, their use cases, limitations, and architectural implications, see: [`claude-skills-definiton-use-cases-and-limitations.md`](../references/claude-skills-definiton-use-cases-and-limitations.md)
+**Understanding Claude Skills:** For a comprehensive overview of what Claude Skills are, their use cases, limitations, and architectural implications, see: [`claude-skills-definition-use-cases-and-limitations.md`](../references/claude-skills-definition-use-cases-and-limitations.md)
 
 ## 🎯 The Problem This Solves
 

@@ -1802,7 +1802,7 @@ metrics = {
 
 ## Scientific Research Workflows
 
-**Reference:** See `references/accelerating-scientific-research-with-gemini.pdf` for comprehensive guidance on using AI agents for scientific research.
+**Reference:** See Google's "Accelerating Scientific Research with Gemini" whitepaper for comprehensive guidance on using AI agents for scientific research.
 
 ### When to Use AI for Scientific Research
 
@@ -2202,7 +2202,7 @@ This discipline prevents time waste and maintains code quality.
 
 **Related policies:**
 - Part 2: Prompt Engineering — Detailed prompt engineering and MCP usage
-- `versioning-and-documenting-policy.md` — Git, source control, and versioning policies
+- `versioning-and-release-policy.md` — Git, source control, and versioning policies
 - `security-policy.md` — Security and compliance baseline (includes OAuth 2.0 for AI, SSH & Infrastructure Access, API-Calling Agents security, and Guardrails AI integration)
 
 ---
@@ -2845,10 +2845,9 @@ This protocol ensures that.
 
 **This policy works with:**
 - Part 2: Prompt Engineering (prompt engineering)
-- `versioning-and-documenting-policy.md` (Git workflows)
+- `versioning-and-release-policy.md` (Git workflows)
 - `security-policy.md` (security baseline)
 - `mcp-template.md` (ML/CV production protocols)
-- `models-temperature-theory-updated.md` (temperature configuration)
 
 **Regular review:** Update quarterly based on:
 - New AI tool capabilities
@@ -3894,7 +3893,6 @@ NEVER make sequential calls when operations are independent.
 ## Context Engineering for Cursor
 
 **References:**
-- See `references/context-engineering-for-coding-agents.pdf` for comprehensive guidance on context engineering principles for coding agents.
 - See `references/long-context-windows-opus-4.6+.md` for engineering reality of 1M+ token context windows, including context engineering as a first-class discipline, memory tier architecture, cost/latency trade-offs, and design rules for production systems.
 - See `references/rag-relevance-for-ides.md` for why RAG still matters in modern IDEs (precision and authority management over compression, Cursor RAG architecture, authority hierarchies, latency/cost realities, determinism and debuggability, modern RAG patterns, implementation guidance).
 
@@ -4157,7 +4155,7 @@ Optimization targets:
 * Anthropic Prompt Engineering
 * Claude 4 Best Practices
 * Anthropic Context Engineering Guide
-* Context Engineering for Coding Agents (see `references/context-engineering-for-coding-agents.pdf`)
+* Context Engineering for Coding Agents (Anthropic engineering blog)
 * OpenAI prompt caching documentation
 * Cursor docs (Rules, Skills, Worktrees, MCP)
 * **MCP Documentation:** See Part 1: Core Workflow [MCP section](ai-workflow-policy.md (Part 1: Core Workflow)#mcp-model-context-protocol) for basic MCP info. Detailed MCP setup, usage patterns, and best practices are documented in this `ai-workflow-policy.md (Part 2: Prompt Engineering)` file (see MCP sections below)
