@@ -210,6 +210,11 @@ Recommended starting domains:
 2. **Security critical → Manual review:** Automated checks insufficient
 3. **Failed gate → Blocks merge:** No exceptions without documented override
 
+**Examples (Governance domain):**
+1. **Policy changes require diff review:** No silent policy updates — same review discipline as code
+2. **Cross-references must be valid:** Broken policy cross-references are bugs; CI should catch them
+3. **Hypothesis Stress Test for reasoning:** All AI-assisted policy reasoning must include disconfirmation phase (see `ai-workflow-policy.md §13.2`)
+
 ### Anti-patterns to prevent:
 - ❌ [Anti-pattern 1]: [Why it's harmful] → [Alternative approach]
 - ❌ [Anti-pattern 2]: [Why it's harmful] → [Alternative approach]
@@ -222,6 +227,11 @@ Recommended starting domains:
 **Examples (Review domain):**
 - ❌ Rubber-stamping reviews: Misses issues, degrades quality → Use checklists, enforce gates
 - ❌ Incomplete security scans: Vulnerabilities slip through → Mandate all gates before approval
+
+**Examples (Governance domain):**
+- ❌ Policy without enforcement mechanism: Becomes shelfware → Every rule needs a verification gate or CI check
+- ❌ Accepting AI reasoning as evidence: Inflates confidence without truth convergence → Separate evidence from interpretation (`documentation-policy.md §6`)
+- ❌ Importing external tooling conventions as general standards: Scope mismatch → Evaluate applicability to your actual stack first
 
 ---
 
@@ -242,6 +252,11 @@ Recommended starting domains:
 - Gate pass rate: >90% of automated checks pass first time
 - Security findings: <5 critical issues per quarter
 - Review turnaround: <24 hours average
+
+**Examples (Governance domain):**
+- Cross-reference integrity: 0 broken internal links (CI-enforced)
+- Policy staleness: <10% of policy documents past review cadence
+- Retrieval policy compliance: Knowledge base ingestion rules followed (`ai-retrieval-policy.md §2`)
 
 ---
 
