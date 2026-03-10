@@ -1,6 +1,7 @@
 # RAG vs RERAG vs REFRAG: Complete Technical Reference
 
 **Sources:**
+- Lewis et al., "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks," NeurIPS 2020 — foundational RAG paper (see `retrieval-augmented-generation-for-knowledge-intensive-nlp-tasks.pdf`)
 - Daily Dose of Data Science (Akshay Pachaar's RERAG diagram)
 - "REFRAG: Rethinking RAG based Decoding" (Meta AI, October 2025)
 
@@ -70,9 +71,9 @@ graph LR
 ```mermaid
 timeline
     title Evolution of Retrieval-Augmented Generation
-    2020 : Traditional RAG
-         : Document-level embeddings
-         : Simple cosine similarity
+    2020 : RAG (Lewis et al., NeurIPS)
+         : Retriever (DPR) + Generator (BART)
+         : RAG-Sequence and RAG-Token formulations
     2023 : RERAG Concepts
          : Token-level embeddings
          : RL-based filtering
@@ -100,6 +101,13 @@ LLM processes all 2000 tokens anyway
 ---
 
 ## RAG Architecture (Baseline)
+
+**Origin:** Lewis et al. (NeurIPS 2020) introduced RAG as a combination of a pre-trained retriever (DPR — Dense Passage Retriever, bi-encoder with BERT) and a pre-trained generator (BART-large, 400M params). Retrieved documents are treated as a latent variable, marginalized with a top-K approximation. Two formulations exist:
+
+- **RAG-Sequence:** Uses the same retrieved document to generate the entire output. Better for coherent single-source answers.
+- **RAG-Token:** Can draw a different document per generated token. Better for synthesizing across multiple sources.
+
+Key finding: RAG generates more factual, specific, and diverse text than parametric-only BART, and the non-parametric index can be hot-swapped to update knowledge without retraining.
 
 ### System Diagram
 
