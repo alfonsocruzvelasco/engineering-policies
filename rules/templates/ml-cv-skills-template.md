@@ -108,27 +108,31 @@ Model deployment patterns for production CV systems.
 
 ## 🚀 Installation
 
+**Official skill structure reference:** See [The Complete Guide to Building Skills for Claude](../references/the-complete-guide-to-building-skill-for-claude.pdf) and `ai-workflow-policy.md` "Claude Code Skills Management" for full governance.
+
 ### Method 1: Upload Skills to Claude.ai
 
-1. Go to claude.ai
-2. Click your profile → Settings → Skills
-3. Upload each `.skill` file:
-   - `pytorch-cv-patterns.skill`
-   - `cv-data-pipeline.skill`
-   - `model-training-debugging.skill`
-   - `mlops-experiment-tracking.skill`
-   - `model-deployment.skill`
+1. Each skill is a **folder** containing `SKILL.md` (required) + optional `scripts/`, `references/`, `assets/`
+2. Zip each skill folder:
+   - `pytorch-cv-patterns/` → `pytorch-cv-patterns.zip`
+   - `cv-data-pipeline/` → `cv-data-pipeline.zip`
+   - `model-training-debugging/` → `model-training-debugging.zip`
+   - `mlops-experiment-tracking/` → `mlops-experiment-tracking.zip`
+   - `model-deployment/` → `model-deployment.zip`
+3. Go to Claude.ai → Settings → Capabilities → Skills → Upload each zip
 
-### Method 2: Use with Claude Desktop
+### Method 2: Use with Claude Code
 
-Place skill files in your Claude Desktop skills directory:
+Place each skill folder in your Claude Code skills directory:
 ```bash
-# macOS/Linux
-cp *.skill ~/.config/Claude/skills/
-
-# Windows
-cp *.skill %APPDATA%\Claude\skills\
+# Copy each skill folder directly (not zipped)
+cp -r pytorch-cv-patterns/ ~/.claude/skills/
+cp -r cv-data-pipeline/ ~/.claude/skills/
 ```
+
+### Method 3: Use via API
+
+Skills can be managed programmatically via the `/v1/skills` endpoint and added to Messages API requests via the `container.skills` parameter. Requires Code Execution Tool beta.
 
 ---
 
@@ -481,10 +485,9 @@ These skills are designed for **your personal use**. Customize them:
 4. Extend with new domains (3D vision, video, etc.)
 
 **To modify:**
-1. Unpack `.skill` file: `tar -xzf skill-name.skill`
-2. Edit `SKILL.md`
-3. Repack: `tar -czf skill-name.skill -C skill-name .`
-4. Re-upload to Claude
+1. Edit `SKILL.md` in the skill folder directly
+2. If uploading to Claude.ai: re-zip the folder and upload
+3. If using Claude Code: changes take effect on next session start
 
 ---
 

@@ -71,15 +71,18 @@ This differs from function calling where you explicitly invoke tools — Skills 
 
 ## Technical Limitations & Constraints
 
-### 1. Vendor Lock-In (Anthropic-Only)
+### 1. Vendor Lock-In (Partially Resolved)
 
-**Current state:** Skills only work within Anthropic's ecosystem
-**Implications:**
-- No cross-provider portability (can't use with OpenAI, etc.)
-- Migration friction if switching providers
-- Dependent on Anthropic's roadmap priorities
+**Original assessment (Portkey, early 2026):** Skills only work within Anthropic's ecosystem.
 
-**Mitigation:** Treat as architectural pattern to learn from, not permanent infrastructure
+**Updated (Anthropic official guide, 2026):** Anthropic has published Agent Skills as an **open standard**. Skills are designed to be portable across tools and platforms — the same skill should work across Claude.ai, Claude Code, API, and potentially other AI platforms. Authors can note platform-specific capabilities in the `compatibility` field. Early ecosystem adoption is underway.
+
+**Revised implications:**
+- Core skill format (folder + `SKILL.md` + YAML frontmatter) is an open spec
+- Platform-specific features (e.g., MCP integration) may limit portability in practice
+- Still dependent on ecosystem adoption for true cross-provider portability
+
+**Reference:** See `references/the-complete-guide-to-building-skill-for-claude.pdf` "An Open Standard" section.
 
 ### 2. Abstraction Complexity Tax
 
@@ -101,18 +104,22 @@ This differs from function calling where you explicitly invoke tools — Skills 
 - Exploratory/experimental work
 - Solo developer projects without standardization needs
 
-### 3. Governance & Review Gaps
+### 3. Governance & Review Gaps (Partially Addressed)
 
-**Missing capabilities (as of current state):**
-- No built-in skill review/approval workflows
-- Limited skill versioning/rollback mechanisms
-- Unclear skill conflict resolution when multiple skills apply
-- No standard testing/validation frameworks for skills
+**Original assessment (Portkey):** No built-in review, versioning, testing, or conflict resolution.
 
-**Organizational implications:**
-- Need external process for skill quality control
-- Requires custom version control integration
-- Team coordination overhead for skill management
+**Updated (Anthropic official guide, 2026):**
+- `skill-creator` skill now provides review and improvement suggestions
+- API surface (`/v1/skills`) enables programmatic management and version control via Claude Console
+- Organization-level skill deployment (admin-managed, workspace-wide) shipped December 2025
+- Testing methodology defined: triggering tests, functional tests, performance comparison
+
+**Remaining gaps:**
+- No built-in skill conflict resolution when multiple skills match the same query
+- Approval workflows still require external process
+- `skills-lint` (third-party) needed for token budget enforcement
+
+**Policy reference:** See `ai-workflow-policy.md` "Claude Code Skills Management" for governance framework.
 
 ---
 

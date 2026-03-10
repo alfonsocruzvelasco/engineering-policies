@@ -1294,9 +1294,43 @@ MCP servers in Cursor provide structured access to tools (Databases, Git, APIs, 
 
 ## Claude Code Skills Management
 
-**Purpose:** Enforce token budget limits and progressive disclosure architecture for Claude Code agent skills to prevent context bloat and maintain performance.
+**Purpose:** Enforce skill structure, token budget limits, and progressive disclosure architecture for Claude agent skills to prevent context bloat and maintain performance.
 
-**Scope:** All `SKILL.md` files used with Claude Code (Claude.ai, Claude Desktop, or Claude Code IDE).
+**Scope:** All `SKILL.md` files used with Claude Code (Claude.ai, Claude Desktop, Claude Code IDE, or API).
+
+**Authoritative reference:** [The Complete Guide to Building Skills for Claude](references/the-complete-guide-to-building-skill-for-claude.pdf) (Anthropic, 2026). Skills are an open standard — portable across Claude.ai, Claude Code, and API without modification.
+
+### Skill Categories
+
+Anthropic identifies three standard categories:
+
+| Category | Use for | Example |
+|---|---|---|
+| **Document & Asset Creation** | Consistent, high-quality output (docs, code, presentations) | `frontend-design`, `ml-cv-skills` |
+| **Workflow Automation** | Multi-step processes with consistent methodology | `skill-creator`, `sprint-planning` |
+| **MCP Enhancement** | Workflow guidance on top of MCP tool access | `sentry-code-review` |
+
+When building a new skill, classify it into one of these categories. This determines whether it needs MCP integration or works standalone.
+
+### YAML Frontmatter Requirements (Mandatory)
+
+Every `SKILL.md` MUST begin with valid YAML frontmatter:
+
+```yaml
+---
+name: skill-name-in-kebab-case
+description: What it does. Use when user asks to [specific trigger phrases].
+---
+```
+
+**Rules:**
+- `name` (required): kebab-case only, must match folder name
+- `description` (required): MUST include what + when (trigger conditions), under 1024 characters
+- `license` (optional): MIT, Apache-2.0, etc.
+- `metadata` (optional): author, version, mcp-server
+- **Forbidden:** XML angle brackets (`<` `>`), names containing "claude" or "anthropic" (reserved)
+
+Frontmatter appears in Claude's system prompt — this is Level 1 of progressive disclosure.
 
 ### Core Requirements
 
@@ -1381,21 +1415,34 @@ skills-lint .github/skills/code-review/SKILL.md
 
 ### Progressive Disclosure Structure Requirements
 
-**Required structure for all skills:**
+**Three-level system (per Anthropic's official guide):**
+
+| Level | What | When loaded | Content |
+|---|---|---|---|
+| **Level 1** | YAML frontmatter | Always (system prompt) | Skill name + description + triggers |
+| **Level 2** | SKILL.md body | When Claude thinks skill is relevant | Full instructions and guidance |
+| **Level 3** | Linked files | When Claude navigates to them | Detailed docs, scripts, assets |
+
+**Required folder structure:**
 
 ```
 skill-name/
-├── SKILL.md              # Lightweight: workflow + triggers + pointers (~500 lines max)
-├── docs/                 # Detailed documentation
-│   ├── architecture.md
-│   ├── examples.md
-│   └── troubleshooting.md
-├── scripts/              # Executable scripts (not embedded in SKILL.md)
+├── SKILL.md              # Required — workflow + triggers + pointers (~500 lines max)
+├── scripts/              # Optional — executable code (Python, Bash, etc.)
 │   ├── setup.sh
 │   └── validate.py
-└── references/           # External references
-    └── best-practices.md
+├── references/           # Optional — documentation loaded as needed
+│   ├── api-guide.md
+│   └── best-practices.md
+└── assets/               # Optional — templates, fonts, icons used in output
+    └── report-template.md
 ```
+
+**Critical rules:**
+- `SKILL.md` must be exactly `SKILL.md` (case-sensitive, no variations)
+- Folder names must be kebab-case (`my-skill` not `My_Skill`)
+- **No `README.md` inside the skill folder** — all documentation goes in `SKILL.md` or `references/`
+- Repo-level README (for human visitors) is separate from the skill folder
 
 **`SKILL.md` content guidelines:**
 
@@ -1491,6 +1538,44 @@ For any automated or semi-automated agent workflow, cost is a design variable �
    - **Integration:** Security scanning in CI/CD
 
 **Best practice:** Combine `skills-lint` (token budget) + correctness tests (functionality) + security review (safety) for comprehensive skill validation.
+
+### Skill Testing Requirements
+
+Per Anthropic's guide, effective skill testing covers three areas:
+
+1. **Triggering tests** — Does the skill load at the right times?
+   - Test 10-20 queries that SHOULD trigger it (obvious + paraphrased)
+   - Test queries that should NOT trigger it (unrelated topics)
+   - If skill under-triggers: add more detail and trigger phrases to the `description`
+   - If skill over-triggers: add negative triggers, narrow scope
+
+2. **Functional tests** — Does the skill produce correct output?
+   - Valid outputs generated for representative inputs
+   - API/MCP calls succeed (if applicable)
+   - Error handling works for common failure modes
+   - Edge cases covered
+
+3. **Performance comparison** — Does the skill improve results vs. baseline?
+   - Compare same task with and without skill enabled
+   - Track: message count, tool calls, token consumption, API error rate
+   - Skill should reduce at least one of these without degrading others
+
+**Iteration signals:**
+- Under-triggering → revise `description` with more trigger phrases
+- Over-triggering → add negative triggers, be more specific
+- Inconsistent results → improve instructions, add validation scripts
+- API failures → add error handling, check tool names
+
+### Skill Distribution
+
+| Surface | Method |
+|---|---|
+| Claude.ai | Settings > Capabilities > Skills > Upload (zipped skill folder) |
+| Claude Code | Place skill folder in Claude Code skills directory |
+| Organization-wide | Admin deploys workspace-wide (centralized management) |
+| API | `/v1/skills` endpoint + `container.skills` parameter in Messages API |
+
+**Do not distribute skills as `.skill` files.** The canonical format is a folder containing `SKILL.md` + optional subdirectories, zipped for upload.
 
 ### ML/CV Skills Setup
 

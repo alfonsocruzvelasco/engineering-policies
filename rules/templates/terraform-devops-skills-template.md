@@ -301,27 +301,31 @@ Reusable module patterns for common infrastructure components (based on Anton's 
 
 ## 🚀 Installation
 
+**Official skill structure reference:** See [The Complete Guide to Building Skills for Claude](../references/the-complete-guide-to-building-skill-for-claude.pdf) and `ai-workflow-policy.md` "Claude Code Skills Management" for full governance.
+
 ### Method 1: Upload Skills to Claude.ai
 
-1. Go to claude.ai
-2. Click your profile → Settings → Skills
-3. Upload each `.skill` file:
-   - `terraform-engine-workflow.skill`
-   - `terraform-standards-guardrails.skill`
-   - `terraform-expert-brain.skill`
-   - `terraform-integrated-stack.skill`
-   - `terraform-module-library.skill`
+1. Each skill is a **folder** containing `SKILL.md` (required) + optional `scripts/`, `references/`, `assets/`
+2. Zip each skill folder:
+   - `terraform-engine-workflow/` → `terraform-engine-workflow.zip`
+   - `terraform-standards-guardrails/` → `terraform-standards-guardrails.zip`
+   - `terraform-expert-brain/` → `terraform-expert-brain.zip`
+   - `terraform-integrated-stack/` → `terraform-integrated-stack.zip`
+   - `terraform-module-library/` → `terraform-module-library.zip`
+3. Go to Claude.ai → Settings → Capabilities → Skills → Upload each zip
 
-### Method 2: Use with Claude Desktop
+### Method 2: Use with Claude Code
 
-Place skill files in your Claude Desktop skills directory:
+Place each skill folder in your Claude Code skills directory:
 ```bash
-# macOS/Linux
-cp *.skill ~/.config/Claude/skills/
-
-# Windows
-cp *.skill %APPDATA%\Claude\skills\
+# Copy each skill folder directly (not zipped)
+cp -r terraform-engine-workflow/ ~/.claude/skills/
+cp -r terraform-standards-guardrails/ ~/.claude/skills/
 ```
+
+### Method 3: Use via API
+
+Skills can be managed programmatically via the `/v1/skills` endpoint and added to Messages API requests via the `container.skills` parameter. Requires Code Execution Tool beta.
 
 ---
 
@@ -956,10 +960,9 @@ These skills are designed for **your personal use**. Customize them:
 4. Extend with new cloud providers (Alibaba Cloud, DigitalOcean)
 
 **To modify:**
-1. Unpack `.skill` file: `tar -xzf skill-name.skill`
-2. Edit `SKILL.md`
-3. Repack: `tar -czf skill-name.skill -C skill-name .`
-4. Re-upload to Claude
+1. Edit `SKILL.md` in the skill folder directly
+2. If uploading to Claude.ai: re-zip the folder and upload
+3. If using Claude Code: changes take effect on next session start
 
 ---
 
