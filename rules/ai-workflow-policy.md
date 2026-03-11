@@ -211,7 +211,7 @@ ${SANDBOX_ROOT:-~/dev/repos/github.com/${GH_USER:-alfonsocruzvelasco}/sandbox-cl
 5. **No new dependencies unless explicitly requested.**
 6. **Never touch files outside the repo.** (No `~/.config`, no system changes, no random scripts.)
 
-**See:** `~/policies/references/task-management-guide.md` for comprehensive guidance on atomic task decomposition and self-improving loop execution patterns.
+**See:** `~/policies/rules/references/task-management-guide.md` for comprehensive guidance on atomic task decomposition and self-improving loop execution patterns.
 
 ---
 
@@ -2948,7 +2948,7 @@ This protocol ensures that.
 ## 1) Operating Principles
 
 - **Reality-first:** Never invent facts, sources, file paths, or results.
-- **Grounding by default:** Use retrieval (web/RAG/MCP) and cite sources. **MCP (Model Context Protocol)** in Cursor provides structured access to files, databases, Git, and APIs — prefer MCP over pasting data (see Part 1: Core Workflow [MCP section](ai-workflow-policy.md (Part 1: Core Workflow)#mcp-model-context-protocol) for basic info, and detailed MCP documentation in this document).
+- **Grounding by default:** Use retrieval (web/RAG/MCP) and cite sources. **MCP (Model Context Protocol)** in Cursor provides structured access to files, databases, Git, and APIs — prefer MCP over pasting data (see Part 1: Core Workflow MCP section for basic info, and detailed MCP documentation in this document).
 - **English-first architecture:** All system prompts, tool definitions, reasoning layers, and structured outputs MUST use English. This is non-negotiable for reliability, accuracy, and token efficiency (see [English-First Architecture](#english-first-architecture-for-prompts) section).
 - **Prefer refusal over fabrication:** If uncertain, say "I don't know."
 - **Explicit Instruction Levels:** Respect the requested level (Minimal/Thorough/Comprehensive). Do not over-explain if "Minimal" is requested.
@@ -3552,7 +3552,7 @@ Without this loop, AI becomes a belief amplifier instead of a reasoning tool.
 
 **Problem:** LLMs suffer from pronounced mode collapse on open-ended tasks. Even with high-stochasticity decoding (top-p=0.9, t=1.0), 79% of response pairs from the same model exceed 0.8 similarity. More critically, **different models independently converge on the same ideas** — inter-model similarity ranges 71–82%, with verbatim phrase overlaps across model families (GPT, Qwen, DeepSeek, Llama). Switching models does not guarantee diverse perspectives.
 
-**Implication:** Multi-model verification (§12 Agent Selection) mitigates sycophancy and catches errors, but does NOT reliably provide diverse creative or analytical outputs. The "Artificial Hivemind" effect means model ensembles can reinforce the same narrow framing.
+**Implication:** Multi-model verification (see Agent Selection Decision Tree, Part 1) mitigates sycophancy and catches errors, but does NOT reliably provide diverse creative or analytical outputs. The "Artificial Hivemind" effect means model ensembles can reinforce the same narrow framing.
 
 **When this matters:**
 
@@ -3609,12 +3609,12 @@ When working on features that span multiple files or require architectural decis
 5. **Tasks** (`/speckit.tasks`)
    - Break into atomic units (1 file/function max)
    - Verify dependencies are explicit
-   - **See:** `~/policies/references/task-management-guide.md` for comprehensive task decomposition methodology and self-improving loop execution
+   - **See:** `~/policies/rules/references/task-management-guide.md` for comprehensive task decomposition methodology and self-improving loop execution
 
 6. **Implement** (`/speckit.implement` or `/openspec:apply`)
    - AI executes tasks sequentially
    - Verify each checkpoint before proceeding
-   - **See:** `~/policies/references/self-improving-loop-integration.md` for Osmani's self-improving loop pattern (implement → validate → commit → learn → reset)
+   - **See:** `~/policies/rules/references/self-improving-loop-integration.md` for Osmani's self-improving loop pattern (implement → validate → commit → learn → reset)
 
 7. **Archive** (`/openspec:archive`)
    - Merge approved deltas back into source specs
@@ -4277,7 +4277,7 @@ Optimization targets:
 * Context Engineering for Coding Agents (Anthropic engineering blog)
 * OpenAI prompt caching documentation
 * Cursor docs (Rules, Skills, Worktrees, MCP)
-* **MCP Documentation:** See Part 1: Core Workflow [MCP section](ai-workflow-policy.md (Part 1: Core Workflow)#mcp-model-context-protocol) for basic MCP info. Detailed MCP setup, usage patterns, and best practices are documented in this `ai-workflow-policy.md (Part 2: Prompt Engineering)` file (see MCP sections below)
+* **MCP Documentation:** See Part 1: Core Workflow MCP section for basic MCP info. Detailed MCP setup, usage patterns, and best practices are documented in Part 2: Prompt Engineering (see MCP sections below)
 
 ### Academic papers (foundational)
 

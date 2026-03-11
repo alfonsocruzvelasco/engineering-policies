@@ -1,7 +1,7 @@
 # Production Engineering Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-02-18
+**Last updated:** 2026-03-11
 **Purpose:** Daily reference for CV/ML engineering, data systems, and tooling standards
 **Authority model:** Sections 1 (Data & Storage), 2 (SQL Databases), and 8 (Git and Source Control) are authoritative policy defined in this file.
 All other sections are navigation pointers; their referenced standalone policy files are authoritative.
@@ -3036,7 +3036,7 @@ Add a “Quick start” section at the top of README with copy-paste commands.
 
 ---
 
-## 9) IDE policies (repo-level settings)
+## 8) IDE policies (repo-level settings)
 
 ### 9.1 VS Code workspace settings
 Commit only team-safe settings at:
@@ -3106,7 +3106,7 @@ Recommended baseline:
 
 ---
 
-## 10) Quality gates (what must pass)
+## 9) Quality gates (what must pass)
 
 Before push / PR:
 ```bash
@@ -3121,7 +3121,7 @@ CI must run:
 
 ---
 
-## 11) Standard bootstrap checklist (copy/paste)
+## 10) Standard bootstrap checklist (copy/paste)
 
 **NEW repo**
 1) create repo + files: `.editorconfig`, `.pre-commit-config.yaml`, README

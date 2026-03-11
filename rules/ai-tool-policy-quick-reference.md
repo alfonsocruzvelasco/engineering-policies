@@ -707,7 +707,7 @@ def authenticate_user(username, password):
 - **Full Policy:** `rules/security-policy.md` Section 14.6
 - **Approved Tools:** `rules/approved-ai-tools.md`
 - **AI Workflow:** `rules/ai-workflow-policy.md`
-- **Security Training:** `security-training/prohibited-ai-tools/`
+- **Detection Script:** `rules/system/scripts/ai-prohibited-tools-check.sh`
 
 ### Tools and Scripts
 - **Detection Script:** `rules/system/scripts/ai-prohibited-tools-check.sh`

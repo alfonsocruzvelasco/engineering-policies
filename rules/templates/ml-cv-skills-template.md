@@ -447,7 +447,7 @@ Each skill includes version info in frontmatter:
 ```yaml
 # Future versions will include:
 version: 1.0.0
-last_updated: 2026-01-22
+last_updated: 2026-03-11
 ```
 
 ---

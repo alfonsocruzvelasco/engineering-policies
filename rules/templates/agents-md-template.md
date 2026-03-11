@@ -10,7 +10,7 @@
 ## Tooling (Non-Standard)
 
 - Package manager: `uv` — not pip. `uv sync`, `uv run pytest`
-- Postgres MCP: use `postgres-mcp (crystaldba)` — see `references/sql-and-mcp-notes-ml-cv.md`
+- Postgres MCP: use `postgres-mcp (crystaldba)` — see `../references/sql-and-mcp-notes-ml-cv.md`
 - Sandbox root: `${SANDBOX_ROOT:-~/dev/repos/github.com/alfonsocruzvelasco/sandbox-claude-code/}`
   - **Hard boundary.** No `~/.config`, no system changes, nothing outside the sandbox.
 
@@ -153,4 +153,4 @@ See `security-policy.md §19` and `references/agents-of-chaos.pdf`.
 
 ---
 
-*Last updated: 2026-03-07 — source: policies/*
+*Last updated: 2026-03-11 — source: policies/*

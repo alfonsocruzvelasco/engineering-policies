@@ -128,7 +128,7 @@ Below is a professional-team rule set for **API design and implementation**, cov
 * telemetry to detect remaining usage
 * clear migration docs
 
-## 8) Input validation and schema rules
+## 7) Input validation and schema rules
 
 58. Validate at the boundary (controllers/handlers).
 59. Use a shared schema definition:
@@ -139,7 +139,7 @@ Below is a professional-team rule set for **API design and implementation**, cov
 60. Reject unknown fields when strictness is required; otherwise document permissive behavior.
 61. Normalize and validate identifiers, dates, currency, locale/timezone behavior.
 
-## 9) Error handling and error contracts
+## 8) Error handling and error contracts
 
 62. Standardize error response format for REST (single envelope):
 
@@ -152,7 +152,7 @@ Below is a professional-team rule set for **API design and implementation**, cov
 64. For gRPC, standardize mapping to status + structured details.
 65. Document error codes and make them stable.
 
-## 10) Observability and operational rules
+## 9) Observability and operational rules
 
 66. Every request has a correlation/trace identifier (first mention: **Trace ID** = identifier linking logs/metrics/traces).
 67. Logs are structured; PII (Personally Identifiable Information) is redacted (first mention: **PII** = data that can identify a person).
@@ -166,7 +166,7 @@ Below is a professional-team rule set for **API design and implementation**, cov
 69. Distributed tracing is enabled for service-to-service calls, including gRPC.
 70. Health endpoints are meaningful (readiness vs liveness).
 
-## 11) Performance, rate limiting, and resilience
+## 10) Performance, rate limiting, and resilience
 
 71. Timeouts are mandatory end-to-end; no infinite waits.
 72. Rate limiting and quotas are defined and enforced (429 / RESOURCE_EXHAUSTED).
@@ -174,14 +174,14 @@ Below is a professional-team rule set for **API design and implementation**, cov
 74. Bulkheads/circuit breakers are applied for unstable dependencies.
 75. Payload sizes are bounded; reject overly large requests.
 
-## 12) Data and compatibility rules
+## 11) Data and compatibility rules
 
 76. Do not expose database schema directly as API shapes.
 77. Avoid breaking JSON field renames; if needed, support both during migration.
 78. Define canonical date/time formats (ISO 8601) and timezone semantics.
 79. For gRPC, keep field tags stable forever.
 
-## 13) Security hygiene
+## 12) Security hygiene
 
 80. TLS everywhere (including internal traffic where feasible).
 81. CORS (Cross-Origin Resource Sharing; first mention: **CORS** = browser cross-origin policy controls) is explicit and minimal.
@@ -189,7 +189,7 @@ Below is a professional-team rule set for **API design and implementation**, cov
 83. Least privilege for OAuth2 scopes and service credentials.
 84. Regular dependency scanning and patching cadence.
 
-## 14) “Gold standard” CI gate
+## 13) “Gold standard” CI gate
 
 85. Contract validation:
 
@@ -201,7 +201,7 @@ Below is a professional-team rule set for **API design and implementation**, cov
 88. Load/perf smoke test for hot paths
 89. Static analysis + security scans
 
-## 15) HTML-facing API rules (browser clients)
+## 14) HTML-facing API rules (browser clients)
 
 This subsection defines **how APIs are consumed from HTML-based clients** (plain HTML, server-rendered pages, or JS-enhanced UIs). These rules exist to prevent accidental contract violations caused by browser defaults.
 

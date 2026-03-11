@@ -287,7 +287,7 @@ Below is the equivalent “professional-team grade” rule set for **Node.js + n
 63. Relying on globally installed TypeScript/ESLint/Prettier.
 64. Leaving `any` everywhere instead of fixing types (allow exceptions, but track them).
 
-## 15) Minimal “gold standard” checklist
+## 14) Minimal “gold standard” checklist
 
 65. Node version pinned (`.nvmrc` / `.node-version` / Volta) and CI matches.
 66. `package-lock.json` committed; CI uses `npm ci`.

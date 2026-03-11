@@ -1,7 +1,7 @@
 # Documentation Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-02-01
+**Last updated:** 2026-03-11
 
 This policy ensures documentation is accurate, minimal, searchable, and maintained as a first-class artifact.
 

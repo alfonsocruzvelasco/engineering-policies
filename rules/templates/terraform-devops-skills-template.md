@@ -915,7 +915,7 @@ Terraform Project Lifecycle:
 Each skill will include version info in frontmatter:
 ```yaml
 version: 1.0.0
-last_updated: 2026-01-29
+last_updated: 2026-03-11
 source: Anton Babenko's Terraform Skill principles
 ```
 

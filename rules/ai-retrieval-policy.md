@@ -4,7 +4,7 @@
 
 **Scope:** Applies to all retrieval-augmented generation (RAG) systems, vector databases, and context retrieval mechanisms used in AI workflows.
 
-**Last updated:** 2026-03-07
+**Last updated:** 2026-03-11
 
 ---
 

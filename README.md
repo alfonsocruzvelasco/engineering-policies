@@ -13,7 +13,7 @@ Convenience symlinks:
 - `~/policies` -> `~/dev/repos/github.com/alfonsocruzvelasco/engineering-policies/`
 
 **Status:** Authoritative
-**Last updated:** 2026-03-07
+**Last updated:** 2026-03-11
 
 This repository is the **single source of truth** for how software is designed, built, reviewed, shipped, secured, and maintained across all of my development work.
 
@@ -105,6 +105,12 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
   *ML/CV-specific operations*
   (model evaluation frameworks, feature engineering & feature stores, data quality & validation, model debugging & explainability, production inference patterns)
 
+### AI retrieval and architecture policies
+
+- **`rules/ai-retrieval-policy.md`** **[NEW 2026-03-07]**
+  *Retrieval architecture standards, knowledge base governance, and context injection safety*
+  (RAG formulation selection: RAG-Sequence vs RAG-Token, knowledge base ingestion rules, retrieval result sandboxing, MCP vs RAG decision, index hot-swapping, evaluation and monitoring metrics)
+
 ### AI and architecture policies
 
 - **`rules/references/ai-systems-architecture.md`** **[MOVED 2026-02-01]**
@@ -145,6 +151,9 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
 - **`rules/ai-tool-policy-quick-reference.md`** **[NEW 2026-02-07]**
   *Developer-facing quick reference guide for AI tool policy*
   (decision tree, common scenarios, security best practices, violation consequences, support channels, self-check checklist)
+
+- **`rules/security-exceptions.md`**
+  *Security exception log — tracks documented exceptions to security policies with justification, scope, and expiration*
 
 ### Documentation and versioning policies
 
@@ -343,7 +352,7 @@ This repository is **infrastructure**, not documentation noise.
 6. Review `rules/mlops-policy.md` for experiment tracking, model serving, and monitoring setup
 7. Review `rules/ml-experiment-tracking-policy.md` for learning-phase experiment tracking (EXPERIMENTS.md, git tags, minimal tracking discipline)
 8. Review `rules/ml-cv-operations-policy.md` for ML/CV-specific operations (model evaluation, feature engineering, data quality)
-9. Review `rules/production-policy.md` §8 (Git and Source Control) for Git workflow and branching model
+9. Review `rules/production-policy.md` §5 (Git and Source Control) for Git workflow and branching model
 10. Review `rules/versioning-and-release-policy.md` for versioning schemes and release processes
 11. Review `rules/security-policy.md` for secrets handling and ML/CV security
 12. Review `rules/ai-workflow-policy.md` Part 1 for Cursor sandbox rules and daily workflow

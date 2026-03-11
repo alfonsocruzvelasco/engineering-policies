@@ -1262,7 +1262,7 @@ Self-hosted or community-hosted AI model deployments that lack enterprise securi
 | Support & Liability      | ❌ None                             | ✅ Enterprise SLA + indemnity     |
 | Cost (TCO)               | ❌ "Free" but high hidden risk cost | ✅ Predictable + insured          |
 
-**See also:** [OpenClaw Security Policy & Risk Assessment](../references/open-claw-security-policy.md) for detailed analysis of OpenClaw (formerly Molt/Clawdbot) security vulnerabilities, including architectural risks, prompt injection threats, and mandatory isolation requirements. OpenClaw is **PROHIBITED** under this policy due to excessive default permissions, insecure credential storage, network exposure, and the MoltBook data breach (1.5M API tokens leaked).
+**See also:** [OpenClaw Security Policy & Risk Assessment](references/open-claw-security-policy.md) for detailed analysis of OpenClaw (formerly Molt/Clawdbot) security vulnerabilities, including architectural risks, prompt injection threats, and mandatory isolation requirements. OpenClaw is **PROHIBITED** under this policy due to excessive default permissions, insecure credential storage, network exposure, and the MoltBook data breach (1.5M API tokens leaked).
 
 ---
 
@@ -1284,9 +1284,9 @@ Self-hosted or community-hosted AI model deployments that lack enterprise securi
 | Learning/experimentation          | Unvetted tool with sensitive code       | Local LLM (Ollama, LM Studio) + air-gapped environment        |
 
 **Resources:**
-* **Tool Evaluation Checklist:** See `ai-tool-security-checklist.md` (Section 14.6.2 criteria)
+* **Tool Evaluation Checklist:** See Section 14.6.2 criteria above (approval checklist)
 * **Approved Tool Registry:** See `approved-ai-tools.md` (maintained by Security team)
-* **Training Materials:** See `security-training/prohibited-ai-tools/` for slides and examples
+* **Detection Script:** See `system/scripts/ai-prohibited-tools-check.sh` for automated scanning
 * **Self-Service Security Review:** Use Claude Code `/security-review` command for quick checks
 
 ---
@@ -1575,7 +1575,7 @@ If you suspect exposure or compromise:
 
 **Prompt Injection (PI)** = instructions embedded in untrusted content (web pages, PDFs, emails, issues, logs, PRs, third-party docs) that attempt to override system/developer/user rules or trigger unsafe actions.
 
-**Note:** For comprehensive prompt injection defense strategies and detailed implementation, see [Prompts Policy](ai-workflow-policy.md (Part 2: Prompt Engineering)) Section "Prompt Injection (PI) Defense".
+**Note:** For comprehensive prompt injection defense strategies and detailed implementation, see `ai-workflow-policy.md` Part 2: Prompt Engineering, Section "Prompt Injection (PI) Defense".
 
 **Core Defense Model:**
 **Trust Hierarchy**
@@ -1983,7 +1983,7 @@ All exceptions must be recorded in `exception-and-decision-log.md`.
 ## References
 
 * [Versioning and Release Policy](versioning-and-release-policy.md) — Git, source control, and release practices
-* [Prompts Policy](ai-workflow-policy.md (Part 2: Prompt Engineering)) — Prompt injection defense
+* `ai-workflow-policy.md` Part 2: Prompt Engineering — Prompt injection defense
 * [Production Policy](production-policy.md) — Data storage and SQL security practices
 
 

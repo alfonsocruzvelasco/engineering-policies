@@ -412,7 +412,7 @@ The training process SHALL utilize ≥ 90% GPU during batch processing.
 - Which requirements this experiment validates
 - Acceptance criteria pass/fail status
 
-**See:** `~/policies/references/spec-protocols-guide.md` Section: "Best Practices for ML/CV Engineering"
+**See:** `~/policies/rules/references/spec-protocols-guide.md` Section: "Best Practices for ML/CV Engineering"
 
 ---
 
@@ -977,7 +977,7 @@ study.optimize(objective, n_trials=100)
 - Reducing search space
 - Understanding model sensitivity
 
-### 6.5 Algorithm Search & Discovery Framework
+### 6.7 Algorithm Search & Discovery Framework
 
 **Source:** Li, Schultz, Hennes & Lanctot (Google DeepMind, arXiv:2602.16928, Feb 2026). See `references/discovering-multiagent-learning-algorithms-with-llm.pdf`.
 
@@ -2286,9 +2286,9 @@ random.seed(42)
 
 ---
 
-## 13) Cost Optimization & Resource Management
+## 12) Cost Optimization & Resource Management
 
-### 13.1 GPU Resource Allocation
+### 12.1 GPU Resource Allocation
 
 **Training:**
 - Use spot instances for long-running jobs
@@ -2302,7 +2302,7 @@ random.seed(42)
 - Use CPU inference for small models
 - Consider edge deployment for low-latency requirements
 
-### 13.2 Inference Cost Optimization
+### 12.2 Inference Cost Optimization
 
 **Batch size optimization:**
 - Larger batches = better GPU utilization
@@ -2319,7 +2319,7 @@ random.seed(42)
 - Use CDN for static model artifacts
 - Cache preprocessing results
 
-### 13.3 Training Cost Tracking
+### 12.3 Training Cost Tracking
 
 **Track per experiment:**
 - GPU hours (training time × GPU count)
@@ -2333,7 +2333,7 @@ random.seed(42)
 - Use spot instances for hyperparameter tuning
 - Right-size training instances
 
-### 13.4 Cloud Cost Management
+### 12.4 Cloud Cost Management
 
 **Spot instances:**
 - Use for training jobs (can tolerate interruptions)
@@ -2350,7 +2350,7 @@ random.seed(42)
 - Scale up during peak traffic
 - Use predictive scaling if possible
 
-### 13.5 Cost vs Performance Tradeoff
+### 12.5 Cost vs Performance Tradeoff
 
 **Decision framework:**
 - **Accuracy:** Must meet minimum threshold
@@ -2366,7 +2366,7 @@ random.seed(42)
 
 ---
 
-## 14) Research & Experimentation Methodology
+## 13) Research & Experimentation Methodology
 
 ### 13.1 Experimental Design Principles
 
@@ -2618,7 +2618,7 @@ rejected, p_corrected, _, _ = multipletests(
 
 ---
 
-## 15) Model Architecture & Design
+## 14) Model Architecture & Design
 
 ### 14.1 Architecture Selection Framework
 

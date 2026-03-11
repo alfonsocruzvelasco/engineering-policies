@@ -7,9 +7,9 @@ domain: Machine Learning, Computer Vision, MLOps
 
 # ML/CV ENGINEERING PROTOCOL
 
-> **Comprehensive MCP Reference:** For complete MCP ecosystem documentation (protocol architecture, MCP-UI framework, development patterns, official servers, production considerations), see `references/mcp-ecosystem-notes.md`.
+> **Comprehensive MCP Reference:** For complete MCP ecosystem documentation (protocol architecture, MCP-UI framework, development patterns, official servers, production considerations), see `../references/mcp-ecosystem-notes.md`.
 
-> **Self-Improving Loop:** This MCP operates within Osmani's iterative development pattern: atomic tasks → validation → knowledge capture → context reset → repeat. See `task-management-guide.md` for full workflow.
+> **Self-Improving Loop:** This MCP operates within Osmani's iterative development pattern: atomic tasks → validation → knowledge capture → context reset → repeat. See `../references/task-management-guide.md` for full workflow.
 
 ## When to Create MCP Servers (Decision Tree)
 
@@ -36,7 +36,7 @@ MCP servers should expose context that specs reference:
 - **THEN** call MCP tool `validate_dataset("dataset://coco-2017-train")`
 ```
 
-**See:** `~/policies/references/spec-protocols-guide.md` Section: "Integration Patterns"
+**See:** `~/policies/rules/references/spec-protocols-guide.md` Section: "Integration Patterns"
 
 ---
 
@@ -615,7 +615,7 @@ Afternoon (MCP):
 **MCP setup priority for ML/CV:**
 1. **Filesystem MCP** (reading large files efficiently)
 2. **Git MCP** (deterministic history access)
-3. **Postgres MCP** (local dataset queries) — locked implementation: postgres-mcp (crystaldba). See `references/sql-and-mcp-notes-ml-cv.md`.
+3. **Postgres MCP** (local dataset queries) — locked implementation: postgres-mcp (crystaldba). See `../references/sql-and-mcp-notes-ml-cv.md`.
 4. **Firecrawl MCP** (clean documentation access)
 
 ---
