@@ -108,6 +108,26 @@ Before answering, analyze:
 
 **Source:** Batista & Griffiths (Princeton, 2026) showed default LLM behavior is indistinguishable from explicit sycophancy — 5.9% discovery rate vs 29.5% with unbiased sampling. See `ai-workflow-policy.md §13.2` and `references/a-rational-analysis-of-the-effects-of-sycophantic-ai.pdf`.
 
+### Diversity Forcing (Open-Ended / Creative Tasks)
+
+LLMs exhibit pronounced mode collapse on open-ended tasks — 79% intra-model similarity, 71–82% inter-model similarity, even with high-temperature sampling. Switching models does not guarantee diverse output. When the task requires genuinely different alternatives (brainstorming, design exploration, hypothesis generation), add this directive:
+
+```text
+Generate N alternatives that differ structurally, not just in phrasing.
+Each alternative must use a different [approach / framing / assumption / starting constraint].
+Do not produce variations of the same core idea.
+```
+
+For design/architecture exploration, bind each alternative to a different constraint:
+
+```text
+Option A: Optimize for [latency]
+Option B: Optimize for [cost]
+Option C: Optimize for [simplicity]
+```
+
+**Source:** Jiang et al., "Artificial Hivemind," NeurIPS 2025 — different models converge on the same ideas with verbatim overlap. See `ai-workflow-policy.md §13.3` and `references/artificial-hivemind.pdf`.
+
 ---
 
 ## Optional Add-ons (Use Only When Needed)

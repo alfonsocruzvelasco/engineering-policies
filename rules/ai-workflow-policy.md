@@ -3546,6 +3546,40 @@ Without this loop, AI becomes a belief amplifier instead of a reasoning tool.
 
 ---
 
+## 13.3) Diversity Collapse Awareness (Artificial Hivemind)
+
+**Source:** Jiang et al., "Artificial Hivemind: The Open-Ended Homogeneity of Language Models (and Beyond)," NeurIPS 2025. See `references/artificial-hivemind.pdf`.
+
+**Problem:** LLMs suffer from pronounced mode collapse on open-ended tasks. Even with high-stochasticity decoding (top-p=0.9, t=1.0), 79% of response pairs from the same model exceed 0.8 similarity. More critically, **different models independently converge on the same ideas** — inter-model similarity ranges 71–82%, with verbatim phrase overlaps across model families (GPT, Qwen, DeepSeek, Llama). Switching models does not guarantee diverse perspectives.
+
+**Implication:** Multi-model verification (§12 Agent Selection) mitigates sycophancy and catches errors, but does NOT reliably provide diverse creative or analytical outputs. The "Artificial Hivemind" effect means model ensembles can reinforce the same narrow framing.
+
+**When this matters:**
+
+- Brainstorming and ideation
+- Architecture or design exploration (generating alternatives)
+- Creative content generation
+- Research hypothesis generation (multiple framings)
+- Any task where you need genuinely different perspectives, not just agreement from a second source
+
+**When this does NOT matter:**
+
+- Procedural execution (refactors, formatting)
+- Structured lookup tasks (entity extraction, slot filling)
+- Tasks with a single correct answer
+
+**Mitigation rules:**
+
+1. **Do not assume model diversity equals output diversity** — if you query 3 different models with the same prompt, expect ~75% semantic overlap on open-ended tasks
+2. **Force structural divergence** — when diversity matters, explicitly request different framings, constraints, or starting points per query (e.g., "solve this using approach X" vs "solve this assuming X is unavailable")
+3. **Inject external variation** — use different retrieved documents, different prompt structures, or explicit constraints to force the model off its default mode
+4. **Human ideation first** — for high-stakes creative or strategic decisions, generate your own alternatives before consulting AI; use the AI to stress-test and extend human-originated ideas rather than as the sole source of options
+5. **Flag convergence** — if multiple models or sampling runs produce near-identical outputs for an open-ended query, treat that as a signal that the AI's output space is collapsed, not as confirmation that the answer is correct
+
+**Integration with Hypothesis Stress Test (§13.2):** The Hivemind effect compounds sycophancy. If you ask a second model to challenge a first model's hypothesis, the second model may generate the same hypothesis independently. When combining adversarial epistemics with multi-model verification, vary the prompt structure — do not just forward the same query.
+
+---
+
 ## 14) Spec-Driven Development Integration
 
 When working on features that span multiple files or require architectural decisions:
