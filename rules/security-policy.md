@@ -373,6 +373,30 @@ Just because an agent *can* call an API or tool does not mean it *should*.
 * Data processing libraries (PIL, OpenCV, etc.) must be pinned and scanned for vulnerabilities
 * Model serialization formats (pickle, ONNX, etc.) must be validated before deserialization
 
+### 9.4) Install script and IDE extension supply chain defense
+
+**Threat reference:** UNC6426 / nx npm supply chain attack (March 2026). A trojanized npm postinstall script ran a credential stealer (QUIETVAULT) that weaponized an LLM tool already on the developer's machine to scan for tokens, PATs, and secrets. The stolen GitHub token was used to abuse GitHub→AWS OIDC trust, escalating to full AWS admin in 72 hours. The attack was triggered by an IDE plugin update (Nx Console). See [The Hacker News report](https://thehackernews.com/2026/03/unc6426-exploits-nx-npm-supply-chain.html).
+
+**Postinstall script blocking (mandatory):**
+
+- Use `--ignore-scripts` by default for `npm install` / `npm ci`. Explicitly allowlist packages that require install scripts after human review.
+- In `.npmrc`: set `ignore-scripts=true` as the project default. Maintain a reviewed allowlist for packages that genuinely require lifecycle scripts.
+- CI pipelines MUST run `npm ci --ignore-scripts` unless the pipeline explicitly documents which postinstall scripts are permitted and why.
+- Pre-commit or CI checks SHOULD flag any new dependency that registers a `preinstall`, `install`, or `postinstall` script.
+
+**IDE extension and plugin supply chain:**
+
+- IDE plugins and extensions are dependencies — treat them with the same supply chain rigor as npm packages.
+- Only install extensions from official marketplace publishers with verified identities.
+- Review extension permissions before installation: filesystem access, network access, and shell execution are high-risk.
+- Monitor extension auto-updates: a legitimate extension can be compromised after initial vetting (as happened with Nx Console). Pin extension versions where possible; review changelogs on update.
+
+**AI tool weaponization defense:**
+
+- Any AI agent, LLM tool, or coding assistant installed on a developer machine can be invoked by malware through natural-language prompts — the agent inherits the developer's full file system and credential access.
+- AI coding tools MUST NOT have standing access to credential stores, cloud provider tokens, or CI/CD secrets. Credentials should be injected per-session, not persisted in files accessible to all processes.
+- If a supply chain compromise is suspected, assume any AI tool on the affected machine was used for reconnaissance. Treat all credentials accessible to that machine as compromised and rotate immediately (per Section 18).
+
 ### 9.5) Package manager authentication hardening
 
 **Publishing requirements (mandatory):**
@@ -462,6 +486,24 @@ This section applies to AWS/GCP/Azure and on-prem equivalents.
 * GPU compute instances must use least-privilege IAM roles
 * Model inference endpoints must be behind WAF and rate-limited
 * Training job logs must not contain sensitive data or model weights
+
+### 10.2) CI/CD-to-Cloud OIDC trust chain hardening
+
+**Threat reference:** UNC6426 abused a GitHub→AWS OIDC trust to escalate from a stolen GitHub token to AWS AdministratorAccess in 72 hours. The overly permissive CloudFormation role allowed creating new IAM admin roles.
+
+**OIDC-linked CI/CD roles MUST follow least-privilege:**
+
+- CI/CD service account roles (GitHub Actions, GitLab CI) that authenticate to cloud via OIDC MUST NOT have `iam:CreateRole`, `iam:AttachRolePolicy`, or equivalent privileges. If CloudFormation/IaC requires IAM changes, use a separate, tightly scoped role with mandatory human approval.
+- OIDC trust policies MUST restrict the `sub` claim to specific repositories and branches (e.g., `repo:org/repo:ref:refs/heads/main`). Never use wildcard repository matching.
+- Roles assumed via OIDC MUST have a maximum session duration of 1 hour (or less).
+- Monitor for anomalous IAM activity: new role creation, policy attachment, cross-account assume-role calls. Alert within 15 minutes.
+- Remove standing privileges for high-risk actions (IAM admin, S3 bucket deletion, RDS termination). Require elevated approval workflows for destructive operations.
+
+**GitHub-specific:**
+
+- Use fine-grained PATs with specific repository permissions and short expiration (maximum 7 days for automation, 24 hours preferred).
+- Disable classic PATs in organization settings where possible.
+- Audit OIDC trust relationships quarterly — remove any trust that is no longer in active use.
 
 ### 10.3) Cloud cost anomaly detection
 

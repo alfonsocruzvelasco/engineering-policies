@@ -408,6 +408,18 @@ For the complete list of prohibited tool categories and characteristics, see **s
 4. Free or community AI services without compliance certifications
 5. Tools with unclear data retention or training policies
 
+### IDE Extension and Plugin Supply Chain Policy
+
+**Threat reference:** UNC6426 (March 2026) — a legitimate IDE plugin (Nx Console) was compromised via a trojanized npm postinstall script. The plugin auto-update triggered credential theft and full cloud environment breach within 72 hours. See `security-policy.md §9.4`.
+
+**Requirements for all IDE extensions:**
+- Only install extensions from official, verified marketplace publishers
+- Review extension permissions before installation (filesystem, network, shell execution are high-risk)
+- Pin extension versions in team-shared configurations where possible
+- Review extension changelogs before accepting auto-updates
+- Any extension that executes postinstall/lifecycle scripts, spawns subprocesses, or makes network calls outside its stated function is PROHIBITED until reviewed
+- Add `Cursor IDE extensions: review installed extensions for supply chain risk` to the Recertification Checklist
+
 ---
 
 ## Exception Process

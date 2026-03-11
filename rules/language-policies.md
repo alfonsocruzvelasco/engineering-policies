@@ -266,7 +266,7 @@ Below is the equivalent “professional-team grade” rule set for **Node.js + n
 ## 12) Security and supply chain
 
 50. **Run `npm audit` (or org’s scanner) in CI** with a defined policy for failures.
-51. **No install scripts from untrusted packages** unless reviewed (postinstall hooks are a common risk).
+51. **Block install scripts by default** (`ignore-scripts=true` in `.npmrc`). Explicitly allowlist packages that require postinstall hooks after human review. See `security-policy.md §9.4` (UNC6426 supply chain attack reference).
 52. **Pin critical dependencies** if you’ve had supply-chain incidents or strict compliance needs.
 53. **Use provenance/attestations if your org requires it** (policy-driven).
 54. **Never commit `.npmrc` with tokens.** Use environment/CI secret injection.
