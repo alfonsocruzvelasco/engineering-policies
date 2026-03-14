@@ -1,7 +1,7 @@
 # AI Workflow Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-02-18
+**Last updated:** 2026-03-12
 
 **Scope:** This policy governs all AI-assisted development workflows, including Cursor usage, prompt engineering, session management, and spec-driven development. It consolidates the previously separate policies: `ai-workflow-policy.md (Part 1: Core Workflow)`, `ai-workflow-policy.md (Part 2: Prompt Engineering)`, `ai-workflow-policy.md (Part 3: Session Management)`, and `ai-workflow-policy.md (Part 4: Spec-Driven Development)`.
 

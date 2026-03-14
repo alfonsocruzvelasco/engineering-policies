@@ -1,7 +1,7 @@
 # MLOps Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-02-18
+**Last updated:** 2026-03-12
 **Purpose:** Comprehensive MLOps practices for experiment tracking, model lifecycle, serving, monitoring, and optimization
 
 **See also:** [ML Experiment Tracking Policy](ml-experiment-tracking-policy.md) for learning-phase experiment tracking (EXPERIMENTS.md, git tags, minimal tracking discipline). Start there for new ML/CV projects; graduate to the tools in this policy (MLflow, W&B, DVC) when you have 10+ experiments.

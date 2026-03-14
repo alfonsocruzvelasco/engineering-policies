@@ -1,7 +1,7 @@
 # Security Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-02-22
+**Last updated:** 2026-03-12
 
 **Scope:** This policy defines how **credentials, secrets, dependencies, identity and access controls, APIs, and AI-assisted engineering risks** are handled. It applies to all environments (local, CI, staging, production) and all repositories, with special emphasis on ML/CV engineering security.
 
@@ -1273,7 +1273,7 @@ Self-hosted or community-hosted AI model deployments that lack enterprise securi
 | Use Case                          | Prohibited Approach                     | Approved Alternative                                          |
 | --------------------------------- | --------------------------------------- | ------------------------------------------------------------- |
 | Quick code generation             | "chawd.ai" browser interface            | Claude Code CLI, Cursor IDE with approved API keys            |
-| Multi-model comparison            | AI aggregator service                   | Local model evaluation harness (see `ai-eval-policy.md`)     |
+| Multi-model comparison            | AI aggregator service                   | Local model evaluation harness (see `approved-ai-tools.md` and Section 14.6.2)     |
 | Debugging assistance              | Sharing errors with unvetted tools      | Claude Code with sanitized error messages                     |
 | Architecture design               | Uploading proprietary code to free tool | Claude API (Enterprise tier) with approved context            |
 | Dependency recommendations        | Unvetted tool suggestions               | GitHub Dependabot + manual security review                    |
@@ -1815,7 +1815,7 @@ AI-assisted code must pass:
 * Input validation present
 * Auth/authz verified
 * Dependency scan clean
-* Security review completed (see Section 19.1 for review methods)
+* Security review completed (see Section 20.1 for review methods)
 * **Natural language instruction audit** (see Section 19.6 for prompt injection defense)
 
 **Correctness:**
@@ -1830,7 +1830,7 @@ AI-assisted code must pass:
 * Human code review
 * Branch protection + CI enforced
 
-### 19.1 Security Review Methods
+### 20.1 Security Review Methods
 
 Security review must use **at least one** of the following methods:
 
@@ -3292,7 +3292,7 @@ Claude Code `/security-review` **complements** traditional SAST tools:
 **See also:**
 * [Claude Code Security Review Documentation](https://support.claude.com/en/articles/11932705-automated-security-reviews-in-claude-code)
 * [GitHub Action Repository](https://github.com/anthropics/claude-code-security-review)
-* Section 19.1 (Security Review Methods) for integration into verification gates
+* Section 20.1 (Security Review Methods) for integration into verification gates
 
 #### Pre-commit Hooks Framework
 

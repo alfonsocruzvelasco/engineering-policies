@@ -1,7 +1,7 @@
 # Versioning and Release Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-02-01
+**Last updated:** 2026-03-12
 
 This policy defines how versions are assigned, how releases are produced, and how artifacts are published.
 

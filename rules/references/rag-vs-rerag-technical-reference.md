@@ -1744,8 +1744,8 @@ python refrag_query.py --query "How does auth work?" --k 10
 - Evaluating AGENTS.md (ETH Zurich, February 2026)
 
 **Related Documents:**
-- POLICY_CHANGES_SUMMARY.md (AGENTS.md research findings)
-- claude-md-template-minimal-v3.md (Minimal context file template)
+- `agents-md-template.md` — AGENTS.md structure and failure modes
+- `claude-md-template.md` — Minimal context file template
 
 **Tags:** RAG, RERAG, REFRAG, retrieval, embeddings, context-engineering, agents, ML-engineering, performance-optimization
 

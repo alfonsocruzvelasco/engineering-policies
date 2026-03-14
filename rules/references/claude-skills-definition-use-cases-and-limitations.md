@@ -119,7 +119,7 @@ This differs from function calling where you explicitly invoke tools — Skills 
 - Approval workflows still require external process
 - `skills-lint` (third-party) needed for token budget enforcement
 
-**Policy reference:** See `ai-workflow-policy.md` "Claude Code Skills Management" for governance framework.
+**Policy reference:** See `../ai-workflow-policy.md` "Claude Code Skills Management" for governance framework.
 
 ---
 

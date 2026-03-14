@@ -24,7 +24,7 @@ Recommended starting domains:
 
 **Domain:** {execution | review | governance | planning | documentation | deployment | testing | infrastructure}
 **Status:** Authoritative
-**Last updated:** YYYY-MM-DD
+**Last updated:** 2026-03-12
 
 ---
 
@@ -701,8 +701,8 @@ You know domains are working when:
 - `prompt-template.md` — Task card format
 
 **Complementary guides:**
-- `task-management-guide.md` — Atomic task decomposition
-- `spec-protocols-guide.md` — Spec-driven workflow
+- `../references/task-management-guide.md` — Atomic task decomposition
+- `../references/spec-protocols-guide.md` — Spec-driven workflow
 - Agent HQ orchestration notes — Multi-agent coordination
 
 ---

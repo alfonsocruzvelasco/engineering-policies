@@ -55,6 +55,7 @@ See `ai-workflow-policy.md §13.2` for the full Hypothesis Stress Test protocol.
 - **Dependencies:** Pin versions, lock files required. New deps need review (license, CVEs, provenance). OIDC-only for publishing — no long-lived tokens. Block npm postinstall scripts by default (`ignore-scripts=true`). See `security-policy.md §9.4`.
 - **AI tool weaponization:** Any LLM/agent on your machine can be invoked by malware via natural-language prompts — it inherits your full filesystem and credential access. AI tools must not have standing access to credential stores. See `security-policy.md §9.4` (UNC6426 incident).
 - **IDE plugins are dependencies:** Treat extensions with the same supply chain rigor as npm packages. A legitimate plugin can be compromised after vetting (Nx Console incident, March 2026). Pin versions, review updates.
+- **CI/CD→cloud OIDC:** Repos with GitHub Actions or other CI that assume cloud roles must use least-privilege OIDC; no IAM role creation from CI. See `security-policy.md §10.2`.
 - **AI output:** Treat as junior PR. Mandatory security review for auth, validation, and credential-adjacent code before merge.
 
 ---
@@ -78,7 +79,8 @@ See `ai-workflow-policy.md §13.2` for the full Hypothesis Stress Test protocol.
 - Default: Simple RAG
 - High-precision domains only: RERAG
 - Production latency-critical only: REFRAG
-- See `references/rag-vs-rerag-technical-reference.md` before deviating.
+- For RAG-Sequence vs RAG-Token formulation choice, see `../ai-retrieval-policy.md` §1 (RAG Formulation Selection).
+- See `../references/rag-vs-rerag-technical-reference.md` before deviating.
 
 ---
 
@@ -131,7 +133,7 @@ Known failure patterns from deployed multi-agent systems (Shapira et al., "Agent
 
 **Design target:** L2→L3 autonomy (Mirsky scale) — recognize when a situation exceeds competence and proactively transfer control to a human, rather than proceeding and hoping.
 
-See `security-policy.md §19` and `references/agents-of-chaos.pdf`.
+See `security-policy.md §19` and `../references/agents-of-chaos.pdf`.
 
 ---
 
