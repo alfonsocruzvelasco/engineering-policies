@@ -1,7 +1,7 @@
 # OpenClaw Security Policy & Risk Assessment
 
-**Document Version:** 1.0
-**Last Updated:** February 8, 2026
+**Document Version:** 1.1
+**Last Updated:** 2026-03-14
 **Status:** Active Security Advisory
 
 ---
@@ -77,11 +77,12 @@ OpenClaw is **"AI with hands"** — unlike browser extensions that operate in sa
 - Browser automation
 - Network requests
 
-### Indirect Prompt Injection (IPI)
+### Indirect Prompt Injection (IPI) / Cross-Domain Prompt Injection (XPIA)
 If the agent processes:
 - Malicious websites
 - Compromised documents
 - Untrusted emails
+- **Link previews in messaging apps (Telegram, Discord)** — PromptArmor (Feb 2026) demonstrated that an attacker can trick the agent into generating an attacker-controlled URL; when the messaging app renders it as a link preview, it **automatically transmits confidential data to that domain without the user clicking**. Data exfiltration occurs immediately upon the agent responding.
 
 It can be tricked into:
 - Installing backdoors
@@ -142,11 +143,15 @@ grep -r "0.0.0.0" /path/to/openclaw/config
 | Risk Category | Severity | Likelihood | Mitigated by VirusTotal? |
 |--------------|----------|------------|--------------------------|
 | Prompt Injection | CRITICAL | HIGH | ❌ No |
+| Link Preview Exfiltration (IDPI/XPIA) | CRITICAL | HIGH | ❌ No |
 | Excessive Permissions | CRITICAL | CERTAIN | ❌ No |
 | Credential Theft | HIGH | HIGH | ❌ No |
 | Network Exposure | CRITICAL | HIGH | ❌ No |
 | Known Malware (Skills) | MEDIUM | MEDIUM | ✅ Partially |
+| Malicious Skills (ClawHub) | HIGH | HIGH | ❌ No |
 | Logic Flaws in Skills | HIGH | MEDIUM | ❌ No |
+| Fake Installer Repos (GitHub) | HIGH | HIGH | ❌ No |
+| Irrevocable Data Deletion | HIGH | MEDIUM | ❌ No |
 | Data Breach (MoltBook) | SEVERE | OCCURRED | ❌ No |
 
 ---
@@ -160,6 +165,14 @@ grep -r "0.0.0.0" /path/to/openclaw/config
    - Maintain offline backups of critical data
    - Monitor system logs for anomalous behavior
 3. **Immediately revoke** any credentials if you connected to MoltBook
+
+### CNCERT Recommendations (March 2026)
+- Strengthen network controls; prevent exposure of OpenClaw's default management port to the internet
+- Isolate the service in a container
+- Avoid storing credentials in plaintext
+- Download skills only from trusted channels
+- Disable automatic updates for skills
+- Keep the agent up-to-date with security patches
 
 ### For Organizations
 1. **Ban deployment** on corporate networks and endpoints
@@ -202,6 +215,31 @@ grep -r "0.0.0.0" /path/to/openclaw/config
 4. Attacker sends API requests to agent without authentication
 5. Full system compromise via agent's terminal access
 
+#### Scenario D: Link Preview Data Exfiltration (PromptArmor, Feb 2026)
+1. User communicates with OpenClaw via Telegram or Discord
+2. Attacker uses indirect prompt injection to manipulate the agent
+3. Agent generates an attacker-controlled URL with sensitive data in query parameters
+4. Messaging app automatically fetches link preview (no user click required)
+5. Attacker's server receives confidential data when preview is requested
+
+#### Scenario E: Malicious Skills from ClawHub
+1. Attacker uploads skill to ClawHub with arbitrary command execution or malware
+2. User installs skill (may pass VirusTotal if payload is logic-based or novel)
+3. Skill runs arbitrary commands or deploys malware with agent's full permissions
+
+#### Scenario F: Malicious GitHub Repositories (Huntress, Mar 2026)
+1. User searches "OpenClaw Windows" (e.g., via Bing AI search)
+2. Top result is fake OpenClaw installer repository
+3. Repository contains ClickFix-style instructions that deploy info stealers (Atomic, Vidar Stealer) or proxy malware (GhostSocks)
+4. Malware targets both Windows and macOS installers
+
+### 7.1 CNCERT Advisory (March 2026)
+
+China's National Computer Network Emergency Response Technical Team (CNCERT) has issued a warning about OpenClaw's "inherently weak default security configurations" and privileged access. Chinese authorities have restricted state-run enterprises and government agencies from running OpenClaw on office computers. Additional concerns cited:
+- **Irrevocable deletion** of critical information due to misinterpretation of user instructions
+- **Malicious skills** from ClawHub that run arbitrary commands or deploy malware when installed
+- **Recently disclosed vulnerabilities** enabling system compromise and data leakage
+
 ---
 
 ## 8. Monitoring & Detection
@@ -238,7 +276,8 @@ ps auxf | grep openclaw
 
 ## 9. References
 
-- **Source Article:** [The Hacker News - OpenClaw Integrates VirusTotal Scanning](https://thehackernews.com/2026/02/openclaw-integrates-virustotal-scanning.html)
+- **Source Article (Feb 2026):** [The Hacker News - OpenClaw Integrates VirusTotal Scanning](https://thehackernews.com/2026/02/openclaw-integrates-virustotal-scanning.html)
+- **Source Article (Mar 2026):** [The Hacker News - OpenClaw AI Agent Flaws Could Enable Prompt Injection and Data Exfiltration](https://thehackernews.com/2026/03/openclaw-ai-agent-flaws-could-enable.html) — CNCERT warning, link preview exfiltration (PromptArmor), malicious skills, fake GitHub installers (Huntress)
 - **Vulnerability Database:** Search CVE database for "OpenClaw" and "Molt"
 - **Security Advisories:** Monitor ClawHub security announcements
 
@@ -249,12 +288,13 @@ ps auxf | grep openclaw
 | Version | Date | Changes |
 |---------|------|---------|
 | 1.0 | 2026-02-08 | Initial policy based on VirusTotal integration analysis |
+| 1.1 | 2026-03-14 | CNCERT advisory; link preview exfiltration (PromptArmor); malicious skills; fake GitHub installers; irrevocable deletion; expanded threat model and risk matrix |
 
 ---
 
 ## Disclaimer
 
-This document is provided for informational purposes only. The recommendations herein represent a conservative security posture based on publicly available information as of February 8, 2026. Individual risk tolerance and use cases may vary. Always consult your organization's security team before deploying AI agent frameworks.
+This document is provided for informational purposes only. The recommendations herein represent a conservative security posture based on publicly available information as of March 14, 2026. Individual risk tolerance and use cases may vary. Always consult your organization's security team before deploying AI agent frameworks.
 
 **The fundamental principle remains:** Treat OpenClaw as potentially hostile software until comprehensive architectural security improvements are implemented and independently verified.
 
