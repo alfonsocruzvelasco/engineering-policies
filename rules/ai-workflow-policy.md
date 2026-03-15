@@ -3661,9 +3661,10 @@ When working on features that span multiple files or require architectural decis
 **Example:** `/verify`
 
 #### `/simplify` — Code Simplification Agent
-**Purpose:** Reduce complexity in generated code
+**Purpose:** Reduce complexity in generated code (post-implementation cleanup; runs after feature/bug-fix).
 **Checklist:** Remove unnecessary abstractions, inline single-use functions, simplify conditionals
 **Example:** `/simplify src/utils.py`
+**Technical reference:** See [simplify-command-report.pdf](references/simplify-command-report.pdf) for internals, three parallel review agents (Code Reuse, Code Quality, Efficiency), workflow integration, and scope (Claude Code ≥ v2.1.63).
 
 #### `/doc` — Documentation Agent
 **Purpose:** Generate/update documentation
