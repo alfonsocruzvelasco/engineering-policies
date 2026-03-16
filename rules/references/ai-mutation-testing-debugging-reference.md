@@ -114,6 +114,17 @@ Most models perform significantly worse under realistic mutated scenarios, revea
 
 **Source:** [arXiv - Saving SWE-Bench: A Benchmark Mutation Approach](https://arxiv.org/html/2510.08996v4?utm_source=chatgpt.com)
 
+### SWE-CI: Evolution-Based CI Benchmark for Agentic Maintenance
+
+SWE-CI shifts evaluation from one-shot bug fixing to **long-term codebase maintenance under a Continuous Integration loop**:
+
+- **Benchmark design:** 100 tasks, each built from a real repository’s evolution history (on average **233 days** and **71 consecutive commits** between base and target commit).
+- **Protocol:** Architect–Programmer dual-agent setup running an iterative CI loop: generate requirements from test gaps, modify code, run tests, repeat until the target commit’s test suite passes.
+- **Metric (EvoScore):** Future-weighted normalized change in tests passed, emphasizing **long-term maintainability and regression resistance**, not just immediate functional correctness.
+- **Insight:** Agents that “rush” to pass early tests with brittle fixes suffer later in the sequence; agents that invest in cleaner, extensible designs maintain higher EvoScores over time.
+
+**Source:** Chen et al., “SWE-CI: Evaluating Agent Capabilities in Maintaining Codebases via Continuous Integration,” arXiv:2603.03823, 2026. Dataset: `https://huggingface.co/datasets/skylenage/SWE-CI`.
+
 ### Academic Research
 
 **LLM-Driven Mutation Testing:**
