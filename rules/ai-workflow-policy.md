@@ -2969,7 +2969,7 @@ This protocol ensures that.
 #### 1. Training Data Bias (Primary Factor)
 - **Fact:** LLMs are trained on predominantly English text (60–90% of training data).
 - **Impact:** English prompts align with the model's training distribution, reducing ambiguity and improving accuracy.
-- **Evidence:** Models show significantly higher performance on English tasks vs. other languages, even when multilingual capabilities exist.
+- **Evidence (nuanced):** Multilingual instruction effectiveness is task/label dependent; when translationese bias is removed, English does not consistently dominate across all tasks (see `A Fair Comparison without Translationese`).
 
 #### 2. Function Calling and Tool Use Accuracy
 - **Problem:** Non-English prompts for function calling, tool definitions, and JSON schemas introduce parsing errors and misinterpretation.
@@ -2985,9 +2985,8 @@ This protocol ensures that.
 - **Risk:** Non-English schemas cause validation failures, type mismatches, and integration errors.
 
 #### 4. Token Efficiency
-- **Observation:** English prompts are more token-efficient than translations.
-- **Reason:** Models compress English better (higher training density), and English technical terms are more precise than translations.
-- **Impact:** 10–20% token savings on average vs. translated prompts.
+- **Observation:** Token counts and costs vary by language due to tokenization fragmentation; English may be efficient, but you must not assume it is always cheaper (see `Do All Languages Cost the Same?`).
+- **Practical impact:** For cost-sensitive workflows, estimate/monitor token usage per request and keep multilingual prompts concise.
 
 #### 5. Reproducibility and Debugging
 - **Benefit:** English prompts are easier to:
@@ -3031,6 +3030,13 @@ For multilingual applications, use a **translation layer** approach:
 3. **Data Layer (Language-Agnostic):**
    - Actual data/content can be in any language
    - Only the **prompt structure** must be English
+
+4. **Self-translate (optional, when reasoning quality matters):**
+   - For non-English tasks where you need higher reasoning quality, consider prompting the model (in English) to translate the input into English, then solve the task in English.
+   - This self-translate strategy improves over direct non-English inference in multilingual models (see `Do Multilingual Language Models Think Better in English?`).
+
+5. **Internal steering / representation interventions (technical):**
+   - If you use activation steering or representation-space interventions, compute steering vectors in English representation space (see `Do Multilingual LLMs Think In English?`).
 
 **Example workflow:**
 ```
