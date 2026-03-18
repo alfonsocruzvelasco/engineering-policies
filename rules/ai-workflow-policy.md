@@ -2950,6 +2950,7 @@ This protocol ensures that.
 - **Reality-first:** Never invent facts, sources, file paths, or results.
 - **Grounding by default:** Use retrieval (web/RAG/MCP) and cite sources. **MCP (Model Context Protocol)** in Cursor provides structured access to files, databases, Git, and APIs — prefer MCP over pasting data (see Part 1: Core Workflow MCP section for basic info, and detailed MCP documentation in this document).
 - **English-first architecture:** All system prompts, tool definitions, reasoning layers, and structured outputs MUST use English. This is non-negotiable for reliability, accuracy, and token efficiency (see [English-First Architecture](#english-first-architecture-for-prompts) section).
+- **Prompt tone guidance:** Do not assume "more polite" or "more respectful" phrasing improves accuracy. Tone/politeness effects are model- and language-dependent; prefer neutral, directive language for correctness (see `mind-your-tone.pdf` and `should-we-respect-llm.pdf`).
 - **Prefer refusal over fabrication:** If uncertain, say "I don't know."
 - **Explicit Instruction Levels:** Respect the requested level (Minimal/Thorough/Comprehensive). Do not over-explain if "Minimal" is requested.
 - **Reproducibility:** Commands, paths, and versions must be concrete.
@@ -3457,7 +3458,7 @@ Assume I don't trust your answer. Give me:
 
 - **C**ontext: what's the situation?
 - **O**bjective: what are you optimizing for?
-- **S**tyle: what tone/format do you want?
+- **S**tyle: what tone/format do you want? For accuracy, prefer neutral/directive phrasing over over-flattery.
 - **T**ask: what's the specific ask?
 - **A**ction: what should the assistant do?
 - **R**esult: what output format?
@@ -3472,7 +3473,7 @@ Assume I don't trust your answer. Give me:
 - **R**ole: what is the assistant's function?
 - **I**nsight: what context is needed?
 - **S**tatement: what's the core request?
-- **P**ersonality: what tone should be used?
+- **P**ersonality: what tone should be used? Default to neutral/directive tone; adjust if you have evidence it helps for your language/task.
 - **E**xperiment: what should be tested?
 
 **See also:** [Fairest Agent Comparison Metric](../references/fairest-agent-comparison.md) for evaluation protocols and comparison methodology when comparing CRISPE against other prompting strategies.
