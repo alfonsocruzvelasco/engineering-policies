@@ -2958,6 +2958,42 @@ This protocol ensures that.
 - **Grounding by default:** Use retrieval (web/RAG/MCP) and cite sources. **MCP (Model Context Protocol)** in Cursor provides structured access to files, databases, Git, and APIs — prefer MCP over pasting data (see Part 1: Core Workflow MCP section for basic info, and detailed MCP documentation in this document).
 - **English-first architecture:** All system prompts, tool definitions, reasoning layers, and structured outputs MUST use English. This is non-negotiable for reliability, accuracy, and token efficiency (see [English-First Architecture](#english-first-architecture-for-prompts) section).
 - **Prompt tone guidance:** Do not assume "more polite" or "more respectful" phrasing improves accuracy. Tone/politeness effects are model- and language-dependent; prefer neutral, directive language for correctness (see `mind-your-tone.pdf` and `should-we-respect-llm.pdf`).
+
+### SYSTEM DESIGN PRINCIPLE — Workflow over Model
+
+All AI usage must prioritize:
+
+```text
+workflow integration > model capability
+```
+
+Implications:
+
+* Avoid isolated prompt usage
+
+* Prefer:
+  * CLI tools
+  * scripts
+  * pipelines
+  * agent-based execution
+
+* Every solution must be:
+  * reproducible
+  * executable
+  * integrable into a system
+
+Disallowed pattern:
+
+```text
+ad-hoc prompt → copy output → manual usage
+```
+
+Preferred pattern:
+
+```text
+defined task → tool/CLI → model-assisted execution → persisted result
+```
+
 - **Prefer refusal over fabrication:** If uncertain, say "I don't know."
 - **Explicit Instruction Levels:** Respect the requested level (Minimal/Thorough/Comprehensive). Do not over-explain if "Minimal" is requested.
 - **Reproducibility:** Commands, paths, and versions must be concrete.
