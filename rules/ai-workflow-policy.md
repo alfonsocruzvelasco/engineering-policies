@@ -1,3 +1,10 @@
+---
+doc_type: policy
+authority: authoritative
+owner: Alfonso Cruz
+scope: AI-assisted development workflows (core workflow, prompt engineering, session management, spec-driven development)
+---
+
 # AI Workflow Policy
 
 **Status:** Authoritative

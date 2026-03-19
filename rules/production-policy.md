@@ -1,3 +1,10 @@
+---
+doc_type: policy
+authority: authoritative-with-delegation
+owner: Alfonso Cruz
+scope: CV/ML production engineering standards; sections 1, 2, and 8 are authoritative here, other domains delegate to dedicated policy files
+---
+
 # Production Engineering Policy
 
 **Status:** Authoritative

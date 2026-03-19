@@ -1,3 +1,10 @@
+---
+doc_type: policy
+authority: authoritative
+owner: Alfonso Cruz
+scope: Security controls for secrets, IAM, infrastructure access, API/tool-use security, and AI-assisted engineering
+---
+
 # Security Policy
 
 **Status:** Authoritative
