@@ -17,7 +17,7 @@ scope: Concept-to-authority lookup for policies and references
 
 | Concept | Authoritative policy | Supporting references |
 |--------|----------------------|-----------------------|
-| AI-assisted development workflow (Cursor, agents, sessions) | `rules/ai-workflow-policy.md` | `rules/references/ai-systems-architecture.md`, `rules/architecture-notes.md` |
+| AI-assisted development workflow (Cursor, agents, sessions) | `rules/ai-workflow-policy.md` | `rules/references/ai-systems-architecture.md`, `rules/references/architecture-notes.md` |
 | English-first prompts & multilingual strategy | `rules/ai-workflow-policy.md` (Part 2: Prompt Engineering) | `rules/references/a-fail-comparison-without-translationese.pdf`, `do-multilingual-language-models-think-better-in-english.pdf`, `do-multilingual-llms-think-in-english.pdf`, `do-all-languages-cost-the-same.pdf` |
 | Prompt tone / politeness effects | `rules/ai-workflow-policy.md` (Prompt Operating Principles, COSTAR/CRISPE) | `rules/references/mind-your-tone.pdf`, `should-we-respect-llm.pdf` |
 | Prompt engineering theory (temperature, structure, evals) | `rules/ai-workflow-policy.md` | `rules/references/prompt-engineering-theory.md` |
@@ -36,8 +36,8 @@ scope: Concept-to-authority lookup for policies and references
 
 | Concept | Authoritative policy | Supporting references |
 |--------|----------------------|-----------------------|
-| Deterministic → probabilistic architecture shift | `rules/references/ai-systems-architecture.md` (marked **Authoritative**) | `rules/architecture-notes.md`, `rules/references/opus-4.6-gpt-5.3-codex-policy-impact-analysis.md` |
-| MCP vs CLI vs UTCP tool layers | `rules/ai-workflow-policy.md` (MCP section) | `rules/references/mcp-ecosystem-notes.md`, `mcp-vs-acp.md`, `architecture-notes.md` |
+| Deterministic → probabilistic architecture shift | `rules/references/ai-systems-architecture.md` (marked **Authoritative**) | `rules/references/architecture-notes.md`, `rules/references/opus-4.6-gpt-5.3-codex-policy-impact-analysis.md` |
+| MCP vs CLI vs UTCP tool layers | `rules/ai-workflow-policy.md` (MCP section) | `rules/references/mcp-ecosystem-notes.md`, `rules/references/mcp-vs-acp.md`, `rules/references/architecture-notes.md` |
 | Mixture of Experts (MoE) patterns | `rules/references/moe-notes.md` | `rules/references/ai-systems-architecture.md` |
 | Retrieval / RAG architecture | `rules/ai-retrieval-policy.md` | `rules/references/vector-db-engineering-guide.md`, `rag-engineering-notes.md`, `rag-production-notes.md`, `rag-vs-rerag-technical-reference.md` |
 

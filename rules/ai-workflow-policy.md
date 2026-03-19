@@ -335,7 +335,7 @@ This prevents "AI churn" and maintains control.
 
 ### Claude Code Headless Mode (CLI / Agent SDK)
 
-**Reference:** See [`claude-code-headless.md`](../references/claude-code-headless.md) for complete technical reference and workflow patterns.
+**Reference:** See [`claude-code-headless.md`](references/claude-code-headless.md) for complete technical reference and workflow patterns.
 
 **Core principle:** Headless mode forces a separation between **thinking** and **doing**. It lets you say: *"Think. Explain. Plan. But do not act."*
 
@@ -383,7 +383,7 @@ Claude -p (headless)  →  reasoning & planning (output)
 **Alignment with verification-first mindset:**
 Headless mode is the planning complement to test-driven development. It enforces **clarity before commitment** — AI may propose, analyze, plan, but may not execute unless you explicitly grant it. This matches the core stance: **the human is the final integrator.**
 
-**See also:** [`claude-code-headless.md`](../references/claude-code-headless.md) for detailed patterns, permission models, and workflow examples.
+**See also:** [`claude-code-headless.md`](references/claude-code-headless.md) for detailed patterns, permission models, and workflow examples.
 
 ### Shared Team Knowledge: CLAUDE.md
 
@@ -427,7 +427,7 @@ Headless mode is the planning complement to test-driven development. It enforces
    - Comprehensive pattern libraries (use separate `LEARNING_LOG.md` for personal notes)
    - Workflow loops or session templates (agents already know standard workflows)
    - Common mistakes that apply to all projects (agents already know these)
-   - RAG setup instructions (not needed for standard tooling; if building RAG systems, see [RAG vs RERAG Technical Reference](../references/rag-vs-rerag-technical-reference.md) for architectural guidance)
+   - RAG setup instructions (not needed for standard tooling; if building RAG systems, see [RAG vs RERAG Technical Reference](references/rag-vs-rerag-technical-reference.md) for architectural guidance)
 
 5. **Size limit (CRITICAL):**
    - **Learning projects: <50 lines** (prefer skipping entirely for standard tooling)
@@ -484,11 +484,11 @@ Context files are classified by **load frequency**, not importance:
 
 **Policy:**
 
-- **Claude Projects:** Upload a **curated priming doc** (separate from CLAUDE.md) to Project Knowledge. Structure can follow the 7-section anatomy (architecture, stack, curated sources, structure, naming, examples, anti-patterns) but keep it **short** — target under 50 lines for focused projects; 1–3 pages max when necessary. See [knowledge-priming-notes.md](../references/knowledge-priming-notes.md).
+- **Claude Projects:** Upload a **curated priming doc** (separate from CLAUDE.md) to Project Knowledge. Structure can follow the 7-section anatomy (architecture, stack, curated sources, structure, naming, examples, anti-patterns) but keep it **short** — target under 50 lines for focused projects; 1–3 pages max when necessary. See [knowledge-priming-notes.md](references/knowledge-priming-notes.md).
 - **One-off chat sessions (Claude.ai, Copilot):** Paste a **minimal stack + anti-patterns** header before the first task (framework, key versions, "do not use X"). Do not paste full docs.
 - **Cursor chat:** Reference the priming doc via `@priming.md` (or `@docs/ai-priming.md`); do not duplicate its content into `.cursorrules` or CLAUDE.md.
 - **Curated knowledge sources:** Surface ADRs, `error-conventions.md`, and policy references in the priming doc (or in Section 3 "Curated Knowledge Sources") so the model is directed to trusted sources at session start. No policy currently requires this — this section establishes that requirement for conversational workflows.
-- **Stale priming is worse than none.** A priming doc that teaches outdated patterns actively harms output. Update triggers: new framework version, major refactor, repeated AI mistakes, new architectural pattern. Store priming docs in the repo (e.g. `docs/ai-priming.md`); changes require review. See update-trigger table in [knowledge-priming-notes.md](../references/knowledge-priming-notes.md).
+- **Stale priming is worse than none.** A priming doc that teaches outdated patterns actively harms output. Update triggers: new framework version, major refactor, repeated AI mistakes, new architectural pattern. Store priming docs in the repo (e.g. `docs/ai-priming.md`); changes require review. See update-trigger table in [knowledge-priming-notes.md](references/knowledge-priming-notes.md).
 
 **Summary:** For **agents** → minimal CLAUDE.md (Gloaguen). For **conversational sessions** → separate, curated priming doc; keep it current; reference it, don't duplicate into agent context.
 
@@ -1192,10 +1192,10 @@ Agents are not uniform. Different operational contexts require different governa
 ### Key Capabilities
 
 **Opus 4.6 Distinctive Capabilities:**
-- 1M token context window (beta) — *See [Engineering Reality of 1M Token Context Windows](../references/long-context-windows-opus-4.6+.md) for comprehensive technical guide on context engineering, cost/latency trade-offs, memory tier architecture, and design rules*
+- 1M token context window (beta) — *See [Engineering Reality of 1M Token Context Windows](references/long-context-windows-opus-4.6+.md) for comprehensive technical guide on context engineering, cost/latency trade-offs, memory tier architecture, and design rules*
 - Adaptive thinking (contextual effort adjustment)
 - `/effort` parameter (low/medium/high)
-- Agent teams (parallel subtask execution) — *See [Claude Code Agent Teams Feature](../references/cc-agent-teams-feature.md) for detailed usage, best practices, and token economics*
+- Agent teams (parallel subtask execution) — *See [Claude Code Agent Teams Feature](references/cc-agent-teams-feature.md) for detailed usage, best practices, and token economics*
 - 500+ zero-day vulnerability discovery capability
 - 68.8% ARC AGI 2 (vs. 54.2% GPT-5.2)
 - Compaction (self-summarization for long tasks)
@@ -1680,7 +1680,7 @@ Build systems where components call each other:
 - ❌ Create general-purpose AI agents
 - ❌ Become a "Claude Code power user"
 
-That's tool specialization, not ML engineering. Use AI tools **as helpers** to build structured ML/CV systems, not as your career focus. When agentic automation is needed, the right alternative is **structured plan memory and intent-anchored retrieval** (see [agent-architecture-intentcua-notes.md](../references/agent-architecture-intentcua-notes.md)), not ad-hoc orchestration.
+That's tool specialization, not ML engineering. Use AI tools **as helpers** to build structured ML/CV systems, not as your career focus. When agentic automation is needed, the right alternative is **structured plan memory and intent-anchored retrieval** (see [agent-architecture-intentcua-notes.md](references/agent-architecture-intentcua-notes.md)), not ad-hoc orchestration.
 
 ### The Correct Integration
 
@@ -2055,7 +2055,7 @@ When AI introduces **agents** (multi-step tool-using workflows) and **artifacts*
 - For *any artifact that can impact results* (datasets, checkpoints, configs): treat it as versioned output with traceability (who/what produced it, from which inputs, under which config).
 
 **Agentic architecture rules (evidence-based):**
-*Rationale: [IntentCUA](https://arxiv.org/abs/2602.17049) (arXiv:2602.17049) — structured intent abstraction + plan memory outperforms raw trajectory replay; see [agent-architecture-intentcua-notes.md](../references/agent-architecture-intentcua-notes.md).*
+*Rationale: [IntentCUA](https://arxiv.org/abs/2602.17049) (arXiv:2602.17049) — structured intent abstraction + plan memory outperforms raw trajectory replay; see [agent-architecture-intentcua-notes.md](references/agent-architecture-intentcua-notes.md).*
 
 - **Agents MUST store reusable skill abstractions, not raw trajectory traces.** Step-level trace replay drifts on long sequences; skill abstraction improves success (IntentCUA Table 1: +8.2pp on top of trace replay).
 - **Long-horizon tasks (≥ 10 steps) REQUIRE plan memory with intent-anchored retrieval.** Without plan-memory reuse, agents re-synthesize from scratch and accumulate errors (+7.87pp from plan-memory in IntentCUA).
@@ -2064,10 +2064,10 @@ When AI introduces **agents** (multi-step tool-using workflows) and **artifacts*
 - **Skill hints MUST be parameterized schemas, not copy-pasted traces.** Runtime-filled typed arguments (e.g. `<url>`, `<query>`) preserve reusable structure and prevent overfitting to specific past inputs.
 
 **See also:**
-- [Agent HQ & Agent Orchestration — Complete Study Notes](../references/agent-hq-orchestration-complete-notes.md) for comprehensive coverage of GitHub Agent HQ, Mission Control, `@` handlers, AGENTS.md patterns, multi-agent workflows, and Control Plane governance.
-- [Claude Code Agent Teams — Complete Feature Notes](../references/cc-agent-teams-feature.md) for comprehensive coverage of Claude Code's experimental multi-agent parallel execution (setup, best use cases, display modes, usage patterns, token economics, technical architecture, coordination features, integration ecosystem, limitations, best practices, philosophy, references).
-- [Agents & Sub-Agents in ML/CV Engineering](../references/sub-agents-ml-cv-notes.md) for ML/CV-specific agent vs sub-agent design (pipeline/tool-calling/orchestration roles, when sub-agents add value vs anti-patterns, design checklist).
-- [Architecting Agentic MLOps: A2A + MCP](../references/architecting-agentic-mlops-a2a-mcp-notes.md) for the layered A2A (communication) + MCP (tools) pattern and orchestration-vs-execution decoupling; see PDF for full code patterns.
+- [Agent HQ & Agent Orchestration — Complete Study Notes](references/agent-hq-orchestration-complete-notes.md) for comprehensive coverage of GitHub Agent HQ, Mission Control, `@` handlers, AGENTS.md patterns, multi-agent workflows, and Control Plane governance.
+- [Claude Code Agent Teams — Complete Feature Notes](references/cc-agent-teams-feature.md) for comprehensive coverage of Claude Code's experimental multi-agent parallel execution (setup, best use cases, display modes, usage patterns, token economics, technical architecture, coordination features, integration ecosystem, limitations, best practices, philosophy, references).
+- [Agents & Sub-Agents in ML/CV Engineering](references/sub-agents-ml-cv-notes.md) for ML/CV-specific agent vs sub-agent design (pipeline/tool-calling/orchestration roles, when sub-agents add value vs anti-patterns, design checklist).
+- [Architecting Agentic MLOps: A2A + MCP](references/architecting-agentic-mlops-a2a-mcp-notes.md) for the layered A2A (communication) + MCP (tools) pattern and orchestration-vs-execution decoupling; see PDF for full code patterns.
 
 ---
 
@@ -2109,7 +2109,7 @@ The engineering "contract" expands from "deliver feature" to:
 
 **Craft implication:** With AI coding, verification becomes central. Tests become the steering wheel.
 
-**See also:** [AI Mutation Testing & Debugging Reference](../references/ai-mutation-testing-debugging-reference.md) for mutation testing fundamentals (test quality beyond coverage), LLM debugging workflows, and practical implementation guidance.
+**See also:** [AI Mutation Testing & Debugging Reference](references/ai-mutation-testing-debugging-reference.md) for mutation testing fundamentals (test quality beyond coverage), LLM debugging workflows, and practical implementation guidance.
 
 **Mandatory Verification Gates (Before Merge):**
 
@@ -2220,7 +2220,7 @@ claude -p "Suggest a refactor plan for payment_processor.py" \
 rodney verify --ui-outputs ./ml-outputs --exit-code-on-failure
 ```
 
-**See also:** [`claude-code-headless.md`](../references/claude-code-headless.md) for headless mode patterns and integration workflows.
+**See also:** [`claude-code-headless.md`](references/claude-code-headless.md) for headless mode patterns and integration workflows.
 
 ### Instrumentation + Falsification Workflow
 
@@ -2429,7 +2429,7 @@ mypy src/
 - Document AI usage in PR descriptions
 
 **PR template requirements:**
-*Evidence: [How AI Coding Agents Communicate](https://arxiv.org/abs/2602.17084) (arXiv:2602.17084, MSR 2026) — structured PR descriptions correlate with higher merge rates and faster review; see [ai-pr-communication-notes.md](../references/ai-pr-communication-notes.md).*
+*Evidence: [How AI Coding Agents Communicate](https://arxiv.org/abs/2602.17084) (arXiv:2602.17084, MSR 2026) — structured PR descriptions correlate with higher merge rates and faster review; see [ai-pr-communication-notes.md](references/ai-pr-communication-notes.md).*
 
 - AI-generated PRs MUST use **Markdown structure**: at minimum one `##` header per logical section (Problem, Solution, Testing). PR descriptions MUST be structured, not verbose.
 - **Conventional commit** titles are REQUIRED for AI-generated PRs.
@@ -3506,7 +3506,7 @@ Assume I don't trust your answer. Give me:
 - **A**ction: what should the assistant do?
 - **R**esult: what output format?
 
-**See also:** [Fairest Agent Comparison Metric](../references/fairest-agent-comparison.md) for evaluation protocols and comparison methodology when comparing COSTAR against other prompting strategies.
+**See also:** [Fairest Agent Comparison Metric](references/fairest-agent-comparison.md) for evaluation protocols and comparison methodology when comparing COSTAR against other prompting strategies.
 
 ---
 
@@ -3519,7 +3519,7 @@ Assume I don't trust your answer. Give me:
 - **P**ersonality: what tone should be used? Default to neutral/directive tone; adjust if you have evidence it helps for your language/task.
 - **E**xperiment: what should be tested?
 
-**See also:** [Fairest Agent Comparison Metric](../references/fairest-agent-comparison.md) for evaluation protocols and comparison methodology when comparing CRISPE against other prompting strategies.
+**See also:** [Fairest Agent Comparison Metric](references/fairest-agent-comparison.md) for evaluation protocols and comparison methodology when comparing CRISPE against other prompting strategies.
 
 ---
 
