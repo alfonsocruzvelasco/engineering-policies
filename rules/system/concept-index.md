@@ -18,6 +18,7 @@ scope: Concept-to-authority lookup for policies and references
 | Concept | Authoritative policy | Supporting references |
 |--------|----------------------|-----------------------|
 | AI-assisted development workflow (Cursor, agents, sessions) | `rules/ai-workflow-policy.md` | `rules/references/ai-systems-architecture.md`, `rules/references/architecture-notes.md` |
+| Event-driven agent execution (Channels, async messaging interface) | `rules/ai-workflow-policy.md` | `rules/references/ai-agent-platform-infrastructure.md` |
 | English-first prompts & multilingual strategy | `rules/ai-workflow-policy.md` (Part 2: Prompt Engineering) | `rules/references/a-fail-comparison-without-translationese.pdf`, `do-multilingual-language-models-think-better-in-english.pdf`, `do-multilingual-llms-think-in-english.pdf`, `do-all-languages-cost-the-same.pdf` |
 | Prompt tone / politeness effects | `rules/ai-workflow-policy.md` (Prompt Operating Principles, COSTAR/CRISPE) | `rules/references/mind-your-tone.pdf`, `should-we-respect-llm.pdf` |
 | Prompt engineering theory (temperature, structure, evals) | `rules/ai-workflow-policy.md` | `rules/references/prompt-engineering-theory.md` |

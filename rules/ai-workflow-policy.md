@@ -2994,6 +2994,25 @@ Preferred pattern:
 defined task → tool/CLI → model-assisted execution → persisted result
 ```
 
+### EVENT-DRIVEN EXECUTION PRINCIPLE
+
+Prefer systems where:
+
+```text
+tasks are sent to agents
+instead of executed interactively
+```
+
+Implications:
+
+* prefer:
+  * async workflows
+  * background agents
+  * message-based control
+
+* avoid:
+  * synchronous prompt-only usage
+
 - **Prefer refusal over fabrication:** If uncertain, say "I don't know."
 - **Explicit Instruction Levels:** Respect the requested level (Minimal/Thorough/Comprehensive). Do not over-explain if "Minimal" is requested.
 - **Reproducibility:** Commands, paths, and versions must be concrete.

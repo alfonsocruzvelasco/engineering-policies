@@ -13,6 +13,7 @@ Use this when you need **architectural background** rather than normative policy
 
 - `ai-systems-architecture.md` — Deterministic → probabilistic shift; six pillars; verification runtime; agent patterns (AUTHORITATIVE architecture reference).
 - `architecture-notes.md` — Meta-review + adversarial critique of AI systems architecture; caveats on MCP vs CLI benchmarks, MoE numbers, and managed ingestion.
+- `ai-agent-platform-infrastructure.md` — Event-driven agents as messaging interface; MCP-as-event-layer execution model.
 - `software-architecture-in-machine-to-machine-systems.md` — Architecture for robots/agents/IoT; survivability and control surfaces.
 - `the-sdlc-is-dead-boris-tane.pdf` — SDLC evolution and agent-driven development shift.
 - `think-deep-not-just-long.pdf` — Deep reasoning vs extended reasoning in LLMs.
