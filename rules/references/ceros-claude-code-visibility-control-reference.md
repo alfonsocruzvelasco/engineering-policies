@@ -1,5 +1,8 @@
 # Ceros Trust Layer for Claude Code (Visibility + Runtime Policy Enforcement)
 
+**Status:** Reference
+**Last Updated:** 2026-03-20
+
 ## Source
 
 This reference summarizes a Hacker News article describing how **Ceros** (Beyond Identity) sits alongside Claude Code to provide real-time visibility, runtime policy enforcement, and cryptographically auditable evidence for agent actions:

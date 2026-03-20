@@ -13,7 +13,7 @@ Convenience symlinks:
 - `~/policies` -> `~/dev/repos/github.com/alfonsocruzvelasco/engineering-policies/`
 
 **Status:** Authoritative
-**Last updated:** 2026-03-12
+**Last updated:** 2026-03-20
 
 This repository is the **single source of truth** for how software is designed, built, reviewed, shipped, secured, and maintained across all of my development work.
 
@@ -214,6 +214,9 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
   - `gemini-integration-in-new-chrome.md` — Gemini integration documentation
   - `integration-guide.md` — Step-by-step integration guide for prohibited AI tools policy (Section 14.6), including file placement, pre-commit hook setup, CI/CD integration, and testing procedures
   - `open-claw-security-policy.md` — OpenClaw Security Policy & Risk Assessment (detailed analysis of OpenClaw/Molt/Clawdbot security vulnerabilities; link preview exfiltration via IDPI/XPIA, malicious ClawHub skills, fake GitHub installers, CNCERT advisory Mar 2026; OpenClaw is PROHIBITED under security-policy.md Section 14.6)
+  - `ai-agent-platform-infrastructure.md` — Event-driven agents as messaging interface; Claude Code Channels + MCP-as-event-layer conceptual reference.
+  - `ceros-claude-code-visibility-control-reference.md` — Ceros trust layer: visibility + runtime MCP/tool governance + cryptographically signed audit evidence.
+  - `ai-flaws-bedrock-langsmith-sglang-visibility-rce-exfil-reference.md` — Bedrock sandbox DNS egress escape + LangSmith baseUrl token exposure + SGLang safe deserialization/broker RCE hardening reference.
   - `simplify-command-report.pdf` — Technical reference & internals for Claude Code `/simplify` bundled skill (post-implementation cleanup, three parallel review agents, workflow integration, scope/limitations; Claude Code ≥ v2.1.63; Mar 2026)
   - `a-fail-comparison-without-translationese.pdf` — English vs target-language instructions for multilingual LLMs (fair comparison eliminating translationese bias); English advantage is task/label dependent
   - `do-multilingual-language-models-think-better-in-english.pdf` — Self-translate: prompting multilingual models to translate non-English inputs into English (using the model itself) improves over direct non-English inference

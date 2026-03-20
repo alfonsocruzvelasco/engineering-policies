@@ -1910,7 +1910,7 @@ jobs:
 
 ## 9.6 Layered Orchestration Architecture for AI/ML Systems
 
-**Reference:** See [`langgraph-engineering-notes.md`](../references/langgraph-engineering-notes.md) for LangGraph implementation details.
+**Reference:** See [`langgraph-engineering-notes.md`](references/langgraph-engineering-notes.md) for LangGraph implementation details.
 
 **Architecture pattern:** Three-layer orchestration model for production AI/ML systems:
 
@@ -2070,7 +2070,7 @@ result = graph.invoke(
 - Simple data processing or model inference
 
 **See also:**
-- [`langgraph-engineering-notes.md`](../references/langgraph-engineering-notes.md) for LangGraph implementation details
+- [`langgraph-engineering-notes.md`](references/langgraph-engineering-notes.md) for LangGraph implementation details
 - [`ml-cv-operations-policy.md`](ml-cv-operations-policy.md) Section 15.5 for data pipeline orchestration patterns
 
 ---

@@ -436,7 +436,7 @@ Task containers / model jobs / ETL
 Inside tasks: LangGraph → coarse AI coordination & agent workflows
 ```
 
-**See also:** [`langgraph-engineering-notes.md`](../references/langgraph-engineering-notes.md) for LangGraph implementation details.
+**See also:** [`langgraph-engineering-notes.md`](references/langgraph-engineering-notes.md) for LangGraph implementation details.
 
 #### Data Pipeline Testing Strategies
 
@@ -571,7 +571,7 @@ shap.plots.waterfall(shap_values[0])
 4. Validate fix (test on production-like data)
 5. Deploy fix (gradual rollout, monitor)
 
-**See also:** [AI Mutation Testing & Debugging Reference](../references/ai-mutation-testing-debugging-reference.md) for LLM debugging methods, multi-LLM pipeline debugging, and Anthropic's circuit tracing tools for model interpretability.
+**See also:** [AI Mutation Testing & Debugging Reference](references/ai-mutation-testing-debugging-reference.md) for LLM debugging methods, multi-LLM pipeline debugging, and Anthropic's circuit tracing tools for model interpretability.
 
 ---
 

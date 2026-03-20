@@ -1,5 +1,8 @@
 # Bedrock AgentCore Sandbox Egress + LangSmith URL/Token Safety + SGLang Safe Deserialization (Reference)
 
+**Status:** Reference
+**Last Updated:** 2026-03-20
+
 ## Source
 
 This reference summarizes a Hacker News article describing multiple AI tooling security issues, including:
