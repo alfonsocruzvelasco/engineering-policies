@@ -358,6 +358,28 @@ Just because an agent *can* call an API or tool does not mean it *should*.
 
 ---
 
+## 8.1) Runtime Trust Layer for Agent Governance (Visibility + Policy Enforcement)
+
+When an agent (e.g., Claude Code) executes on a developer machine with MCP servers and tool access, security controls must operate where the action happens.
+
+**Threat reality:** Network-edge monitoring and post-hoc logs often miss local execution that occurs before any outbound traffic is observable.
+
+**Mandatory requirement (enterprise / fleet use):** Agentic execution must be mediated by a runtime trust layer that provides, at minimum:
+
+1. **Pre-execution policy enforcement:** Evaluate MCP server allowlisting and tool-level policies *before* actions run, and block unauthorized tool calls / MCP connections at runtime.
+2. **Real-time visibility into what executed:** Record tool definitions and the actual tool calls (arguments, outputs) as the agent runs.
+3. **Device posture gating:** Require the target device to meet security posture conditions (for example, full-disk encryption enabled and endpoint protection running) before a session can start, and re-evaluate continuously during the session.
+4. **Tamper-evident audit evidence:** Produce append-only, immutable activity logs with cryptographic signing where feasible, including user attribution, device context, and complete execution ancestry.
+
+**Rationale reference:** See how Ceros provides visibility and runtime governance for Claude Code, including MCP allowlisting and cryptographically signed activity logs: [The Hacker News — How Ceros Gives Security Teams Visibility and Control in Claude Code](https://thehackernews.com/2026/03/how-ceros-gives-security-teams.html).
+
+**Implementation guidance:** If a trust layer is not available, treat the scenario as ungoverned and default to compensating controls already required by this policy:
+* strict MCP/tool allowlists
+* sandboxed execution with least-privilege
+* mandatory HITL for sensitive/destructive actions
+* tamper-proof retention for audit logs
+
+---
 ## 9) Dependency and supply-chain security
 
 * Dependencies are pinned (lockfiles required where applicable).
