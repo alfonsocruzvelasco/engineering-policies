@@ -43,6 +43,7 @@ scope: Concept-to-authority lookup for policies and references
 | MCP vs CLI vs UTCP tool layers | `rules/ai-workflow-policy.md` (MCP section) | `rules/references/mcp-ecosystem-notes.md`, `rules/references/mcp-vs-acp.md`, `rules/references/architecture-notes.md` |
 | Mixture of Experts (MoE) patterns | `rules/references/moe-notes.md` | `rules/references/ai-systems-architecture.md` |
 | Retrieval / RAG architecture | `rules/ai-retrieval-policy.md` | `rules/references/vector-db-engineering-guide.md`, `rag-engineering-notes.md`, `rag-production-notes.md`, `rag-vs-rerag-technical-reference.md` |
+| Long-context vs retrieval architecture (1M-token pricing shift) | `rules/ai-workflow-policy.md` (Opus 4.6 capabilities) | `rules/references/claude-million-token-pricing-reference.md`, `rules/references/long-context-windows-opus-4.6+.md` |
 
 ## Production Engineering & MLOps
 
@@ -67,4 +68,3 @@ scope: Concept-to-authority lookup for policies and references
 > - Add a new row when you introduce a *new concept* or a *new authoritative policy*.
 > - Prefer editing this index over duplicating explanations across multiple policies.
 > - Keep row descriptions short; the policies and references hold the detail.
-

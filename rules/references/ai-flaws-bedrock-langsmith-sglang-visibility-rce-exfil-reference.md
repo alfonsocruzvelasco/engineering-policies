@@ -25,4 +25,3 @@ Source: [The Hacker News — AI Flaws in Amazon Bedrock, LangSmith, and SGLang E
 * Keep “critical data” workloads in stronger isolation modes where available; treat weaker isolation modes as untrusted.
 * Apply allowlists for domains/hosts when URL parameters can influence destinations.
 * Ensure broker endpoints are not reachable from untrusted networks, and ensure serialized payloads are never deserialized unless provenance and safety guarantees are satisfied.
-

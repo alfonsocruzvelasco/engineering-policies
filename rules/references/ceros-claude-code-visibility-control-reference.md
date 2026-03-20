@@ -29,4 +29,3 @@ This aligns directly with repo expectations for:
 - **Allowlisting** of MCP servers and sensitive tool capabilities.
 - **Tamper-proof / cryptographically signed audit trails** for agent actions.
 - **Device posture requirements** gating autonomous agent sessions.
-

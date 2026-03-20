@@ -2,7 +2,7 @@
 
 **Status:** Authoritative
 **Owner:** Security Team
-**Last Updated:** 2026-03-12
+**Last Updated:** 2026-03-14
 **Policy Reference:** security-policy.md Section 14.6, Section 19 PI-7 (repo-level AI agent configuration), Section 21
 
 ---

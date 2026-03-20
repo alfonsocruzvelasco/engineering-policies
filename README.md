@@ -217,6 +217,7 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
   - `ai-agent-platform-infrastructure.md` — Event-driven agents as messaging interface; Claude Code Channels + MCP-as-event-layer conceptual reference.
   - `ceros-claude-code-visibility-control-reference.md` — Ceros trust layer: visibility + runtime MCP/tool governance + cryptographically signed audit evidence.
   - `ai-flaws-bedrock-langsmith-sglang-visibility-rce-exfil-reference.md` — Bedrock sandbox DNS egress escape + LangSmith baseUrl token exposure + SGLang safe deserialization/broker RCE hardening reference.
+  - `claude-million-token-pricing-reference.md` — Anthropic Claude Opus/Sonnet 4.6 1M-token context at standard rates (March 2026); architecture implications for RAG vs long-context decisions.
   - `simplify-command-report.pdf` — Technical reference & internals for Claude Code `/simplify` bundled skill (post-implementation cleanup, three parallel review agents, workflow integration, scope/limitations; Claude Code ≥ v2.1.63; Mar 2026)
   - `a-fail-comparison-without-translationese.pdf` — English vs target-language instructions for multilingual LLMs (fair comparison eliminating translationese bias); English advantage is task/label dependent
   - `do-multilingual-language-models-think-better-in-english.pdf` — Self-translate: prompting multilingual models to translate non-English inputs into English (using the model itself) improves over direct non-English inference
@@ -246,6 +247,9 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
     - `rules/references/index-security.md` — Security, AI safety, and eval references
 
 ### Governance
+
+- **`rules/system/concept-index.md`**
+  *Concept Index (Authority Lookup): fast lookup from a concept to the authoritative policy and supporting references*
 
 - **`rules/system/learning-library-governance.md`**
   *Learning Library Governance: rules for learning repositories vs project workspaces*

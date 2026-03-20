@@ -1,7 +1,7 @@
 # Infrastructure Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-03-12
+**Last updated:** 2026-03-14
 **Purpose:** Infrastructure standards for Docker/Podman, Kubernetes, and Kafka
 
 ---

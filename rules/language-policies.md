@@ -1,7 +1,7 @@
 # Language Policies
 
 **Status:** Authoritative
-**Last updated:** 2026-03-12
+**Last updated:** 2026-03-14
 **Purpose:** Language-specific engineering standards for Python, TypeScript/Node.js, Java, C/C++, Rust, and CUDA
 
 ---

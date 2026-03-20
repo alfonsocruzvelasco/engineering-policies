@@ -1192,7 +1192,7 @@ Agents are not uniform. Different operational contexts require different governa
 ### Key Capabilities
 
 **Opus 4.6 Distinctive Capabilities:**
-- 1M token context window (beta) — *See [Engineering Reality of 1M Token Context Windows](references/long-context-windows-opus-4.6+.md) for comprehensive technical guide on context engineering, cost/latency trade-offs, memory tier architecture, and design rules*
+- 1M token context window (general availability) — long-context requests are now billed at standard per-token rates (no separate long-context surcharge tier). See [Engineering Reality of 1M Token Context Windows](references/long-context-windows-opus-4.6+.md) and [Claude 1M Context Pricing Shift (March 2026)](references/claude-million-token-pricing-reference.md) for architecture guidance.
 - Adaptive thinking (contextual effort adjustment)
 - `/effort` parameter (low/medium/high)
 - Agent teams (parallel subtask execution) — *See [Claude Code Agent Teams Feature](references/cc-agent-teams-feature.md) for detailed usage, best practices, and token economics*
@@ -1215,6 +1215,7 @@ Agents are not uniform. Different operational contexts require different governa
 - ✅ Encode harder constraints directly into system/policy templates
 - ✅ Remove redundant reminder clauses ("do not reopen decisions", "no alternatives")
 - ✅ Trust single-statement constraints to persist
+- ✅ Choose long-context vs retrieval based on measured quality/latency/governance, not legacy surcharge avoidance
 - ❌ Don't over-explain or repeat constraints (increases noise)
 
 **For GPT-5.3 Codex:**
@@ -4083,6 +4084,7 @@ NEVER make sequential calls when operations are independent.
 
 **References:**
 - See `references/long-context-windows-opus-4.6+.md` for engineering reality of 1M+ token context windows, including context engineering as a first-class discipline, memory tier architecture, cost/latency trade-offs, and design rules for production systems.
+- See `references/claude-million-token-pricing-reference.md` for the March 2026 pricing shift (1M context at standard rates): do not preserve old anti-long-context patterns solely for surcharge avoidance.
 - See `references/rag-relevance-for-ides.md` for why RAG still matters in modern IDEs (precision and authority management over compression, Cursor RAG architecture, authority hierarchies, latency/cost realities, determinism and debuggability, modern RAG patterns, implementation guidance).
 
 ### The Minimal Context Principle

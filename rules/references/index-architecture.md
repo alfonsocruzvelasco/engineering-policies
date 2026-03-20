@@ -15,6 +15,10 @@ Use this when you need **architectural background** rather than normative policy
 - `architecture-notes.md` — Meta-review + adversarial critique of AI systems architecture; caveats on MCP vs CLI benchmarks, MoE numbers, and managed ingestion.
 - `ai-agent-platform-infrastructure.md` — Event-driven agents as messaging interface; MCP-as-event-layer execution model.
 - `software-architecture-in-machine-to-machine-systems.md` — Architecture for robots/agents/IoT; survivability and control surfaces.
+- `cloudflare-pay-per-crawl-notes.md` — Pay-per-crawl data access governance and training-data pricing shift.
+- `gemini-integration-in-new-chrome.md` — Chrome + Gemini Nano hybrid AI runtime architecture (local-first, cloud fallback).
+- `openspec-ml-cv-reference.md` — OpenSpec ML/CV specification reference.
+- `spec-protocols-guide.md` — Spec-driven development protocols guide.
 - `the-sdlc-is-dead-boris-tane.pdf` — SDLC evolution and agent-driven development shift.
 - `think-deep-not-just-long.pdf` — Deep reasoning vs extended reasoning in LLMs.
 
@@ -36,6 +40,12 @@ Use this when you need **architectural background** rather than normative policy
 - `architecting-agentic-mlops-a2a-mcp.pdf` — Agentic MLOps A2A + MCP companion paper.
 - `haven-t-written-code-in-two-months.pdf` — Agent-first development workflow reflections.
 - `discovering-multiagent-learning-algorithms-with-llm.pdf` — Multi-agent algorithm discovery with LLMs.
+- `agent-architecture-intentcua-notes.md` — IntentCUA agent architecture notes (structured intent + plan memory).
+- `architecting-agentic-mlops-a2a-mcp-notes.md` — Agentic MLOps A2A + MCP companion notes.
+- `claude-code-headless.md` — Headless Claude Code execution patterns.
+- `rodney-notes.md` — Rodney CLI browser automation tool (Go + CDP).
+- `sub-agents-ml-cv-notes.md` — Sub-agent patterns for ML/CV workflows.
+- `simplify-command-report.pdf` — Claude Code `/simplify` skill internals and review agents.
 
 ## Retrieval, Vector DBs, and RAG
 
@@ -55,4 +65,6 @@ Use this when you need **architectural background** rather than normative policy
 - `python-3-14+-no-gil-support.md` — Free-threaded Python implications.
 - `moe-notes.md` — Mixture-of-Experts implementation and pitfalls.
 - `accelerating-scientific-research-with-gemini.pdf` — Gemini for accelerating scientific research.
-
+- `long-context-windows-opus-4.6+.md` — Long context windows for Opus 4.6+ (capabilities and constraints).
+- `molap-ml-engineer-reference.md` — MOLAP analytics infrastructure context for ML/CV engineers.
+- `claude-million-token-pricing-reference.md` — 1M context pricing shift (no long-context surcharge) and architecture implications.

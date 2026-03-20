@@ -122,7 +122,7 @@ Keeping transactional and semantic stores in sync.
 - Stale semantic data MUST be flagged (TTL on embeddings)
 - Retrieval MUST validate against transactional source for critical operations
 
-**See also:** [RAG vs RERAG Technical Reference](../rag-vs-rerag-technical-reference.md) for detailed guidance on retrieval architectures (traditional RAG vs MetaAI's RERAG with token-level embeddings, relevance filtering, and compression), when to use each approach, and implementation considerations for production systems.
+**See also:** [RAG vs RERAG Technical Reference](rag-vs-rerag-technical-reference.md) for detailed guidance on retrieval architectures (traditional RAG vs MetaAI's RERAG with token-level embeddings, relevance filtering, and compression), when to use each approach, and implementation considerations for production systems.
 
 ---
 
@@ -878,7 +878,7 @@ class GeometricVerifier:
         return abs(detected_size - expected_size) / expected_size < 0.3  # 30% tolerance
 ```
 
-**See also:** [Software Architecture in Machine-to-Machine Systems](../references/software-architecture-in-machine-to-machine-systems.md) for comprehensive architectural guidance on autonomous systems, safety-critical design, ethical-aware architecture (E-MAPE-K), control surfaces, system survivability, and architectural patterns for robots, IoT devices, and AI agents.
+**See also:** [Software Architecture in Machine-to-Machine Systems](software-architecture-in-machine-to-machine-systems.md) for comprehensive architectural guidance on autonomous systems, safety-critical design, ethical-aware architecture (E-MAPE-K), control surfaces, system survivability, and architectural patterns for robots, IoT devices, and AI agents.
 
 ---
 

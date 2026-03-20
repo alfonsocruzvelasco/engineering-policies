@@ -39,4 +39,4 @@ Use this when you need **supporting evidence** or deeper context for security an
 - `saving-swe-bench-a-benchmark-mutation-approach-for-realistic-agent-evaluation.pdf` — SWE-bench mutation approach for realistic agent evaluation.
 - `swe-ci-evaluating-agent-capabilities.pdf` — SWE-CI benchmark for long-term agent maintenance.
 - `harness-engineering.pdf` — Engineering harness design and verification patterns.
-
+- `fairest-agent-comparison.md` — Fair agent comparison metrics (Pareto frontier analysis, accuracy/latency/cost).

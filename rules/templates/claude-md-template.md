@@ -111,6 +111,6 @@ Gamma=2 worked better than gamma=1 for my imbalanced dataset.
 
 ---
 
-**Last updated:** 2026-03-12
+**Last updated:** 2026-03-14
 **Version:** 3.0 (minimal, research-based)
 **Reference:** Gloaguen et al. (2026), "Evaluating AGENTS.md: Are Repository-Level Context Files Helpful for Coding Agents?" arXiv:2602.11988

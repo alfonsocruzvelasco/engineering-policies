@@ -1,7 +1,7 @@
 # Testing Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-03-12
+**Last updated:** 2026-03-20
 **Purpose:** Language-specific testing standards for CV/ML engineering with strict artifact isolation
 
 ---

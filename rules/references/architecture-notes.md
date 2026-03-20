@@ -1,9 +1,9 @@
 # AI Systems Architecture — Comprehensive Reference Notes
 
-**Authors:** Alfonso Cruz  
-**Version:** 7.0  
-**Updated:** March 2026  
-**Scope:** Ecosystem awareness — AI agent infrastructure, model architecture, data ingestion  
+**Authors:** Alfonso Cruz
+**Version:** 7.0
+**Updated:** March 2026
+**Scope:** Ecosystem awareness — AI agent infrastructure, model architecture, data ingestion
 **Classification:** NOT core ML/CV. Background knowledge for complete ML systems engineering.
 
 ---
@@ -47,9 +47,9 @@ My impression: **this is strong work**. It reads like someone who is trying to b
 
 **Bottom line**
 
-- **As notes:** very good.  
-- **As a conceptual map:** excellent.  
-- **As a durable reference:** good, but only if maintained.  
+- **As notes:** very good.
+- **As a conceptual map:** excellent.
+- **As a durable reference:** good, but only if maintained.
 - **As a decision document for production architecture:** useful input, but not sufficient by itself.
 
 The strongest signal is that the document thinks like a systems engineer: trade-offs, governance, routing, separation of concerns, operational caveats. The main thing to protect now is rigor against freshness drift.
@@ -412,8 +412,8 @@ quadrantChart
 
 **The practical recommendation:**
 
-> Building a developer tool for your own use? → **CLI + Skills**. Best measured efficiency.  
-> Building a product where agents act on behalf of customers? → **MCP's authorization model is required**.  
+> Building a developer tool for your own use? → **CLI + Skills**. Best measured efficiency.
+> Building a product where agents act on behalf of customers? → **MCP's authorization model is required**.
 > Building multi-tenant enterprise infrastructure? → **Both**: MCP for governance + an MCP gateway that filters schemas to only relevant tools per task (cuts token overhead by ~90%).
 
 ---
@@ -1380,40 +1380,40 @@ flowchart TD
 
 ### MoE — Foundational Papers
 
-- **Shazeer et al. (2017).** *Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer.* arXiv:1701.06538.  
+- **Shazeer et al. (2017).** *Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer.* arXiv:1701.06538.
   https://arxiv.org/abs/1701.06538
 
-- **Fedus, Zoph, Shazeer (2022).** *Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity.* JMLR 23. 7× pre-training speedup; simplified k=1 routing.  
+- **Fedus, Zoph, Shazeer (2022).** *Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity.* JMLR 23. 7× pre-training speedup; simplified k=1 routing.
   https://arxiv.org/abs/2101.03961
 
 ### MoE — Inference Efficiency
 
-- **Huang et al. (NeurIPS 2024).** *Toward Efficient Inference for Mixture of Experts.* NeurIPS 2024 Main Conference Track. Naive MoE is 15× slower; dynamic gating 6–11× throughput improvement; expert buffering 1.47× memory reduction.  
-  https://proceedings.neurips.cc/paper_files/paper/2024/hash/98bf3b8505c611ac21055dd9d355c66e-Abstract-Conference.html  
+- **Huang et al. (NeurIPS 2024).** *Toward Efficient Inference for Mixture of Experts.* NeurIPS 2024 Main Conference Track. Naive MoE is 15× slower; dynamic gating 6–11× throughput improvement; expert buffering 1.47× memory reduction.
+  https://proceedings.neurips.cc/paper_files/paper/2024/hash/98bf3b8505c611ac21055dd9d355c66e-Abstract-Conference.html
   PDF: https://www.seas.upenn.edu/~leebcc/documents/huang24-neurips.pdf
 
-- **Liu et al. (2024).** *A Survey on Inference Optimization Techniques for Mixture of Experts Models.* arXiv:2412.14219.  
+- **Liu et al. (2024).** *A Survey on Inference Optimization Techniques for Mixture of Experts Models.* arXiv:2412.14219.
   https://arxiv.org/abs/2412.14219
 
-- **Emani et al. (SC '25 Workshops).** *MoE-Inference-Bench: Performance Evaluation of Mixture of Expert Large Language and Vision Models.* H100 FP8 +20–30%; k=1 +50–80% throughput.  
-  https://dl.acm.org/doi/10.1145/3731599.3767706  
+- **Emani et al. (SC '25 Workshops).** *MoE-Inference-Bench: Performance Evaluation of Mixture of Expert Large Language and Vision Models.* H100 FP8 +20–30%; k=1 +50–80% throughput.
+  https://dl.acm.org/doi/10.1145/3731599.3767706
   arXiv: https://arxiv.org/html/2508.17467v1
 
-- **Capacity-Aware Inference (OpenReview 2025).** *Mitigating the Straggler Effect in Mixture of Experts.* 30% speedup at 0.9% degradation; 1.85× speedup on Mixtral-8×7B-Instruct.  
+- **Capacity-Aware Inference (OpenReview 2025).** *Mitigating the Straggler Effect in Mixture of Experts.* 30% speedup at 0.9% degradation; 1.85× speedup on Mixtral-8×7B-Instruct.
   https://openreview.net/forum?id=LuYFpySWA2
 
-- **ExpertCache (ICSME 2025).** *GPU-Efficient MoE Inference through Reinforcement Learning-Guided Expert Selection.* 85% GPU memory reduction on Qwen3-235B-A22B.  
+- **ExpertCache (ICSME 2025).** *GPU-Efficient MoE Inference through Reinforcement Learning-Guided Expert Selection.* 85% GPU memory reduction on Qwen3-235B-A22B.
   https://conf.researchr.org/details/icsme-2025/icsme-2025-nier/17/ExpertCache-GPU-Efficient-MoE-Inference-through-Reinforcement-Learning-Guided-Expert
 
 ### MoE — Architecture Surveys and Recent Work
 
-- **Song et al. (2025/2026).** *Mixture of Experts in Large Language Models.* arXiv:2507.11181.  
+- **Song et al. (2025/2026).** *Mixture of Experts in Large Language Models.* arXiv:2507.11181.
   https://arxiv.org/html/2507.11181v2
 
-- **MoSE (2026).** *Mixture of Slimmable Experts for Efficient and Adaptive Language Models.* arXiv:2602.06154.  
+- **MoSE (2026).** *Mixture of Slimmable Experts for Efficient and Adaptive Language Models.* arXiv:2602.06154.
   https://arxiv.org/html/2602.06154v1
 
-- **IntuitionLabs MoE Survey (2025–2026).** Architectural history and adoption map.  
+- **IntuitionLabs MoE Survey (2025–2026).** Architectural history and adoption map.
   https://intuitionlabs.ai/articles/mixture-of-experts-moe-models
 
 ### Tool Architectures — MCP
@@ -1424,52 +1424,52 @@ flowchart TD
 
 - **MCP Wikipedia Overview.** https://en.wikipedia.org/wiki/Model_Context_Protocol
 
-- **Anthropic Engineering: Code Execution with MCP.**  
+- **Anthropic Engineering: Code Execution with MCP.**
   https://www.anthropic.com/engineering/code-execution-with-mcp
 
 ### Tool Architectures — MCP vs CLI Benchmarks
 
-- **Scalekit Benchmark (March 2026).** *MCP vs CLI: Benchmarking AI Agent Cost & Reliability.*  
+- **Scalekit Benchmark (March 2026).** *MCP vs CLI: Benchmarking AI Agent Cost & Reliability.*
   https://www.scalekit.com/blog/mcp-vs-cli-use
 
-- **Smithery Benchmark (March 2026).** *MCP vs CLI Is the Wrong Fight.*  
+- **Smithery Benchmark (March 2026).** *MCP vs CLI Is the Wrong Fight.*
   https://smithery.ai/blog/mcp-vs-cli-is-the-wrong-fight
 
-- **Repello AI Analysis (March 2026).** *MCP vs CLI: What Perplexity's Move Actually Means for AI Security Teams.*  
+- **Repello AI Analysis (March 2026).** *MCP vs CLI: What Perplexity's Move Actually Means for AI Security Teams.*
   https://repello.ai/blog/mcp-vs-cli
 
-- **Reinhard (February 2026).** *Why CLI Tools Are Beating MCP for AI Agents.*  
+- **Reinhard (February 2026).** *Why CLI Tools Are Beating MCP for AI Agents.*
   https://jannikreinhard.com/2026/02/22/why-cli-tools-are-beating-mcp-for-ai-agents/
 
-- **Microsoft Community Hub (March 2026).** *MCP vs mcp-cli: Dynamic Tool Discovery.*  
+- **Microsoft Community Hub (March 2026).** *MCP vs mcp-cli: Dynamic Tool Discovery.*
   https://techcommunity.microsoft.com/blog/azuredevcommunityblog/mcp-vs-mcp-cli-dynamic-tool-discovery-for-token-efficient-ai-agents/4494272
 
-- **Junia AI Analysis (March 2026).** *Perplexity MCP vs APIs.*  
+- **Junia AI Analysis (March 2026).** *Perplexity MCP vs APIs.*
   https://www.junia.ai/blog/perplexity-mcp-vs-apis-ai-agents
 
 ### Tool Architectures — Gemini CLI Plan Mode
 
-- **Google Developers Blog (March 11, 2026).** *Plan mode is now available in Gemini CLI.*  
+- **Google Developers Blog (March 11, 2026).** *Plan mode is now available in Gemini CLI.*
   https://developers.googleblog.com/plan-mode-now-available-in-gemini-cli/
 
-- **Gemini CLI Official Documentation — Plan Mode.**  
+- **Gemini CLI Official Documentation — Plan Mode.**
   https://geminicli.com/docs/cli/plan-mode/
 
-- **Gemini CLI v0.33.0 Release Discussion (GitHub).**  
+- **Gemini CLI v0.33.0 Release Discussion (GitHub).**
   https://github.com/google-gemini/gemini-cli/discussions/22078
 
-- **DevOps.com Analysis (March 2026).** *Gemini CLI Plan Mode Separates Thinking From Doing.*  
+- **DevOps.com Analysis (March 2026).** *Gemini CLI Plan Mode Separates Thinking From Doing.*
   https://devops.com/gemini-cli-plan-mode-separates-thinking-from-doing-and-makes-read-only-the-default/
 
-- **ADTmag (March 2026).** *Google Adds "Plan Mode" to Gemini CLI.*  
+- **ADTmag (March 2026).** *Google Adds "Plan Mode" to Gemini CLI.*
   https://adtmag.com/articles/2026/03/12/google-adds-plan-mode-to-gemini-cli-to-support-safer-code-planning.aspx
 
 ### Tool Architectures — UTCP
 
-- **Nordic APIs (January 2026).** *MCP vs UTCP.*  
+- **Nordic APIs (January 2026).** *MCP vs UTCP.*
   https://nordicapis.com/model-context-protocol-mcp-vs-universal-tool-calling-protocol-utcp/
 
 ### Data Ingestion
 
-- **Cloudflare Crawl API Announcement.**  
+- **Cloudflare Crawl API Announcement.**
   https://x.com/CloudflareDev/status/2031488099725754821

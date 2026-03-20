@@ -18,6 +18,7 @@ Use this when you need **theory or evidence** behind prompt engineering choices.
 - `35-insights-from-google-by-addy-osmani.pdf` — Addy Osmani's engineering insights from Google.
 - `prompt-repetition-improves-non-reasoning-llms.pdf` — Prompt repetition effects on non-reasoning LLMs.
 - `the-complete-guide-to-building-skill-for-claude.pdf` — Complete guide to building skills for Claude.
+- `bypassing-cc-prompts-limit.md` — Bypassing Claude Code prompt length limits.
 
 ## Multilingual Prompting
 
@@ -41,4 +42,4 @@ Use this when you need **theory or evidence** behind prompt engineering choices.
 - `evaluating-agents-md.pdf` — Evaluating AGENTS.md file effectiveness.
 - `on-the-impact-of-agents-md-files.pdf` — Impact of AGENTS.md on code generation quality.
 - `stop-using-agent-md.pdf` — Counter-arguments and caveats for AGENTS.md usage.
-
+- `ml-cv-documentation-standards.md` — ML/CV code documentation standards (PEP 257, type hints, Doxygen for C++/CUDA).

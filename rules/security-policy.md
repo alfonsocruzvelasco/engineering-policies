@@ -1402,7 +1402,7 @@ This section complements and extends:
 
 **Policy Owner:** Security Team (security@organization.com)
 **Enforcement Authority:** CISO + VP Engineering
-**Last Reviewed:** 2026-02-07
+**Last Reviewed:** 2026-03-20
 **Next Review Due:** 2026-05-07
 
 ---
