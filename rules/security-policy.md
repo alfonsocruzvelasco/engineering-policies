@@ -380,6 +380,43 @@ When an agent (e.g., Claude Code) executes on a developer machine with MCP serve
 * tamper-proof retention for audit logs
 
 ---
+## 8.2) Agent Sandbox Egress Hardening (DNS and Network Isolation)
+
+For agent runtimes that claim “no network access” (sandbox mode), security must assume that **egress isolation can fail in unexpected ways** (e.g., outbound DNS enabling command-and-control or exfiltration).
+
+**Hard controls (mandatory):**
+
+* Treat any outbound DNS ability as a security-relevant capability; if “no network” is required, enforce **deny-by-default** for outbound DNS and all other egress paths.
+* If the vendor provides a stronger isolation mode (e.g., VPC mode), **prefer it for sensitive workloads** over weaker sandbox modes.
+* Require network-layer enforcement (firewall/DNS firewall) rather than trusting a single setting in the agent runtime.
+* Inventory and audit all active interpreter instances handling critical data; migrate away from weaker isolation modes where applicable.
+* Audit and enforce least-privilege IAM/credentials for interpreter runtimes so that a sandbox escape limits blast radius.
+
+---
+## 8.3) Observability Platform Link and URL Parameter Safety (LangSmith `baseUrl`-style risks)
+
+Trace/observability platforms are critical infrastructure; treat user-controllable URL parameters and links as potential account-takeover vectors.
+
+**Hard controls (mandatory):**
+
+* Any URL parameter that selects a destination/host (e.g., `baseUrl`) MUST be validated against an allowlist of trusted domains.
+* Never allow authentication/session tokens or bearer credentials to be transmitted to attacker-controlled origins due to unvalidated URL parameters.
+* Treat “open this link” flows (social engineering) as untrusted; require re-authentication or confirmation before linking or following externally provided destinations.
+
+---
+## 8.4) Safe Deserialization and Broker Isolation for Serving Frameworks (SGLang ZeroMQ / pickle risks)
+
+If a serving framework uses brokered execution (e.g., ZeroMQ) and performs unsafe deserialization (e.g., pickle.loads) on broker inputs, then it can become an unauthenticated remote code execution surface.
+
+**Hard controls (mandatory):**
+
+* Never run deserialization logic on untrusted/broker-received inputs; disable or replace unsafe deserialization paths.
+* Restrict broker endpoints to trusted networks only; do not expose brokers to the public internet or other untrusted networks.
+* Require strong authentication/authorization on broker requests (where supported).
+* Treat any “replay” utilities as high-risk if they can ingest untrusted serialized payloads; allowlist inputs and require provenance where possible.
+* Add anomaly detection for unexpected broker activity and suspicious child process behavior as early warning signals.
+
+---
 ## 9) Dependency and supply-chain security
 
 * Dependencies are pinned (lockfiles required where applicable).

@@ -16,6 +16,7 @@ Use this when you need **supporting evidence** or deeper context for security an
 - `ai-mutation-testing-debugging-reference.md` — Mutation testing and AI debugging.
 - `integration-reliability-ai-systems.md` — Integration reliability for AI systems.
 - `ceros-claude-code-visibility-control-reference.md` — Ceros trust layer: visibility + runtime MCP/tool governance + cryptographically signed audit evidence.
+- `ai-flaws-bedrock-langsmith-sglang-visibility-rce-exfil-reference.md` — Bedrock sandbox DNS egress escape + LangSmith URL/token safety + SGLang safe deserialization/broker RCE hardening reference.
 - `owasp-top-10-for-llms-coverage-matrix.pdf` — OWASP Top 10 for LLMs coverage matrix.
 - `secure-code-v-2-0.pdf` — Secure code generation practices v2.
 - `security-vulnerabilities-in-ai-generated-code.pdf` — Security vulnerabilities in AI-generated code.

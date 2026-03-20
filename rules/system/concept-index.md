@@ -33,6 +33,7 @@ scope: Concept-to-authority lookup for policies and references
 | Prohibited AI tools & enforcement | `rules/security-policy.md` §14.6, `rules/approved-ai-tools.md` | `rules/ai-tool-policy-quick-reference.md`, `rules/references/integration-guide.md`, `rules/references/open-claw-security-policy.md` |
 | OpenClaw / agentic endpoint risk | `rules/security-policy.md` §14.6 (prohibited) | `rules/references/open-claw-security-policy.md` |
 | Runtime agent governance (visibility + signed audit logs) | `rules/security-policy.md` §8.1 | `rules/references/ceros-claude-code-visibility-control-reference.md` |
+| Agent runtime egress hardening + observability URL safety + safe deserialization | `rules/security-policy.md` §§8.2-8.4 | `rules/references/ai-flaws-bedrock-langsmith-sglang-visibility-rce-exfil-reference.md` |
 
 ## Architecture & Retrieval
 
