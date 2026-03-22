@@ -3135,6 +3135,19 @@ Response Translation: "He encontrado 2 vulnerabilidades: inyección SQL en líne
   - **Not:** "policies" or "config" (rules are Claude Code's enforcement mechanism)
   - **Use:** "Add a rule" not "add a policy"
 
+**`.claude/` folder layout (Claude Code projects):**
+
+```text
+.claude/
+├── rules/           ← modular path-scoped rules (NOT policies)
+│   ├── security.md  ← global; mirrors AGENTS.md §Security Landmines
+│   ├── ml-cv.md     ← scoped to src/ml/**
+│   └── no-autopilot.md
+└── settings.json    ← tool permissions (optional)
+```
+
+**When to create `.claude/rules/` files:** when a constraint is (a) path-specific, (b) too verbose for AGENTS.md, or (c) reusable across sessions without reloading. Do not migrate policies here — policies are COLD, rules are HOT.
+
 - **Hooks:** Deterministic scripts that run outside the agentic loop on specific events
   - **Not:** "scripts" or "automation" (hooks are event-driven)
   - **Use:** "Configure a hook" not "write a script"

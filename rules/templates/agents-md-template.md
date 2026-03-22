@@ -93,6 +93,22 @@ See `ai-workflow-policy.md §13.2` for the full Hypothesis Stress Test protocol.
 
 ---
 
+## Claude Code Rules (`.claude/rules/`)
+
+Modular, path-scoped enforcement rules for Claude Code. These are **not** policies (see `policies/`) — they are runtime instructions the agent reads per-task.
+
+| File | Scope | Purpose |
+|---|---|---|
+| `.claude/rules/security.md` | `**` (global) | Security landmines (mirrors §Security Landmines above) |
+| `.claude/rules/ml-cv.md` | `src/ml/**` | ML/CV-specific constraints |
+| `.claude/rules/no-autopilot.md` | `**` | Enforce diff-first, no auto-apply |
+
+**Creation trigger:** Add a rule when a constraint is path-specific or too verbose for this file.
+**Size limit:** <50 lines per rule file.
+**Terminology:** Use "rule" not "policy" for files in `.claude/rules/`. See `ai-workflow-policy.md §Claude Code Terminology`.
+
+---
+
 ## Architecture
 
 <!-- High-level component map. What are the major subsystems and how do they connect? -->
