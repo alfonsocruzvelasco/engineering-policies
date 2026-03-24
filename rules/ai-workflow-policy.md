@@ -8,7 +8,7 @@ scope: AI-assisted development workflows (core workflow, prompt engineering, ses
 # AI Workflow Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-03-20
+**Last updated:** 2026-03-24
 
 **Scope:** This policy governs all AI-assisted development workflows, including Cursor usage, prompt engineering, session management, and spec-driven development. It consolidates the previously separate policies: `ai-workflow-policy.md (Part 1: Core Workflow)`, `ai-workflow-policy.md (Part 2: Prompt Engineering)`, `ai-workflow-policy.md (Part 3: Session Management)`, and `ai-workflow-policy.md (Part 4: Spec-Driven Development)`.
 
@@ -41,7 +41,9 @@ scope: AI-assisted development workflows (core workflow, prompt engineering, ses
 - [Session Priming for Conversational Workflows](#session-priming-for-conversational-workflows)
 
 ### Part 2: Prompt Engineering
-- [Operating Principles](#part-2-prompt-engineering)
+- [Operating Principles](#operating-principles)
+- [Executable Output Principle](#system-design-principle--executable-output)
+- [Event-Driven Execution Principle](#system-design-principle--event-driven-execution)
 - [English-First Architecture](#english-first-architecture-for-prompts)
 - [Vocabulary and Terminology (Claude Code)](#vocabulary-and-terminology-claude-code)
 - [Prompt Templates](#standard-prompt-template-quick)
@@ -2921,37 +2923,9 @@ This protocol ensures that.
 
 ---
 
-## Version History
-
-- **v2.0** (2026-01-22): Comprehensive AI usage policy with verification-first paradigm
-- **v1.0** (2026-01-18): Initial Cursor AI coding policy
-
----
-
-## Final Notes
-
-**This policy is authoritative for:**
-- Cursor AI usage in sandbox repository
-- AI-assisted code review
-- Verification-first workflows
-- Learning with AI (personal development)
-
-**This policy works with:**
-- Part 2: Prompt Engineering (prompt engineering)
-- `versioning-and-release-policy.md` (Git workflows)
-- `security-policy.md` (security baseline)
-- `mcp-template.md` (ML/CV production protocols)
-
-**Regular review:** Update quarterly based on:
-- New AI tool capabilities
-- Team lessons learned
-- Industry best practice evolution
-- Security threat landscape changes
-
-
----
-
 # Part 2: Prompt Engineering
+
+<a id="operating-principles"></a>
 
 ## 1) Operating Principles
 
@@ -2995,7 +2969,35 @@ Preferred pattern:
 defined task → tool/CLI → model-assisted execution → persisted result
 ```
 
-### EVENT-DRIVEN EXECUTION PRINCIPLE
+### SYSTEM DESIGN PRINCIPLE — Executable Output
+
+Prefer systems where AI outputs:
+
+```text
+executable code
+scripts
+workflows
+instead of static text
+```
+
+Execution should be:
+
+* sandboxed
+* isolated
+* controlled
+
+**Security authority:** See `rules/security-policy.md` §§8.2-8.4 and §14.4 for the binding controls on sandbox boundaries, egress restrictions, and execution autonomy.
+
+**Supporting references:** See `rules/references/code-mode-cloudflare.pdf` and `rules/references/cloudflare-ai-sandboxing.pdf`.
+
+Implications:
+
+* Prefer executable artifacts when the task is operational rather than documentary.
+* Prefer generated code against typed or capability-scoped interfaces when that reduces prompt/tool overhead and improves reproducibility.
+* Never execute AI-generated code directly inside the host application or privileged runtime.
+* Route execution through explicit sandbox boundaries with network, filesystem, and credential controls.
+
+### SYSTEM DESIGN PRINCIPLE — Event-Driven Execution
 
 Prefer systems where:
 
@@ -4992,6 +4994,35 @@ If improving code → Refactoring Session
 - `security-policy.md` — Verification gates
 - `templates/claude-md-template.md` — CLAUDE.md structure
 - `development-environment-policy.md` — Artifact organization
+
+---
+
+## Version History
+
+- **v2.0** (2026-01-22): Comprehensive AI usage policy with verification-first paradigm
+- **v1.0** (2026-01-18): Initial Cursor AI coding policy
+
+---
+
+## Final Notes
+
+**This policy is authoritative for:**
+- Cursor AI usage in sandbox repository
+- AI-assisted code review
+- Verification-first workflows
+- Learning with AI (personal development)
+
+**This policy works with:**
+- Part 2: Prompt Engineering (prompt engineering)
+- `versioning-and-release-policy.md` (Git workflows)
+- `security-policy.md` (security baseline)
+- `mcp-template.md` (ML/CV production protocols)
+
+**Regular review:** Update quarterly based on:
+- New AI tool capabilities
+- Team lessons learned
+- Industry best practice evolution
+- Security threat landscape changes
 
 ---
 

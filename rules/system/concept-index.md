@@ -19,6 +19,7 @@ scope: Concept-to-authority lookup for policies and references
 |--------|----------------------|-----------------------|
 | AI-assisted development workflow (Cursor, agents, sessions) | `rules/ai-workflow-policy.md` | `rules/references/ai-systems-architecture.md`, `rules/references/architecture-notes.md` |
 | Event-driven agent execution (Channels, async messaging interface) | `rules/ai-workflow-policy.md` | `rules/references/ai-agent-platform-infrastructure.md` |
+| Executable output and sandboxed code execution | `rules/ai-workflow-policy.md`, `rules/security-policy.md` §§8.2-8.4, §14.4 | `rules/references/code-mode-cloudflare.pdf`, `rules/references/cloudflare-ai-sandboxing.pdf` |
 | English-first prompts & multilingual strategy | `rules/ai-workflow-policy.md` (Part 2: Prompt Engineering) | `rules/references/a-fail-comparison-without-translationese.pdf`, `rules/references/do-multilingual-language-models-think-better-in-english.pdf`, `rules/references/do-multilingual-llms-think-in-english.pdf`, `rules/references/do-all-languages-cost-the-same.pdf` |
 | Prompt tone / politeness effects | `rules/ai-workflow-policy.md` (Prompt Operating Principles, COSTAR/CRISPE) | `rules/references/mind-your-tone.pdf`, `rules/references/should-we-respect-llm.pdf` |
 | Prompt engineering theory (temperature, structure, evals) | `rules/ai-workflow-policy.md` | `rules/references/prompt-engineering-theory.md` |

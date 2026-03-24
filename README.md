@@ -13,7 +13,7 @@ Convenience symlinks:
 - `~/policies` -> `~/dev/repos/github.com/alfonsocruzvelasco/engineering-policies/`
 
 **Status:** Authoritative
-**Last updated:** 2026-03-20
+**Last updated:** 2026-03-24
 
 This repository is the **single source of truth** for how software is designed, built, reviewed, shipped, secured, and maintained across all of my development work.
 
@@ -130,7 +130,7 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
 - **`rules/ai-workflow-policy.md`** **[CONSOLIDATED 2026-02-01]**
   *Comprehensive AI workflow policy consolidating core workflow, prompt engineering, session management, and spec-driven development*
   - **Part 1: Core Workflow** — Cursor usage, sandbox enforcement, daily workflow, Cursor modes, guardrails, AI model usage (local vs cloud), Git discipline, MCP (Model Context Protocol), tool use security, verification-first mindset, operational readiness requirements
-  - **Part 2: Prompt Engineering** — Operating principles, English-first architecture, prompt templates, COSTAR/CRISPE frameworks, slash commands library, token optimization, context engineering
+  - **Part 2: Prompt Engineering** — Operating principles, workflow-over-model, executable output, event-driven execution, English-first architecture, prompt templates, COSTAR/CRISPE frameworks, slash commands library, token optimization, context engineering
   - **Part 3: Session Management** — Session types, parallel workflows, session lifecycle, metrics tracking, anti-patterns
   - **Part 4: Spec-Driven Development** — Protocol selection (**OpenSpec preferred for ML/CV**), mandatory checkpoints, integration patterns
   *Previously separate files: `ai-usage-policy.md`, `prompts-policy.md`, `session-management-policy.md`, `spec-driven-development-policy.md`*
@@ -232,6 +232,7 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
   - `molap-ml-engineer-reference.md` — MOLAP (Multidimensional OLAP) reference for ML/CV engineers (legacy analytics infrastructure, why MOLAP is incompatible with ML pipelines, modern alternatives, interview-level understanding, when MOLAP appears in ML roles)
   - `langgraph-engineering-notes.md` — LangGraph engineering reference (directed graph state machines, state reducers, nodes and edges, checkpointing, human-in-the-loop, multi-agent patterns, when to use vs not use, production checklist, common pitfalls)
   - `cloudflare-pay-per-crawl-notes.md` — Cloudflare Pay-Per-Crawl: implications for ML/CV engineers (permissioned/priced web data, licensed datasets, pipeline design, data acquisition costs, dataset strategy as engineering responsibility)
+  - `cloudflare-ai-sandboxing.pdf` — Cloudflare Dynamic Workers sandboxing for AI-generated code (isolate-based execution, outbound filtering, credential injection, capability-scoped runtime boundaries)
   - `agent-architecture-intentcua-notes.md` — IntentCUA (arXiv:2602.17049): agentic architecture reference — skill abstractions, plan memory, intent-anchored planning, mandatory Critic, parameterized skill hints; policy rationale and key numbers
   - `sub-agents-ml-cv-notes.md` — Agents & sub-agents in ML/CV engineering (definitions, pipeline/tool-calling/orchestration roles, dataset/training/inference use cases, anti-patterns, design checklist)
   - `architecting-agentic-mlops-a2a-mcp-notes.md` — Architecting agentic MLOps with A2A + MCP (layered pattern: A2A for agent communication, MCP for tools; orchestration vs execution decoupling; reference only, no duplicate templates)
