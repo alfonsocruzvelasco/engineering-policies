@@ -24,7 +24,7 @@ Recommended starting domains:
 
 **Domain:** {execution | review | governance | planning | documentation | deployment | testing | infrastructure}
 **Status:** Authoritative
-**Last updated:** 2026-03-14
+**Last updated:** 2026-03-24
 
 ---
 

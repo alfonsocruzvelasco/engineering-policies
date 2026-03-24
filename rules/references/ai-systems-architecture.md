@@ -1,7 +1,7 @@
 # AI Systems Architecture Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-02-01
+**Last updated:** 2026-03-24
 **Purpose:** Govern the architectural shift from deterministic to probabilistic systems, establishing patterns for AI-powered software architecture in production
 **Note:** Despite living under `rules/references/`, this document is **Authoritative** and its mandatory controls apply.
 

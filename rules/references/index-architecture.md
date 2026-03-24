@@ -25,6 +25,7 @@ Use this when you need **architectural background** rather than normative policy
 ## Tools, MCP, and Agents
 
 - `mcp-ecosystem-notes.md` — Model Context Protocol ecosystem overview.
+- `sql-and-mcp-notes-ml-cv.md` — SQL and MCP decision notes for ML/CV engineers.
 - `mcp-vs-acp.md` — MCP (protocol) vs ACP (Autonomous Control Pattern) comparison.
 - `claude-skills-definition-use-cases-and-limitations.md` — Claude Skills architecture.
 - `cc-agent-teams-feature.md` — Claude Code Agent Teams architecture and token economics.
