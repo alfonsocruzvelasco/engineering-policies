@@ -12,7 +12,7 @@
 
 This integration adds the following components:
 
-1. **Policy Content:** Section 14.6 for `security-policy.md`
+1. **Policy Content:** Section 14.6 for `../security-policy.md`
 2. **Tool Registry:** `approved-ai-tools.md`
 3. **Detection Script:** `ai-prohibited-tools-check.sh`
 4. **Pre-commit Config:** Pre-commit hook integration
@@ -25,7 +25,7 @@ This integration adds the following components:
 ### Your Current Structure:
 ```
 rules/
-├── security-policy.md               (existing)
+├── ../security-policy.md               (existing)
 ├── ai-workflow-policy.md            (existing)
 ├── mlops-policy.md                  (existing)
 ├── system/
@@ -40,7 +40,7 @@ rules/
 ### After Integration:
 ```
 rules/
-├── security-policy.md               (MODIFIED: Add Section 14.6)
+├── ../security-policy.md               (MODIFIED: Add Section 14.6)
 ├── ai-workflow-policy.md            (existing, may reference 14.6)
 ├── approved-ai-tools.md             (NEW: Tool registry)
 ├── ai-tool-policy-quick-reference.md  (NEW: Developer guide)
@@ -75,15 +75,15 @@ git checkout -b feature/prohibited-ai-tools-policy
 
 ---
 
-### Step 2: Add Section 14.6 to security-policy.md
+### Step 2: Add Section 14.6 to ../security-policy.md
 
 **Location:** Insert after Section 14.5 (Logging and Audit Expectations)
 
 **Method 1: Manual Integration**
 
-1. Open `rules/security-policy.md` in editor
+1. Open `../../security-policy.md` in editor
 2. Find Section 14.5 (around line 694)
-3. Copy content from `security-policy.md` Section 14.6
+3. Copy content from `../security-policy.md` Section 14.6
 4. Paste after Section 14.5
 5. Verify section numbering (should be 14.6)
 6. Update Table of Contents to include:
@@ -98,24 +98,24 @@ git checkout -b feature/prohibited-ai-tools-policy
 cd rules/
 
 # Insert Section 14.6 after line 694 (end of Section 14.5)
-# Section 14.6 content is now integrated directly in security-policy.md
+# Section 14.6 content is now integrated directly in ../security-policy.md
 awk '/^## 15\)/ {
-    while ((getline line < "security-policy.md") > 0)
+    while ((getline line < "../security-policy.md") > 0)
         print line;
     print "";
 }
-{print}' security-policy.md > security-policy.md.new
+{print}' ../security-policy.md > ../security-policy.md.new
 
-mv security-policy.md.new security-policy.md
+mv ../security-policy.md.new ../security-policy.md
 ```
 
 **Verification:**
 ```bash
 # Check that Section 14.6 exists
-grep "^### 14.6" security-policy.md
+grep "^### 14.6" ../security-policy.md
 
 # Check line count increased
-wc -l security-policy.md  # Should be ~3800+ lines (was 3151)
+wc -l ../security-policy.md  # Should be ~3800+ lines (was 3151)
 ```
 
 ---
@@ -124,14 +124,14 @@ wc -l security-policy.md  # Should be ~3800+ lines (was 3151)
 
 ```bash
 # From repository root
-cp approved-ai-tools.md rules/approved-ai-tools.md
+cp approved-ai-tools.md ../approved-ai-tools.md
 
 # Verify file
-ls -lh rules/approved-ai-tools.md
+ls -lh ../approved-ai-tools.md
 ```
 
 **Customization Required:**
-1. Edit `rules/approved-ai-tools.md`
+1. Edit `../approved-ai-tools.md`
 2. Update contact emails (search for "@organization.com")
 3. Update Slack channels to match your workspace
 4. Adjust tool list based on your organization's actual approved tools
@@ -161,10 +161,10 @@ rules/system/scripts/ai-prohibited-tools-check.sh --help
 
 ```bash
 # From repository root
-cp ai-tool-policy-quick-reference.md rules/ai-tool-policy-quick-reference.md
+cp ai-tool-policy-quick-reference.md ../ai-tool-policy-quick-reference.md
 
 # Verify
-ls -lh rules/ai-tool-policy-quick-reference.md
+ls -lh ../ai-tool-policy-quick-reference.md
 ```
 
 **Customization Required:**
@@ -213,7 +213,7 @@ pre-commit run --all-files
    ```markdown
    ### Core Security Position
 
-   AI coding tools must comply with **security-policy.md Section 14.6
+   AI coding tools must comply with **../security-policy.md Section 14.6
    (Prohibited External AI Tool Classes)** and only use approved tools
    listed in `approved-ai-tools.md`.
    ```
@@ -222,12 +222,12 @@ pre-commit run --all-files
    ```markdown
    ## Quick Links
 
-   - [Security Policy](rules/security-policy.md)
-   - [AI Tool Policy Quick Reference](rules/ai-tool-policy-quick-reference.md)
-   - [Approved AI Tools](rules/approved-ai-tools.md)
+   - [Security Policy](../../security-policy.md)
+   - [AI Tool Policy Quick Reference](../ai-tool-policy-quick-reference.md)
+   - [Approved AI Tools](../approved-ai-tools.md)
    ```
 
-3. **Table of Contents in security-policy.md**
+3. **Table of Contents in ../security-policy.md**
    ```markdown
    ## Table of Contents
 
@@ -286,7 +286,7 @@ EOF
 ```bash
 # Verify markdown renders correctly
 # Open in your markdown viewer or GitHub
-cat rules/security-policy.md | grep "14.6"
+cat ../../security-policy.md | grep "14.6"
 ```
 
 **Test 2: Detection Script**
@@ -320,8 +320,8 @@ rm test-violation.md
 # Verify all internal links work
 # (This is manual or use a markdown link checker)
 npm install -g markdown-link-check
-markdown-link-check rules/security-policy.md
-markdown-link-check rules/ai-tool-policy-quick-reference.md
+markdown-link-check ../../security-policy.md
+markdown-link-check ../ai-tool-policy-quick-reference.md
 ```
 
 ---
@@ -333,9 +333,9 @@ markdown-link-check rules/ai-tool-policy-quick-reference.md
 git status
 
 # Add all new and modified files
-git add rules/security-policy.md
-git add rules/approved-ai-tools.md
-git add rules/ai-tool-policy-quick-reference.md
+git add ../../security-policy.md
+git add ../approved-ai-tools.md
+git add ../ai-tool-policy-quick-reference.md
 git add rules/system/scripts/ai-prohibited-tools-check.sh
 git add rules/security-exceptions.md
 git add .pre-commit-config.yaml
@@ -354,7 +354,7 @@ git commit -m "feat(security): Add Section 14.6 - Prohibited AI Tool Classes
 Implements security controls for unvetted AI aggregators like 'chawd.ai'
 and establishes clear criteria for approved enterprise AI tools.
 
-Policy Ref: security-policy.md Section 14.6"
+Policy Ref: ../security-policy.md Section 14.6"
 
 # Push to remote
 git push origin feature/prohibited-ai-tools-policy
@@ -391,7 +391,7 @@ tools. This policy clarifies which tools are approved and which are prohibited.
 **Resources:**
 - Quick Reference: [link to ai-tool-policy-quick-reference.md]
 - Approved Tools: [link to approved-ai-tools.md]
-- Full Policy: security-policy.md Section 14.6
+- Full Policy: ../security-policy.md Section 14.6
 
 **Questions?**
 - Slack: #security-policy
@@ -481,7 +481,7 @@ jobs:
 
 Before considering integration complete, verify:
 
-- [ ] Section 14.6 added to security-policy.md
+- [ ] Section 14.6 added to ../security-policy.md
 - [ ] Table of Contents updated with Section 14.6
 - [ ] approved-ai-tools.md created and customized
 - [ ] ai-tool-policy-quick-reference.md created
@@ -532,7 +532,7 @@ chmod +x rules/system/scripts/ai-prohibited-tools-check.sh
 **Fix:**
 ```bash
 # Use absolute paths from repo root
-# Example: [Link](rules/security-policy.md) instead of [Link](security-policy.md)
+# Example: [Link](../../security-policy.md) instead of [Link](../security-policy.md)
 ```
 
 ---
