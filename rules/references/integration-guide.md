@@ -81,7 +81,7 @@ git checkout -b feature/prohibited-ai-tools-policy
 
 **Method 1: Manual Integration**
 
-1. Open `../../security-policy.md` in editor
+1. Open `../security-policy.md` in editor
 2. Find Section 14.5 (around line 694)
 3. Copy content from `../security-policy.md` Section 14.6
 4. Paste after Section 14.5
@@ -222,7 +222,7 @@ pre-commit run --all-files
    ```markdown
    ## Quick Links
 
-   - [Security Policy](../../security-policy.md)
+   - [Security Policy](../security-policy.md)
    - [AI Tool Policy Quick Reference](../ai-tool-policy-quick-reference.md)
    - [Approved AI Tools](../approved-ai-tools.md)
    ```
@@ -286,7 +286,7 @@ EOF
 ```bash
 # Verify markdown renders correctly
 # Open in your markdown viewer or GitHub
-cat ../../security-policy.md | grep "14.6"
+cat ../security-policy.md | grep "14.6"
 ```
 
 **Test 2: Detection Script**
@@ -320,7 +320,7 @@ rm test-violation.md
 # Verify all internal links work
 # (This is manual or use a markdown link checker)
 npm install -g markdown-link-check
-markdown-link-check ../../security-policy.md
+markdown-link-check ../security-policy.md
 markdown-link-check ../ai-tool-policy-quick-reference.md
 ```
 
@@ -333,7 +333,7 @@ markdown-link-check ../ai-tool-policy-quick-reference.md
 git status
 
 # Add all new and modified files
-git add ../../security-policy.md
+git add ../security-policy.md
 git add ../approved-ai-tools.md
 git add ../ai-tool-policy-quick-reference.md
 git add rules/system/scripts/ai-prohibited-tools-check.sh
@@ -532,7 +532,7 @@ chmod +x rules/system/scripts/ai-prohibited-tools-check.sh
 **Fix:**
 ```bash
 # Use absolute paths from repo root
-# Example: [Link](../../security-policy.md) instead of [Link](../security-policy.md)
+# Example: [Link](../security-policy.md) instead of [Link](../security-policy.md)
 ```
 
 ---

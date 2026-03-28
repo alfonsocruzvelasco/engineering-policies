@@ -17,6 +17,7 @@ Use this when you need **supporting evidence** or deeper context for security an
 - `ceros-claude-code-visibility-control-reference.md` — Ceros trust layer: visibility + runtime MCP/tool governance + cryptographically signed audit evidence.
 - `ai-flaws-bedrock-langsmith-sglang-visibility-rce-exfil-reference.md` — Bedrock sandbox DNS egress escape + LangSmith URL/token safety + SGLang safe deserialization/broker RCE hardening reference.
 - `cloudflare-ai-sandboxing.pdf` — Dynamic Workers isolate sandboxing, outbound filtering, and credential injection for AI-generated code execution.
+- `sandboxing-ai-agents-100x-faster.pdf` — Dynamic Worker Loader (open beta): V8 isolate sandbox (100x faster, 10-100x less memory than containers), globalOutbound HTTP filtering, credential injection, battle-hardened security (auto-patched V8, second-layer sandbox, MPK, Spectre defenses).
 - `owasp-top-10-for-llms-coverage-matrix.pdf` — OWASP Top 10 for LLMs coverage matrix.
 - `secure-code-v-2-0.pdf` — Secure code generation practices v2.
 - `security-vulnerabilities-in-ai-generated-code.pdf` — Security vulnerabilities in AI-generated code.

@@ -35,6 +35,7 @@ Use this when you need **architectural background** rather than normative policy
 - `artificial-hivemind.pdf` — Multi-agent swarm/hivemind coordination patterns.
 - `code-mode-cloudflare.pdf` — Cloudflare Code Mode architecture and design.
 - `cloudflare-ai-sandboxing.pdf` — Dynamic Workers / isolate-based sandboxing for AI-generated code with capability-scoped execution.
+- `sandboxing-ai-agents-100x-faster.pdf` — Dynamic Worker Loader open beta: isolate-based sandboxing 100x faster than containers; Code Mode SDK, TypeScript tool APIs, credential injection, @cloudflare/codemode + worker-bundler + shell libraries.
 - `codified-context-infrastructure-for-ai-agents-in-a-complex-codebase.pdf` — Agent context infrastructure for complex codebases.
 - `context-engineering-for-coding-agents.pdf` — Context engineering techniques for coding agents.
 - `context-rot.pdf` — Context degradation and staleness in AI systems.

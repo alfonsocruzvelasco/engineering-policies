@@ -392,6 +392,18 @@ For agent runtimes that claim “no network access” (sandbox mode), security m
 * Inventory and audit all active interpreter instances handling critical data; migrate away from weaker isolation modes where applicable.
 * Audit and enforce least-privilege IAM/credentials for interpreter runtimes so that a sandbox escape limits blast radius.
 
+**Isolate-based sandbox considerations (V8 isolates / Dynamic Workers):**
+
+Isolate-based sandboxes are significantly lighter than containers (~ms startup, ~MB memory) and are viable for ephemeral per-request agent execution. However, they present a different attack surface:
+
+* V8 security bugs are more common than typical hypervisor bugs; require **defense-in-depth** — a second-layer sandbox, hardware features (MPK), and Spectre mitigations — rather than relying on the isolate boundary alone.
+* Demand that the sandbox provider deploys V8 security patches to production within hours (not weeks).
+* Use `globalOutbound: null` (or equivalent) to fully block network egress by default; if the agent needs HTTP access, intercept via an outbound handler that enforces allowlists, rewrites requests, and injects credentials so the agent never sees secrets (credential injection pattern).
+* Prefer TypeScript RPC interfaces over raw HTTP for agent-to-API communication; narrower typed interfaces are easier to audit and harder for the agent to abuse than unrestricted HTTP proxying.
+* Treat each agent execution as a **disposable, one-off sandbox** — create a fresh isolate, run the code, return the result, destroy the isolate. Do not reuse isolates across tasks or users.
+
+**Reference:** See `rules/references/sandboxing-ai-agents-100x-faster.pdf` for Cloudflare's Dynamic Worker Loader architecture, security hardening details, and credential injection patterns.
+
 ---
 ## 8.3) Observability Platform Link and URL Parameter Safety (LangSmith `baseUrl`-style risks)
 

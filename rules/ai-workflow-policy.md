@@ -2986,9 +2986,22 @@ Execution should be:
 * isolated
 * controlled
 
+**Why this matters (evidence):** Code Mode — where an agent writes code that calls APIs instead of making sequential tool calls — cuts token usage by up to 81% and produces better results, especially when the tool surface is large. Isolate-based sandboxes (V8 isolates / Cloudflare Dynamic Worker Loader) start in milliseconds and use megabytes of memory — roughly 100x faster and 10-100x more memory-efficient than containers — enabling a fresh sandbox per request at consumer scale without warm-pool complexity.
+
+**Preferred execution pattern:**
+
+1. Agent generates a TypeScript/JavaScript function that chains multiple API calls.
+2. Function executes in an ephemeral isolate sandbox with capability-scoped access only.
+3. Only the final result — not every intermediate tool call — enters the context window.
+
+**Tool API design guidance:**
+
+* Prefer TypeScript interface definitions over OpenAPI/REST schemas when defining agent-accessible APIs — they are more concise (fewer tokens) and easier for the model to consume and generate against.
+* Use `globalOutbound` (or equivalent HTTP interception layer) to filter, rewrite, or block outbound requests from the sandbox and to inject credentials so the agent never sees secrets.
+
 **Security authority:** See `rules/security-policy.md` §§8.2-8.4 and §14.4 for the binding controls on sandbox boundaries, egress restrictions, and execution autonomy.
 
-**Supporting references:** See `rules/references/code-mode-cloudflare.pdf` and `rules/references/cloudflare-ai-sandboxing.pdf`.
+**Supporting references:** See `rules/references/code-mode-cloudflare.pdf`, `rules/references/cloudflare-ai-sandboxing.pdf`, and `rules/references/sandboxing-ai-agents-100x-faster.pdf`.
 
 Implications:
 
@@ -2996,6 +3009,7 @@ Implications:
 * Prefer generated code against typed or capability-scoped interfaces when that reduces prompt/tool overhead and improves reproducibility.
 * Never execute AI-generated code directly inside the host application or privileged runtime.
 * Route execution through explicit sandbox boundaries with network, filesystem, and credential controls.
+* When choosing a sandbox technology, evaluate isolate-based runtimes (V8 isolates) before container-based runtimes for latency-sensitive or high-concurrency agent workloads.
 
 ### SYSTEM DESIGN PRINCIPLE — Event-Driven Execution
 
