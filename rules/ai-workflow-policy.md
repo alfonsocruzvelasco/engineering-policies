@@ -8,7 +8,7 @@ scope: AI-assisted development workflows (core workflow, prompt engineering, ses
 # AI Workflow Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-03-24
+**Last updated:** 2026-03-28
 
 **Scope:** This policy governs all AI-assisted development workflows, including Cursor usage, prompt engineering, session management, and spec-driven development. It consolidates the previously separate policies: `ai-workflow-policy.md (Part 1: Core Workflow)`, `ai-workflow-policy.md (Part 2: Prompt Engineering)`, `ai-workflow-policy.md (Part 3: Session Management)`, and `ai-workflow-policy.md (Part 4: Spec-Driven Development)`.
 
@@ -229,6 +229,8 @@ ${SANDBOX_ROOT:-~/dev/repos/github.com/${GH_USER:-alfonsocruzvelasco}/sandbox-cl
 ### Task Card Prompt Template
 
 **See:** [Prompt Template](templates/prompt-template.md) for the canonical task card (v3 with Osmani self-improving loop).
+
+**Spanish-language variant:** [Hard Constraint Mode Template (ES)](templates/prompt-template-chatgpt-es.md) — constraint-driven specification for ChatGPT in Spanish. Use only when the interaction must be in Spanish; English-first remains the default (see [English-First Architecture](#english-first-architecture-for-prompts)).
 
 **For detailed Osmani-style template:** See [Prompt Osmani Self-Improving Loop](references/prompt-osmani-self-improving-loop.md) for complete structure with learning capture, iteration protocol, and troubleshooting.
 

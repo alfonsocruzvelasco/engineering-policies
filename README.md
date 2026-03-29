@@ -177,6 +177,7 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
   - `mcp-template.md` — Model Context Protocol template for ML/CV production
   - `ml-cv-skills-template.md` — Skills assessment template for ML/CV engineers
   - `prompt-template.md` — Task card template for daily AI interactions (v3: concise, verification checkpoints, model-specific parameters, Osmani self-improving loop)
+  - `prompt-template-chatgpt-es.md` — Spanish-language Hard Constraint Mode prompt template for ChatGPT (constraint-driven specification, mandatory validation gate, zero-iteration design; use for Spanish-language interactions only — English-first remains the default per ai-workflow-policy.md)
   - `domain-template.md` — Domain authority template for defining agent boundaries, legitimate skills, and verification requirements (execution, review, governance, planning, documentation domains)
   - `.cursorrules` — Authoritative Cursor/Codex rules template (scope, AI role, workflow, limits)
   - `terraform-devops-skills-template.md` — Skills assessment template for DevOps/Infrastructure engineers

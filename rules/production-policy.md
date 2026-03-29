@@ -8,7 +8,7 @@ scope: CV/ML production engineering standards; sections 1, 2, and 8 are authorit
 # Production Engineering Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-03-19
+**Last updated:** 2026-03-24
 **Purpose:** Daily reference for CV/ML engineering, data systems, and tooling standards
 **Authority model:** Sections 1 (Data & Storage), 2 (SQL Databases), and 8 (Git and Source Control) are authoritative policy defined in this file.
 All other sections are navigation pointers; their referenced standalone policy files are authoritative.

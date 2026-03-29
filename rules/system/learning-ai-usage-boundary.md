@@ -4,7 +4,7 @@
 
 **Scope:** Applies to all learning library repositories (book code, course material, reference implementations, study corpus).
 
-**Last updated:** 2026-02-18
+**Last updated:** 2026-03-24
 
 ---
 

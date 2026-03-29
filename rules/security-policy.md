@@ -8,7 +8,7 @@ scope: Security controls for secrets, IAM, infrastructure access, API/tool-use s
 # Security Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-03-24
+**Last updated:** 2026-03-28
 
 **Scope:** This policy defines how **credentials, secrets, dependencies, identity and access controls, APIs, and AI-assisted engineering risks** are handled. It applies to all environments (local, CI, staging, production) and all repositories, with special emphasis on ML/CV engineering security.
 
@@ -1414,7 +1414,7 @@ This section complements and extends:
 
 **Policy Owner:** Security Team (security@organization.com)
 **Enforcement Authority:** CISO + VP Engineering
-**Last Reviewed:** 2026-03-24
+**Last Reviewed:** 2026-03-28
 **Next Review Due:** 2026-05-07
 
 ---
