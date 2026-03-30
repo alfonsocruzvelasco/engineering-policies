@@ -19,11 +19,13 @@
 ## Hard Constraints
 
 - One task per prompt. No "while you're at it."
-- Plan → diff → apply. Never rewrite; max ~200 lines changed per iteration.
+- **Spec–Plan–Patch–Verify.** Scoped brief → Plan Mode → one bounded step → verify → checkpoint. Never rewrite; max ~200 lines changed per iteration.
 - No new dependencies unless explicitly requested.
 - Commit immediately after each verified subtask. Do not batch.
 - Never auto-apply large changes. Suggest-only or patch-with-diff by default.
 - `git status` clean before starting any task.
+- **Stopping rule:** After 3 consecutive failures without progress, STOP. Diagnose the failure trend, harden the prompt or restructure the task, and restart from a clean context. Do not retry into a poisoned context.
+- **Put state in files, not in the conversation.** After each milestone, write a checkpoint note. Start the next episode from the checkpoint artifact.
 
 ---
 
@@ -150,6 +152,24 @@ Known failure patterns from deployed multi-agent systems (Shapira et al., "Agent
 **Design target:** L2→L3 autonomy (Mirsky scale) — recognize when a situation exceeds competence and proactively transfer control to a human, rather than proceeding and hoping.
 
 See `security-policy.md §19` and `../references/agents-of-chaos.pdf`.
+
+---
+
+## Token Budget & Cost Governance
+
+Agents are stochastic, budget-constrained search systems. Cost is a design variable.
+
+| Parameter | Default | Calibrate after 20 runs |
+|---|---|---|
+| Max tokens per task (*B*) | 500K | Adjust to project reality |
+| Max attempts per task (*k_max*) | `⌊B / T̄⌋` | Track `T̄` (mean tokens/run) |
+| Max runtime per task | 300s | — |
+
+**Budget rule:** If estimated `p < T̄ / B`, harden the prompt before executing — retries will not help.
+
+**Thinking budget:** Heavy thinking (extended/adaptive) for planning and debugging. Light execution for routine edits. Do not pay thinking cost for mechanical tasks.
+
+<!-- Calibrate these defaults after the first 20 agent executions on this project. -->
 
 ---
 

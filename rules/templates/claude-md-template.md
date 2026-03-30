@@ -69,6 +69,8 @@ Total: 7 lines
 - Never modify `core/auth.py` without security review
 - All database migrations must be reversible
 - Model artifacts must be signed before deployment
+- Stop after 3 consecutive failures — diagnose and harden prompt before retrying
+- Put state in checkpoint files, not in the conversation
 
 ## Repository-Specific Patterns
 - Use `@dataclass` for all config objects (not dicts)

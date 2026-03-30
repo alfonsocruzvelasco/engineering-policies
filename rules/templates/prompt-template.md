@@ -20,7 +20,7 @@ This template intentionally replaces the previous verbose template. Governance l
 
 ## Task Card (Use This for Every Task)
 
-**Atomic Task Principle:** Each task must be completable in <30 minutes. If larger, break into subtasks.
+**Atomic Task Principle:** Each task must be completable in <30 minutes. If larger, break into subtasks. A precise task contract saves more tokens than any model or parameter tweak.
 
 ```text
 Task: <one clear sentence>
@@ -33,13 +33,19 @@ Repo:
 Definition of done:
 - <1–3 observable checks> (tests or exact repro commands)
 
-Process:
+Stopping condition:
+- Max attempts: 3 (if all fail → diagnose p_k trend, harden prompt, restart from clean context)
+- Token budget: <budget or "default 500K">
+
+Process (Spec–Plan–Patch–Verify):
 1) Consult CLAUDE.md for relevant patterns/mistakes (if exists).
 2) Ask up to 3 clarifying questions ONLY if blocked.
-3) Propose a short plan (3–6 bullets).
-4) Output a unified diff only.
-5) List exact validation commands to run.
-6) After validation passes: capture learnings in CLAUDE.md, then reset context for next task.
+3) PLAN: Propose a short plan (3–6 bullets). Approve only the first bounded step.
+4) PATCH: Output a unified diff for that step only.
+5) VERIFY: List exact validation commands. Write a checkpoint note if context is swelling.
+6) STOP OR CONTINUE: If verification passes and next step has positive marginal value, continue
+   from checkpoint. If 3 consecutive failures → stop, diagnose, harden prompt before retrying.
+7) After final validation passes: capture learnings in CLAUDE.md, then reset context for next task.
 ```
 
 ## Verification Checkpoints (Mandatory)
@@ -183,15 +189,16 @@ Otherwise, **always** use the Task Card above.
 
 ---
 
-## Self-Improving Loop (Osmani Pattern)
+## Self-Improving Loop (Osmani Pattern + Stochastic Stopping)
 
-**Core principle:** Small, bounded tasks with validation and knowledge capture → compound productivity over time.
+**Core principle:** Small, bounded tasks with validation and knowledge capture → compound productivity over time. Agents are stochastic — optimize for fewer bad turns, not maximum autonomy.
 
 **Required after each task:**
-- Validation passes → Update CLAUDE.md with learnings → Reset context → Next task
-- Validation fails → Fix → Re-validate → Do not proceed until pass
+- Validation passes → Update CLAUDE.md with learnings → Write checkpoint → Reset context → Next task
+- Validation fails (attempt 1–2) → Prune context, apply verifier feedback as structured hint, retry
+- Validation fails (attempt 3) → **STOP.** Diagnose: is *p_k* declining (context poisoning) or stationary (hard task)? Harden prompt or restructure task before retrying. Never retry into a poisoned context.
 
-**Context reset:** Each task starts fresh. No accumulated state between tasks.
+**Context reset:** Each task starts fresh. Put state in checkpoint files, not in the conversation. Accumulated context degrades success probability.
 
 ---
 
