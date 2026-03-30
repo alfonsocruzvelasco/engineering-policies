@@ -42,8 +42,10 @@ scope: AI-assisted development workflows (core workflow, prompt engineering, ses
 
 ### Part 2: Prompt Engineering
 - [Operating Principles](#operating-principles)
+- [p-Stabilization Techniques](#p-stabilization-techniques-raise-success-probability-before-retrying)
 - [Executable Output Principle](#system-design-principle--executable-output)
 - [Event-Driven Execution Principle](#system-design-principle--event-driven-execution)
+- [Stochastic Scheduling Principle](#system-design-principle--stochastic-scheduling)
 - [English-First Architecture](#english-first-architecture-for-prompts)
 - [Vocabulary and Terminology (Claude Code)](#vocabulary-and-terminology-claude-code)
 - [Prompt Templates](#standard-prompt-template-quick)
@@ -57,6 +59,7 @@ scope: AI-assisted development workflows (core workflow, prompt engineering, ses
 - [Parallel Workflows](#parallel-session-guidelines)
 - [Session Lifecycle](#session-lifecycle)
 - [Session Metrics](#session-metrics)
+- [Reliability Surface](#reliability-surface-agent-evaluation-metrics)
 
 ### Part 4: Spec-Driven Development
 - [Protocol Selection](#part-4-spec-driven-development)
@@ -249,28 +252,23 @@ ${SANDBOX_ROOT:-~/dev/repos/github.com/${GH_USER:-alfonsocruzvelasco}/sandbox-cl
 
 This prevents "AI churn" and maintains control.
 
-### Plan Mode First
+### Plan Mode First — Spec–Plan–Patch–Verify Workflow
 
-**Always start with planning before coding.** Use Plan Mode to scope and guide work:
+**Always start with planning before coding.** The default workflow for every non-trivial agent episode is:
 
-1. **Before any coding task:**
-   - Use Plan Mode to break down the task
-   - Identify dependencies and constraints
-   - Define acceptance criteria
-   - Estimate scope and complexity
-
-2. **Benefits:**
-   - Prevents scope creep
-   - Reduces wasted iterations
-   - Clarifies requirements upfront
-   - Enables better verification planning
-
-3. **Workflow:**
-   - Plan Mode → Review plan → Execute → Verify
+| Step | Action | Why |
+|---|---|---|
+| **1. Spec** | Give a scoped brief: one concrete objective, acceptance test, files in scope, exact output format. | A precise task contract saves more tokens than any model or parameter tweak. |
+| **2. Plan** | Run Plan Mode. Review the proposed plan. Approve only the first bounded implementation step. | Plan Mode raises the first-attempt success probability *p₁* and prevents expensive wide diffs. |
+| **3. Patch** | Implement one bounded step only. | Small diffs are reviewable, reversible, and cheap to fix. |
+| **4. Verify** | Run the specified tests. Write a short checkpoint note summarising what changed. | Checkpoints arrest context poisoning by resetting the context window for the next step. |
+| **5. Stop or continue** | Start the next step from the checkpoint. Stop when the next step is no longer clearly higher-value than its token cost. | This is the stopping rule from the Stochastic Scheduling principle — do not continue when marginal gains are negative. |
 
 **Rule:** No coding without a plan for tasks spanning multiple files or requiring architectural decisions.
 
-**See also:** Part 3: Session Management for Planning Session type and workflow.
+**Context discipline:** After each milestone, collapse state into a short written checkpoint in the repository or task file. Begin the next episode from that artifact, not from the conversation history. **Put state in files, not in the conversation.**
+
+**See also:** Part 3: Session Management for Planning Session type and workflow. See `stochastic-scheduling-ai-coding-agents.pdf` §7 for the full operational protocol.
 
 ### Parallel Workflows
 
@@ -1495,26 +1493,39 @@ Brief description of what this skill does.
 
 ### Agent Cost Budgeting
 
-For any automated or semi-automated agent workflow, cost is a design variable — not an externality.
+For any automated or semi-automated agent workflow, cost is a design variable — not an externality. Agents are stochastic systems; budget planning must be probabilistic.
 
 **Required per-task budget parameters:**
 
 | Parameter | Definition | Default ceiling |
 |---|---|---|
-| Max tokens per task | Total token budget (input + output) | 500K tokens |
+| Max tokens per task (*B*) | Total token budget (input + output) | 500K tokens |
 | Max runtime per task | Wall-clock abort threshold | 300 seconds |
 | Max tool calls per task | Complexity ceiling | 50 tool calls |
 
+**Probabilistic budget planning (mandatory for repeated/automated tasks):**
+
+| Formula | Meaning | Action |
+|---|---|---|
+| `E[cost] = T̄ / p` | Expected tokens to first success (mean per-run cost / per-run success probability) | Use for quota planning. Doubling *p* halves expected cost. |
+| `p* ≥ T̄ / B` | Minimum *p* required so expected cost fits within budget *B* | If estimated *p* < *p**, harden the prompt before executing — retries will not help. |
+| `k* = ⌈ln(1−R) / ln(1−p)⌉` | Minimum attempts to hit a reliability target *R* at minimum spend | Use to set the retry ceiling analytically rather than by gut feel. |
+| `k_max = ⌊B / T̄⌋` | Maximum attempts affordable within budget | Hard ceiling — never exceed. |
+
+**Adaptive stopping (replaces fixed retry limits):**
+
+Rather than committing to a fixed retry count, update the estimate of *p* after each run and stop when either: (a) success is observed, or (b) the posterior expected gain of one more attempt falls below the marginal token cost. This is the operational form of the stopping rule `dU/dT > 0`.
+
 **When thresholds are exceeded:**
 
-1. **Abort** the agent execution
-2. **Log** the failure with full metrics (see `mlops-policy.md` Section 5.8)
-3. **Review AGENTS.md** — threshold exceedance is a context quality signal, not a model failure
-4. **Refactor context** — reduce ambiguity, add missing constraints, tighten scope
+1. **Abort** the agent execution.
+2. **Log** the failure with full metrics (see `mlops-policy.md` Section 5.8).
+3. **Review AGENTS.md** — threshold exceedance is a context quality signal, not a model failure.
+4. **Refactor context** — reduce ambiguity, add missing constraints, tighten scope. This raises *p*, which is the primary cost lever.
 
 **Calibration:** Defaults above are starting points. Teams MUST calibrate against their actual task distribution within the first 20 agent executions and adjust. Track via `~/dev/devruns/<project>/agent-metrics/`.
 
-**Evidence:** Lulla et al. (2026) showed AGENTS.md presence reduces median runtime by 29% and output tokens by 17%. Context quality is the primary lever for cost control — model selection is secondary.
+**Evidence:** Lulla et al. (2026) showed AGENTS.md presence reduces median runtime by 29% and output tokens by 17%. Context quality is the primary lever for cost control — model selection is secondary. See `stochastic-scheduling-ai-coding-agents.pdf` §6 for the complete three-perspective pass@k optimization framework.
 
 ### Token Budget Thresholds
 
@@ -2936,6 +2947,19 @@ This protocol ensures that.
 - **English-first architecture:** All system prompts, tool definitions, reasoning layers, and structured outputs MUST use English. This is non-negotiable for reliability, accuracy, and token efficiency (see [English-First Architecture](#english-first-architecture-for-prompts) section).
 - **Prompt tone guidance:** Do not assume "more polite" or "more respectful" phrasing improves accuracy. Tone/politeness effects are model- and language-dependent; prefer neutral, directive language for correctness (see `mind-your-tone.pdf` and `should-we-respect-llm.pdf`).
 
+### p-Stabilization Techniques (Raise Success Probability Before Retrying)
+
+The most cost-effective way to improve agent outcomes is to raise the per-attempt success probability *p*, not to increase the number of retries *k*. The following techniques directly raise *p*:
+
+| Technique | Effect on *p* | When to apply |
+|---|---|---|
+| **Prompt hardening** — structured system prompts, explicit output contracts, few-shot exemplars | Reduces output variance; raises *p* on every attempt | Always. This is the highest-ROI intervention. |
+| **Temperature scheduling** — lower temperature on first attempt, higher on retries | Preserves first-attempt precision; widens coverage on retries | When the task has a single correct form (low temp first) but benefits from exploration on failure (higher temp retry). |
+| **Context pruning before retry** — remove accumulated noise from context window before each reattempt | Prevents declining *p_k* (context poisoning); resets the context to a clean state | After every failed attempt. Never retry into a poisoned context. |
+| **Verifier feedback** — pass the failure mode from an automated test or linter back as a structured hint | Raises conditional *p_k* on subsequent attempts; produces a rising sequence | Whenever an automated verifier (test, linter, type checker) can explain *why* the attempt failed. |
+
+**Rule:** If an agent fails, diagnose *why p is low* before retrying. Retrying with the same prompt into the same context is the most expensive way to not solve a problem.
+
 ### SYSTEM DESIGN PRINCIPLE — Workflow over Model
 
 All AI usage must prioritize:
@@ -3031,6 +3055,42 @@ Implications:
 
 * avoid:
   * synchronous prompt-only usage
+
+### SYSTEM DESIGN PRINCIPLE — Stochastic Scheduling
+
+AI coding agents are **stochastic, budget-constrained search systems**, not deterministic programs. Treat them accordingly.
+
+```text
+Deterministic software engineering → Probabilistic system management
+```
+
+**Core model:** Each agent run has a per-attempt success probability *p*. The probability of success within *k* attempts follows the geometric CDF:
+
+```text
+pass@k = 1 − (1 − p)^k
+```
+
+When agent performance drifts across attempts (context poisoning, verifier feedback), *p* is not constant and the non-homogeneous Bernoulli model applies: `P(success within k) = 1 − ∏(1 − p_i)`.
+
+**Mandatory policy rules:**
+
+1. **Stabilize *p* before increasing *k*.** A high pass@k achieved by brute-force retries masks a low *p*. The cost-effective lever is to raise *p* itself (prompt hardening, context pruning, verifier feedback). Only increase *k* after *p* is demonstrably stable.
+2. **Apply the stopping rule.** Stop execution when the marginal expected gain of one more attempt falls below its marginal token cost. Do not retry indefinitely — each retry has diminishing returns, and declining *p_k* (context poisoning) makes later attempts actively wasteful.
+3. **Budget analytically.** Expected cost to first success is `E[cost] = T̄ / p` where `T̄` is mean tokens per run. If `p < T̄ / B` (where *B* is the token budget), the prompt must be hardened before any execution starts.
+4. **Diagnose the *p_k* trend.** After failures, assess whether per-position success rates are stationary, declining, or rising:
+   * **Stationary *p_k*:** the i.i.d. geometric model holds; retry up to the budget.
+   * **Declining *p_k*:** context poisoning is active; abort and restart from a clean context immediately.
+   * **Rising *p_k*:** verifier feedback is working; allow more attempts and invest in the feedback loop.
+5. **Operate agents as bounded stochastic workers.** Tight task scope, Plan Mode before execution, checkpointed progress, aggressive stopping. The goal is **fewer bad turns, not maximum autonomy**.
+
+**Thinking budget allocation:** Extended thinking improves instruction-following and reasoning but costs tokens. Use it deliberately:
+
+* **Heavy thinking:** hard planning, ambiguous debugging, architectural decomposition — tasks where the question is "what should we do?"
+* **Light execution:** trivial edits, formatting, straightforward refactors — tasks where the answer is "do this exact thing."
+
+Paying the thinking cost for routine execution wastes budget without raising *p*.
+
+**Supporting reference:** See `rules/references/stochastic-scheduling-ai-coding-agents.pdf` for the complete framework (geometric process foundations, pass@k optimization from three perspectives, operational protocol, executable evaluation scaffold).
 
 - **Prefer refusal over fabrication:** If uncertain, say "I don't know."
 - **Explicit Instruction Levels:** Respect the requested level (Minimal/Thorough/Comprehensive). Do not over-explain if "Minimal" is requested.
@@ -4844,6 +4904,21 @@ Files owned:
 - ✅ Subagent usage: **>50%** of routine tasks
 - ✅ Hook execution: **>70%** of code changes
 
+### Reliability Surface (Agent Evaluation Metrics)
+
+Evaluate agent runs on a multi-dimensional reliability surface, not single-run pass/fail. These metrics should be interpreted jointly.
+
+| Metric | Definition | Purpose |
+|---|---|---|
+| **Pass@k** | `1 − (1 − p)^k` (i.i.d. runs) | CDF of geometric process; probability of at least one success in *k* attempts. |
+| **Cost Stability** | `σ / μ` (token std. dev. / mean) | Predictability of token cost across runs. High values signal unstable tasks. |
+| **Thrash Score** | `repeated_steps / total_steps` | Detects looping; high values inflate effective `(1 − p)`. |
+| **Fragility** | `Var(Output) / Var(Input)` | Sensitivity to small input perturbations. High fragility signals prompt brittleness. |
+
+**When to measure:** For any task type that will be repeated (CI agents, automated reviews, skill-based workflows), collect at least 10 runs and compute the reliability surface before committing to a workflow design.
+
+**Reference:** See `stochastic-scheduling-ai-coding-agents.pdf` §4 and §9 for the complete evaluation scaffold and executable metric code.
+
 ### Metrics Collection
 
 **Manual tracking:**
@@ -4872,11 +4947,11 @@ Files owned:
 **Why bad:** Confuses AI, wastes tokens, reduces quality
 **Fix:** One concern per session. Split if scope creeps.
 
-### ❌ Infinite Loops
+### ❌ Infinite Loops (Violates Stopping Rule)
 
-**What:** >10 iterations without progress
-**Why bad:** Wasted time, frustration, no value
-**Fix:** Stop after 10 attempts. Escalate, get help, or take different approach.
+**What:** >3 consecutive failed attempts without diagnosing why *p* is low.
+**Why bad:** Each retry into a poisoned or unchanged context has a declining *p_k*, making later attempts actively more expensive and less likely to succeed. This is the costliest anti-pattern in stochastic terms — you are spending tokens on a flatlined pass@k curve.
+**Fix:** After 3 failures: (1) diagnose the *p_k* trend — is it declining (context poisoning) or stationary (hard task)?; (2) if declining, abort and restart from a clean context with a hardened prompt; (3) if stationary but low, invest in raising *p* (better spec, verifier feedback, context pruning) before retrying; (4) never exceed `k_max = ⌊B / T̄⌋` attempts.
 
 ### ❌ Scope Creep
 

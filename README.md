@@ -129,9 +129,9 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
 
 - **`rules/ai-workflow-policy.md`** **[CONSOLIDATED 2026-02-01]**
   *Comprehensive AI workflow policy consolidating core workflow, prompt engineering, session management, and spec-driven development*
-  - **Part 1: Core Workflow** — Cursor usage, sandbox enforcement, daily workflow, Cursor modes, guardrails, AI model usage (local vs cloud), Git discipline, MCP (Model Context Protocol), tool use security, verification-first mindset, operational readiness requirements
-  - **Part 2: Prompt Engineering** — Operating principles, workflow-over-model, executable output, event-driven execution, English-first architecture, prompt templates, COSTAR/CRISPE frameworks, slash commands library, token optimization, context engineering
-  - **Part 3: Session Management** — Session types, parallel workflows, session lifecycle, metrics tracking, anti-patterns
+  - **Part 1: Core Workflow** — Cursor usage, sandbox enforcement, daily workflow, Cursor modes, guardrails, AI model usage (local vs cloud), Git discipline, MCP (Model Context Protocol), tool use security, verification-first mindset, operational readiness requirements, **Spec–Plan–Patch–Verify default workflow**
+  - **Part 2: Prompt Engineering** — Operating principles, **p-stabilization techniques**, workflow-over-model, executable output, event-driven execution, **stochastic scheduling (agents as bounded stochastic workers, stopping rules, token budget governance)**, English-first architecture, prompt templates, COSTAR/CRISPE frameworks, slash commands library, token optimization, context engineering
+  - **Part 3: Session Management** — Session types, parallel workflows, session lifecycle, metrics tracking, **reliability surface (pass@k, cost stability, thrash score, fragility)**, anti-patterns
   - **Part 4: Spec-Driven Development** — Protocol selection (**OpenSpec preferred for ML/CV**), mandatory checkpoints, integration patterns
   *Previously separate files: `ai-usage-policy.md`, `prompts-policy.md`, `session-management-policy.md`, `spec-driven-development-policy.md`*
 
@@ -235,6 +235,7 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
   - `cloudflare-pay-per-crawl-notes.md` — Cloudflare Pay-Per-Crawl: implications for ML/CV engineers (permissioned/priced web data, licensed datasets, pipeline design, data acquisition costs, dataset strategy as engineering responsibility)
   - `cloudflare-ai-sandboxing.pdf` — Cloudflare Dynamic Workers sandboxing for AI-generated code (isolate-based execution, outbound filtering, credential injection, capability-scoped runtime boundaries)
   - `sandboxing-ai-agents-100x-faster.pdf` — Dynamic Worker Loader open beta (Mar 2026): isolate-based sandbox 100x faster than containers, Code Mode SDK (`@cloudflare/codemode`, `worker-bundler`, `shell`), TypeScript tool API definitions, HTTP filtering, credential injection, battle-hardened V8 security
+  - `stochastic-scheduling-ai-coding-agents.pdf` — Stochastic Scheduling in AI Coding Agents (Cruz, 2026): agents as bounded stochastic workers, pass@k as geometric CDF, non-homogeneous Bernoulli model for drifting p, optimal stopping rules, context poisoning theory, Spec–Plan–Patch–Verify operational protocol, token budget governance (E[cost]=T̄/p), reliability surface metrics, p-stabilization techniques
   - `agent-architecture-intentcua-notes.md` — IntentCUA (arXiv:2602.17049): agentic architecture reference — skill abstractions, plan memory, intent-anchored planning, mandatory Critic, parameterized skill hints; policy rationale and key numbers
   - `sub-agents-ml-cv-notes.md` — Agents & sub-agents in ML/CV engineering (definitions, pipeline/tool-calling/orchestration roles, dataset/training/inference use cases, anti-patterns, design checklist)
   - `architecting-agentic-mlops-a2a-mcp-notes.md` — Architecting agentic MLOps with A2A + MCP (layered pattern: A2A for agent communication, MCP for tools; orchestration vs execution decoupling; reference only, no duplicate templates)

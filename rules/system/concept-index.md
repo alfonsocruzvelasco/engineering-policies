@@ -45,6 +45,7 @@ scope: Concept-to-authority lookup for policies and references
 | Mixture of Experts (MoE) patterns | `rules/references/moe-notes.md` | `rules/references/ai-systems-architecture.md` |
 | Retrieval / RAG architecture | `rules/ai-retrieval-policy.md` | `rules/references/vector-db-engineering-guide.md`, `rules/references/rag-engineering-notes.md`, `rules/references/rag-production-notes.md`, `rules/references/rag-vs-rerag-technical-reference.md` |
 | Long-context vs retrieval architecture (1M-token pricing shift) | `rules/ai-workflow-policy.md` (Opus 4.6 capabilities) | `rules/references/claude-million-token-pricing-reference.md`, `rules/references/long-context-windows-opus-4.6+.md` |
+| Stochastic scheduling and token budget governance (pass@k, stopping rules, p-stabilization) | `rules/ai-workflow-policy.md` (Stochastic Scheduling principle, Agent Cost Budgeting) | `rules/references/stochastic-scheduling-ai-coding-agents.pdf` |
 
 ## Production Engineering & MLOps
 

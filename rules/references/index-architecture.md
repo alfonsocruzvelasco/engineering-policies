@@ -71,3 +71,4 @@ Use this when you need **architectural background** rather than normative policy
 - `long-context-windows-opus-4.6+.md` — Long context windows for Opus 4.6+ (capabilities and constraints).
 - `molap-ml-engineer-reference.md` — MOLAP analytics infrastructure context for ML/CV engineers.
 - `claude-million-token-pricing-reference.md` — 1M context pricing shift (no long-context surcharge) and architecture implications.
+- `stochastic-scheduling-ai-coding-agents.pdf` — Agents as bounded stochastic workers: pass@k geometric CDF, non-homogeneous Bernoulli model, optimal stopping, context poisoning, Spec–Plan–Patch–Verify protocol, token budget governance, reliability surface metrics.
