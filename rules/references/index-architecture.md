@@ -72,3 +72,8 @@ Use this when you need **architectural background** rather than normative policy
 - `molap-ml-engineer-reference.md` — MOLAP analytics infrastructure context for ML/CV engineers.
 - `claude-million-token-pricing-reference.md` — 1M context pricing shift (no long-context surcharge) and architecture implications.
 - `stochastic-scheduling-ai-coding-agents.pdf` — Agents as bounded stochastic workers: pass@k geometric CDF, non-homogeneous Bernoulli model, optimal stopping, context poisoning, Spec–Plan–Patch–Verify protocol, token budget governance, reliability surface metrics.
+
+## Extracted Reference Companions
+
+- `ai-workflow-prompt-patterns-reference.md` — Production patterns, COSTAR/CRISPE, slash commands, token-saving strategies, context engineering, theoretical foundations (extracted from `ai-workflow-policy.md` Part 2).
+- `ai-workflow-agent-skills-reference.md` — Claude Code skills management, AI tools for ML/CV, agent delegation, scientific research workflows, learning protocol (extracted from `ai-workflow-policy.md` Part 1).

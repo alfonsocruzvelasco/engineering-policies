@@ -29,6 +29,7 @@ Use this when you need **supporting evidence** or deeper context for security an
 - `agents-of-chaos.pdf` — Agentic failure modes in deployed systems.
 - `ai-pr-communication-notes.md` — PR communication, acceptance, and structure.
 - `a-rational-analysis-of-the-effects-of-sycophantic-ai.pdf` — Sycophantic AI and hypothesis stress tests.
+- `security-enterprise-controls-reference.md` — Enterprise controls: runtime trust layer, isolate sandbox details, OIDC hardening, logging/audit expectations (extracted from `security-policy.md`).
 
 ## Benchmarks & Evaluation
 

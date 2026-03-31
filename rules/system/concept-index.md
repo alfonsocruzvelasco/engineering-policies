@@ -22,7 +22,9 @@ scope: Concept-to-authority lookup for policies and references
 | Executable output and sandboxed code execution | `rules/ai-workflow-policy.md`, `rules/security-policy.md` §§8.2-8.4, §14.4 | `rules/references/code-mode-cloudflare.pdf`, `rules/references/cloudflare-ai-sandboxing.pdf`, `rules/references/sandboxing-ai-agents-100x-faster.pdf` |
 | English-first prompts & multilingual strategy | `rules/ai-workflow-policy.md` (Part 2: Prompt Engineering) | `rules/references/a-fail-comparison-without-translationese.pdf`, `rules/references/do-multilingual-language-models-think-better-in-english.pdf`, `rules/references/do-multilingual-llms-think-in-english.pdf`, `rules/references/do-all-languages-cost-the-same.pdf` |
 | Prompt tone / politeness effects | `rules/ai-workflow-policy.md` (Prompt Operating Principles, COSTAR/CRISPE) | `rules/references/mind-your-tone.pdf`, `rules/references/should-we-respect-llm.pdf` |
-| Prompt engineering theory (temperature, structure, evals) | `rules/ai-workflow-policy.md` | `rules/references/prompt-engineering-theory.md` |
+| Prompt engineering theory (temperature, structure, evals) | `rules/ai-workflow-policy.md` | `rules/references/prompt-engineering-theory.md`, `rules/references/ai-workflow-prompt-patterns-reference.md` |
+| Token optimization, slash commands, and context engineering | `rules/ai-workflow-policy.md` (Part 2 summary) | `rules/references/ai-workflow-prompt-patterns-reference.md` |
+| Skills management, agent delegation, and learning protocol | `rules/ai-workflow-policy.md` (Part 1 summary) | `rules/references/ai-workflow-agent-skills-reference.md` |
 | PRD gate and issue decomposition (mandatory for >2h work) | `rules/ai-workflow-policy.md` Part 4 (PRD Gate) | `rules/templates/prd-template.md` |
 | Spec-driven development (OpenSpec, protocols) | `rules/ai-workflow-policy.md` Part 4 | `rules/references/spec-protocols-guide.md`, `rules/references/openspec-ml-cv-reference.md` |
 
@@ -34,7 +36,8 @@ scope: Concept-to-authority lookup for policies and references
 | AI-assisted coding security (tool use, OWASP LLM) | `rules/security-policy.md` Part 2 | `rules/references/ai-mutation-testing-debugging-reference.md`, `rules/references/integration-reliability-ai-systems.md` |
 | Prohibited AI tools & enforcement | `rules/security-policy.md` §14.6, `rules/approved-ai-tools.md` | `rules/ai-tool-policy-quick-reference.md`, `rules/references/integration-guide.md`, `rules/references/open-claw-security-policy.md` |
 | OpenClaw / agentic endpoint risk | `rules/security-policy.md` §14.6 (prohibited) | `rules/references/open-claw-security-policy.md` |
-| Runtime agent governance (visibility + signed audit logs) | `rules/security-policy.md` §8.1 | `rules/references/ceros-claude-code-visibility-control-reference.md` |
+| Runtime agent governance (visibility + signed audit logs) | `rules/security-policy.md` §8.1 | `rules/references/ceros-claude-code-visibility-control-reference.md`, `rules/references/security-enterprise-controls-reference.md` |
+| Enterprise security controls (trust layer, OIDC, logging) | `rules/security-policy.md` (summaries) | `rules/references/security-enterprise-controls-reference.md` |
 | Agent runtime egress hardening + observability URL safety + safe deserialization | `rules/security-policy.md` §§8.2-8.4 | `rules/references/ai-flaws-bedrock-langsmith-sglang-visibility-rce-exfil-reference.md` |
 
 ## Architecture & Retrieval

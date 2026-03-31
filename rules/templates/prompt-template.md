@@ -86,7 +86,7 @@ Emphasis: "Produce unified diff only. No explanations unless requested."
 Constraint: "Minimize token usage. Terse responses. Code only."
 
 ### Prompt Repetition (Non-Reasoning Paths Only)
-When using non-reasoning inference (no CoT/extended thinking), repeat the task card to improve attention coverage. Do not repeat retrieved context or RAG documents. Highest value for structured lookup tasks (entity extraction, list retrieval). See `ai-workflow-policy.md §13.1` and `../references/prompt-repetition-improves-non-reasoning-llms.pdf`.
+When using non-reasoning inference (no CoT/extended thinking), repeat the task card to improve attention coverage. Do not repeat retrieved context or RAG documents. Highest value for structured lookup tasks (entity extraction, list retrieval). See `../references/ai-workflow-prompt-patterns-reference.md` (Prompt Repetition) and `../references/prompt-repetition-improves-non-reasoning-llms.pdf`.
 
 ### Epistemic Mode (Reasoning Tasks)
 
@@ -112,7 +112,7 @@ Before answering, analyze:
 3. What evidence would disprove it
 ```
 
-**Source:** Batista & Griffiths (Princeton, 2026) showed default LLM behavior is indistinguishable from explicit sycophancy — 5.9% discovery rate vs 29.5% with unbiased sampling. See `ai-workflow-policy.md §13.2` and `../references/a-rational-analysis-of-the-effects-of-sycophantic-ai.pdf`.
+**Source:** Batista & Griffiths (Princeton, 2026) showed default LLM behavior is indistinguishable from explicit sycophancy — 5.9% discovery rate vs 29.5% with unbiased sampling. See `../references/ai-workflow-prompt-patterns-reference.md` (Hypothesis Stress Test) and `../references/a-rational-analysis-of-the-effects-of-sycophantic-ai.pdf`.
 
 ### Diversity Forcing (Open-Ended / Creative Tasks)
 
@@ -132,7 +132,7 @@ Option B: Optimize for [cost]
 Option C: Optimize for [simplicity]
 ```
 
-**Source:** Jiang et al., "Artificial Hivemind," NeurIPS 2025 — different models converge on the same ideas with verbatim overlap. See `ai-workflow-policy.md §13.3` and `../references/artificial-hivemind.pdf`.
+**Source:** Jiang et al., "Artificial Hivemind," NeurIPS 2025 — different models converge on the same ideas with verbatim overlap. See `../references/ai-workflow-prompt-patterns-reference.md` (Diversity Collapse Awareness) and `../references/artificial-hivemind.pdf`.
 
 ---
 

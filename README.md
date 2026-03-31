@@ -13,7 +13,7 @@ Convenience symlinks:
 - `~/policies` -> `~/dev/repos/github.com/alfonsocruzvelasco/engineering-policies/`
 
 **Status:** Authoritative
-**Last updated:** 2026-03-24
+**Last updated:** 2026-03-31
 
 This repository is the **single source of truth** for how software is designed, built, reviewed, shipped, secured, and maintained across all of my development work.
 
@@ -129,10 +129,11 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
 
 - **`rules/ai-workflow-policy.md`** **[CONSOLIDATED 2026-02-01]**
   *Comprehensive AI workflow policy consolidating core workflow, prompt engineering, session management, and spec-driven development*
-  - **Part 1: Core Workflow** — Cursor usage, sandbox enforcement, daily workflow, Cursor modes, guardrails, AI model usage (local vs cloud), Git discipline, MCP (Model Context Protocol), tool use security, verification-first mindset, operational readiness requirements, **Spec–Plan–Patch–Verify default workflow**
-  - **Part 2: Prompt Engineering** — Operating principles, **p-stabilization techniques**, workflow-over-model, executable output, event-driven execution, **stochastic scheduling (agents as bounded stochastic workers, stopping rules, token budget governance)**, English-first architecture, prompt templates, COSTAR/CRISPE frameworks, slash commands library, token optimization, context engineering
-  - **Part 3: Session Management** — Session types, parallel workflows, session lifecycle, metrics tracking, **reliability surface (pass@k, cost stability, thrash score, fragility)**, anti-patterns
-  - **Part 4: Spec-Driven Development** — **PRD gate (mandatory for >2h work)**, vertical-slice issue decomposition, protocol selection (**OpenSpec preferred for ML/CV**), mandatory checkpoints, integration patterns
+  - **Part 1: Core Workflow** — Cursor usage, sandbox enforcement, daily workflow, AI model usage, Git discipline, MCP, tool use security, verification-first mindset, agent cost budgeting, **Spec–Plan–Patch–Verify default workflow**
+  - **Part 2: Prompt Engineering** — Operating principles, **p-stabilization techniques**, system design principles (workflow-over-model, executable output, event-driven, **stochastic scheduling**), English-first architecture, verification checklist, PI defense, CV/ML execution mode
+  - **Part 3: Session Management** — Session types, parallel workflows, session lifecycle, **reliability surface (pass@k, cost stability, thrash score, fragility)**, anti-patterns
+  - **Part 4: Spec-Driven Development** — **PRD gate (mandatory for >2h work)**, vertical-slice issue decomposition, protocol selection (**OpenSpec preferred for ML/CV**)
+  - **Reference companions:** `references/ai-workflow-prompt-patterns-reference.md` (production patterns, COSTAR/CRISPE, slash commands, token optimization, context engineering), `references/ai-workflow-agent-skills-reference.md` (skills management, learning protocol, agent delegation, scientific research workflows)
   *Previously separate files: `ai-usage-policy.md`, `prompts-policy.md`, `session-management-policy.md`, `spec-driven-development-policy.md`*
 
 ### Security and compliance policies
@@ -142,6 +143,7 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
   - **Part 1: Core Security** — Secrets handling, IAM, OAuth 2.0, SSH & infrastructure access, API security, dependency security, cloud security, ML/CV security, prompt injection defense, mandatory verification gates
   - **Part 2: AI-Assisted Coding Security** — OWASP Top 10 for LLMs coverage, OAuth 2.0 for AI/agents, SSH & infrastructure access, API-calling agents security, tool use security with Guardrails AI, output sanitization, agent resource limits, prompt injection defense, ML/CV-specific security, supply chain security, four-layer verification gates, required security tooling, incident response
   - **Section 14.6: Prohibited External AI Tool Classes** — Prohibited tool categories, required tool characteristics, approved tool examples, enforcement and violation handling, developer resources
+  - **Reference companion:** `references/security-enterprise-controls-reference.md` (runtime trust layer, isolate sandbox details, OIDC hardening, logging/audit expectations)
   *Previously separate files: `security-policy.md` (core) and `ai-coding-security-policy.md` (AI-specific)*
 
 - **`rules/approved-ai-tools.md`** **[NEW 2026-02-07]**
@@ -246,6 +248,9 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
   - `integration-reliability-ai-systems.md` — Integration reliability for AI systems (DZone framework; input contracts, upstream/downstream failure modes, low-confidence behavior; supports readme-template and production §5.13)
   - `rodney-notes.md` — Rodney (Simon Willison): browser automation for verification (CLI, accessibility tree, screenshots; use with Claude Code headless and verification-first workflow)
   - `moe-notes.md` — Mixture of Experts (MoE) engineering notes for ML/CV (sparse activation, router/expert-pool, HF Transformers v5+ native support, ViT/multimodal applicability, known problems: routing collapse, training complexity, deployment pain; reference stack)
+  - `ai-workflow-prompt-patterns-reference.md` — Extracted reference companion to `ai-workflow-policy.md` Part 2: production patterns (Constraint-First, Implementation-Specific, Assumption-Explicit, Risk-Aware, Verification-Built-In), COSTAR/CRISPE frameworks, slash commands library, 5 token-saving strategies, context engineering, theoretical foundations, tools & platforms
+  - `ai-workflow-agent-skills-reference.md` — Extracted reference companion to `ai-workflow-policy.md` Part 1: Claude Code skills management, AI tools for ML/CV engineering, strategic agent delegation, scientific research workflows, AI learning protocol, portfolio framing
+  - `security-enterprise-controls-reference.md` — Extracted reference companion to `security-policy.md`: runtime trust layer, isolate-based sandbox considerations, CI/CD-to-Cloud OIDC hardening, logging and audit expectations (enterprise/fleet controls)
   - For a curated view of reference material, see:
     - `rules/references/index-architecture.md` — Architecture & systems references
     - `rules/references/index-prompting.md` — Prompting, multilingual prompts, tone, and communication

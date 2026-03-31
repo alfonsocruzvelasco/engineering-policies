@@ -46,7 +46,7 @@ Before answering any reasoning question, analyze:
 2. Why it might be wrong
 3. What evidence would disprove it
 
-See `ai-workflow-policy.md §13.2` for the full Hypothesis Stress Test protocol.
+See `../references/ai-workflow-prompt-patterns-reference.md` (Hypothesis Stress Test) for the full protocol.
 
 ---
 
@@ -73,7 +73,7 @@ See `ai-workflow-policy.md §13.2` for the full Hypothesis Stress Test protocol.
 | Speed / low-complexity | Haiku 4.5 |
 | Default | Opus 4.6 |
 
-**Hivemind warning:** Switching models does NOT guarantee diverse outputs for open-ended tasks. Inter-model similarity is 71–82% with verbatim phrase overlaps across model families (Jiang et al., NeurIPS 2025). When diversity matters, vary the prompt structure or constraints, not just the model. See `ai-workflow-policy.md §13.3`.
+**Hivemind warning:** Switching models does NOT guarantee diverse outputs for open-ended tasks. Inter-model similarity is 71–82% with verbatim phrase overlaps across model families (Jiang et al., NeurIPS 2025). When diversity matters, vary the prompt structure or constraints, not just the model. See `../references/ai-workflow-prompt-patterns-reference.md` (Diversity Collapse Awareness).
 
 ---
 
