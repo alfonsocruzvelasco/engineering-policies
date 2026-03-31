@@ -18,8 +18,9 @@
 
 ## Hard Constraints
 
+- **PRD before code** for anything >2h. No coding without a PRD. See `templates/prd-template.md`.
 - One task per prompt. No "while you're at it."
-- **Spec–Plan–Patch–Verify.** Scoped brief → Plan Mode → one bounded step → verify → checkpoint. Never rewrite; max ~200 lines changed per iteration.
+- **PRD → Issues → Spec–Plan–Patch–Verify.** PRD → vertical-slice issues → scoped brief → Plan Mode → one bounded step → verify → checkpoint. Never rewrite; max ~200 lines changed per iteration.
 - No new dependencies unless explicitly requested.
 - Commit immediately after each verified subtask. Do not batch.
 - Never auto-apply large changes. Suggest-only or patch-with-diff by default.

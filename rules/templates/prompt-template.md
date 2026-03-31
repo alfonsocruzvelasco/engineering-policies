@@ -174,14 +174,26 @@ Before starting: Read CLAUDE.md for patterns/mistakes relevant to this task.
 
 ---
 
+## When to Write a PRD First
+
+**Mandatory PRD gate:** If the work is estimated at >2 hours, write a PRD before coding. See `rules/templates/prd-template.md`.
+
+```text
+If the problem is unclear → write (PRD)
+If the work is unclear   → split (issues)
+If both are clear        → code (use Task Card above)
+```
+
+After the PRD, decompose into vertical-slice issues (<2–4h each, testable, no unclear deps), then use the Task Card for each issue.
+
 ## When to Use a Larger Spec
 
-Only escalate to a spec-driven prompt when:
+Escalate to a spec-driven prompt (OpenSpec/Spec Kit) when:
 
 * The task spans many files/modules
 * Behavior is production-critical
 * A design decision is required
-* Working on existing ML/CV code (use **OpenSpec** - see `rules/references/openspec-ml-cv-reference.md`)
+* Working on existing ML/CV code (use **OpenSpec** — see `rules/references/openspec-ml-cv-reference.md`)
 
 **For ML/CV work on existing code:** **OpenSpec is mandatory** to prevent silent regressions and preserve data/architecture invariants. Use `/openspec:proposal` to create proposal before implementation.
 

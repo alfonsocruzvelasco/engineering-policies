@@ -132,7 +132,7 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
   - **Part 1: Core Workflow** — Cursor usage, sandbox enforcement, daily workflow, Cursor modes, guardrails, AI model usage (local vs cloud), Git discipline, MCP (Model Context Protocol), tool use security, verification-first mindset, operational readiness requirements, **Spec–Plan–Patch–Verify default workflow**
   - **Part 2: Prompt Engineering** — Operating principles, **p-stabilization techniques**, workflow-over-model, executable output, event-driven execution, **stochastic scheduling (agents as bounded stochastic workers, stopping rules, token budget governance)**, English-first architecture, prompt templates, COSTAR/CRISPE frameworks, slash commands library, token optimization, context engineering
   - **Part 3: Session Management** — Session types, parallel workflows, session lifecycle, metrics tracking, **reliability surface (pass@k, cost stability, thrash score, fragility)**, anti-patterns
-  - **Part 4: Spec-Driven Development** — Protocol selection (**OpenSpec preferred for ML/CV**), mandatory checkpoints, integration patterns
+  - **Part 4: Spec-Driven Development** — **PRD gate (mandatory for >2h work)**, vertical-slice issue decomposition, protocol selection (**OpenSpec preferred for ML/CV**), mandatory checkpoints, integration patterns
   *Previously separate files: `ai-usage-policy.md`, `prompts-policy.md`, `session-management-policy.md`, `spec-driven-development-policy.md`*
 
 ### Security and compliance policies
@@ -177,6 +177,7 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
   - `mcp-template.md` — Model Context Protocol template for ML/CV production
   - `ml-cv-skills-template.md` — Skills assessment template for ML/CV engineers
   - `prompt-template.md` — Task card template for daily AI interactions (v3: concise, verification checkpoints, model-specific parameters, Osmani self-improving loop)
+  - `prd-template.md` — Minimal PRD (Product Requirements Document) template with issue decomposition rules, vertical-slice guidance, and decision rule (mandatory for any work >2 hours; see ai-workflow-policy.md Part 4 PRD Gate)
   - `prompt-template-chatgpt-es.md` — Spanish-language Hard Constraint Mode prompt template for ChatGPT (constraint-driven specification, mandatory validation gate, zero-iteration design; use for Spanish-language interactions only — English-first remains the default per ai-workflow-policy.md)
   - `domain-template.md` — Domain authority template for defining agent boundaries, legitimate skills, and verification requirements (execution, review, governance, planning, documentation domains)
   - `.cursorrules` — Authoritative Cursor/Codex rules template (scope, AI role, workflow, limits)

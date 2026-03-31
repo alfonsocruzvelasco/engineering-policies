@@ -8,7 +8,7 @@ scope: AI-assisted development workflows (core workflow, prompt engineering, ses
 # AI Workflow Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-03-28
+**Last updated:** 2026-03-30
 
 **Scope:** This policy governs all AI-assisted development workflows, including Cursor usage, prompt engineering, session management, and spec-driven development. It consolidates the previously separate policies: `ai-workflow-policy.md (Part 1: Core Workflow)`, `ai-workflow-policy.md (Part 2: Prompt Engineering)`, `ai-workflow-policy.md (Part 3: Session Management)`, and `ai-workflow-policy.md (Part 4: Spec-Driven Development)`.
 
@@ -62,7 +62,8 @@ scope: AI-assisted development workflows (core workflow, prompt engineering, ses
 - [Reliability Surface](#reliability-surface-agent-evaluation-metrics)
 
 ### Part 4: Spec-Driven Development
-- [Protocol Selection](#part-4-spec-driven-development)
+- [PRD Gate (Mandatory)](#prd-gate-mandatory)
+- [Protocol Selection](#protocol-selection-matrix)
 - [Mandatory Checkpoints](#mandatory-checkpoints)
 
 ---
@@ -5133,7 +5134,40 @@ This policy mandates spec-driven development for all AI-augmented engineering wo
 **Specifications are executable artifacts that both humans and AI verify against.**
 
 Traditional: Code → Tests → Docs (afterthought)
-Required: **Spec → Plan → Tasks → Verify → Code**
+Required: **PRD → Issues → Spec → Plan → Tasks → Verify → Code**
+
+### PRD Gate (Mandatory)
+
+**Rule: No coding without a PRD for anything estimated at >2 hours of work.**
+
+```text
+idea → PRD → issues → code
+```
+
+**PRD** (Product Requirements Document): Goal, input/output, constraints, core functionality, non-goals, success criteria. 10–15 minutes max. See [PRD Template](templates/prd-template.md).
+
+**Issue decomposition**: After the PRD, break into vertical slices (tracer bullets). Each issue cuts through ALL integration layers end-to-end — not a horizontal slice of one layer.
+
+Each issue must:
+
+* Be executable in <2–4 hours
+* Produce something testable
+* Not depend on unclear steps
+* Be independently verifiable
+
+**Decision rule:**
+
+```text
+If the problem is unclear → write (PRD)
+If the work is unclear   → split (issues)
+If both are clear        → code
+```
+
+**When to skip the PRD:** Trivial scripts, config changes, single-file fixes, anything completable in <2 hours. The Spec–Plan–Patch–Verify workflow (Part 1) still applies.
+
+**Automation (after 5–10 manual PRDs):** Use `write-a-prd` and `prd-to-issues` Claude Code skills for agent-assisted PRD creation and issue decomposition. Manual first — build the muscle before automating.
+
+**Reference:** See [write-a-prd](https://github.com/mattpocock/skills/tree/main/write-a-prd) and [prd-to-issues](https://github.com/mattpocock/skills/tree/main/prd-to-issues) (Pocock).
 
 **OpenSpec is the default protocol for ML/CV engineering** because:
 - ML/CV work is high-risk for AI drift (pipelines are multi-stage and stateful)
@@ -5162,6 +5196,8 @@ Required: **Spec → Plan → Tasks → Verify → Code**
 ## Mandatory Checkpoints
 
 ### Before Writing Code
+- [ ] **PRD written** (for any work >2h) — see [PRD Template](templates/prd-template.md)
+- [ ] **Issues decomposed** from PRD — vertical slices, each <2–4h, each testable
 - [ ] **OpenSpec proposal created** (`/openspec:proposal` or `openspec init`) for any work on existing code
 - [ ] Constitution exists and reflects current standards (Spec Kit only)
 - [ ] Spec has measurable acceptance criteria
@@ -5192,11 +5228,13 @@ This policy **supplements** (does not replace):
 
 ## References
 
+- **`rules/templates/prd-template.md`** — Minimal PRD template with issue decomposition rules and vertical-slice guidance
 - **`rules/references/openspec-ml-cv-reference.md`** — **AUTHORITATIVE** OpenSpec engineering reference for ML/CV teams (invariants, constraints, decision trees, ML/CV-specific patterns, failure modes, examples)
 - `rules/references/spec-protocols-guide.md` — Full protocol documentation (Spec Kit, OpenSpec, MCP)
 - `rules/references/task-management-guide.md` — Comprehensive guide on breaking features into atomic tasks and executing them in a self-improving loop (task decomposition, tasks.json schema, execution workflow, best practices, troubleshooting, metrics)
 - `rules/references/self-improving-loop-integration.md` — Integration guide for Addy Osmani's self-improving loop pattern, including modifications to CLAUDE.md, prompt, and MCP templates
 - **OpenSpec Repository:** https://github.com/Fission-AI/OpenSpec
+- **PRD Skills:** [write-a-prd](https://github.com/mattpocock/skills/tree/main/write-a-prd), [prd-to-issues](https://github.com/mattpocock/skills/tree/main/prd-to-issues) (Pocock)
 
 
 ---
