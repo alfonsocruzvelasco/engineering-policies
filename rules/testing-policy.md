@@ -1,7 +1,7 @@
 # Testing Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-03-20
+**Last updated:** 2026-03-31
 **Purpose:** Language-specific testing standards for CV/ML engineering with strict artifact isolation
 
 ---
@@ -1637,6 +1637,46 @@ def clip_bbox(bbox, image_size):
 git add tests/test_bbox.py src/bbox.py
 git commit -m "feat(bbox): add boundary clipping"
 ```
+
+#### Deep Modules Principle
+
+Prefer modules that encapsulate significant functionality behind a simple, testable interface that rarely changes. A **deep module** has a small public API surface and rich implementation — as opposed to a **shallow module** where the interface is as complex as the implementation itself.
+
+During TDD refactoring (step 3), actively look for opportunities to:
+
+- Extract deep modules that can be tested in isolation
+- Push complexity behind simple interfaces
+- Design interfaces for testability — test through public APIs, not implementation details
+
+**Good tests** exercise real code paths through public interfaces. They describe *what* the system does, not *how*. A good test reads like a specification ("user can checkout with valid cart") and survives refactors because it doesn't depend on internal structure.
+
+**Bad tests** are coupled to implementation: they mock internal collaborators, test private methods, or break when you refactor without changing behavior.
+
+**Reference:** [mattpocock/skills/tdd](https://github.com/mattpocock/skills/tree/main/tdd), [mattpocock/skills/improve-codebase-architecture](https://github.com/mattpocock/skills/tree/main/improve-codebase-architecture).
+
+#### Anti-Pattern: Horizontal Test Slicing
+
+**Do NOT write all tests first, then all implementation.** This is "horizontal slicing" — treating RED as "write all tests" and GREEN as "write all code."
+
+This produces poor tests because:
+- Tests written in bulk verify *imagined* behavior, not *actual* behavior
+- You test the *shape* of things (data structures, signatures) rather than user-facing behavior
+- Tests become insensitive to real changes — they pass when behavior breaks, fail when behavior is fine
+
+**Correct approach:** Vertical slices. One test → one implementation → repeat. Each test responds to what you learned from the previous cycle.
+
+```text
+WRONG (horizontal):
+  RED:   test1, test2, test3, test4, test5
+  GREEN: impl1, impl2, impl3, impl4, impl5
+
+RIGHT (vertical):
+  RED→GREEN: test1→impl1
+  RED→GREEN: test2→impl2
+  RED→GREEN: test3→impl3
+```
+
+**Cross-link:** For vertical-slice issue decomposition at the project level, see [`templates/prd-template.md`](templates/prd-template.md) (Issue Decomposition).
 
 ---
 

@@ -26,6 +26,7 @@
 - Never auto-apply large changes. Suggest-only or patch-with-diff by default.
 - `git status` clean before starting any task.
 - **Stopping rule:** After 3 consecutive failures without progress, STOP. Diagnose the failure trend, harden the prompt or restructure the task, and restart from a clean context. Do not retry into a poisoned context.
+- **Fresh context per plan:** Execute each plan/subtask in a new context when context usage exceeds 50%. Context rot (quality degradation from accumulated noise) is the primary cause of agent drift. See `../ai-workflow-policy.md` "Context Rot Prevention".
 - **Put state in files, not in the conversation.** After each milestone, write a checkpoint note. Start the next episode from the checkpoint artifact.
 
 ---
@@ -59,6 +60,7 @@ See `../references/ai-workflow-prompt-patterns-reference.md` (Hypothesis Stress 
 - **AI tool weaponization:** Any LLM/agent on your machine can be invoked by malware via natural-language prompts — it inherits your full filesystem and credential access. AI tools must not have standing access to credential stores. See `security-policy.md §9.4` (UNC6426 incident).
 - **IDE plugins are dependencies:** Treat extensions with the same supply chain rigor as npm packages. A legitimate plugin can be compromised after vetting (Nx Console incident, March 2026). Pin versions, review updates.
 - **CI/CD→cloud OIDC:** Repos with GitHub Actions or other CI that assume cloud roles must use least-privilege OIDC; no IAM role creation from CI. See `security-policy.md §10.2`.
+- **Git guardrails:** Block `git push`, `git reset --hard`, `git clean`, `git branch -D`, `git checkout .` via PreToolUse hooks. Agents must not execute destructive git operations autonomously. See `security-policy.md §8.1.1`.
 - **AI output:** Treat as junior PR. Mandatory security review for auth, validation, and credential-adjacent code before merge.
 
 ---

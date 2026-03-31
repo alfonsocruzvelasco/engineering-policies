@@ -49,6 +49,8 @@ Use this when you need **architectural background** rather than normative policy
 - `rodney-notes.md` — Rodney CLI browser automation tool (Go + CDP).
 - `sub-agents-ml-cv-notes.md` — Sub-agent patterns for ML/CV workflows.
 - `simplify-command-report.pdf` — Claude Code `/simplify` skill internals and review agents.
+- **[mattpocock/skills](https://github.com/mattpocock/skills)** (external) — Agent skills collection: PRD creation, issue decomposition, grill-me design interview, TDD, git guardrails, refactor planning, ubiquitous language, codebase architecture improvement.
+- **[GSD (get-shit-done)](https://github.com/gsd-build/get-shit-done)** (external) — Context engineering, context rot prevention, wave-based parallel execution, XML task plans, atomic commits, PreToolUse guardrails, multi-agent orchestration, spec-driven development.
 
 ## Retrieval, Vector DBs, and RAG
 

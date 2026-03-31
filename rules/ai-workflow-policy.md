@@ -23,6 +23,8 @@ scope: AI-assisted development workflows (core workflow, prompt engineering, ses
 - [Explicit Operating Contract (Mandatory)](#explicit-operating-contract-mandatory)
 - [Core Security Position](#core-security-position)
 - [Daily Workflow](#daily-workflow)
+- [Context Rot Prevention](#context-rot-prevention)
+- [Wave-Based Execution](#wave-based-execution-multi-agent)
 - [Task Tool Usage (Claude Code)](#task-tool-usage-claude-code)
 - [Cursor Modes](#cursor-modes)
 - [AI Model Usage Policy](#ai-model-usage-policy--local-vs-cloud)
@@ -55,6 +57,7 @@ scope: AI-assisted development workflows (core workflow, prompt engineering, ses
 
 ### Part 4: Spec-Driven Development
 - [PRD Gate (Mandatory)](#prd-gate-mandatory)
+- [Design Stress Test (Grill-Me)](#design-stress-test-grill-me)
 - [Protocol Selection](#protocol-selection-matrix)
 - [Mandatory Checkpoints](#mandatory-checkpoints)
 
@@ -285,6 +288,38 @@ This prevents "AI churn" and maintains control.
    - Different team members working on different areas
 
 **Rule:** Don't let a single session grow too large. Split work across parallel sessions.
+
+### Context Rot Prevention
+
+**Context rot** is the quality degradation that occurs as an agent fills its context window with accumulated noise (failed attempts, superseded plans, stale reasoning).
+
+**Mandatory mitigations:**
+
+1. **Fresh context per plan** — execute each plan or subtask in a new context window when possible. The work happens in fresh subagent contexts; the orchestrating session stays lean.
+2. **State in files, not conversation** — after each verified subtask, collapse state into a checkpoint file in the repository. Start the next episode from that artifact, not from conversation history.
+3. **50% context ceiling** — each subtask MUST complete within 50% of the context window. If it would exceed that, break it down further.
+4. **Never retry into a poisoned context** — if the agent is producing degraded output after multiple attempts, abort the session and restart from the last checkpoint with a clean context.
+
+**Reference:** [GSD](https://github.com/gsd-build/get-shit-done) context engineering pattern. See also: Stochastic Scheduling principle (Part 2) for `p_k` degradation analysis.
+
+### Wave-Based Execution (Multi-Agent)
+
+When executing multiple plans or subtasks, group them into **dependency waves**:
+
+- **Same wave (parallel):** Independent plans with no shared dependencies
+- **Later wave (sequential):** Plans that depend on outputs from earlier waves
+
+```text
+WAVE 1 (parallel)        WAVE 2 (parallel)        WAVE 3
+┌──────────┐ ┌──────────┐  ┌──────────┐ ┌──────────┐  ┌──────────┐
+│ Plan 01  │ │ Plan 02  │→ │ Plan 03  │ │ Plan 04  │→ │ Plan 05  │
+│ (indep.) │ │ (indep.) │  │ (needs 1)│ │ (needs 2)│  │(needs 3+4│
+└──────────┘ └──────────┘  └──────────┘ └──────────┘  └──────────┘
+```
+
+**Vertical slices parallelize better than horizontal layers.** A plan that delivers one feature end-to-end (schema → API → UI → test) can run in parallel with another feature slice. A plan that only delivers "all models" forces all downstream work to wait.
+
+**Reference:** [GSD](https://github.com/gsd-build/get-shit-done) wave execution pattern.
 
 **See also:** Part 3: Session Management for comprehensive session lifecycle management, coordination guidelines, and metrics tracking.
 
@@ -3265,9 +3300,30 @@ If both are clear        → code
 
 **When to skip the PRD:** Trivial scripts, config changes, single-file fixes, anything completable in <2 hours. The Spec–Plan–Patch–Verify workflow (Part 1) still applies.
 
-**Automation (after 5–10 manual PRDs):** Use `write-a-prd` and `prd-to-issues` Claude Code skills for agent-assisted PRD creation and issue decomposition. Manual first — build the muscle before automating.
+**Automation (after 5–10 manual PRDs):** Use `write-a-prd`, `prd-to-issues`, and `prd-to-plan` Claude Code skills for agent-assisted PRD creation, issue decomposition, and multi-phase implementation planning (tracer-bullet vertical slices). Use `grill-me` to stress-test designs and `request-refactor-plan` for tiny-commit refactoring plans. Manual first — build the muscle before automating.
 
-**Reference:** See [write-a-prd](https://github.com/mattpocock/skills/tree/main/write-a-prd) and [prd-to-issues](https://github.com/mattpocock/skills/tree/main/prd-to-issues) (Pocock).
+**Reference:** See [write-a-prd](https://github.com/mattpocock/skills/tree/main/write-a-prd), [prd-to-issues](https://github.com/mattpocock/skills/tree/main/prd-to-issues), [prd-to-plan](https://github.com/mattpocock/skills/tree/main/prd-to-plan), [grill-me](https://github.com/mattpocock/skills/tree/main/grill-me), [request-refactor-plan](https://github.com/mattpocock/skills/tree/main/request-refactor-plan) (Pocock). See [GSD](https://github.com/gsd-build/get-shit-done) for context engineering, wave execution, and spec-driven development patterns.
+
+### Design Stress Test (Grill-Me)
+
+**Before implementing a complex PRD, stress-test the design.** Walk every branch of the decision tree until every design question is resolved.
+
+**Protocol:**
+
+1. For each decision point in the PRD, identify the recommended answer
+2. Resolve dependencies between decisions one-by-one (order matters — some choices constrain others)
+3. If a question can be answered by exploring the codebase, explore instead of speculating
+4. Ask questions one at a time — don't batch unresolved branches
+
+**When to use:**
+- Complex PRDs touching multiple modules or integration layers
+- Unfamiliar domains where hidden assumptions are likely
+- Architectural decisions with long-term consequences
+- Any PRD where the implementation path is ambiguous
+
+**When to skip:** Straightforward PRDs with clear, linear implementation paths.
+
+**Reference:** [grill-me](https://github.com/mattpocock/skills/tree/main/grill-me) (Pocock).
 
 **OpenSpec is the default protocol for ML/CV engineering** because:
 - ML/CV work is high-risk for AI drift (pipelines are multi-stage and stateful)
@@ -3297,7 +3353,9 @@ If both are clear        → code
 
 ### Before Writing Code
 - [ ] **PRD written** (for any work >2h) — see [PRD Template](templates/prd-template.md)
-- [ ] **Issues decomposed** from PRD — vertical slices, each <2–4h, each testable
+- [ ] **Design stress-tested** (for complex PRDs) — walk every branch of the decision tree; see [Design Stress Test](#design-stress-test-grill-me)
+- [ ] **Issues decomposed** from PRD — vertical slices (HITL/AFK classified), each <2–4h, each testable
+- [ ] **Ubiquitous language glossary extracted** (for domain-heavy PRDs) — DDD-style glossary ensuring codebase, PRD, and conversation use identical terms. See [ubiquitous-language](https://github.com/mattpocock/skills/tree/main/ubiquitous-language) (Pocock).
 - [ ] **OpenSpec proposal created** (`/openspec:proposal` or `openspec init`) for any work on existing code
 - [ ] Constitution exists and reflects current standards (Spec Kit only)
 - [ ] Spec has measurable acceptance criteria
@@ -3334,7 +3392,8 @@ This policy **supplements** (does not replace):
 - `rules/references/task-management-guide.md` — Comprehensive guide on breaking features into atomic tasks and executing them in a self-improving loop (task decomposition, tasks.json schema, execution workflow, best practices, troubleshooting, metrics)
 - `rules/references/self-improving-loop-integration.md` — Integration guide for Addy Osmani's self-improving loop pattern, including modifications to CLAUDE.md, prompt, and MCP templates
 - **OpenSpec Repository:** https://github.com/Fission-AI/OpenSpec
-- **PRD Skills:** [write-a-prd](https://github.com/mattpocock/skills/tree/main/write-a-prd), [prd-to-issues](https://github.com/mattpocock/skills/tree/main/prd-to-issues) (Pocock)
+- **PRD & Design Skills:** [write-a-prd](https://github.com/mattpocock/skills/tree/main/write-a-prd), [prd-to-issues](https://github.com/mattpocock/skills/tree/main/prd-to-issues), [prd-to-plan](https://github.com/mattpocock/skills/tree/main/prd-to-plan), [grill-me](https://github.com/mattpocock/skills/tree/main/grill-me), [request-refactor-plan](https://github.com/mattpocock/skills/tree/main/request-refactor-plan), [ubiquitous-language](https://github.com/mattpocock/skills/tree/main/ubiquitous-language) (Pocock)
+- **GSD (Get Shit Done):** [gsd-build/get-shit-done](https://github.com/gsd-build/get-shit-done) — context engineering, wave execution, atomic commits, PreToolUse guardrails, spec-driven development (TÂCHES)
 
 
 ---

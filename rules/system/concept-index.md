@@ -26,6 +26,9 @@ scope: Concept-to-authority lookup for policies and references
 | Token optimization, slash commands, and context engineering | `rules/ai-workflow-policy.md` (Part 2 summary) | `rules/references/ai-workflow-prompt-patterns-reference.md` |
 | Skills management, agent delegation, and learning protocol | `rules/ai-workflow-policy.md` (Part 1 summary) | `rules/references/ai-workflow-agent-skills-reference.md` |
 | PRD gate and issue decomposition (mandatory for >2h work) | `rules/ai-workflow-policy.md` Part 4 (PRD Gate) | `rules/templates/prd-template.md` |
+| Design stress test (grill-me) and PRD-to-plan workflow | `rules/ai-workflow-policy.md` Part 4 (Design Stress Test) | [grill-me](https://github.com/mattpocock/skills/tree/main/grill-me), [prd-to-plan](https://github.com/mattpocock/skills/tree/main/prd-to-plan) |
+| Context rot prevention and wave-based execution | `rules/ai-workflow-policy.md` Part 1 (Context Rot Prevention, Wave-Based Execution) | [GSD](https://github.com/gsd-build/get-shit-done) |
+| Ubiquitous language (DDD glossary extraction) | `rules/ai-workflow-policy.md` Part 4 (Before Writing Code checklist) | [ubiquitous-language](https://github.com/mattpocock/skills/tree/main/ubiquitous-language) |
 | Spec-driven development (OpenSpec, protocols) | `rules/ai-workflow-policy.md` Part 4 | `rules/references/spec-protocols-guide.md`, `rules/references/openspec-ml-cv-reference.md` |
 
 ## Security & AI Tools
@@ -36,6 +39,7 @@ scope: Concept-to-authority lookup for policies and references
 | AI-assisted coding security (tool use, OWASP LLM) | `rules/security-policy.md` Part 2 | `rules/references/ai-mutation-testing-debugging-reference.md`, `rules/references/integration-reliability-ai-systems.md` |
 | Prohibited AI tools & enforcement | `rules/security-policy.md` §14.6, `rules/approved-ai-tools.md` | `rules/ai-tool-policy-quick-reference.md`, `rules/references/integration-guide.md`, `rules/references/open-claw-security-policy.md` |
 | OpenClaw / agentic endpoint risk | `rules/security-policy.md` §14.6 (prohibited) | `rules/references/open-claw-security-policy.md` |
+| PreToolUse agent guardrail hooks (git, prompt injection, file deny-lists) | `rules/security-policy.md` §8.1.1 | [git-guardrails-claude-code](https://github.com/mattpocock/skills/tree/main/git-guardrails-claude-code), [GSD](https://github.com/gsd-build/get-shit-done) |
 | Runtime agent governance (visibility + signed audit logs) | `rules/security-policy.md` §8.1 | `rules/references/ceros-claude-code-visibility-control-reference.md`, `rules/references/security-enterprise-controls-reference.md` |
 | Enterprise security controls (trust layer, OIDC, logging) | `rules/security-policy.md` (summaries) | `rules/references/security-enterprise-controls-reference.md` |
 | Agent runtime egress hardening + observability URL safety + safe deserialization | `rules/security-policy.md` §§8.2-8.4 | `rules/references/ai-flaws-bedrock-langsmith-sglang-visibility-rce-exfil-reference.md` |
@@ -57,6 +61,7 @@ scope: Concept-to-authority lookup for policies and references
 |--------|----------------------|-----------------------|
 | CV/ML production engineering baseline | `rules/production-policy.md` | Language/infra-specific policies referenced from it |
 | Testing strategy across languages & layers | `rules/testing-policy.md` | `rules/references/ai-mutation-testing-debugging-reference.md` |
+| Deep modules and vertical-slice TDD | `rules/testing-policy.md` (§7.8 TDD Guidance) | [tdd](https://github.com/mattpocock/skills/tree/main/tdd), [improve-codebase-architecture](https://github.com/mattpocock/skills/tree/main/improve-codebase-architecture) |
 | MLOps, model lifecycle, harnesses | `rules/mlops-policy.md` | `rules/references/integration-reliability-ai-systems.md` |
 | ML/CV experiment tracking (learning phase) | `rules/ml-experiment-tracking-policy.md` | Repo READMEs using `EXPERIMENTS.md` |
 

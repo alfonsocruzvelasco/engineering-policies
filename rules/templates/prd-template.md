@@ -48,6 +48,14 @@ Each issue must:
 - Produce something testable
 - Not depend on unclear steps
 - Be independently verifiable (demoable or testable on its own)
+- Be classified as **AFK** or **HITL** (see below)
+
+**Slice classification:**
+
+| Type | Meaning | Preference |
+|------|---------|------------|
+| **AFK** | Can be implemented and merged without human interaction | Preferred — maximizes parallel autonomous execution |
+| **HITL** | Requires human decision, design review, or approval before proceeding | Use when architectural choices or trade-offs need human judgment |
 
 ```text
 BAD:
@@ -66,6 +74,10 @@ GOOD:
 ## Parent PRD
 
 <link or title>
+
+## Type
+
+AFK / HITL
 
 ## What to Build
 

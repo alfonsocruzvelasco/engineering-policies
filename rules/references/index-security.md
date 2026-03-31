@@ -24,6 +24,11 @@ Use this when you need **supporting evidence** or deeper context for security an
 - `a-qualitative-study-on-security-practices-and-concerns.pdf` — Qualitative study on developer security practices.
 - `the-dark-side-of-llms.pdf` — LLM risks, dark patterns, and adversarial concerns.
 
+## PreToolUse Guardrails
+
+- **[git-guardrails-claude-code](https://github.com/mattpocock/skills/tree/main/git-guardrails-claude-code)** (external) — PreToolUse hook blocking dangerous git commands (push, reset --hard, clean, branch -D). See `security-policy.md` §8.1.1.
+- **[GSD prompt-guard](https://github.com/gsd-build/get-shit-done)** (external) — PreToolUse prompt injection scanning for planning artifacts at write-time. See `security-policy.md` §8.1.1.
+
 ## Agentic Risks & Behavior
 
 - `agents-of-chaos.pdf` — Agentic failure modes in deployed systems.
