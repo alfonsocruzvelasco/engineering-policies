@@ -37,6 +37,7 @@ scope: Concept-to-authority lookup for policies and references
 |--------|----------------------|-----------------------|
 | Secrets, IAM, infra access, API security | `rules/security-policy.md` | Cloud/provider docs as cited inside `security-policy.md` |
 | OWASP cheat sheet alignment (npm; pip/PyPI equivalent controls) | `rules/security-policy.md` §9.3 | [OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/index.html), [NPM Security](https://cheatsheetseries.owasp.org/cheatsheets/NPM_Security_Cheat_Sheet.html) |
+| Dependency install discipline (checklist) | `rules/dependency-install-policy.md` | `rules/security-policy.md` §§9–9.4, `rules/language-policies.md` |
 | AI-assisted coding security (tool use, OWASP LLM) | `rules/security-policy.md` Part 2 | `rules/references/ai-mutation-testing-debugging-reference.md`, `rules/references/integration-reliability-ai-systems.md` |
 | Prohibited AI tools & enforcement | `rules/security-policy.md` §14.6, `rules/approved-ai-tools.md` | `rules/ai-tool-policy-quick-reference.md`, `rules/references/integration-guide.md`, `rules/references/open-claw-security-policy.md` |
 | OpenClaw / agentic endpoint risk | `rules/security-policy.md` §14.6 (prohibited) | `rules/references/open-claw-security-policy.md` |

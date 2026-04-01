@@ -484,6 +484,7 @@ If a serving framework uses brokered execution (e.g., ZeroMQ) and performs unsaf
 ---
 ## 9) Dependency and supply-chain security
 
+* **Daily checklist:** [`dependency-install-policy.md`](dependency-install-policy.md) — core rule, mandatory install discipline, agent rules, one-line question.
 * Dependencies are pinned (lockfiles required where applicable).
 * New dependencies require review (license, maintenance, security posture).
 * Vulnerability scanning is enabled in CI where available.

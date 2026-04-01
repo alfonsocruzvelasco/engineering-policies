@@ -9,6 +9,10 @@ scope: Security, AI safety, and eval references
 
 Use this when you need **supporting evidence** or deeper context for security and evaluation policies.
 
+## Operational policy (repo)
+
+- `../dependency-install-policy.md` — Daily checklist: install = code execution, pins/lockfiles, no blind/fresh installs, isolate risky installs, agent rules; points to `security-policy.md` §9.
+
 ## OWASP Cheat Sheet Series (external)
 
 - **[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/index.html)** — Canonical topic-based application security guidance; **normative alignment** for npm is mandated in `security-policy.md` §9.3.

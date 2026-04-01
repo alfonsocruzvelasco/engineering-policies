@@ -146,6 +146,9 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
   - **Reference companion:** `references/security-enterprise-controls-reference.md` (runtime trust layer, isolate sandbox details, OIDC hardening, logging/audit expectations)
   *Previously separate files: `security-policy.md` (core) and `ai-coding-security-policy.md` (AI-specific)*
 
+- **`rules/dependency-install-policy.md`**
+  *Short mandatory checklist: installing dependencies = executing code; no blind/fresh installs; pins + lockfiles; isolate risky installs; agent planning vs execution; one-line permission question. Detail in `security-policy.md` §9 and §§9.3–9.4; npm/Python in `language-policies.md`.*
+
 - **`rules/approved-ai-tools.md`** **[NEW 2026-02-07]**
   *Authoritative registry of approved AI coding tools*
   (approval criteria checklist, detailed tool profiles: Anthropic Claude API, OpenAI API, GitHub Copilot Enterprise, Cursor IDE, Claude Code, Ollama, recertification schedule, tool evaluation process, exception handling)
