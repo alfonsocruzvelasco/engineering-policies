@@ -9,6 +9,12 @@ scope: Security, AI safety, and eval references
 
 Use this when you need **supporting evidence** or deeper context for security and evaluation policies.
 
+## OWASP Cheat Sheet Series (external)
+
+- **[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/index.html)** — Canonical topic-based application security guidance; **normative alignment** for npm is mandated in `security-policy.md` §9.3.
+- **[NPM Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/NPM_Security_Cheat_Sheet.html)** — Lockfiles, lifecycle scripts, audit, typosquatting/slopsquatting, dependency confusion, tokens, provenance (see §9.3–9.5).
+- **pip / PyPI:** No dedicated OWASP sheet; `security-policy.md` §9.3 translates the same principles (pins/lockfiles, `pip-audit`/`safety`, install = execution risk, slopsquatting).
+
 ## AI Security & Code Safety
 
 - `open-claw-security-policy.md` — OpenClaw agent risk and prohibition rationale.

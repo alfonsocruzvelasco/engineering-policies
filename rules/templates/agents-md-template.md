@@ -56,7 +56,7 @@ See `../references/ai-workflow-prompt-patterns-reference.md` (Hypothesis Stress 
 - **Secrets:** Never in Git, ever. Rotate immediately on suspected exposure.
 - **Pickle / model deserialization:** Treat as untrusted input unless loaded from verified S3 + hash-validated path. No user input in model path.
 - **Prompt injection:** Natural language in config files, system prompts, and docs is an executable attack surface. Scan it like code. See `security-policy.md §9.6` and `§19`.
-- **Dependencies:** Pin versions, lock files required. New deps need review (license, CVEs, provenance). OIDC-only for publishing — no long-lived tokens. Block npm postinstall scripts by default (`ignore-scripts=true`). See `security-policy.md §9.4`.
+- **Dependencies:** Pin versions, lock files required. New deps need review (license, CVEs, provenance). OWASP-aligned npm/PyPI hygiene (`security-policy.md` §9.3). OIDC-only for publishing — no long-lived tokens. Block npm postinstall scripts by default (`ignore-scripts=true`). See `security-policy.md` §§9.3–9.4.
 - **AI tool weaponization:** Any LLM/agent on your machine can be invoked by malware via natural-language prompts — it inherits your full filesystem and credential access. AI tools must not have standing access to credential stores. See `security-policy.md §9.4` (UNC6426 incident).
 - **IDE plugins are dependencies:** Treat extensions with the same supply chain rigor as npm packages. A legitimate plugin can be compromised after vetting (Nx Console incident, March 2026). Pin versions, review updates.
 - **CI/CD→cloud OIDC:** Repos with GitHub Actions or other CI that assume cloud roles must use least-privilege OIDC; no IAM role creation from CI. See `security-policy.md §10.2`.

@@ -8,7 +8,7 @@ scope: Security controls for secrets, IAM, infrastructure access, API/tool-use s
 # Security Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-03-31
+**Last updated:** 2026-04-01
 
 **Scope:** This policy defines how **credentials, secrets, dependencies, identity and access controls, APIs, and AI-assisted engineering risks** are handled. It applies to all environments (local, CI, staging, production) and all repositories, with special emphasis on ML/CV engineering security.
 
@@ -29,6 +29,7 @@ scope: Security controls for secrets, IAM, infrastructure access, API/tool-use s
 - [Authentication vs Authorization Boundary](#7-authentication-vs-authorization-boundary)
 - [API-Calling Agents (Tool Use Security)](#8-api-calling-agents-tool-use-security)
 - [Dependency and Supply-Chain Security](#9-dependency-and-supply-chain-security)
+  - [9.3 OWASP npm and PyPI](#93-owasp-cheat-sheet-alignment-npm-and-pypi)
 - [Cloud Security Baseline](#10-cloud-security-baseline-common-cloud-technologies)
 - [Data Security (CV/ML Context)](#11-data-security-cvml-context)
 - [ML/CV Engineering Security Best Practices](#12-mlcv-engineering-security-best-practices)
@@ -502,6 +503,35 @@ If a serving framework uses brokered execution (e.g., ZeroMQ) and performs unsaf
 * CUDA/GPU drivers must be kept up-to-date for security patches
 * Data processing libraries (PIL, OpenCV, etc.) must be pinned and scanned for vulnerabilities
 * Model serialization formats (pickle, ONNX, etc.) must be validated before deserialization
+
+### 9.3) OWASP cheat sheet alignment (npm and PyPI)
+
+**Authoritative external guidance:** [OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/index.html). This subsection **mandates alignment** with that corpus for JavaScript/Node and with the **same principles** for Python (OWASP does not publish a dedicated pip/PyPI cheat sheet).
+
+#### npm / Node.js (mandatory: [OWASP NPM Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/NPM_Security_Cheat_Sheet.html))
+
+* **Assume `npm install` / `npm ci` can execute vendor code** via lifecycle hooks; combine this subsection with §9.4 (ignore-scripts, allowlists).
+* **Lockfile discipline:** CI MUST use `npm ci` (or equivalent frozen install) so `package.json` and `package-lock.json` cannot drift; fail the build on mismatch.
+* **Publishing secrets:** Never publish credentials; use `package.json` `files` as an allowlist where appropriate; keep `.npmignore` consistent with secret risk (`.gitignore` alone is not enough for publish); use `npm publish --dry-run` to inspect the tarball before publish.
+* **Vulnerability and health:** Run `npm audit` in CI on relevant repos; use `npm outdated` / `npm doctor` periodically for environment health (not a substitute for review).
+* **Typosquatting and slopsquatting:** Verify package name, repository, maintainer, and download history before adding a dependency; **never install a package solely because an AI suggested a name** — confirm it exists and is the intended package (slopsquatting).
+* **Dependency confusion:** Use **scoped** names for private packages (`@org/pkg`); map scopes to the correct registry in `.npmrc`; reserve or placeholder internal names on the public registry where applicable.
+* **Supply chain artifacts:** Prefer SBOM/provenance and signed or attested packages where the ecosystem supports it (see also §9 intro and OWASP sheet sections on governance).
+* **Account security:** 2FA and token hygiene for publishing — see §9.5 (npm trusted publishing / OIDC).
+
+#### pip and PyPI (mandatory — OWASP principles; no dedicated OWASP pip sheet)
+
+* **Assume `pip install` (and equivalent: `uv pip install`, Poetry, etc.) pulls code that may run at install time** (build backends, malicious packages). Treat every install as **supply-chain execution risk**, not a passive file copy.
+* **Pinning:** Pin direct dependencies with exact versions or a **lockfile** (`uv.lock`, `poetry.lock`, `requirements.txt` generated with hashes via pip-tools, or team-standard equivalent). CI installs MUST be reproducible from committed lock artifacts where the toolchain supports it.
+* **Audit:** Run **`pip-audit`** and/or **`safety`** (or equivalent SCA) in CI or pre-merge when dependencies change; block or triage known-critical CVEs per team process.
+* **Minimize dependencies:** Fewer packages means smaller attack surface (OWASP general principle).
+* **Release lag:** Avoid adopting **brand-new** releases immediately (supply-chain and compromise windows); prefer versions with a short observation period unless applying an urgent security fix.
+* **Verification before install:** Check PyPI project page, linked repository, maintainer activity, and typosquatting risk; apply the same **slopsquatting** rule as npm for AI-suggested names.
+* **Isolation:** Use per-project virtual environments or containers; **never** `sudo pip install` on development machines; do not install untrusted packages into a global interpreter.
+* **Secrets:** No secrets in repo or in package metadata; inject via environment or secret manager (see §2–3).
+* **Runtime code safety:** Do not `eval`/`exec` untrusted data in application code; treat deserialization (e.g. `pickle`) as a trust boundary (see §8.4, §11, §15 as applicable).
+
+**Resilience framing:** No package ecosystem is “bullet-proof”; these controls aim for **resilience** — detect drift, limit blast radius, and slow high-risk supply-chain paths.
 
 ### 9.4) Install script and IDE extension supply chain defense
 

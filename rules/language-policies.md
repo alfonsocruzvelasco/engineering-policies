@@ -114,7 +114,7 @@ It applies equally to local development, CI, and production builds.
 
 35. **Prefer hashes in locked requirements** where feasible (pip-tools `--generate-hashes`) for stronger integrity.
 36. **Pin build backends and tooling** in CI when your org needs strict reproducibility.
-37. **Scan dependencies** (SCA tooling) in CI; treat high-severity CVEs as build-breaking per policy.
+37. **Scan dependencies** (SCA tooling: `pip-audit`, `safety`, or equivalent) in CI; treat high-severity CVEs as build-breaking per policy. Follow OWASP-aligned PyPI controls in `security-policy.md` §9.3 (install = execution risk, pins/lockfiles, slopsquatting checks, lag on brand-new releases).
 38. **No `pip install` from untrusted sources** (random URLs). Approved indexes only.
 39. **Avoid running `pip` as admin/root**; use least privilege.
 
@@ -266,7 +266,7 @@ Below is the equivalent “professional-team grade” rule set for **Node.js + n
 ## 12) Security and supply chain
 
 50. **Run `npm audit` (or org’s scanner) in CI** with a defined policy for failures.
-51. **Block install scripts by default** (`ignore-scripts=true` in `.npmrc`). Explicitly allowlist packages that require postinstall hooks after human review. See `security-policy.md §9.4` (UNC6426 supply chain attack reference).
+51. **Block install scripts by default** (`ignore-scripts=true` in `.npmrc`). Explicitly allowlist packages that require postinstall hooks after human review. See `security-policy.md` §9.3 (OWASP npm alignment) and §9.4 (UNC6426 supply chain attack reference).
 52. **Pin critical dependencies** if you’ve had supply-chain incidents or strict compliance needs.
 53. **Use provenance/attestations if your org requires it** (policy-driven).
 54. **Never commit `.npmrc` with tokens.** Use environment/CI secret injection.

@@ -13,7 +13,7 @@ Convenience symlinks:
 - `~/policies` -> `~/dev/repos/github.com/alfonsocruzvelasco/engineering-policies/`
 
 **Status:** Authoritative
-**Last updated:** 2026-03-31
+**Last updated:** 2026-04-01
 
 This repository is the **single source of truth** for how software is designed, built, reviewed, shipped, secured, and maintained across all of my development work.
 
@@ -140,7 +140,7 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
 
 - **`rules/security-policy.md`** **[CONSOLIDATED 2026-02-01, UPDATED 2026-02-07]**
   *Unified security policy consolidating core security baseline and AI-assisted coding security*
-  - **Part 1: Core Security** — Secrets handling, IAM, OAuth 2.0, SSH & infrastructure access, API security, dependency security, cloud security, ML/CV security, prompt injection defense, mandatory verification gates
+  - **Part 1: Core Security** — Secrets handling, IAM, OAuth 2.0, SSH & infrastructure access, API security, dependency security (OWASP Cheat Sheet alignment for npm and PyPI in §9.3), cloud security, ML/CV security, prompt injection defense, mandatory verification gates
   - **Part 2: AI-Assisted Coding Security** — OWASP Top 10 for LLMs coverage, OAuth 2.0 for AI/agents, SSH & infrastructure access, API-calling agents security, tool use security with Guardrails AI, output sanitization, agent resource limits, prompt injection defense, ML/CV-specific security, supply chain security, four-layer verification gates, required security tooling, incident response
   - **Section 14.6: Prohibited External AI Tool Classes** — Prohibited tool categories, required tool characteristics, approved tool examples, enforcement and violation handling, developer resources
   - **Reference companion:** `references/security-enterprise-controls-reference.md` (runtime trust layer, isolate sandbox details, OIDC hardening, logging/audit expectations)
