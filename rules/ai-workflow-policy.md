@@ -8,7 +8,7 @@ scope: AI-assisted development workflows (core workflow, prompt engineering, ses
 # AI Workflow Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-03-31
+**Last updated:** 2026-04-01
 
 **Scope:** This policy governs all AI-assisted development workflows, including Cursor usage, prompt engineering, session management, and spec-driven development. It consolidates the previously separate policies: `ai-workflow-policy.md (Part 1: Core Workflow)`, `ai-workflow-policy.md (Part 2: Prompt Engineering)`, `ai-workflow-policy.md (Part 3: Session Management)`, and `ai-workflow-policy.md (Part 4: Spec-Driven Development)`.
 
@@ -1636,6 +1636,10 @@ rodney verify --ui-outputs ./ml-outputs --exit-code-on-failure
 3. **Falsify** the hypothesis with data
 4. Iterate based on evidence, not assumptions
 
+**Anti-sycophancy guardrail (mandatory):**
+- Never accept AI dialogue as evidence. Treat AI-confirmed hypotheses and user-suggested conclusions as *claims* until you gather independent evidence or run a falsification step.
+- If you cannot produce an observable artifact (tests, logs, measurements, external verification), reject the conclusion and request the missing evidence.
+
 ---
 
 ## Operational Readiness Requirements
@@ -2510,6 +2514,10 @@ After AI generates code, tests, or documentation:
 2. **Instrument** to gather evidence (logs, metrics, traces)
 3. **Falsify** the hypothesis with data (don't trust assumptions)
 4. **Iterate** based on evidence, not assumptions
+
+**Anti-sycophancy guardrail (mandatory):**
+- Never accept AI dialogue as evidence. Treat AI-confirmed hypotheses and user-suggested conclusions as *claims* until you gather independent evidence or run a falsification step.
+- If you cannot produce an observable artifact (tests, logs, measurements, external verification), reject the conclusion and request the missing evidence.
 
 **Verification checkpoint:** If you can't falsify a hypothesis with data, the hypothesis is not testable and should be rejected.
 
