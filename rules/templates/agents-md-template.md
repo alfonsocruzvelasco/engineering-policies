@@ -61,6 +61,7 @@ See `../references/ai-workflow-prompt-patterns-reference.md` (Hypothesis Stress 
 - **IDE plugins are dependencies:** Treat extensions with the same supply chain rigor as npm packages. A legitimate plugin can be compromised after vetting (Nx Console incident, March 2026). Pin versions, review updates.
 - **CI/CD→cloud OIDC:** Repos with GitHub Actions or other CI that assume cloud roles must use least-privilege OIDC; no IAM role creation from CI. See `security-policy.md §10.2`.
 - **Git guardrails:** Block `git push`, `git reset --hard`, `git clean`, `git branch -D`, `git checkout .` via PreToolUse hooks. Agents must not execute destructive git operations autonomously. See `security-policy.md §8.1.1`.
+- **Claude Code Web:** Browser/cloud async agent ≠ local CLI. Do not use for ML/CV core, secrets, credentials, or datasets unless human explicitly overrides per `../claude-code-web-usage-policy.md`.
 - **AI output:** Treat as junior PR. Mandatory security review for auth, validation, and credential-adjacent code before merge.
 
 ---

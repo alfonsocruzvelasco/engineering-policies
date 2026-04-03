@@ -18,6 +18,7 @@ scope: Concept-to-authority lookup for policies and references
 | Concept | Authoritative policy | Supporting references |
 |--------|----------------------|-----------------------|
 | AI-assisted development workflow (Cursor, agents, sessions) | `rules/ai-workflow-policy.md` | `rules/references/ai-systems-architecture.md`, `rules/references/architecture-notes.md` |
+| Claude Code Web (browser / cloud agent) vs local Claude Code | `rules/claude-code-web-usage-policy.md` | `rules/security-policy.md` §14, `rules/approved-ai-tools.md` (Claude Code) |
 | Event-driven agent execution (Channels, async messaging interface) | `rules/ai-workflow-policy.md` | `rules/references/ai-agent-platform-infrastructure.md` |
 | Executable output and sandboxed code execution | `rules/ai-workflow-policy.md`, `rules/security-policy.md` §§8.2-8.4, §14.4 | `rules/references/code-mode-cloudflare.pdf`, `rules/references/cloudflare-ai-sandboxing.pdf`, `rules/references/sandboxing-ai-agents-100x-faster.pdf` |
 | English-first prompts & multilingual strategy | `rules/ai-workflow-policy.md` (Part 2: Prompt Engineering) | `rules/references/a-fail-comparison-without-translationese.pdf`, `rules/references/do-multilingual-language-models-think-better-in-english.pdf`, `rules/references/do-multilingual-llms-think-in-english.pdf`, `rules/references/do-all-languages-cost-the-same.pdf` |

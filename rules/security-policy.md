@@ -8,7 +8,7 @@ scope: Security controls for secrets, IAM, infrastructure access, API/tool-use s
 # Security Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-04-01
+**Last updated:** 2026-04-02
 
 **Scope:** This policy defines how **credentials, secrets, dependencies, identity and access controls, APIs, and AI-assisted engineering risks** are handled. It applies to all environments (local, CI, staging, production) and all repositories, with special emphasis on ML/CV engineering security.
 
@@ -944,6 +944,8 @@ AI tools accelerate work but introduce predictable risks. This section is mandat
 
 **Core Principle:**
 External AI code-generation models MUST be treated as untrusted junior engineers with no organizational loyalty, no security clearance, and no accountability. All interactions with external AI models are considered potential data exfiltration vectors and must be subject to strict controls.
+
+**Claude Code Web (browser / cloud coding agent):** Not equivalent to local Claude Code (CLI). Higher **loss-of-control** and **exfiltration** risk (remote sandbox, async execution, GitHub integration). Mandatory allow/deny boundaries, workflow, and mental model: [`claude-code-web-usage-policy.md`](claude-code-web-usage-policy.md).
 
 ### 14.1 Risk Model for External AI Code Generators
 

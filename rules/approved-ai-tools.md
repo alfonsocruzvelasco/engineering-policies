@@ -356,6 +356,8 @@ For minimal, policy-compliant evaluation use only (no production, no real code):
 **Documentation:** https://docs.anthropic.com/claude-code
 **Support:** Anthropic support portal
 
+**Related product (separate posture — Claude Code Web):** Browser/cloud async agent with GitHub integration is **not** classified the same as local CLI Claude Code for data-exfiltration and control boundaries. **MUST** follow [`claude-code-web-usage-policy.md`](claude-code-web-usage-policy.md) (forbidden for ML/CV core, secrets, credentials, datasets, infra configs; review-before-integrate).
+
 ---
 
 ### Category: Self-Hosted LLMs (Air-Gapped)

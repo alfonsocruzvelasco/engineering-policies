@@ -13,7 +13,7 @@ Convenience symlinks:
 - `~/policies` -> `~/dev/repos/github.com/alfonsocruzvelasco/engineering-policies/`
 
 **Status:** Authoritative
-**Last updated:** 2026-04-01
+**Last updated:** 2026-04-02
 
 This repository is the **single source of truth** for how software is designed, built, reviewed, shipped, secured, and maintained across all of my development work.
 
@@ -129,7 +129,7 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
 
 - **`rules/ai-workflow-policy.md`** **[CONSOLIDATED 2026-02-01]**
   *Comprehensive AI workflow policy consolidating core workflow, prompt engineering, session management, and spec-driven development*
-  - **Part 1: Core Workflow** — Cursor usage, sandbox enforcement, daily workflow, AI model usage, Git discipline, MCP, tool use security, verification-first mindset, agent cost budgeting, **Spec–Plan–Patch–Verify default workflow**
+  - **Part 1: Core Workflow** — Cursor usage, sandbox enforcement, daily workflow, AI model usage, Git discipline, MCP, tool use security, verification-first mindset, agent cost budgeting, **Spec–Plan–Patch–Verify default workflow**, **Claude Code Web vs local Claude Code** (see `claude-code-web-usage-policy.md`)
   - **Part 2: Prompt Engineering** — Operating principles, **p-stabilization techniques**, system design principles (workflow-over-model, executable output, event-driven, **stochastic scheduling**), English-first architecture, verification checklist, PI defense, CV/ML execution mode
   - **Part 3: Session Management** — Session types, parallel workflows, session lifecycle, **reliability surface (pass@k, cost stability, thrash score, fragility)**, anti-patterns
   - **Part 4: Spec-Driven Development** — **PRD gate (mandatory for >2h work)**, vertical-slice issue decomposition, protocol selection (**OpenSpec preferred for ML/CV**)
@@ -148,6 +148,9 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
 
 - **`rules/dependency-install-policy.md`**
   *Short mandatory checklist: installing dependencies = executing code; no blind/fresh installs; pins + lockfiles; isolate risky installs; agent planning vs execution; one-line permission question. Detail in `security-policy.md` §9 and §§9.3–9.4; npm/Python in `language-policies.md`.*
+
+- **`rules/claude-code-web-usage-policy.md`**
+  *Claude Code Web (browser / cloud async agent): not primary tooling; allowed only for low-risk/async/delegation; forbidden for ML/CV core, secrets, credentials, datasets, infra configs; remote execution = loss of control; review-before-integrate. Cross-linked from `security-policy.md` §14, `ai-workflow-policy.md`, `approved-ai-tools.md`.*
 
 - **`rules/approved-ai-tools.md`** **[NEW 2026-02-07]**
   *Authoritative registry of approved AI coding tools*

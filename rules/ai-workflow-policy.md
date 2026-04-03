@@ -8,7 +8,7 @@ scope: AI-assisted development workflows (core workflow, prompt engineering, ses
 # AI Workflow Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-04-01
+**Last updated:** 2026-04-02
 
 **Scope:** This policy governs all AI-assisted development workflows, including Cursor usage, prompt engineering, session management, and spec-driven development. It consolidates the previously separate policies: `ai-workflow-policy.md (Part 1: Core Workflow)`, `ai-workflow-policy.md (Part 2: Prompt Engineering)`, `ai-workflow-policy.md (Part 3: Session Management)`, and `ai-workflow-policy.md (Part 4: Spec-Driven Development)`.
 
@@ -26,6 +26,7 @@ scope: AI-assisted development workflows (core workflow, prompt engineering, ses
 - [Context Rot Prevention](#context-rot-prevention)
 - [Wave-Based Execution](#wave-based-execution-multi-agent)
 - [Task Tool Usage (Claude Code)](#task-tool-usage-claude-code)
+- [Claude Code Web vs local Claude Code](#claude-code-web-vs-local-claude-code)
 - [Cursor Modes](#cursor-modes)
 - [AI Model Usage Policy](#ai-model-usage-policy--local-vs-cloud)
 - [Git Discipline](#git-discipline)
@@ -362,6 +363,14 @@ WAVE 1 (parallel)        WAVE 2 (parallel)        WAVE 3
    - ❌ Skipping Plan Mode: Always plan multi-step work first
 
 **Reference:** Based on [Claude Code Best Practices](https://github.com/shanraisshan/claude-code-best-practice) — "vanilla cc is better than any workflows with smaller tasks" and "commit often, as soon as task is completed, commit."
+
+### Claude Code Web vs local Claude Code
+
+**Claude Code Web** (browser, remote sandbox, async, GitHub-connected) is **not** the same as the **local** CLI/agent workflow above.
+
+- **Default posture:** Delegated worker on **low-risk** repos only — not primary tooling for ML/CV core work, secrets, credentials, datasets, or infra configs.
+- **Mandatory boundaries and workflow:** See [`claude-code-web-usage-policy.md`](claude-code-web-usage-policy.md).
+- **One-line rule:** Use it as a worker, not as a brain — review all output locally before integrating.
 
 ### Claude Code Headless Mode (CLI / Agent SDK)
 

@@ -12,6 +12,7 @@ Use this when you need **supporting evidence** or deeper context for security an
 ## Operational policy (repo)
 
 - `../dependency-install-policy.md` — Daily checklist: install = code execution, pins/lockfiles, no blind/fresh installs, isolate risky installs, agent rules; points to `security-policy.md` §9.
+- `../claude-code-web-usage-policy.md` — Claude Code Web (browser/cloud async): allow/deny contexts vs local CLI; points to `security-policy.md` §14.
 
 ## OWASP Cheat Sheet Series (external)
 

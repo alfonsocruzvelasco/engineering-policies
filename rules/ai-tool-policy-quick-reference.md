@@ -19,6 +19,7 @@
 
 ### ✅ APPROVED (Safe to Use)
 - Claude Code (CLI)
+- Claude Code Web — see `claude-code-web-usage-policy.md` (browser/cloud async; stricter allow/deny than CLI)
 - Claude API (Enterprise tier)
 - GitHub Copilot Enterprise
 - Cursor IDE (with approved API keys)
