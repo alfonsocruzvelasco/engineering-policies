@@ -184,9 +184,12 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
   - `agents-md-template.md` — AGENTS.md template for repo-level agent context (tooling, constraints, security landmines, agent selection, verification gates; keep under 150 lines; source: policies)
   - `mcp-template.md` — Model Context Protocol template for ML/CV production
   - `ml-cv-skills-template.md` — Skills assessment template for ML/CV engineers
-  - `prompt-template.md` — Task card template for daily AI interactions (v3: concise, verification checkpoints, model-specific parameters, Osmani self-improving loop)
+  - `prompt-template.md` — **Canonical base (v3):** Task card, Spec–Plan–Patch–Verify, verification checkpoints, model-specific parameters, Osmani self-improving loop; shared execution contract — do not duplicate in platform overrides
+  - `prompt-template-chatgpt-en.md` — **Platform override:** ChatGPT Hard Constraint Mode (generic placeholders + LaTeX example); inherits `prompt-template.md` (v3) for GSD phases and golden rule; KEY and GOLDEN RULE in-file
+  - `prompt-template-chatgpt-es.md` — **Platform override:** Spanish Hard Constraint Mode; same role as `prompt-template-chatgpt-en.md`; KEY/GOLDEN RULE point to the English file; use for Spanish-language sessions only — English-first remains the default per ai-workflow-policy.md
+  - `prompt-template-claude-en.md` — **Platform override:** Claude Hard Constraint Mode for ML/CV (Socratic cadence, YOLO/TensorRT example); inherits `prompt-template.md` (v3) for GSD phases and golden rule
+  - `prompt-template-gemini-en.md` — **Platform override:** Gemini Socratic Examiner (British English, questions-only, no direct code); inherits `prompt-template.md` (v3) for GSD phases and golden rule
   - `prd-template.md` — Minimal PRD (Product Requirements Document) template with issue decomposition rules, vertical-slice guidance, and decision rule (mandatory for any work >2 hours; see ai-workflow-policy.md Part 4 PRD Gate)
-  - `prompt-template-chatgpt-es.md` — Spanish-language Hard Constraint Mode prompt template for ChatGPT (constraint-driven specification, mandatory validation gate, zero-iteration design; use for Spanish-language interactions only — English-first remains the default per ai-workflow-policy.md)
   - `domain-template.md` — Domain authority template for defining agent boundaries, legitimate skills, and verification requirements (execution, review, governance, planning, documentation domains)
   - `.cursorrules` — Authoritative Cursor/Codex rules template (scope, AI role, workflow, limits)
   - `terraform-devops-skills-template.md` — Skills assessment template for DevOps/Infrastructure engineers

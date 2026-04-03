@@ -1,4 +1,12 @@
-# PROMPT TEMPLATE — HARD CONSTRAINT MODE
+# Plantilla de prompt — ChatGPT (modo Hard Constraint)
+
+**Version:** v3 (platform override)
+
+> Base: prompt-template.md (v3) — GSD phases, forbidden list, and golden rule are identical
+
+**Ejecución canónica:** Task Card, Spec–Plan–Patch–Verify y puntos de verificación están en `prompt-template.md` (v3); no se duplican aquí. Este archivo añade solo la capa Hard Constraint y el ejemplo en español.
+
+---
 
 ## 🎯 OBJETIVO
 
@@ -87,28 +95,10 @@ Código LaTeX completo, limpio, compilable
 
 ---
 
-# 🧠 CLAVE (qué hace que esto funcione)
+# KEY / REGLA DE ORO (fuente única en inglés)
 
-Esto convierte tu prompt en:
+**No duplicar:** la sección **KEY (why this works)** y la **GOLDEN RULE** están en `prompt-template-chatgpt-en.md` (`# 🧠 KEY` y `# ⚠️ GOLDEN RULE`). Mismo criterio normativo; léelas allí.
 
-> **especificación técnica, no conversación**
+**Mensaje de cierre en español (para copiar en el chat):**
 
-Y eso:
-
-* reduce desviaciones
-* elimina iteraciones inútiles
-* baja consumo de tokens
-* aumenta precisión
-
----
-
-# ⚠️ REGLA DE ORO
-
-Si algo falla:
-
-👉 no expliques
-👉 no argumentes
-
-Solo escribe:
-
-> **“No cumple constraints. Rehacer desde cero.”**
+> **"No cumple constraints. Rehacer desde cero."**
