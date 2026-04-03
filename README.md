@@ -109,6 +109,10 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
   *Retrieval architecture standards, knowledge base governance, and context injection safety*
   (RAG formulation selection: RAG-Sequence vs RAG-Token, knowledge base ingestion rules, retrieval result sandboxing, MCP vs RAG decision, index hot-swapping, evaluation and monitoring metrics)
 
+- **`rules/llm-usage-policy-hallucinations.md`** **[NEW 2026-04-03]**
+  *LLM usage posture: likelihood not truth; forbidden uses (including CoT as audit trail); RAG as mitigation not proof; one-line rule — if it matters, verify it*
+  (cross-links `ai-workflow-policy.md` verification gates and `ai-retrieval-policy.md` for grounding limits)
+
 ### AI and architecture policies
 
 - **`rules/references/ai-systems-architecture.md`** **[MOVED 2026-02-01]**

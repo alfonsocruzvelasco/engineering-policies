@@ -2453,6 +2453,8 @@ ACCEPTANCE: [how to verify success - English only]
 
 ## 6) The 80/20 Rule: Hallucinations Are Inevitable
 
+**Condensed posture (likelihood vs truth, forbidden uses, CoT-as-proof, RAG limits):** See [`llm-usage-policy-hallucinations.md`](llm-usage-policy-hallucinations.md).
+
 **Fact:** Fano’s Inequality proves mathematically that hallucinations become inevitable when prompts are ambiguous (high H(X|Y)).
 
 **Your job:** reduce hallucination risk through systematic techniques:

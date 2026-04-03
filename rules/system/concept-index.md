@@ -31,6 +31,7 @@ scope: Concept-to-authority lookup for policies and references
 | Context rot prevention and wave-based execution | `rules/ai-workflow-policy.md` Part 1 (Context Rot Prevention, Wave-Based Execution) | [GSD](https://github.com/gsd-build/get-shit-done) |
 | Ubiquitous language (DDD glossary extraction) | `rules/ai-workflow-policy.md` Part 4 (Before Writing Code checklist) | [ubiquitous-language](https://github.com/mattpocock/skills/tree/main/ubiquitous-language) |
 | Spec-driven development (OpenSpec, protocols) | `rules/ai-workflow-policy.md` Part 4 | `rules/references/spec-protocols-guide.md`, `rules/references/openspec-ml-cv-reference.md` |
+| Hallucination posture (likelihood vs truth, CoT-as-proof, RAG as mitigation not guarantee) | `rules/llm-usage-policy-hallucinations.md` | `rules/ai-workflow-policy.md` §6, Hallucination & Consequence Test; `rules/ai-retrieval-policy.md`; `rules/references/a-survey-of-large-language-models.pdf` |
 
 ## Security & AI Tools
 
