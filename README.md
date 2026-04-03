@@ -257,6 +257,7 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
   - `ai-workflow-prompt-patterns-reference.md` — Extracted reference companion to `ai-workflow-policy.md` Part 2: production patterns (Constraint-First, Implementation-Specific, Assumption-Explicit, Risk-Aware, Verification-Built-In), COSTAR/CRISPE frameworks, slash commands library, 5 token-saving strategies, context engineering, theoretical foundations, tools & platforms
   - `ai-workflow-agent-skills-reference.md` — Extracted reference companion to `ai-workflow-policy.md` Part 1: Claude Code skills management, AI tools for ML/CV engineering, strategic agent delegation, scientific research workflows, AI learning protocol, portfolio framing
   - `security-enterprise-controls-reference.md` — Extracted reference companion to `security-policy.md`: runtime trust layer, isolate-based sandbox considerations, CI/CD-to-Cloud OIDC hardening, logging and audit expectations (enterprise/fleet controls)
+  - `selkies-remote-gpu-workstation.md` — [Selkies](https://selkies-project.github.io/selkies/): remote GPU Linux desktop in the browser (WebRTC); optional vs SSH; Docker/Kubernetes; mental model and when to use (supporting reference, not required for local dev)
   - For a curated view of reference material, see:
     - `rules/references/index-architecture.md` — Architecture & systems references
     - `rules/references/index-prompting.md` — Prompting, multilingual prompts, tone, and communication

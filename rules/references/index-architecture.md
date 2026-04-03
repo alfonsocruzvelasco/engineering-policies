@@ -51,6 +51,7 @@ Use this when you need **architectural background** rather than normative policy
 - `simplify-command-report.pdf` — Claude Code `/simplify` skill internals and review agents.
 - **[mattpocock/skills](https://github.com/mattpocock/skills)** (external) — Agent skills collection: PRD creation, issue decomposition, grill-me design interview, TDD, git guardrails, refactor planning, ubiquitous language, codebase architecture improvement.
 - **[GSD (get-shit-done)](https://github.com/gsd-build/get-shit-done)** (external) — Context engineering, context rot prevention, wave-based parallel execution, XML task plans, atomic commits, PreToolUse guardrails, multi-agent orchestration, spec-driven development.
+- `selkies-remote-gpu-workstation.md` — [Selkies](https://selkies-project.github.io/selkies/): remote GPU Linux desktop in the browser (WebRTC); optional vs SSH-only workflows; containers/Kubernetes; ML/CV GUI on remote compute.
 
 ## Retrieval, Vector DBs, and RAG
 

@@ -3039,6 +3039,7 @@ model_quantized = torch.quantization.quantize(
 * [Security Policy](security-policy.md) — ML/CV security best practices
 * [Versioning and Release Policy](versioning-and-release-policy.md) — Git, versioning, documentation
 * [AI Systems Architecture](references/ai-systems-architecture.md) — Architecture patterns for LLM/AI systems
+* [Selkies — Remote GPU Workstation via Browser](references/selkies-remote-gpu-workstation.md) — optional browser-accessed remote GPU Linux desktop (WebRTC); not required for local dev; relevant for future remote/cluster GUI workflows
 
 ---
 
