@@ -7,6 +7,8 @@ scope: Security, AI safety, and eval references
 
 # Security & Eval References Index
 
+**Canonical navigation:** Full catalog of `rules/references/` files in this scope; `README.md` lists only these three indexes, not each file.
+
 Use this when you need **supporting evidence** or deeper context for security and evaluation policies.
 
 ## Operational policy (repo)

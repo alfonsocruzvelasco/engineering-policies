@@ -7,6 +7,8 @@ scope: Architecture, tools, retrieval, and systems design references
 
 # Architecture & Systems References Index
 
+**Canonical navigation:** Full catalog of `rules/references/` files in this scope; `README.md` lists only these three indexes, not each file.
+
 Use this when you need **architectural background** rather than normative policy.
 
 ## Core Architecture

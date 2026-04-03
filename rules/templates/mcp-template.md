@@ -5,6 +5,17 @@ version: 2.1
 domain: Machine Learning, Computer Vision, MLOps
 ---
 
+> **Staleness review** — `[UPDATED 2026-04-03]` (matches `README.md` entry for `mcp-template.md`).
+>
+> Re-validate against `../references/mcp-ecosystem-notes.md` and the official MCP specification before relying on stack-specific or protocol details as current. Likely drift points:
+>
+> - `## When to Create MCP Servers (Decision Tree)`
+> - `## API CONFIGURATION (Ollama with Anthropic Compatibility)`
+> - `## MCP vs VANILLA: WHEN TO USE WHICH`
+> - `## SESSION INITIALIZATION`
+> - `## STANDARD: ORCHESTRATING AGENTS AND ARTIFACTS`
+> - `## CORE ENFORCEMENT RULES` through `## COMMUNICATION STYLE` (long workflow and enforcement sections)
+
 # ML/CV ENGINEERING PROTOCOL
 
 > **Comprehensive MCP Reference:** For complete MCP ecosystem documentation (protocol architecture, MCP-UI framework, development patterns, official servers, production considerations), see `../references/mcp-ecosystem-notes.md`.

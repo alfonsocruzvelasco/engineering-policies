@@ -19,12 +19,10 @@ This repository is the **single source of truth** for how software is designed, 
 
 It defines **non-negotiable rules**, **explicit boundaries**, and **decision discipline** for professional-grade engineering.
 
-> **Governance Notice**
-> This repository is a **learning library**, not a project workspace. It stores book code, course materials, and reference implementations only.
+> **Governance note**
+> This repository is the **authoritative policies** corpus (compiled rules, templates, and system documentation). It is not a learning exercise, course workspace, or book-code repository.
 >
-> Any work that evolves into a real project (dependencies, environments, ongoing development, portfolio relevance) must be moved to a dedicated repository under `~/dev/repos/` in accordance with the **Learning Library Governance** section of my engineering policies.
->
-> See the policies repository for the authoritative rules governing learning vs project boundaries.
+> Rules for *separate* learning repositories (book code, courses, portfolio experiments) are defined in `rules/system/learning-library-governance.md` and `rules/system/learning-ai-usage-boundary.md`. Apply those documents to learning repos under `~/learning-repos/` and elsewhere — they describe how *other* repos are governed, not what this policy repository is.
 
 ---
 
@@ -182,7 +180,7 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
   - `readme-template.md` — Standard README template with Technical Baseline section
   - `claude-md-template.md` — CLAUDE.md template for shared team knowledge and patterns
   - `agents-md-template.md` — AGENTS.md template for repo-level agent context (tooling, constraints, security landmines, agent selection, verification gates; keep under 150 lines; source: policies)
-  - `mcp-template.md` — Model Context Protocol template for ML/CV production
+  - `mcp-template.md` — **[UPDATED 2026-04-03]** Model Context Protocol template for ML/CV production (staleness review block in-file; cross-check `rules/references/mcp-ecosystem-notes.md`)
   - `ml-cv-skills-template.md` — Skills assessment template for ML/CV engineers
   - `prompt-template.md` — **Canonical base (v3):** Task card, Spec–Plan–Patch–Verify, verification checkpoints, model-specific parameters, Osmani self-improving loop; shared execution contract — do not duplicate in platform overrides
   - `prompt-template-chatgpt-en.md` — **Platform override:** ChatGPT Hard Constraint Mode (generic placeholders + LaTeX example); inherits `prompt-template.md` (v3) for GSD phases and golden rule; KEY and GOLDEN RULE in-file
@@ -199,72 +197,10 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
   (Policy/architecture → Opus 4.6, Procedural → GPT-5.3 Codex, Creative → Gemini 3 Pro, Speed → Haiku 4.5, model characteristics matrix, effort parameter guidance)
 
 - **`rules/references/`**
-  *Reference documentation and theoretical foundations*
-  - `prompt-engineering-theory.md` — Theoretical foundation for prompt engineering
-  - `ml-cv-documentation-standards.md` — Comprehensive ML/CV code documentation standards (Google-style, NumPy-style, Doxygen for C++/CUDA)
-  - `mcp-ecosystem-notes.md` — Comprehensive Model Context Protocol (MCP) ecosystem documentation
-  - `mcp-vs-acp.md` — MCP vs ACP: Model Context Protocol vs Autonomous Control Pattern comparison for ML/CV engineers (protocol vs architecture, safety trade-offs, when to use each, production guidance)
-  - `spec-protocols-guide.md` — Guide on specification protocols (Spec Kit, OpenSpec, MCP)
-  - `openspec-ml-cv-reference.md` — **AUTHORITATIVE** OpenSpec engineering reference for ML/CV teams (invariants, constraints, decision trees, ML/CV-specific patterns, failure modes, examples) — **OpenSpec is the preferred/default protocol for ML/CV engineering**
-  - `python-3-14+-no-gil-support.md` — Python 3.14+ free-threaded mode (no-GIL) support and implications for ML/CV engineering
-  - `vector-db-engineering-guide.md` — Vector database engineering guide for ML/CV (ANN structures, data plumbing, production patterns)
-  - `rag-engineering-notes.md` — RAG (Retrieval-Augmented Generation) engineering notes for production systems (chunking, retrieval, reranking, prompt design, evaluation)
-  - `rag-production-notes.md` — Comprehensive RAG production guide for ML/CV engineering (AST-based semantic chunking, hybrid retrieval, privacy-preserving architecture, incremental updates with Merkle trees, multi-modal RAG, implementation patterns, Cursor-style production RAG pipeline)
-  - `rag-relevance-for-ides.md` — RAG in modern IDEs: why it still matters (2025) (precision and authority management over compression, Cursor RAG architecture, authority hierarchies, latency/cost realities, determinism and debuggability, modern RAG patterns, implementation guidance, decision framework)
-  - `software-architecture-in-machine-to-machine-systems.md` — Comprehensive guide on software architecture evolution for autonomous systems, robots, IoT devices, and AI agents (safety-critical design, ethical-aware architecture, control surfaces, system survivability)
-  - `fairest-agent-comparison.md` — Methodology for objectively comparing AI agents and prompting strategies (Pareto frontier analysis, utility scores, evaluation protocols for COSTAR/CRISPE/RTF/spec-driven approaches)
-  - `self-improving-loop-integration.md` — Integration guide for Addy Osmani's self-improving loop pattern (atomic tasks → validation → knowledge capture → context reset), including modifications to CLAUDE.md, prompt, and MCP templates
-  - `task-management-guide.md` — Comprehensive guide on breaking features into atomic tasks and executing them in a self-improving loop (task decomposition, tasks.json schema, execution workflow, best practices, troubleshooting, metrics)
-  - `prompt-osmani-self-improving-loop.md` — Complete Osmani-style prompt template for atomic task execution (detailed version with full structure, learning capture, iteration protocol, troubleshooting)
-  - `strategic-learning-model-usage.md` — Strategic framework for using AI agents during learning and skill-building phases, distinguishing between skills to build manually and tasks to delegate to agents
-  - `agent-hq-orchestration-complete-notes.md` — Complete study notes on GitHub Agent HQ and agent orchestration (conceptual foundations, GitHub implementation, Mission Control, @ handlers, AGENTS.md, multi-agent workflows, Control Plane governance, best practices)
-  - `cc-agent-teams-feature.md` — Complete Claude Code Agent Teams feature notes (comprehensive guide: setup, best use cases, display modes, usage patterns, token economics, technical architecture, coordination features, integration ecosystem, limitations, best practices, philosophy, references; released with Opus 4.6)
-  - `long-context-windows-opus-4.6+.md` — Engineering reality of 1M token context windows (technical guide for ML engineers: context engineering discipline, RAG evolution, tooling shifts, evaluation challenges, cost/latency trade-offs, agent architecture shifts, design rules, templates, references; applies to Opus 4.6+ and other long-context models)
-  - `opus-4.6-gpt-5.3-codex-policy-impact-analysis.md` — Opus 4.6 & GPT-5.3 Codex policy and template impact analysis (model characteristics, effort parameter guidance, agent selection, policy enforcement implications)
-  - `ai-systems-architecture.md` — Architectural patterns for AI-powered systems (deterministic → probabilistic shift, six pillars, verification runtime, evals, agent runtime patterns)
-  - `architecture-notes.md` — Meta-review and adversarial critique of AI systems architecture (MCP vs CLI tool layers, MoE trade-offs, managed ingestion caveats, benchmark/vendor-claim caveats; treat numbers as directional, not authoritative)
-  - `claude-skills-definition-use-cases-and-limitations.md` — Claude Skills: definition, use cases, and limitations (architectural shift from ephemeral prompts to persistent procedural workflows, vendor lock-in considerations, governance gaps, paradigm shift implications)
-  - `gemini-integration-in-new-chrome.md` — Gemini integration documentation
-  - `integration-guide.md` — Step-by-step integration guide for prohibited AI tools policy (Section 14.6), including file placement, pre-commit hook setup, CI/CD integration, and testing procedures
-  - `open-claw-security-policy.md` — OpenClaw Security Policy & Risk Assessment (detailed analysis of OpenClaw/Molt/Clawdbot security vulnerabilities; link preview exfiltration via IDPI/XPIA, malicious ClawHub skills, fake GitHub installers, CNCERT advisory Mar 2026; OpenClaw is PROHIBITED under security-policy.md Section 14.6)
-  - `ai-agent-platform-infrastructure.md` — Event-driven agents as messaging interface; Claude Code Channels + MCP-as-event-layer conceptual reference.
-  - `ceros-claude-code-visibility-control-reference.md` — Ceros trust layer: visibility + runtime MCP/tool governance + cryptographically signed audit evidence.
-  - `ai-flaws-bedrock-langsmith-sglang-visibility-rce-exfil-reference.md` — Bedrock sandbox DNS egress escape + LangSmith baseUrl token exposure + SGLang safe deserialization/broker RCE hardening reference.
-  - `claude-million-token-pricing-reference.md` — Anthropic Claude Opus/Sonnet 4.6 1M-token context at standard rates (March 2026); architecture implications for RAG vs long-context decisions.
-  - `simplify-command-report.pdf` — Technical reference & internals for Claude Code `/simplify` bundled skill (post-implementation cleanup, three parallel review agents, workflow integration, scope/limitations; Claude Code ≥ v2.1.63; Mar 2026)
-  - `a-fail-comparison-without-translationese.pdf` — English vs target-language instructions for multilingual LLMs (fair comparison eliminating translationese bias); English advantage is task/label dependent
-  - `do-multilingual-language-models-think-better-in-english.pdf` — Self-translate: prompting multilingual models to translate non-English inputs into English (using the model itself) improves over direct non-English inference
-  - `do-multilingual-llms-think-in-english.pdf` — Multilingual reasoning is English-centric (internal representation + steering vectors); steering is more effective when computed in English
-  - `do-all-languages-cost-the-same.pdf` — Tokenization fragmentation affects token counts and API costs by language; budget tokens and avoid unnecessary verbosity for cost fairness
-  - `mind-your-tone.pdf` — Prompt politeness/tone impacts accuracy; impolite prompts can outperform polite ones, so don't assume courtesy improves correctness
-  - `should-we-respect-llm.pdf` — Cross-lingual politeness study: impolite often hurts, overly polite isn't guaranteed; best politeness level varies by language/cultural context
-  - `bypassing-cc-prompts-limit.md` — Technical workarounds for bypassing Claude Code prompt limits (infinite session log hack, subscription strategies, context sharding, brain swapping method)
-  - `claude-code-headless.md` — Claude Code headless mode (CLI / Agent SDK) reference (separation of thinking and doing, permission models, when to use headless vs interactive, integration with verification instruments like Rodney, workflow patterns, alignment with verification-first mindset)
-  - `ai-mutation-testing-debugging-reference.md` — AI mutation testing & debugging reference (mutation testing fundamentals, LLM debugging methods, OpenAI/Anthropic testing approaches, circuit tracing, alignment as correctness testing, practical implementation guidance)
-  - `rag-vs-rerag-technical-reference.md` — RAG vs RERAG: Complete technical reference (traditional RAG limitations, RERAG architecture with token-level embeddings and RL-trained relevance filtering, compression techniques, when to use each approach, implementation considerations, integration with AGENTS.md research, practical recommendations)
-  - `molap-ml-engineer-reference.md` — MOLAP (Multidimensional OLAP) reference for ML/CV engineers (legacy analytics infrastructure, why MOLAP is incompatible with ML pipelines, modern alternatives, interview-level understanding, when MOLAP appears in ML roles)
-  - `langgraph-engineering-notes.md` — LangGraph engineering reference (directed graph state machines, state reducers, nodes and edges, checkpointing, human-in-the-loop, multi-agent patterns, when to use vs not use, production checklist, common pitfalls)
-  - `cloudflare-pay-per-crawl-notes.md` — Cloudflare Pay-Per-Crawl: implications for ML/CV engineers (permissioned/priced web data, licensed datasets, pipeline design, data acquisition costs, dataset strategy as engineering responsibility)
-  - `cloudflare-ai-sandboxing.pdf` — Cloudflare Dynamic Workers sandboxing for AI-generated code (isolate-based execution, outbound filtering, credential injection, capability-scoped runtime boundaries)
-  - `sandboxing-ai-agents-100x-faster.pdf` — Dynamic Worker Loader open beta (Mar 2026): isolate-based sandbox 100x faster than containers, Code Mode SDK (`@cloudflare/codemode`, `worker-bundler`, `shell`), TypeScript tool API definitions, HTTP filtering, credential injection, battle-hardened V8 security
-  - `stochastic-scheduling-ai-coding-agents.pdf` — Stochastic Scheduling in AI Coding Agents (Cruz, 2026): agents as bounded stochastic workers, pass@k as geometric CDF, non-homogeneous Bernoulli model for drifting p, optimal stopping rules, context poisoning theory, Spec–Plan–Patch–Verify operational protocol, token budget governance (E[cost]=T̄/p), reliability surface metrics, p-stabilization techniques
-  - `agent-architecture-intentcua-notes.md` — IntentCUA (arXiv:2602.17049): agentic architecture reference — skill abstractions, plan memory, intent-anchored planning, mandatory Critic, parameterized skill hints; policy rationale and key numbers
-  - `sub-agents-ml-cv-notes.md` — Agents & sub-agents in ML/CV engineering (definitions, pipeline/tool-calling/orchestration roles, dataset/training/inference use cases, anti-patterns, design checklist)
-  - `architecting-agentic-mlops-a2a-mcp-notes.md` — Architecting agentic MLOps with A2A + MCP (layered pattern: A2A for agent communication, MCP for tools; orchestration vs execution decoupling; reference only, no duplicate templates)
-  - `knowledge-priming-notes.md` — Knowledge priming for conversational AI (Garg/Fowler; 7-section anatomy, curated sources, anti-patterns; distinct from minimal CLAUDE.md for agents; session priming policy in ai-workflow-policy)
-  - `ai-pr-communication-notes.md` — How AI Coding Agents Communicate (arXiv:2602.17084, MSR 2026): PR description structure, merge rates by agent, conventional commits, sentiment vs acceptance; evidence for §5.5 PR requirements
-  - `sql-and-mcp-notes-ml-cv.md` — SQL & MCP decision record for ML/CV (PostgreSQL as locked SQL dialect; Postgres-MCP crystaldba as the only MCP worth knowing; closed decision, minimal cognitive overhead)
-  - `integration-reliability-ai-systems.md` — Integration reliability for AI systems (DZone framework; input contracts, upstream/downstream failure modes, low-confidence behavior; supports readme-template and production §5.13)
-  - `rodney-notes.md` — Rodney (Simon Willison): browser automation for verification (CLI, accessibility tree, screenshots; use with Claude Code headless and verification-first workflow)
-  - `moe-notes.md` — Mixture of Experts (MoE) engineering notes for ML/CV (sparse activation, router/expert-pool, HF Transformers v5+ native support, ViT/multimodal applicability, known problems: routing collapse, training complexity, deployment pain; reference stack)
-  - `ai-workflow-prompt-patterns-reference.md` — Extracted reference companion to `ai-workflow-policy.md` Part 2: production patterns (Constraint-First, Implementation-Specific, Assumption-Explicit, Risk-Aware, Verification-Built-In), COSTAR/CRISPE frameworks, slash commands library, 5 token-saving strategies, context engineering, theoretical foundations, tools & platforms
-  - `ai-workflow-agent-skills-reference.md` — Extracted reference companion to `ai-workflow-policy.md` Part 1: Claude Code skills management, AI tools for ML/CV engineering, strategic agent delegation, scientific research workflows, AI learning protocol, portfolio framing
-  - `security-enterprise-controls-reference.md` — Extracted reference companion to `security-policy.md`: runtime trust layer, isolate-based sandbox considerations, CI/CD-to-Cloud OIDC hardening, logging and audit expectations (enterprise/fleet controls)
-  - `selkies-remote-gpu-workstation.md` — [Selkies](https://selkies-project.github.io/selkies/): remote GPU Linux desktop in the browser (WebRTC); optional vs SSH; Docker/Kubernetes; mental model and when to use (supporting reference, not required for local dev)
-  - For a curated view of reference material, see:
-    - `rules/references/index-architecture.md` — Architecture & systems references
-    - `rules/references/index-prompting.md` — Prompting, multilingual prompts, tone, and communication
-    - `rules/references/index-security.md` — Security, AI safety, and eval references
+  *Reference PDFs, notes, and extracted companions — **not** enumerated per file in this README; use the indexes below.*
+  - [`rules/references/index-architecture.md`](rules/references/index-architecture.md) — **Architecture & systems:** AI systems architecture, agents, MCP, RAG, retrieval, tools, performance, PDFs.
+  - [`rules/references/index-prompting.md`](rules/references/index-prompting.md) — **Prompting & communication:** Prompt theory, Osmani loop, multilingual and tone, agent PRs and context files.
+  - [`rules/references/index-security.md`](rules/references/index-security.md) — **Security & eval:** OWASP alignment, sandboxing, PreToolUse guardrails, mutation and agent benchmarks.
 
 ### Governance
 
@@ -278,12 +214,6 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
 - **`rules/system/learning-ai-usage-boundary.md`**
   *Learning Repository AI Usage Boundary: explicit AI usage boundaries for learning repositories*
   (learning-only classification, BYOAI-safe design, permitted vs restricted AI usage, ai-assisted-engineering folder boundaries, Cursor plugin workspace usage in learning repos, policy compliance statement, documentation requirements)
-
-### Learning paths
-
-- **AV Perception Learning Path** *(planned)*
-  *Unified AV Perception Learning Path: Portfolio-First + Library-Guided Deep Study*
-  (32-week curriculum for becoming a top-tier ML/CV engineer focused on autonomous vehicle perception, targeting Mobileye/Waymo Staff-Engineer standards)
 
 ### System configuration and infrastructure
 
@@ -455,14 +385,6 @@ This repository is **infrastructure**, not documentation noise.
      - **Requirements**: Requires `sudo` access for package installation
      - **Output**: Creates `~/.config/sops/age/keys.txt`, configures `SOPS_AGE_KEY_FILE` in `~/.bashrc`, runs encryption test
 5. **Container best practices** — See `rules/system/containers/` for Docker, Kubernetes, and Docker Compose patterns
-
-### Learning and professional development
-
-1. **AV Perception Learning Path** — See learning path documentation for comprehensive 32-week curriculum
-   - Stage 1: Modern Detection Foundations + Code Hygiene
-   - Stage 2: 3D Perception + Sensor Fusion
-   - Stage 3: Tracking & Trajectory Prediction
-   - Stage 4: Production Engineering & Safety-Critical Systems
 
 ---
 

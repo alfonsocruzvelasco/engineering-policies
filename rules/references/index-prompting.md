@@ -7,6 +7,8 @@ scope: Prompt engineering, multilingual prompts, tone, and agent communication
 
 # Prompting & Communication References Index
 
+**Canonical navigation:** Full catalog of `rules/references/` files in this scope; `README.md` lists only these three indexes, not each file.
+
 Use this when you need **theory or evidence** behind prompt engineering choices.
 
 ## Prompt Engineering Theory
