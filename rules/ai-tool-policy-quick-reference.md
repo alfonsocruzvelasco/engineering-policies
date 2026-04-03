@@ -764,6 +764,8 @@ AI systems tend to reinforce the user's hypothesis. Default LLM behavior is stat
 - **Alternative models** — cross-check with a different model or agent (but note: inter-model similarity is 71–82% on open-ended tasks; vary the prompt, not just the model)
 - **Falsification** — ask "what would disprove this?" before accepting
 
+You MUST also run the **Hallucination & Consequence Test** from `ai-workflow-policy.md` (Verification-First section) for every non-trivial recommendation — **no exceptions**.
+
 **For reasoning tasks:** Use the Hypothesis Stress Test (see `ai-workflow-policy.md §13.2`) — ASSUMPTION → COUNTER-ARGUMENT → DISPROOF TEST.
 
 **For open-ended/creative tasks:** Different models converge on the same ideas (Artificial Hivemind effect). Force structural divergence by varying constraints, not just sampling. See `ai-workflow-policy.md §13.3`.

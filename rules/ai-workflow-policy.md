@@ -2524,6 +2524,15 @@ After AI generates code, tests, or documentation:
 3. **Falsify** the hypothesis with data (don't trust assumptions)
 4. **Iterate** based on evidence, not assumptions
 
+### Hallucination & Consequence Test (Mandatory, No Exceptions)
+
+For **every non-trivial AI recommendation** (code, design, security, data handling), you MUST run this test:
+
+1. **Hallucination check:** Identify any objects the AI mentions that might not exist (packages, APIs, files, commands, config keys). Verify they exist in the real system before acting. If you cannot verify, treat the recommendation as hallucinated and stop.
+2. **Consequence check:** Ask explicitly: *\"If this is wrong, what is the worst thing that could happen?\"* (security breach, data loss, model/data poisoning, user harm, production outage). Design a test or safety check that would make that failure mode visible before it reaches users.
+
+There are **no exceptions** to this test for code, security, or data changes. If you cannot complete both checks, you MUST NOT execute or merge the AI's suggestion.
+
 **Anti-sycophancy guardrail (mandatory):**
 - Never accept AI dialogue as evidence. Treat AI-confirmed hypotheses and user-suggested conclusions as *claims* until you gather independent evidence or run a falsification step.
 - If you cannot produce an observable artifact (tests, logs, measurements, external verification), reject the conclusion and request the missing evidence.
