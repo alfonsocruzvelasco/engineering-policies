@@ -13,7 +13,7 @@ Convenience symlinks:
 - `~/policies` -> `~/dev/repos/github.com/alfonsocruzvelasco/engineering-policies/`
 
 **Status:** Authoritative
-**Last updated:** 2026-04-02
+**Last updated:** 2026-04-03
 
 This repository is the **single source of truth** for how software is designed, built, reviewed, shipped, secured, and maintained across all of my development work.
 
@@ -212,11 +212,10 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
   *Concept Index (Authority Lookup): fast lookup from a concept to the authoritative policy and supporting references*
 
 - **`rules/system/learning-library-governance.md`**
-  *Learning Library Governance: rules for learning repositories vs project workspaces*
-  (graduation rule, focus rule, structural discipline — prevents scope drift in book code and course material repos)
+  *Rules for **external** learning repositories (book code, courses) vs project workspaces — graduation, focus, and structural discipline; prevents scope drift in those repos (not a classification of **this** policies repository)*
 
 - **`rules/system/learning-ai-usage-boundary.md`**
-  *Learning Repository AI Usage Boundary: explicit AI usage boundaries for learning repositories*
+  *AI usage boundaries for **external** learning repositories*
   (learning-only classification, BYOAI-safe design, permitted vs restricted AI usage, ai-assisted-engineering folder boundaries, Cursor plugin workspace usage in learning repos, policy compliance statement, documentation requirements)
 
 ### System configuration and infrastructure
