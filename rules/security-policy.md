@@ -558,6 +558,22 @@ If a serving framework uses brokered execution (e.g., ZeroMQ) and performs unsaf
 - AI coding tools MUST NOT have standing access to credential stores, cloud provider tokens, or CI/CD secrets. Credentials should be injected per-session, not persisted in files accessible to all processes.
 - If a supply chain compromise is suspected, assume any AI tool on the affected machine was used for reconnaissance. Treat all credentials accessible to that machine as compromised and rotate immediately (per Section 18).
 
+#### Claude Code npm packaging incident and fake "leaked source" repositories (April 2026)
+
+**Threat reference:** [The Hacker News — Claude Code internal code exposed via npm packaging; follow-on typosquats, trojanized repos (Vidar Stealer, GhostSocks), and dependency-squatting](https://thehackernews.com/2026/04/claude-code-tleaked-via-npm-packaging.html#fake-claude-code-repos-deploy-vidar-stealer-and-ghostsocks). Anthropic described a **release packaging error** (e.g. source-map material in a published npm artifact), not customer-data exfiltration from Anthropic systems. **Residual risk** is **supply-chain and social engineering**: attackers use interest in "the leak" to push **malicious npm packages**, **fake GitHub forks**, and **dependency-confusion** names.
+
+**Mandatory rules:**
+
+1. **Install Claude Code only through Anthropic-documented channels** (official install and npm/package process as published by Anthropic). **Do not** substitute tarballs, mirrors, or third-party builds labeled “leaked,” “rebuilt,” “community,” or “compile-from-source” unless explicitly approved under change control and provenance review.
+
+2. **Do not clone, build, or run Claude Code from unofficial GitHub repositories** that mimic official branding. Unknown forks are **arbitrary code execution** if you `npm install` / run their scripts. Treat this like **fake installer** campaigns (compare fake OpenClaw lures: [`references/open-claw-security-policy.md`](references/open-claw-security-policy.md), §14.6).
+
+3. **Lockfile and dependency review:** Public reporting tied names on the public registry to **dependency confusion / squatting** risk (e.g. **`audio-capture-napi`**, **`color-diff-napi`**, **`image-processor-napi`**, **`modifiers-napi`**, **`url-handler-napi`**). **Do not** add these (or similarly named) packages unless **provenance is confirmed** against Anthropic or your own org’s official namespace. **Block** unexpected additions in PR review; empty placeholder packages can later receive a malicious publish.
+
+4. **Incident windows:** If Anthropic or npm **withdraws** a package version or discloses an install window where a trojanized dependency may have been pulled, follow **vendor guidance**: remove the bad artifact, reinstall from a **known-good** version, and **rotate secrets** for any credential reachable from that machine (Section 18, credential rotation).
+
+5. **Leaked internals are not a trust signal:** Source visibility increases **targeted jailbreak, imitation tooling, and crafted prompt/tool payloads**. It does **not** change PreToolUse, sandbox, repo-trust (Section 19 PI-7), or HITL requirements in §§8–8.1.1.
+
 ### 9.5) Package manager authentication hardening
 
 **Publishing requirements (mandatory):**

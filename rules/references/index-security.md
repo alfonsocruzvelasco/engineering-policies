@@ -14,6 +14,7 @@ Use this when you need **supporting evidence** or deeper context for security an
 ## Operational policy (repo)
 
 - `../dependency-install-policy.md` — Daily checklist: install = code execution, pins/lockfiles, no blind/fresh installs, isolate risky installs, agent rules; points to `security-policy.md` §9.
+- `../security-policy.md` §9.4 — Claude Code npm packaging incident and fake "leaked source" / typosquat lures (Apr 2026): official install channel only; [THN coverage](https://thehackernews.com/2026/04/claude-code-tleaked-via-npm-packaging.html#fake-claude-code-repos-deploy-vidar-stealer-and-ghostsocks).
 - `../claude-code-web-usage-policy.md` — Claude Code Web (browser/cloud async): allow/deny contexts vs local CLI; points to `security-policy.md` §14.
 
 ## OWASP Cheat Sheet Series (external)

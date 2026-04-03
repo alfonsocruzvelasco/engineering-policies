@@ -2,7 +2,7 @@
 
 **Policy:** `rules/security-policy.md` Section 14.6 (Prohibited External AI Tool Classes)
 **Registry:** `rules/approved-ai-tools.md`
-**Last Updated:** 2026-03-24
+**Last Updated:** 2026-04-03
 **Target Audience:** All engineers using AI-assisted development tools
 
 ---
@@ -18,7 +18,7 @@
 - Any tool not listed in `approved-ai-tools.md`
 
 ### ✅ APPROVED (Safe to Use)
-- Claude Code (CLI)
+- Claude Code (CLI) — **Install only** through Anthropic’s official channel (documented npm/install path). Do **not** install from unofficial GitHub “leaked source” forks or unverified mirrors; see `security-policy.md` §9.4 (Apr 2026 npm packaging / fake-repo lures: [THN](https://thehackernews.com/2026/04/claude-code-tleaked-via-npm-packaging.html#fake-claude-code-repos-deploy-vidar-stealer-and-ghostsocks)).
 - Claude Code Web — see `claude-code-web-usage-policy.md` (browser/cloud async; stricter allow/deny than CLI)
 - Claude API (Enterprise tier)
 - GitHub Copilot Enterprise

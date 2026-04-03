@@ -8,7 +8,7 @@ scope: Mandatory discipline for installing npm and Python (pip/uv/Poetry) depend
 # Dependency Install Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-04-01
+**Last updated:** 2026-04-03
 
 **Authority:** This file is the **short operational checklist**. **Normative expansion, OWASP alignment, and npm lifecycle-script rules** live in [`security-policy.md`](security-policy.md) §9 and §§9.3–9.4. **Language-specific package-manager rules** live in [`language-policies.md`](language-policies.md) (npm and Python sections). If anything here disagrees with `security-policy.md`, **`security-policy.md` wins**.
 
@@ -24,7 +24,7 @@ scope: Mandatory discipline for installing npm and Python (pip/uv/Poetry) depend
 
 ## Mandatory rules
 
-1. **Never install blindly** — Verify package name, registry, maintainer/repo, and that it is the intended artifact (typosquatting, **slopsquatting** on AI-suggested names). See [`security-policy.md`](security-policy.md) §9.3.
+1. **Never install blindly** — Verify package name, registry, maintainer/repo, and that it is the intended artifact (typosquatting, **slopsquatting** on AI-suggested names). For **Claude Code–adjacent npm / fake-repo lures** (April 2026), see [`security-policy.md`](security-policy.md) §9.4 (named high-risk patterns and mandatory install channel).
 2. **Never install freshly released versions by default** — Prefer versions that have been observable for a short period unless you are applying an **urgent security fix**. See [`security-policy.md`](security-policy.md) §9.3 (pip/PyPI); apply the same judgment for npm.
 3. **Always pin versions** — Exact pins or semver ranges **as team standard**, with **no “floating latest”** in committed manifests. See [`security-policy.md`](security-policy.md) §9 and §9.3.
 4. **Always use lockfiles** — Commit lock artifacts; CI installs from lock (`npm ci`, frozen Poetry/uv/pip-tools flows as applicable). See [`language-policies.md`](language-policies.md) (npm §§3–6, Python dependency sections).
@@ -53,7 +53,7 @@ scope: Mandatory discipline for installing npm and Python (pip/uv/Poetry) depend
 | Topic | Where |
 |------|--------|
 | OWASP npm + PyPI alignment | [`security-policy.md`](security-policy.md) §9.3 |
-| npm postinstall / IDE supply chain | [`security-policy.md`](security-policy.md) §9.4 |
+| npm postinstall / IDE supply chain; Claude Code npm / fake-repo lures | [`security-policy.md`](security-policy.md) §9.4 |
 | Tokens, 2FA, OIDC publishing | [`security-policy.md`](security-policy.md) §9.5 |
 | npm CI, lockfile, `ignore-scripts` | [`language-policies.md`](language-policies.md) (TypeScript/Node sections) |
 | Python venv, lock, SCA | [`language-policies.md`](language-policies.md) (Python §9 and related) |
