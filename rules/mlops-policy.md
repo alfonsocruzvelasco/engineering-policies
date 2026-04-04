@@ -3040,6 +3040,7 @@ model_quantized = torch.quantization.quantize(
 * [Versioning and Release Policy](versioning-and-release-policy.md) — Git, versioning, documentation
 * [AI Systems Architecture](references/ai-systems-architecture.md) — Architecture patterns for LLM/AI systems
 * [Selkies — Remote GPU Workstation via Browser](references/selkies-remote-gpu-workstation.md) — optional browser-accessed remote GPU Linux desktop (WebRTC); not required for local dev; relevant for future remote/cluster GUI workflows
+* [Best GPU for LLMs (2026)](references/best-gpu-for-llms-2026.pdf) — supporting material on GPU choice and LLM inference economics (hardware sizing; not a substitute for project benchmarks)
 
 ---
 

@@ -84,6 +84,7 @@ Portable distinction when comparing **LLMs** and **coding/agent runtimes** (no p
 - `molap-ml-engineer-reference.md` — MOLAP analytics infrastructure context for ML/CV engineers.
 - `claude-million-token-pricing-reference.md` — 1M context pricing shift (no long-context surcharge) and architecture implications.
 - `stochastic-scheduling-ai-coding-agents.pdf` — Agents as bounded stochastic workers: pass@k geometric CDF, non-homogeneous Bernoulli model, optimal stopping, context poisoning, Spec–Plan–Patch–Verify protocol, token budget governance, reliability surface metrics.
+- `best-gpu-for-llms-2026.pdf` — GPU selection and inference economics for LLM workloads (2026).
 
 ## Extracted Reference Companions
 

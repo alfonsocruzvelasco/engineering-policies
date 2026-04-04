@@ -70,6 +70,7 @@ scope: Concept-to-authority lookup for policies and references
 | Testing strategy across languages & layers | `rules/testing-policy.md` | `rules/references/ai-mutation-testing-debugging-reference.md` |
 | Deep modules and vertical-slice TDD | `rules/testing-policy.md` (§7.8 TDD Guidance) | [tdd](https://github.com/mattpocock/skills/tree/main/tdd), [improve-codebase-architecture](https://github.com/mattpocock/skills/tree/main/improve-codebase-architecture) |
 | MLOps, model lifecycle, harnesses | `rules/mlops-policy.md` | `rules/references/integration-reliability-ai-systems.md` |
+| LLM inference GPU selection / economics | `rules/mlops-policy.md` (inference, GPU, cost) | `rules/references/best-gpu-for-llms-2026.pdf` |
 | ML/CV experiment tracking (learning phase) | `rules/ml-experiment-tracking-policy.md` | Repo READMEs using `EXPERIMENTS.md` |
 
 ## Templates & Governance
