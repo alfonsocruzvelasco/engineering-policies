@@ -44,7 +44,7 @@ scope: Concept-to-authority lookup for policies and references
 | AI-assisted coding security (tool use, OWASP LLM) | `rules/security-policy.md` Part 2 | `rules/references/ai-mutation-testing-debugging-reference.md`, `rules/references/integration-reliability-ai-systems.md` |
 | Prohibited AI tools & enforcement | `rules/security-policy.md` §14.6, `rules/approved-ai-tools.md` | `rules/ai-tool-policy-quick-reference.md`, `rules/references/integration-guide.md`, `rules/references/open-claw-security-policy.md` |
 | Claude subscription vs third-party harness billing (API / extra usage) | `rules/security-policy.md` §14.6, `rules/approved-ai-tools.md` (approval criteria) | Vendor communications (Anthropic, April 2026) |
-| OpenClaw / agentic endpoint risk | `rules/security-policy.md` §14.6 (prohibited) | `rules/references/open-claw-security-policy.md` |
+| OpenClaw / agentic endpoint risk | `rules/security-policy.md` §14.6 (prohibited) | `rules/references/open-claw-security-policy.md` (incl. §10 vs Codex CLI — not interchangeable) |
 | PreToolUse agent guardrail hooks (git, prompt injection, file deny-lists) | `rules/security-policy.md` §8.1.1 | [git-guardrails-claude-code](https://github.com/mattpocock/skills/tree/main/git-guardrails-claude-code), [GSD](https://github.com/gsd-build/get-shit-done) |
 | Runtime agent governance (visibility + signed audit logs) | `rules/security-policy.md` §8.1 | `rules/references/ceros-claude-code-visibility-control-reference.md`, `rules/references/security-enterprise-controls-reference.md` |
 | Enterprise security controls (trust layer, OIDC, logging) | `rules/security-policy.md` (summaries) | `rules/references/security-enterprise-controls-reference.md` |

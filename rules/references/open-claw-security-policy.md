@@ -1,7 +1,7 @@
 # OpenClaw Security Policy & Risk Assessment
 
-**Document Version:** 1.1
-**Last Updated:** 2026-03-14
+**Document Version:** 1.2
+**Last Updated:** 2026-04-04
 **Status:** Active Security Advisory
 
 ---
@@ -283,12 +283,23 @@ ps auxf | grep openclaw
 
 ---
 
-## 10. Version History
+## 10. OpenClaw vs OpenAI Codex (clarification)
+
+**These are not interchangeable.** OpenClaw was a **third-party harness** (wrapper/UI/skills/session orchestration on top of Claude). OpenAI **Codex CLI** is a **first-party** coding agent (local terminal, Rust, GPT-5.x family) — different vendor, different models, different problem shape. **Codex is not an alternative to OpenClaw** in the sense of replacing the same harness role.
+
+**Why OpenClaw is prohibited here:** `security-policy.md` §14.6 and this document — security architecture (IPI/XPIA, ClawHub skills, fake installers, etc.). **Billing:** Claude **subscriptions** do not cover third-party harnesses (April 2026 vendor policy); that reinforces cost posture but does **not** replace the security prohibition.
+
+**Approved toolchain when OpenClaw is off the table (no gap):** **Claude Code CLI** (primary; sandbox per `ai-workflow-policy.md`), **Claude Code Web** only where `claude-code-web-usage-policy.md` allows, **Codex CLI** for procedural/agentic tasks where Agent Selection points to GPT-5.x Codex — see `approved-ai-tools.md` and `ai-workflow-policy.md` (Agent Selection). **Policy implication:** none beyond maintaining those distinctions; do not treat Codex approval as permission to use OpenClaw.
+
+---
+
+## 11. Version History
 
 | Version | Date | Changes |
 |---------|------|---------|
 | 1.0 | 2026-02-08 | Initial policy based on VirusTotal integration analysis |
 | 1.1 | 2026-03-14 | CNCERT advisory; link preview exfiltration (PromptArmor); malicious skills; fake GitHub installers; irrevocable deletion; expanded threat model and risk matrix |
+| 1.2 | 2026-04-04 | §10: OpenClaw vs OpenAI Codex clarification (harness vs first-party agent; approved toolchain; no substitute) |
 
 ---
 
