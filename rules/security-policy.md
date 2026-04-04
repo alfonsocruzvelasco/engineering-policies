@@ -1134,6 +1134,8 @@ All interactions with external AI models, API calls, code generation events, and
 **Core Principle:**
 Not all AI code-generation services meet the minimum security, privacy, and operational standards required for serious engineering work. Tools that lack documented security controls, compliance certifications, or enterprise-grade access management represent unacceptable risks to intellectual property, credentials, and data sovereignty.
 
+**Vendor billing boundary (Anthropic, April 2026):** Flat-rate Claude **subscriptions** do **not** cover **third-party harnesses** (API or **extra usage** / pay-as-you-go required). **First-party** tools (e.g. Claude Code, Claude Cowork) remain eligible under subscription per vendor terms. Organizational approval MUST reflect this split: harnesses outside subscription are **not approved** unless `approved-ai-tools.md` records a **cost exception** (justification + monthly budget cap). *(OpenClaw and similar remain **prohibited** here on security grounds — §14.6.1 / `references/open-claw-security-policy.md` — independent of billing.)*
+
 ---
 
 #### 14.6.1 Prohibited Tool Categories
@@ -1280,6 +1282,10 @@ Self-hosted or community-hosted AI model deployments that lack enterprise securi
 * Network egress controls
 * Resource quotas and rate limits
 * Timeout enforcement
+
+✅ **Billing / access tier (Claude ecosystem):**
+* **First-party** Anthropic agents (e.g. Claude Code, Cowork): use MUST align with **subscription** terms as published.
+* **Third-party harnesses** that Anthropic bills only via **API / extra usage** (subscription exclusion effective **April 2026**, with further harnesses possible): **not approved** for organizational use without a **recorded cost exception** in `approved-ai-tools.md` (business justification + **monthly budget cap**).
 
 ---
 

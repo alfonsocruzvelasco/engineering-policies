@@ -1,7 +1,7 @@
 # Approved AI Tools Registry
 
 **Status:** Authoritative
-**Last Updated:** 2026-03-24
+**Last Updated:** 2026-04-04
 **Policy Reference:** security-policy.md Section 14.6
 **Owner:** Security Team (security@organization.com)
 **Review Cadence:** Quarterly
@@ -53,6 +53,9 @@ Before a tool can be added to this registry, it MUST satisfy ALL of the followin
   - [ ] Network egress controls
   - [ ] Resource quotas and rate limits
   - [ ] Timeout enforcement
+
+- [ ] **Billing / access tier (Anthropic Claude ecosystem)**
+  - [ ] Use stays within **subscription-covered** access for **first-party** products (e.g. Claude Code, Claude Cowork) per current vendor terms, **or** any reliance on **third-party harnesses** that require **Claude API** or vendor **"extra usage" / pay-as-you-go** (subscription excludes those harnesses per Anthropic policy **April 2026**; more harnesses may follow) has a **recorded cost exception**: business justification + **monthly budget cap**, approved by Security. Tools that depend on excluded billing paths without that exception are **not approved**.
 
 ---
 

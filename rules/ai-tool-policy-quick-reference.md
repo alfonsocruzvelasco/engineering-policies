@@ -2,7 +2,7 @@
 
 **Policy:** `rules/security-policy.md` Section 14.6 (Prohibited External AI Tool Classes)
 **Registry:** `rules/approved-ai-tools.md`
-**Last Updated:** 2026-04-03
+**Last Updated:** 2026-04-04
 **Target Audience:** All engineers using AI-assisted development tools
 
 ---
@@ -27,6 +27,8 @@
 - Ollama (air-gapped dev environments only)
 
 **Full list:** See `rules/approved-ai-tools.md`
+
+**Billing (Claude):** Third-party **harnesses** are outside flat-rate subscription (API / **extra usage** from **April 2026**); not approved without a **cost exception** in `approved-ai-tools.md`. First-party (Claude Code, Cowork) follow subscription. See `security-policy.md` §14.6.
 
 ---
 
