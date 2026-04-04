@@ -24,6 +24,12 @@ Use this when you need **architectural background** rather than normative policy
 - `the-sdlc-is-dead-boris-tane.pdf` — SDLC evolution and agent-driven development shift.
 - `think-deep-not-just-long.pdf` — Deep reasoning vs extended reasoning in LLMs.
 
+## Model layer vs agent system (evaluation note)
+
+Portable distinction when comparing **LLMs** and **coding/agent runtimes** (no product endorsement):
+
+> **Model layer (LLM):** reasoning, generation, multimodal input, function calling. **Agent system layer (execution):** tool orchestration, shell/API/file access, persistent state, workflow engine, security boundary. Models are **components inside** agent systems; they reduce orchestration complexity via function calling and structured outputs but do not by themselves provide the execution environment, durable memory model, or organizational security posture of an agent runtime. **Confusing the two** yields invalid comparisons: a new model treated as a drop-in replacement for an entire harness, or a harness treated as a substitute for upgrading the underlying model. **Initial gate:** classify the candidate by layer before any bake-off (see `../approved-ai-tools.md` — Tool Evaluation Process, Initial Screening).
+
 ## Tools, MCP, and Agents
 
 - `mcp-ecosystem-notes.md` — Model Context Protocol ecosystem overview.

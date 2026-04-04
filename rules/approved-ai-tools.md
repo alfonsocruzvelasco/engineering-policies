@@ -462,6 +462,7 @@ All exceptions MUST be documented in `security-exceptions.md` with:
 **For new tool requests:**
 
 1. **Initial Screening:**
+   - **Layer classification (mandatory):** Classify the candidate as **model layer** (LLM/API — reasoning and generation) or **agent system layer** (execution and orchestration — tools, state, security boundary). A new model does not replace an agent harness; a new harness does not replace a model. Misclassification invalidates the comparison.
    - Developer submits tool request via Security Team
    - Security Team conducts initial risk assessment
    - If clearly prohibited → reject with approved alternatives
