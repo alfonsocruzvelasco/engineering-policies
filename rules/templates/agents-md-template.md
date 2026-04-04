@@ -57,7 +57,7 @@ See `../references/ai-workflow-prompt-patterns-reference.md` (Hypothesis Stress 
 - **Pickle / model deserialization:** Treat as untrusted input unless loaded from verified S3 + hash-validated path. No user input in model path.
 - **Prompt injection:** Natural language in config files, system prompts, and docs is an executable attack surface. Scan it like code. See `security-policy.md §9.6` and `§19`.
 - **Dependencies:** Pin versions, lock files required. New deps need review (license, CVEs, provenance). Follow `dependency-install-policy.md` (checklist); OWASP-aligned detail and lifecycle-script rules in `security-policy.md` §§9.3–9.4. OIDC-only for publishing — no long-lived tokens. Block npm postinstall scripts by default (`ignore-scripts=true`).
-- **AI tool weaponization:** Any LLM/agent on your machine can be invoked by malware via natural-language prompts — it inherits your full filesystem and credential access. AI tools must not have standing access to credential stores. See `security-policy.md §9.4` (UNC6426 incident).
+- **AI tool weaponization:** Any LLM/agent on your machine can be invoked by malware via natural-language prompts — it inherits your full filesystem and credential access. AI tools must not have standing access to credential stores. See `security-policy.md §9.4` (UNC6426 / npm postinstall and IDE supply chain). **Also §9.4:** Claude Code npm packaging / fake-repository lures (Apr 2026) — install Claude Code **only** from Anthropic-documented channels; no unofficial "leaked source" forks or typosquat deps.
 - **IDE plugins are dependencies:** Treat extensions with the same supply chain rigor as npm packages. A legitimate plugin can be compromised after vetting (Nx Console incident, March 2026). Pin versions, review updates.
 - **CI/CD→cloud OIDC:** Repos with GitHub Actions or other CI that assume cloud roles must use least-privilege OIDC; no IAM role creation from CI. See `security-policy.md §10.2`.
 - **Git guardrails:** Block `git push`, `git reset --hard`, `git clean`, `git branch -D`, `git checkout .` via PreToolUse hooks. Agents must not execute destructive git operations autonomously. See `security-policy.md §8.1.1`.
@@ -195,4 +195,4 @@ Agents are stochastic, budget-constrained search systems. Cost is a design varia
 
 ---
 
-*Last updated: 2026-03-11 — source: policies/*
+*Last updated: 2026-04-04 — source: policies/*

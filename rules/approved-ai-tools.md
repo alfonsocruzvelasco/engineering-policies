@@ -349,12 +349,13 @@ For minimal, policy-compliant evaluation use only (no production, no real code):
 - MUST review all generated code before execution
 - MUST NOT run on production systems
 - MUST sanitize all prompts and context
-- MUST install only from **Anthropic-documented** distribution (official npm/install path). MUST NOT install from unofficial GitHub forks, “leaked source” builds, or unverified mirrors (npm packaging / fake-repo lures — [`security-policy.md`](security-policy.md) §9.4, April 2026).
+- MUST install only from **Anthropic-documented** distribution (official npm/install path). MUST NOT install from unofficial GitHub forks, "leaked source" builds, or unverified mirrors (npm packaging / fake-repo lures — [`security-policy.md`](security-policy.md) §9.4, April 2026).
 
 **Minimum safe version (repo-config RCE/key-exfil):**
 - Claude Code MUST be kept at or above vendor-fixed versions for known repo-level config vulnerabilities (see security-policy.md Section 19 PI-7.1).
 - Track Anthropic security advisories; update the minimum version floor below within 7 days of disclosure (per Section 14.6.8 cadence).
 - **Current minimum version floor:** *Verify against Anthropic security advisories before encoding; do not rely on unverified disclosure version numbers (e.g. `>= 2.0.65`) until confirmed.*
+- **Version floor review cadence:** On **any** Anthropic security advisory affecting Claude Code, revisit and update this subsection **within 7 days** (same obligation as `security-policy.md` §14.6.8 and Section 19 PI-7.1). **Do not** defer the floor check until the annual `approved-ai-tools.md` recertification date in the table below — that schedule is for the full registry, not for emergency version floors.
 
 **Cost Model:** API usage costs (Anthropic Claude pricing)
 **Documentation:** https://docs.anthropic.com/claude-code
