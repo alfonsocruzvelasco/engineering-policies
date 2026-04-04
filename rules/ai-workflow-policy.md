@@ -230,7 +230,7 @@ ${SANDBOX_ROOT:-~/dev/repos/github.com/${GH_USER:-alfonsocruzvelasco}/sandbox-cl
 
 **See:** [Prompt Template](templates/prompt-template.md) for the canonical task card (v3 with Osmani self-improving loop).
 
-**Spanish-language variant:** [Hard Constraint Mode Template (ES)](templates/prompt-template-chatgpt-es.md) — constraint-driven specification for ChatGPT in Spanish. Use only when the interaction must be in Spanish; English-first remains the default (see [English-First Architecture](#english-first-architecture-for-prompts)).
+**ChatGPT (Hard Constraint Mode):** [prompt-template-chatgpt-en.md](templates/prompt-template-chatgpt-en.md) — platform overlay on the same v3 contract; repository templates are English-only (see [English-First Architecture](#english-first-architecture-for-prompts)).
 
 **For detailed Osmani-style template:** See [Prompt Osmani Self-Improving Loop](references/prompt-osmani-self-improving-loop.md) for complete structure with learning capture, iteration protocol, and troubleshooting.
 
