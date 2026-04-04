@@ -25,6 +25,7 @@ scope: AI-assisted development workflows (core workflow, prompt engineering, ses
 - [Daily Workflow](#daily-workflow)
 - [Context Rot Prevention](#context-rot-prevention)
 - [Wave-Based Execution](#wave-based-execution-multi-agent)
+- [Agent session traceability](#agent-session-traceability-mandatory)
 - [Task Tool Usage (Claude Code)](#task-tool-usage-claude-code)
 - [Claude Code Web vs local Claude Code](#claude-code-web-vs-local-claude-code)
 - [Cursor Modes](#cursor-modes)
@@ -649,6 +650,10 @@ Context files are classified by **load frequency**, not importance:
    - Builds confidence in AI output
 
 **Rule:** Every AI-generated change must have a verification mechanism. No exceptions.
+
+### Agent session traceability (mandatory)
+
+Every agentic task delegation must produce a reviewable record of what was changed and why — commit-level diffs, Claude Code session logs, or equivalent. "It worked" is not sufficient. You must be able to answer: what did the agent do, and could you reproduce the decision?
 
 ---
 
