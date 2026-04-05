@@ -404,6 +404,61 @@ For minimal, policy-compliant evaluation use only (no production, no real code):
 
 ---
 
+#### Gemma 4 (Google DeepMind — Self-Hosted via Ollama)
+**Tier:** Self-hosted
+**Approval Date:** 2026-04-05
+**Approved By:** Alfonso Cruz
+**Next Review:** 2026-10-05
+
+**Approved variants (hardware-gated):**
+- `gemma4:e4b` — Local GPU inference. RTX 4070 (12GB VRAM). Primary target.
+- `gemma4:26b-a4b` — Cloudflare Workers AI only (`@cf/google/gemma-4-26b-a4b-it`).
+  Local CPU inference permitted for non-latency-critical tasks only (64GB RAM).
+
+**Use Cases:**
+- CV pipeline inference (object detection, segmentation, multimodal input)
+- Local multimodal reasoning (image + text)
+- Offline/air-gapped development and evaluation
+
+**Hardware baseline (do not run outside this envelope without a recorded exception):**
+- GPU: NVIDIA RTX 4070, 12GB VRAM, CUDA 12.9
+- CPU: AMD Ryzen 9 7900X, 64GB RAM
+- OS: Fedora Linux 41, Python 3.11
+
+**Vision encoder notes (relevant for CV pipeline integration):**
+- All Gemma 4 variants use GemmaVis ViT with variable aspect ratio support
+- Soft token budget: 70 / 140 / 280 / 560 / 1120 tokens — select based on
+  task latency vs. resolution trade-off (object detection: 560+; video: 140)
+- Patch pooling: 3×3 blocks averaged to soft tokens; linear projection + RMSNorm
+  before LM input
+
+**Security Features:**
+- ✅ Fully self-hosted for E4B (no data exfiltration)
+- ✅ No external network access required for local variant
+- ✅ Open weights (MIT-licensed via Hugging Face / Google)
+- ⚠️ Cloudflare Workers AI path: subject to Cloudflare data retention policy —
+  verify before sending sensitive data
+
+**Restrictions:**
+- MUST install weights only from official sources:
+  `ollama pull gemma4:e4b` or Hugging Face `google/gemma-4-e4b-it`
+- MUST NOT install from unofficial mirrors, forks, or re-uploads
+  (same supply chain rule as Claude Code — see security-policy.md §9.4)
+- MUST NOT process production credentials or secrets
+- MUST be in isolated development environment
+- MUST NOT be used for production workloads without a recorded
+  exception in security-exceptions.md
+- PyTorch MUST be installed before GPU inference:
+  `pip install torch torchvision --index-url https://download.pytorch.org/whl/cu129`
+
+**Cost Model:** Free (local); Cloudflare Workers AI pay-per-token for 26B A4B
+**Documentation:**
+- https://huggingface.co/google/gemma-4-e4b-it
+- https://developers.cloudflare.com/workers-ai/models/gemma-4-26b-a4b-it/
+**Support:** Community (Ollama, HuggingFace); Cloudflare support for Workers AI path
+
+---
+
 ## Prohibited Tools (Reference)
 
 For the complete list of prohibited tool categories and characteristics, see **security-policy.md Section 14.6.1**.
@@ -522,6 +577,7 @@ All approved tools MUST be recertified annually:
 | Cursor IDE                | 2027-02-01           | Security Team  |
 | Claude Code               | 2027-02-01           | Security Team  |
 | Ollama (self-hosted)      | 2027-02-01           | Security Team  |
+| Gemma 4 (self-hosted) | 2026-10-05 | Alfonso Cruz |
 
 ---
 

@@ -573,6 +573,23 @@ shap.plots.waterfall(shap_values[0])
 
 **See also:** [AI Mutation Testing & Debugging Reference](references/ai-mutation-testing-debugging-reference.md) for LLM debugging methods, multi-LLM pipeline debugging, and Anthropic's circuit tracing tools for model interpretability.
 
+#### Multimodal inference — soft token budget selection
+
+When using vision-language models with configurable token budgets
+(e.g. Gemma 4 variants), select the soft token budget based on task requirements:
+
+| Task | Budget | Max resolution (approx) |
+|---|---|---|
+| Video frame analysis | 70–140 | 384–528px |
+| Classification / coarse detection | 280 | 768px |
+| Object detection / segmentation | 560 | 1,104px |
+| OCR / fine-grained analysis | 1120 | 1,584px |
+
+**Rule:** Higher budget = higher latency. Always benchmark at your target
+budget before committing to a pipeline configuration. Do not default to
+maximum budget. On RTX 4070 (12GB VRAM) with E4B, 560 tokens is the
+recommended starting point for CV tasks.
+
 ---
 
 ---

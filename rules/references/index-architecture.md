@@ -79,6 +79,13 @@ Portable distinction when comparing **LLMs** and **coding/agent runtimes** (no p
 - `opus-4.6-gpt-5.3-codex-policy-impact-analysis.md` — Model characteristics and policy impact.
 - `python-3-14+-no-gil-support.md` — Free-threaded Python implications.
 - `moe-notes.md` — Mixture-of-Experts implementation and pitfalls.
+- `gemma-4-visual-guide.pdf` — Gemma 4 architecture reference (Grootendorst,
+  Google DeepMind, Apr 2026): MoE 26B A4B (128 experts, 8 active + 1 shared 3×),
+  dense 31B, E2B/E4B with Per-Layer Embeddings (flash offload); interleaved
+  local/global attention (5:1), p-RoPE (p=0.25) on global layers, K=V global
+  attention, GemmaVis ViT with 2D RoPE + variable aspect ratio + soft token
+  budget. Conformer audio encoder (E2B/E4B only). Hardware envelope for this
+  repo: E4B on RTX 4070 (12GB); 26B A4B via Cloudflare Workers AI.
 - **[Google Gemma 4 26B A4B on Workers AI](https://developers.cloudflare.com/changelog/post/2026-04-04-gemma-4-26b-a4b-workers-ai/)** (external, 2026-04-04) — MoE (`@cf/google/gemma-4-26b-a4b-it`): 26B total parameters, ~4B active per forward pass, 256k context, vision, built-in thinking mode, function calling; Workers AI binding (`env.AI.run()`), REST (`/run`, `/v1/chat/completions`), [OpenAI-compatible endpoint](https://developers.cloudflare.com/workers-ai/configuration/open-ai-compatibility/). [Model page](https://developers.cloudflare.com/workers-ai/models/gemma-4-26b-a4b-it/). See `moe-notes.md` and `cloudflare-ai-sandboxing.pdf` for MoE and Workers isolate execution context.
 - `accelerating-scientific-research-with-gemini.pdf` — Gemini for accelerating scientific research.
 - `long-context-windows-opus-4.6+.md` — Long context windows for Opus 4.6+ (capabilities and constraints).
