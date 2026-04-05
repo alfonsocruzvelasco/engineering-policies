@@ -13,7 +13,7 @@ Convenience symlinks:
 - `~/policies` -> `~/dev/repos/github.com/alfonsocruzvelasco/engineering-policies/`
 
 **Status:** Authoritative
-**Last updated:** 2026-04-03
+**Last updated:** 2026-04-05
 
 This repository is the **single source of truth** for how software is designed, built, reviewed, shipped, secured, and maintained across all of my development work.
 
