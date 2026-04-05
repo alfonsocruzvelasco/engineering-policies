@@ -217,6 +217,11 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
   *AI usage boundaries for **external** learning repositories*
   (learning-only classification, BYOAI-safe design, permitted vs restricted AI usage, ai-assisted-engineering folder boundaries, Cursor plugin workspace usage in learning repos, policy compliance statement, documentation requirements)
 
+### Todo (deferred specs)
+
+- **`rules/todo/`** — Deferred implementation designs (trigger-based); not normative policy until promoted into an authoritative doc.
+  - [`todo-model-benchmark-and-capping.md`](rules/todo/todo-model-benchmark-and-capping.md) — ML model benchmark suite and cloud spend cap (deferred until first real CV workload to benchmark).
+
 ### System configuration and infrastructure
 
 - **`rules/system/`**
