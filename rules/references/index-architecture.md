@@ -23,6 +23,17 @@ Use this when you need **architectural background** rather than normative policy
 - `spec-protocols-guide.md` — Spec-driven development protocols guide.
 - `the-sdlc-is-dead-boris-tane.pdf` — SDLC evolution and agent-driven development shift.
 - `think-deep-not-just-long.pdf` — Deep reasoning vs extended reasoning in LLMs.
+- `omni-simplemem-autoresearch-2026.pdf` — OMNI-SIMPLEMEM: lifelong
+  multimodal agent memory discovered via autonomous research pipeline
+  (Liu et al., UNC/UCB/UCSC/Cisco, Apr 2026). Architecture: selective
+  ingestion with novelty filtering, Multimodal Atomic Units (MAU —
+  hot metadata + cold raw storage), pyramid retrieval (summaries →
+  details → raw, token-budgeted), hybrid dense/sparse/graph search.
+  Key finding: bug fixes (+175%), prompt engineering (+188%), and
+  architectural changes (+44%) each exceeded all hyperparameter tuning
+  combined — validates Spec–Plan–Patch–Verify over random search.
+  Relevant for: multimodal CV pipelines, agent memory at scale,
+  autoresearch methodology. arXiv:2604.01007.
 
 ## Model layer vs agent system (evaluation note)
 
