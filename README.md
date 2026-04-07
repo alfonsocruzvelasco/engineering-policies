@@ -41,6 +41,12 @@ These policies are written for **real engineering work**, not experimentation fo
 
 ---
 
+## Reference Implementations
+
+- llama.cpp local setup: https://github.com/alfonsocruzvelasco/physicalai-av-sandbox (see LOCAL_SETUP.md)
+
+---
+
 ## Scope
 
 These policies apply to:
