@@ -12,6 +12,8 @@ and this project follows Semantic Versioning guidance in `rules/versioning-and-r
 - Added root `.editorconfig` for consistent newline, whitespace, and indentation behavior.
 - Added root `AGENTS.md` with required project context, constraints, and verification commands.
 - Added root `CONTRIBUTING.md` to standardize contribution workflow and verification discipline.
+- Added `docs/README.md` and `docs/navigation-and-adoption.md` for navigation, fork/portability, maintenance, and scope (when not to load the full corpus).
 
 ### Changed
-- Updated `README.md` with repository quickstart/testing guidance and a `Technical Baseline` section.
+- Updated `README.md` with quickstart, verification, technical baseline, key links, and a **Navigate this corpus** section.
+- Extended `CONTRIBUTING.md` with maintenance and fork/adoption notes.

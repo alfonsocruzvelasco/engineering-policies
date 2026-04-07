@@ -72,6 +72,14 @@ All deviations require a recorded exception or decision.
 
 ---
 
+## Navigate this corpus
+
+- **Concept lookup:** Start with [`rules/system/concept-index.md`](rules/system/concept-index.md) to map a topic to its **authoritative** policy file.
+- **Operational guide:** Reading paths, portability when forking, maintenance habits, and when **not** to load the full corpus are in [`docs/navigation-and-adoption.md`](docs/navigation-and-adoption.md).
+- **Learning and scratch repos:** Use [`rules/system/learning-library-governance.md`](rules/system/learning-library-governance.md) and [`rules/system/learning-ai-usage-boundary.md`](rules/system/learning-ai-usage-boundary.md). Full production policy load is not required for every short experiment.
+
+---
+
 ## `/rules` structure
 
 The `/rules` folder is organized around **compiled policy bundles** (merged documents) to reduce fragmentation and maintenance overhead, with domain-specific policies split for better navigation.
@@ -442,3 +450,4 @@ pre-commit run --all-files
 - [Contributing](CONTRIBUTING.md)
 - [Changelog](CHANGELOG.md)
 - [Agent Context](AGENTS.md)
+- [Docs index](docs/README.md)

@@ -28,5 +28,15 @@ This repository is authoritative policy infrastructure. Changes must be delibera
 - Treat AI output as draft material and verify before commit.
 - Record exceptions in `rules/security-exceptions.md` when applicable.
 
+## Maintenance
+
+- Prefer **one authoritative explanation** per topic; extend `rules/system/concept-index.md` when adding cross-cutting concepts instead of duplicating long sections.
+- Update **`CHANGELOG.md`** when governance, enforcement, or authority boundaries change.
+- Keep **dates and registry rows** (for example in `rules/approved-ai-tools.md`, `rules/security-exceptions.md`) aligned with the review cadence stated in those files.
+
+## Forking or adopting this corpus
+
+Placeholder contacts (for example `*@organization.com`), personal paths in `README.md`, and tool approval rows are **templates**. Replace them for your environment. See [`docs/navigation-and-adoption.md`](docs/navigation-and-adoption.md).
+
 ## Local-Only Git Note
 By default, maintain changes locally unless an explicit push/release action is requested.
