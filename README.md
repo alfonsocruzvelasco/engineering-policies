@@ -405,3 +405,40 @@ This repository is **infrastructure**, not documentation noise.
 
 If behavior and policy diverge, **policy must be updated first** —
 never the other way around.
+
+---
+
+## Quickstart
+
+```bash
+# From repo root
+pre-commit install
+pre-commit run --all-files
+```
+
+## Environment
+
+- Repository type: policy/documentation governance repository
+- Primary tooling: `pre-commit`, Markdown, shell scripts in `rules/system/scripts/`
+- Local canonical path: `~/dev/repos/github.com/alfonsocruzvelasco/engineering-policies/`
+
+## Tests and Verification
+
+- Primary quality gate:
+  - `pre-commit run --all-files`
+- Targeted policy enforcement:
+  - `rules/system/scripts/ai-prohibited-tools-check.sh --strict`
+
+## Technical Baseline
+
+| Component | Version | Notes |
+|-----------|---------|-------|
+| Python    | 3.11+   | Required for local automation and script compatibility |
+| pre-commit | 3.x+   | Enforced via `.pre-commit-config.yaml` hooks |
+| Bash      | 5.x+    | Required for policy scripts in `rules/system/scripts/` |
+
+## Key Links
+
+- [Contributing](CONTRIBUTING.md)
+- [Changelog](CHANGELOG.md)
+- [Agent Context](AGENTS.md)
