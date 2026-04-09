@@ -1804,5 +1804,5 @@ Is this a C++/CUDA file?
 
 **END OF NOTES**
 
-**Last Updated:** 2026-02-01
+**Last updated:** 2026-02-01
 **Next Review:** When starting new ML/CV project

@@ -892,5 +892,5 @@ export const ToolResponseSchema = z.object({
 
 **END OF NOTES**
 
-**Last Updated:** 2026-02-01
+**Last updated:** 2026-02-01
 **Next Review:** When implementing first production MCP server

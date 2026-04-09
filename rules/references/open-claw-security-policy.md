@@ -1,7 +1,7 @@
 # OpenClaw Security Policy & Risk Assessment
 
 **Document Version:** 1.2
-**Last Updated:** 2026-04-04
+**Last updated:** 2026-04-04
 **Status:** Active Security Advisory
 
 ---

@@ -1,4 +1,4 @@
-# RAG in Modern IDEs: Why It Still Matters (2025)
+# RAG in Modern IDEs: Why It Still Matters (2025–2026)
 
 ## Executive Summary
 
@@ -688,7 +688,7 @@ This document synthesizes:
 - Production deployment learnings
 
 **Maintained by:** Alfonso (AI Agent Evaluation & Optimization)
-**Last updated:** February 2025
+**Last updated:** 2026-02-01
 **Version:** 1.0
 
 **Feedback welcome** - This is a living document that should evolve with the field.

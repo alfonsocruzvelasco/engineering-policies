@@ -3,6 +3,8 @@
 **Status:** Authoritative
 **Last updated:** 2026-03-11
 
+> *Inline `Last updated` footers under individual sections are subordinate revision markers. The file-level date above is the summary stamp for the document as a whole.*
+
 This policy ensures documentation is accurate, minimal, searchable, and maintained as a first-class artifact.
 
 **Note:** This policy was split from the consolidated `versioning-and-documenting-policy.md` for better organization. See also:

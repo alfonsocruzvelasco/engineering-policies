@@ -2,7 +2,7 @@
 
 **Policy:** `rules/security-policy.md` Section 14.6 (Prohibited External AI Tool Classes)
 **Registry:** `rules/approved-ai-tools.md`
-**Last Updated:** 2026-04-04
+**Last updated:** 2026-04-04
 **Target Audience:** All engineers using AI-assisted development tools
 
 ---
@@ -880,5 +880,5 @@ Schedule monthly reviews of your AI tool usage:
 
 **Questions?** Ask in #security-policy or email security@organization.com
 
-**Last Updated:** 2026-02-13
+**Last updated:** 2026-02-13
 **Next Review:** 2026-05-13

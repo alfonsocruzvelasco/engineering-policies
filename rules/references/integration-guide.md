@@ -249,7 +249,7 @@ cat > rules/security-exceptions.md <<'EOF'
 
 **Status:** Authoritative
 **Owner:** Security Team
-**Last Updated:** 2026-02-07
+**Last updated:** 2026-02-07
 
 ---
 

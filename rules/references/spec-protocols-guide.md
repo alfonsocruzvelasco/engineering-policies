@@ -1032,6 +1032,6 @@ npm i @modelcontextprotocol/sdk
 
 ---
 
-**Last Updated**: January 30, 2026
+**Last updated:** January 30, 2026
 **Maintained By**: Alfonso (@mleng_robotics)
 **License**: MIT (for code examples)

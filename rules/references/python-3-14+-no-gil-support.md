@@ -1691,6 +1691,6 @@ python -c "import numpy; print(numpy.__version__)"
 
 **END OF NOTES**
 
-**Last Updated:** 2026-02-01
+**Last updated:** 2026-02-01
 **Next Review:** When Python 3.14 stable releases (expected Oct 2025)
 **Critical for:** Prompting AI coding assistants for modern Python ML/CV code

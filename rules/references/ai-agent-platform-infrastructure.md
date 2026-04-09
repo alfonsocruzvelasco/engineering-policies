@@ -1,7 +1,7 @@
 # AI Agent Platform Infrastructure (Event-Driven)
 
 **Status:** Reference
-**Last Updated:** 2026-03-20
+**Last updated:** 2026-03-20
 
 ## Event-Driven Agents — Messaging as Interface
 

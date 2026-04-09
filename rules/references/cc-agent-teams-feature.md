@@ -780,6 +780,6 @@ Specialization enables focus = better results.
 
 ---
 
-**Last Updated:** February 2026
+**Last updated:** February 2026
 **Feature Status:** Experimental/Research Preview
 **Released With:** Claude Opus 4.6

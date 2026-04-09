@@ -10,6 +10,8 @@ scope: AI-assisted development workflows (core workflow, prompt engineering, ses
 **Status:** Authoritative
 **Last updated:** 2026-04-02
 
+> *Inline `Last updated` footers under individual sections are subordinate revision markers. The file-level date above is the summary stamp for the document as a whole.*
+
 **Scope:** This policy governs all AI-assisted development workflows, including Cursor usage, prompt engineering, session management, and spec-driven development. It consolidates the previously separate policies: `ai-workflow-policy.md (Part 1: Core Workflow)`, `ai-workflow-policy.md (Part 2: Prompt Engineering)`, `ai-workflow-policy.md (Part 3: Session Management)`, and `ai-workflow-policy.md (Part 4: Spec-Driven Development)`.
 
 **Agent Selection:** For quick model selection across 9+ available agents, see [Agent Selection Decision Tree](#agent-selection-decision-tree) below.

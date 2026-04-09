@@ -1,7 +1,7 @@
 # Claude 1M Context Pricing Shift (March 2026) — Policy Reference
 
 **Status:** Reference
-**Last Updated:** 2026-03-20
+**Last updated:** 2026-03-20
 
 ## Source
 

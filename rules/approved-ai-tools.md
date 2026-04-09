@@ -1,7 +1,7 @@
 # Approved AI Tools Registry
 
 **Status:** Authoritative
-**Last Updated:** 2026-04-04
+**Last updated:** 2026-04-04
 **Policy Reference:** security-policy.md Section 14.6
 **Owner:** Security Team (security@organization.com)
 **Review Cadence:** Quarterly

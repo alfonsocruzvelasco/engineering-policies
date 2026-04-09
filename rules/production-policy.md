@@ -10,6 +10,8 @@ scope: CV/ML production engineering standards; sections 1, 2, and 8 are authorit
 **Status:** Authoritative
 **Last updated:** 2026-03-29
 **Purpose:** Daily reference for CV/ML engineering, data systems, and tooling standards
+
+> *Inline `Last updated` footers under individual sections are subordinate revision markers. The file-level date above is the summary stamp for the document as a whole.*
 **Authority model:** Sections 1 (Data & Storage), 2 (SQL Databases), and 8 (Git and Source Control) are authoritative policy defined in this file.
 All other sections are navigation pointers; their referenced standalone policy files are authoritative.
 If this file conflicts with a referenced standalone policy, the standalone policy is authoritative.

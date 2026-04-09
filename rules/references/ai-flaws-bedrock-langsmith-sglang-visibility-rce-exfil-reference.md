@@ -1,7 +1,7 @@
 # Bedrock AgentCore Sandbox Egress + LangSmith URL/Token Safety + SGLang Safe Deserialization (Reference)
 
 **Status:** Reference
-**Last Updated:** 2026-03-20
+**Last updated:** 2026-03-20
 
 ## Source
 

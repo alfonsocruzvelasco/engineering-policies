@@ -9,6 +9,8 @@ scope: Concept-to-authority lookup for policies and references
 
 **Purpose:** Fast lookup from a concept to the **authoritative policy** and **supporting references**. This file is descriptive, not normative.
 
+**Last updated:** 2026-04-09
+
 > **Rule:** When concepts overlap, defer to the file listed under **Authoritative policy**. Other documents are references only.
 
 ---
@@ -32,6 +34,10 @@ scope: Concept-to-authority lookup for policies and references
 | Ubiquitous language (DDD glossary extraction) | `rules/ai-workflow-policy.md` Part 4 (Before Writing Code checklist) | [ubiquitous-language](https://github.com/mattpocock/skills/tree/main/ubiquitous-language) |
 | Spec-driven development (OpenSpec, protocols) | `rules/ai-workflow-policy.md` Part 4 | `rules/references/spec-protocols-guide.md`, `rules/references/openspec-ml-cv-reference.md` |
 | Hallucination posture (likelihood vs truth, CoT-as-proof, RAG as mitigation not guarantee) | `rules/llm-usage-policy-hallucinations.md` | `rules/ai-workflow-policy.md` §6, Hallucination & Consequence Test; `rules/ai-retrieval-policy.md`; `rules/references/a-survey-of-large-language-models.pdf` |
+| Token economy (prompt length, max_tokens, caching, mandatory per-invocation logging fields) | `rules/token-cost-controls.md` | `rules/ai-workflow-policy.md` Part 2; `rules/ai-retrieval-policy.md` §3 |
+| Token/cost observability tooling (approved vendors, USD, enforcement gap vs LiteLLM) | `rules/token-cost-observability.md` (implementation guidance) | `rules/token-cost-controls.md` |
+| Agentic workflow stopping (runtime limits, layered timeouts, clean termination, repeat-timeout incidents) | `rules/agent-stopping-conditions.md` | `rules/ai-workflow-policy.md` Part 3 |
+| Model selection economics (cost-per-inference estimate, smaller-model-first, documented upgrade) | `rules/model-cost-discipline.md` | `rules/approved-ai-tools.md`, `rules/mlops-policy.md`, `rules/ai-workflow-policy.md` (agent selection) |
 
 ## Security & AI Tools
 
@@ -59,7 +65,7 @@ scope: Concept-to-authority lookup for policies and references
 | Mixture of Experts (MoE) patterns | `rules/references/moe-notes.md` | `rules/references/ai-systems-architecture.md` |
 | Retrieval / RAG architecture | `rules/ai-retrieval-policy.md` | `rules/references/vector-db-engineering-guide.md`, `rules/references/rag-engineering-notes.md`, `rules/references/rag-production-notes.md`, `rules/references/rag-vs-rerag-technical-reference.md` |
 | Long-context vs retrieval architecture (1M-token pricing shift) | `rules/ai-workflow-policy.md` (Opus 4.6 capabilities) | `rules/references/claude-million-token-pricing-reference.md`, `rules/references/long-context-windows-opus-4.6+.md` |
-| Stochastic scheduling and token budget governance (pass@k, stopping rules, p-stabilization) | `rules/ai-workflow-policy.md` (Stochastic Scheduling principle, Agent Cost Budgeting) | `rules/references/stochastic-scheduling-ai-coding-agents.pdf` |
+| Stochastic scheduling and token budget governance (pass@k, stopping rules, p-stabilization) | `rules/ai-workflow-policy.md` (Stochastic Scheduling principle, Agent Cost Budgeting); normative caps/logging/timeouts: `rules/token-cost-controls.md`, `rules/agent-stopping-conditions.md`, `rules/model-cost-discipline.md` | `rules/references/stochastic-scheduling-ai-coding-agents.pdf`, `rules/token-cost-observability.md` (tooling guidance) |
 | Remote GPU Linux desktop via browser (WebRTC, optional) | — (supporting only) | `rules/references/selkies-remote-gpu-workstation.md`, [Selkies docs](https://selkies-project.github.io/selkies/) |
 
 ## Production Engineering & MLOps

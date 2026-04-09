@@ -968,5 +968,5 @@ faiss.index_cpu_to_gpu(res, device_id, index)
 
 **End of Guide**
 
-*Last updated: 2025-02-01*
+*Last updated: 2026-02-01*
 *For ML/CV engineers building production vector search systems*

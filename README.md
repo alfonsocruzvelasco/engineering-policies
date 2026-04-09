@@ -93,7 +93,8 @@ Suggested entry sequences, not requirements:
 |--------|------------|------|
 | ML/CV delivery and ops | `rules/mlops-policy.md`, `rules/ml-cv-operations-policy.md` | `rules/testing-policy.md`, `rules/production-policy.md` (data/SQL/Git as needed) |
 | Experiments and learning phase | `rules/ml-experiment-tracking-policy.md` | `rules/mlops-policy.md` when you outgrow minimal tracking |
-| AI-assisted coding workflow | `rules/ai-workflow-policy.md` | `rules/llm-usage-policy-hallucinations.md`, `rules/approved-ai-tools.md` |
+| AI-assisted coding workflow | `rules/ai-workflow-policy.md` | `rules/llm-usage-policy-hallucinations.md`, `rules/approved-ai-tools.md`, `rules/token-cost-controls.md`, `rules/agent-stopping-conditions.md`, `rules/model-cost-discipline.md`, `rules/token-cost-observability.md` |
+| LLM token cost, observability, and agent reliability | `rules/token-cost-controls.md` | `rules/token-cost-observability.md`, `rules/agent-stopping-conditions.md`, `rules/model-cost-discipline.md`, `rules/ai-workflow-policy.md`, `rules/mlops-policy.md` |
 | Security and dependencies | `rules/security-policy.md` §§9–9.4, §14 | `rules/dependency-install-policy.md`, `rules/language-policies.md` |
 | Infra and containers | `rules/infrastructure-policy.md` | `rules/system/containers/` |
 
@@ -179,6 +180,20 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
 - **`rules/llm-usage-policy-hallucinations.md`** **[NEW 2026-04-03]**
   *LLM usage posture: likelihood not truth; forbidden uses (including CoT as audit trail); RAG as mitigation not proof; one-line rule — if it matters, verify it*
   (cross-links `ai-workflow-policy.md` verification gates and `ai-retrieval-policy.md` for grounding limits)
+
+### AI cost, reliability, and observability
+
+- **`rules/token-cost-controls.md`**
+  *Mandatory token economy: prompt length, `max_tokens`, prompt caching evaluation, per-invocation token logging (input/output/cached, model ID, session or request ID); AWS Generative AI Lens GENCOST03/GENCOST05*
+
+- **`rules/token-cost-observability.md`**
+  *Implementation guidance: approved observability tooling options (Langfuse, LiteLLM, Helicone, Datadog LLM), USD cost capture, enforcement gap vs hard budget caps — not a tool mandate*
+
+- **`rules/agent-stopping-conditions.md`**
+  *Agentic workflow runtime thresholds, layered timeouts, clean termination, token limits as secondary stop, repeat-timeout incident rule; AWS Generative AI Lens GENREL03-BP02*
+
+- **`rules/model-cost-discipline.md`**
+  *Model selection economics: cost-per-inference at expected volume, smaller-model-first with documented upgrade; AWS Generative AI Lens GENCOST01*
 
 ### AI and architecture policies
 
@@ -309,6 +324,8 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
 
 ## Policy relationships
 
+This diagram is a **relationship map** (major dependencies and AI satellites). It is **not** an exhaustive list of files. For the full catalogue, see **`/rules` structure** above; for authority routing when topics overlap, see [`rules/system/concept-index.md`](rules/system/concept-index.md).
+
 ```mermaid
 graph TD
     A["Development Environment Policy<br/>Machine setup, directory layout, workspace isolation"] --> B["Production Policy<br/>Data, SQL, Git, Coding Style, Documentation, IDE, Quality Gates"]
@@ -317,7 +334,7 @@ graph TD
     B --> W["Web Policies<br/>API/REST/gRPC, JavaScript/React, HTML/CSS"]
     B --> I["Infrastructure Policy<br/>Docker/Kubernetes/Kafka"]
     B --> M["ML/CV Operations Policy<br/>Model evaluation, feature engineering, data quality"]
-    B --> G["AI Systems Architecture<br/>Deterministic to Probabilistic shift, verification runtime, evals, agents"]
+    B --> G["AI Systems Architecture (reference)<br/>Deterministic to Probabilistic shift, verification runtime, evals, agents"]
     G --> O["MLOps Policy<br/>Experiment tracking, model serving, evals, monitoring"]
     O --> E1["ML Experiment Tracking Policy<br/>Learning-phase tracking: EXPERIMENTS.md, git tags, minimal discipline"]
     O --> D1["Documentation Policy<br/>Documentation standards, exception/decision log"]
@@ -329,6 +346,19 @@ graph TD
     F --> O
     F --> E
     F --> T
+    F --> RET["AI Retrieval Policy<br/>RAG, ingestion, MCP vs RAG, sandboxing"]
+    F --> HALL["LLM Hallucinations Policy<br/>Likelihood vs truth, verification posture"]
+    G --> RET
+    F --> TCOST["Token Cost Controls<br/>Prompt bounds, caching, logging"]
+    TCOST --> TOBS["Token Cost Observability<br/>Guidance: tooling, USD, enforcement gap"]
+    F --> AGST["Agent Stopping Conditions<br/>Timeouts, clean stop, incidents"]
+    F --> MODC["Model Cost Discipline<br/>Cost-per-inference, smaller-model-first"]
+    E --> APPT["Approved AI Tools<br/>Registry"]
+    E --> DEPI["Dependency Install Policy<br/>Checklist"]
+    APPT --> AQR["AI Tool Quick Reference"]
+    E --> SECEX["Security Exceptions<br/>Registry"]
+    E --> CCWEB["Claude Code Web Policy"]
+    F --> CCWEB
 
     style A fill:#e1f5ff
     style B fill:#e1f5ff
@@ -344,6 +374,17 @@ graph TD
     style E fill:#ffe1e1
     style E1 fill:#e1f5ff
     style F fill:#fff4e1
+    style RET fill:#fff4e1
+    style HALL fill:#fff4e1
+    style TCOST fill:#fff4e1
+    style TOBS fill:#f0f0f0
+    style AGST fill:#fff4e1
+    style MODC fill:#fff4e1
+    style APPT fill:#ffe1e1
+    style DEPI fill:#ffe1e1
+    style AQR fill:#ffe1e1
+    style SECEX fill:#ffe1e1
+    style CCWEB fill:#fff4e1
 ```
 
 ---
@@ -417,6 +458,10 @@ This repository is **infrastructure**, not documentation noise.
 11. **Select the right agent** — See [Agent Selection Decision Tree](rules/ai-workflow-policy.md#agent-selection-decision-tree) in `ai-workflow-policy.md` for model selection
 12. **Reference theory** — Consult `rules/references/prompt-engineering-theory.md` for theoretical foundations
 13. **MCP integration** — See `rules/references/mcp-ecosystem-notes.md` for comprehensive MCP documentation
+14. **Token economy** — Follow `rules/token-cost-controls.md` for prompt sizing, `max_tokens`, caching evaluation, and mandatory token logging fields
+15. **Cost observability** — Select tooling per `rules/token-cost-observability.md` (guidance); align with `rules/token-cost-controls.md` for required telemetry
+16. **Agent timeouts** — Define runtime bounds and layered timeouts per `rules/agent-stopping-conditions.md`
+17. **Model cost discipline** — Document cost-per-inference and smaller-model-first rationale per `rules/model-cost-discipline.md`
 
 ### Security checklist
 
