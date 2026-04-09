@@ -12,10 +12,9 @@ and this project follows Semantic Versioning guidance in `rules/versioning-and-r
 - Added root `.editorconfig` for consistent newline, whitespace, and indentation behavior.
 - Added root `AGENTS.md` with required project context, constraints, and verification commands.
 - Added root `CONTRIBUTING.md` to standardize contribution workflow and verification discipline.
-- Added `docs/README.md` and `docs/navigation-and-adoption.md` for navigation, fork/portability, maintenance, and scope (when not to load the full corpus).
 - Added `rules/references/local-model-runtime-status.md` documenting locally validated Ollama/llama.cpp models, paths, VRAM behavior, and practical usage recommendations (with security posture note).
 
 ### Changed
-- Updated `README.md` with quickstart, verification, technical baseline, key links, and a **Navigate this corpus** section.
+- Consolidated former `docs/navigation-and-adoption.md` (and `docs/README.md`) into `README.md` under **Navigation, adoption, and maintenance**, removed `docs/`, and updated cross-links in `CONTRIBUTING.md` and `AGENTS.md`.
 - Extended `CONTRIBUTING.md` with maintenance and fork/adoption notes.
 - Linked local model runtime status from `README.md` and `rules/system/concept-index.md`.

@@ -12,7 +12,6 @@
 - `rules/references/`: supporting references and research notes.
 - `rules/system/`: scripts and infrastructure docs used by policies.
 - `rules/todo/`: deferred specs, not yet authoritative.
-- `docs/`: operational guides (navigation, adoption, maintenance); not normative policy text.
 
 ## Build and Test Commands
 - Install hooks: `pre-commit install`

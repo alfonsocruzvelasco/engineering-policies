@@ -36,7 +36,7 @@ This repository is authoritative policy infrastructure. Changes must be delibera
 
 ## Forking or adopting this corpus
 
-Placeholder contacts (for example `*@organization.com`), personal paths in `README.md`, and tool approval rows are **templates**. Replace them for your environment. See [`docs/navigation-and-adoption.md`](docs/navigation-and-adoption.md).
+Placeholder contacts (for example `*@organization.com`), personal paths in `README.md`, and tool approval rows are **templates**. Replace them for your environment. See **Navigation, adoption, and maintenance** in `README.md`.
 
 ## Local-Only Git Note
 By default, maintain changes locally unless an explicit push/release action is requested.
