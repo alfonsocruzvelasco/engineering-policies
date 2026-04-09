@@ -36,4 +36,3 @@ scope: Token economy, prompt sizing, response bounds, caching, and usage logging
 |------|--------|
 | Agent workflow and verification | [`ai-workflow-policy.md`](ai-workflow-policy.md) |
 | Retrieval token budget | [`ai-retrieval-policy.md`](ai-retrieval-policy.md) §3 |
-| LLM hallucination posture | [`llm-usage-policy-hallucinations.md`](llm-usage-policy-hallucinations.md) |

@@ -1388,6 +1388,12 @@ Rather than committing to a fixed retry count, update the estimate of *p* after 
 
 **Evidence:** Lulla et al. (2026) showed AGENTS.md presence reduces median runtime by 29% and output tokens by 17%. Context quality is the primary lever for cost control — model selection is secondary. See `stochastic-scheduling-ai-coding-agents.pdf` §6 for the complete three-perspective pass@k optimization framework.
 
+**See also:**
+- [`token-cost-controls.md`](token-cost-controls.md) — mandatory token economy rules
+- [`token-cost-observability.md`](token-cost-observability.md) — approved observability tooling
+- [`agent-stopping-conditions.md`](agent-stopping-conditions.md) — runtime thresholds and layered timeouts
+- [`model-cost-discipline.md`](model-cost-discipline.md) — cost-per-inference and smaller-model-first
+
 ### Token Budget Thresholds
 
 **Recommended thresholds (per `skills-lint` defaults):**

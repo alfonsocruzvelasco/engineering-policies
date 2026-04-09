@@ -70,7 +70,6 @@ no credentials, sanitize inputs.
 ## Cursor prompt location
 
 The full Cursor implementation prompt is in this conversation:
-session 2026-04-05, message "Cursor prompt" (long message with ## Spec header).
 
 Retrieve it from Claude project history before implementing.
 
