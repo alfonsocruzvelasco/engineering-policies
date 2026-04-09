@@ -811,7 +811,7 @@ terraform apply
 
 ---
 
-## 🔗 Integration with MCP (Master Control Program)
+## 🔗 Integration with MCP (Model Context Protocol)
 
 These skills are designed to work with the **Pair Programming Protocol MCP**:
 

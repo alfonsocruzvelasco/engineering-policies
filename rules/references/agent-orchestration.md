@@ -164,7 +164,7 @@ Multiple agents work on independent tasks simultaneously. A merge gate validates
 **Council / consensus**
 Multiple agents produce independent solutions to the same problem. A consensus mechanism (voting, scoring, or a separate judge agent) selects or synthesises the best output. Most expensive, most robust for high-stakes decisions.
 
-The **advisor strategy** (Opus as advisor, Sonnet/Haiku as executor within a single API request) is a lightweight form of council: the executor handles routine steps and escalates to the advisor only on hard decisions. All within one API call — no separate session or orchestration overhead required.
+**Advisor strategy (native API):** For Opus-as-advisor with Sonnet/Haiku executor in a single Messages API request, see `advisor-strategy-claude-api.md` — do not duplicate that pattern here.
 
 ---
 
@@ -350,6 +350,8 @@ The comparison breaks down when:
 - Human review of agent output is expensive. If a senior engineer spends two hours reviewing a PR that took the agent five minutes to generate, the economics are worse than the agent not writing it.
 
 ### 5.3 The pass@k Framework
+
+**Repository authority:** Mandatory token ceilings, the `T̄` notation, `p* ≥ T̄ / B`, analytic `k*` / `k_max`, and adaptive stopping are defined only in [`ai-workflow-policy.md`](../ai-workflow-policy.md) (Agent Cost Budgeting). The table below uses per-run cost `C` (e.g. USD) for illustration; enforcement in this corpus follows the policy, not this reference.
 
 Stochastic scheduling provides the mathematical framework for agent cost planning. The key insight: agent tasks are probabilistic. A given task has a per-run success probability `p`. The expected number of runs to first success is `1/p`. The expected cost to first success is the per-run cost divided by `p`.
 

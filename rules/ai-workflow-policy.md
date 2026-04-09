@@ -8,7 +8,7 @@ scope: AI-assisted development workflows (core workflow, prompt engineering, ses
 # AI Workflow Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-04-02
+**Last updated:** 2026-04-10
 
 > *Inline `Last updated` footers under individual sections are subordinate revision markers. The file-level date above is the summary stamp for the document as a whole.*
 
@@ -1352,6 +1352,8 @@ Skills enforce structure, token budgets, and progressive disclosure for Claude a
 
 **Full guide:** See `references/ai-workflow-agent-skills-reference.md` for categories, YAML frontmatter requirements, `skills-lint` CI/CD integration, progressive disclosure structure, testing, and distribution.
 
+<a id="agent-cost-budgeting"></a>
+
 ### Agent Cost Budgeting
 
 For any automated or semi-automated agent workflow, cost is a design variable — not an externality. Agents are stochastic systems; budget planning must be probabilistic.
@@ -2277,11 +2279,13 @@ pass@k = 1 − (1 − p)^k
 
 When agent performance drifts across attempts (context poisoning, verifier feedback), *p* is not constant and the non-homogeneous Bernoulli model applies: `P(success within k) = 1 − ∏(1 − p_i)`.
 
+**Single source for numeric budgets:** Default ceilings (*B*, runtime, tool calls), the full formula table (`E[cost] = T̄ / p`, `p* ≥ T̄ / B`, `k*`, `k_max`), adaptive stopping when thresholds fire, calibration, and mandatory cross-links are defined only under [Agent Cost Budgeting](#agent-cost-budgeting) in Part 1 (Core Workflow). This section states the *principles*; do not second-guess those numbers here.
+
 **Mandatory policy rules:**
 
 1. **Stabilize *p* before increasing *k*.** A high pass@k achieved by brute-force retries masks a low *p*. The cost-effective lever is to raise *p* itself (prompt hardening, context pruning, verifier feedback). Only increase *k* after *p* is demonstrably stable.
 2. **Apply the stopping rule.** Stop execution when the marginal expected gain of one more attempt falls below its marginal token cost. Do not retry indefinitely — each retry has diminishing returns, and declining *p_k* (context poisoning) makes later attempts actively wasteful.
-3. **Budget analytically.** Expected cost to first success is `E[cost] = T̄ / p` where `T̄` is mean tokens per run. If `p < T̄ / B` (where *B* is the token budget), the prompt must be hardened before any execution starts.
+3. **Budget analytically.** Apply [Agent Cost Budgeting](#agent-cost-budgeting): use its formula table and gates before execution (including the `p* ≥ T̄ / B` hardening rule and `k_max`). Do not plan retries or quotas from this section alone.
 4. **Diagnose the *p_k* trend.** After failures, assess whether per-position success rates are stationary, declining, or rising:
    * **Stationary *p_k*:** the i.i.d. geometric model holds; retry up to the budget.
    * **Declining *p_k*:** context poisoning is active; abort and restart from a clean context immediately.

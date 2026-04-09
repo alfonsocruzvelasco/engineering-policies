@@ -48,6 +48,7 @@ Portable distinction when comparing **LLMs** and **coding/agent runtimes** (no p
 - `mcp-vs-acp.md` — MCP (protocol) vs ACP (Autonomous Control Pattern) comparison.
 - `claude-skills-definition-use-cases-and-limitations.md` — Claude Skills architecture.
 - `cc-agent-teams-feature.md` — Claude Code Agent Teams architecture and token economics.
+- `agent-orchestration.md` — Harness engineering, multi-agent coordination, security and token economics (supporting synthesis; binding controls remain in `ai-workflow-policy.md` and `security-policy.md`).
 - `agent-hq-orchestration-complete-notes.md` — GitHub Agent HQ and orchestration patterns.
 - `langgraph-engineering-notes.md` — LangGraph graphs, state, and multi-agent workflows.
 - `api-hooks-usage-in-ai-agents.pdf` — API hooks usage patterns in AI agents.
