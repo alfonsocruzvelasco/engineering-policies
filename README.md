@@ -44,6 +44,7 @@ These policies are written for **real engineering work**, not experimentation fo
 ## Reference Implementations
 
 - llama.cpp local setup: https://github.com/alfonsocruzvelasco/physicalai-av-sandbox (see LOCAL_SETUP.md)
+- local model runtime matrix on this machine: `rules/references/local-model-runtime-status.md`
 
 ---
 

@@ -71,6 +71,7 @@ scope: Concept-to-authority lookup for policies and references
 | Deep modules and vertical-slice TDD | `rules/testing-policy.md` (§7.8 TDD Guidance) | [tdd](https://github.com/mattpocock/skills/tree/main/tdd), [improve-codebase-architecture](https://github.com/mattpocock/skills/tree/main/improve-codebase-architecture) |
 | MLOps, model lifecycle, harnesses | `rules/mlops-policy.md` | `rules/references/integration-reliability-ai-systems.md` |
 | LLM inference GPU selection / economics | `rules/mlops-policy.md` (inference, GPU, cost) | `rules/references/best-gpu-for-llms-2026.pdf` |
+| Local model runtime validation on this machine (Ollama/llama.cpp model+path+VRAM notes) | `rules/approved-ai-tools.md`, `rules/security-policy.md` (approval/prohibition posture) | `rules/references/local-model-runtime-status.md` |
 | ML/CV experiment tracking (learning phase) | `rules/ml-experiment-tracking-policy.md` | Repo READMEs using `EXPERIMENTS.md` |
 
 ## Templates & Governance
