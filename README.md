@@ -276,6 +276,8 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
   - `domain-template.md` — Domain authority template for defining agent boundaries, legitimate skills, and verification requirements (execution, review, governance, planning, documentation domains)
   - `.cursorrules` — Authoritative Cursor/Codex rules template (scope, AI role, workflow, limits)
   - `terraform-devops-skills-template.md` — Skills assessment template for DevOps/Infrastructure engineers
+  - `folder-organisation-policy.md` — ML/CV project folder structure standards (v1.1): top-level universal layout, src/ package structure (small/medium project, AV perception monorepo, inference-only service), test directory mirroring, configs/scripts/notebooks/outputs contracts, db/ directory (migrations, schema, seeds, repository pattern), api/ directory (versioned REST routes, Pydantic schemas, gRPC proto + stubs), Makefile interface, anti-patterns, quick-reference card
+  - `naming-policy.md` — ML/CV naming standards (v1.1): Feitelson three-step model, tensor/bbox/unit naming, approved verb vocabulary (read_/fetch_/load_/compute_/ run_/insert_/query_/update_/upsert_/delete_), PostgreSQL naming (tables, columns, indexes, migrations, repository classes, ORM models), REST/gRPC/Pydantic API naming, external AI client naming pattern, encoding conventions (UTF-8 everywhere, explicit Python file I/O, PostgreSQL UTF-8 server+client, Linux kebab-case files), automated enforcement (Ruff, clang-tidy, pgTAP, Spectral)
 
 - **Agent Selection** (integrated in `ai-workflow-policy.md`)
   *Quick decision tree for selecting the right AI agent from 9+ available models*
