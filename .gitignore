@@ -32,3 +32,6 @@ coverage/
 *.log
 tmp/
 .tmp/
+
+# Pre-commit (local hook env/cache when PRE_COMMIT_HOME points in-repo)
+.pre-commit-cache/
