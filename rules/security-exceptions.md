@@ -2,7 +2,7 @@
 
 **Status:** Authoritative
 **Owner:** Security Team
-**Last updated:** 2026-03-24
+**Last updated:** 2026-04-10
 **Policy Reference:** security-policy.md Section 14.6, Section 19 PI-7 (repo-level AI agent configuration), Section 21
 
 ---
@@ -21,7 +21,7 @@ CISO + VP Engineering approval with documented compensating controls.
 
 | ID | Policy Section | Requestor | Approver | Start Date | End Date | Compensating Controls |
 |----|----------------|-----------|----------|------------|----------|-----------------------|
-| -  | -              | -         | -        | -          | -        | -                     |
+| CVE-2026-34040 | Docker Engine / moby-engine (CVE-2026-34040); moby-engine 29.0.4 (Fedora 41 — unpatched) | Alfonso Cruz | — | 2026-04-10 | 2026-04-14 | Fedora 41 repo has not shipped the fix as of 2026-04-10. No AuthZ plugins active — primary exploit vector not exposed. Socket permissions correct (srw-rw---- root docker). Single-user workstation — no co-tenant threat model. Planned resolution: Fedora 43 upgrade 2026-04-13. Update moby-engine immediately post-upgrade and verify ≥ 29.3.1. |
 
 ## Expired/Closed Exceptions
 

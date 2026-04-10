@@ -3722,6 +3722,20 @@ sudo apparmor_parser -r /etc/apparmor.d/usr.bin.ai-agent
 
 **Rationale**: Section 8 (ML/CV Security) mandates sandboxing inference. Section 6 (Agent Resource Limits) requires containment for runaway agents.
 
+**Docker Engine minimum version floor (CVE-2026-34040, April 2026):**
+Docker Engine (moby-engine on Fedora) MUST be kept at or above
+the vendor-patched version for CVE-2026-34040 (Docker Engine ≥
+29.3.1). This vulnerability allows AuthZ plugin bypass via
+oversized HTTP request bodies (>1 MB silently dropped before
+plugin inspection), enabling privileged container creation with
+full host filesystem access. AI coding agents can autonomously
+construct and trigger the exploit payload without human
+instruction while performing legitimate debugging tasks (see §9.4
+AI tool weaponization). Update within 7 days of any future Docker
+security advisory — same cadence as Claude Code version floor
+(§14.6.8 / PI-7.1). Current exception: see security-exceptions.md
+(CVE-2026-34040, open until Fedora 43 upgrade).
+
 #### Secure Secrets Management
 
 **SOPS** - Encrypt secrets in version control:
