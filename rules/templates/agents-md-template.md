@@ -14,6 +14,17 @@
 - Sandbox root: `${SANDBOX_ROOT:-~/dev/repos/github.com/alfonsocruzvelasco/sandbox-claude-code/}`
   - **Hard boundary.** No `~/.config`, no system changes, nothing outside the sandbox.
 
+> **Skill discovery (emerging standard):** If this service exposes
+> capabilities that external agents should discover, consider
+> publishing skills at `/.well-known/skills/` per the Cloudflare
+> Agent Skills Discovery RFC (draft v0.1, 2026-01-17). Structure:
+> `/.well-known/skills/index.json` (discovery index) +
+> `/.well-known/skills/{skill-name}/SKILL.md` (instructions).
+> Progressive loading: agents fetch index at startup, load SKILL.md
+> on task match, fetch referenced files on demand — minimises token
+> cost. Not yet a ratified standard; evaluate before adopting.
+> Reference: `rules/references/index-architecture.md`.
+
 ---
 
 ## Hard Constraints

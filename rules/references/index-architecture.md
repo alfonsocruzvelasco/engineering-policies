@@ -73,6 +73,17 @@ Portable distinction when comparing **LLMs** and **coding/agent runtimes** (no p
 - **[GSD (get-shit-done)](https://github.com/gsd-build/get-shit-done)** (external) — Context engineering, context rot prevention, wave-based parallel execution, XML task plans, atomic commits, PreToolUse guardrails, multi-agent orchestration, spec-driven development.
 - **[addyosmani/agent-skills](https://github.com/addyosmani/agent-skills)** (external) — Osmani agent-skills: production SDLC skill pack for Claude Code; web-first but browser-testing and agent persona patterns are portable.
 - `selkies-remote-gpu-workstation.md` — [Selkies](https://selkies-project.github.io/selkies/): remote GPU Linux desktop in the browser (WebRTC); optional vs SSH-only workflows; containers/Kubernetes; ML/CV GUI on remote compute.
+- `cloudflare-agent-skills-discovery-rfc` — Cloudflare RFC (draft
+  v0.1, 2026-01-17) for agent skill discovery via `.well-known` URIs:
+  organisations publish skills at
+  `https://example.com/.well-known/skills/index.json`; agents
+  auto-discover and load capabilities without manual configuration.
+  Three-level progressive loading: (1) index metadata ~100 tokens,
+  (2) SKILL.md on activation <5k tokens, (3) referenced files
+  on demand. Fills the gap between static AGENTS.md (repo context)
+  and MCP (tool execution): cross-organisational runtime skill
+  discovery. Status: draft — monitor for adoption before enforcing.
+  Source: https://github.com/cloudflare/agent-skills-discovery-rfc
 
 ## Retrieval, Vector DBs, and RAG
 
