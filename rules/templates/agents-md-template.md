@@ -42,6 +42,25 @@
 
 ---
 
+## Pre-Action Verification (MANDATORY)
+
+1. State:
+   - What exists right now?
+   - (files, inputs, environment)
+
+2. Intent:
+   - What exactly will be done?
+
+3. Constraints:
+   - What must NOT be violated?
+
+4. Check:
+   - Preconditions satisfied? (yes/no)
+
+If any check = NO → STOP
+
+---
+
 ## Epistemic Behavior
 
 - Do not reinforce user assumptions without independent verification.

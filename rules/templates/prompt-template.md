@@ -41,17 +41,37 @@ Process (Spec–Plan–Patch–Verify):
 1) Consult CLAUDE.md for relevant patterns/mistakes (if exists).
 2) Ask up to 3 clarifying questions ONLY if blocked.
 3) PLAN: Propose a short plan (3–6 bullets). Approve only the first bounded step.
-4) PATCH: Output a unified diff for that step only.
-5) VERIFY: List exact validation commands. Write a checkpoint note if context is swelling.
-6) STOP OR CONTINUE: If verification passes and next step has positive marginal value, continue
+4) PRE-ACTION: Complete **Pre-Action Verification (MANDATORY)** (see Verification Checkpoints)
+   before any tool use, shell command, or patch. If any check = NO → STOP.
+5) PATCH: Output a unified diff for that step only.
+6) VERIFY: List exact validation commands. Write a checkpoint note if context is swelling.
+7) STOP OR CONTINUE: If verification passes and next step has positive marginal value, continue
    from checkpoint. If 3 consecutive failures → stop, diagnose, harden prompt before retrying.
-7) After final validation passes: capture learnings in CLAUDE.md, then reset context for next task.
+8) After final validation passes: capture learnings in CLAUDE.md, then reset context for next task.
 ```
 
 ## Verification Checkpoints (Mandatory)
 
+### Pre-Action Verification (MANDATORY)
+
+1. State:
+   - What exists right now?
+   - (files, inputs, environment)
+
+2. Intent:
+   - What exactly will be done?
+
+3. Constraints:
+   - What must NOT be violated?
+
+4. Check:
+   - Preconditions satisfied? (yes/no)
+
+If any check = NO → STOP
+
 ### Policy Verification
 Before starting: Verify no constraint violations in task request.
+- Restate the task in your own words before executing. If the restatement diverges from the spec, stop and ask for clarification.
 - Check: Does task violate scope, limits, or constraints?
 - If violated → Stop, report violation, do not proceed.
 
