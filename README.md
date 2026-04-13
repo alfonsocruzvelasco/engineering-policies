@@ -289,6 +289,10 @@ The `/rules` folder is organized around **compiled policy bundles** (merged docu
   - [`rules/references/index-prompting.md`](rules/references/index-prompting.md) — **Prompting & communication:** Prompt theory, Osmani loop, multilingual and tone, agent PRs and context files.
   - [`rules/references/index-security.md`](rules/references/index-security.md) — **Security & eval:** OWASP alignment, sandboxing, PreToolUse guardrails, mutation and agent benchmarks.
 
+### Change management
+
+The `openspec/` directory at the repository root contains OpenSpec change proposals; changes follow the pattern `openspec/changes/<date>-<slug>/specs/<topic>.md`; it is not under `rules/` by design — it is the change-management layer above the policy files.
+
 ### Governance
 
 - **`rules/system/concept-index.md`**

@@ -12,6 +12,7 @@
 - `rules/references/`: supporting references and research notes.
 - `rules/system/`: scripts and infrastructure docs used by policies.
 - `rules/todo/`: deferred specs, not yet authoritative.
+- `openspec/`: OpenSpec change proposals — change management layer above rules/; not a policy directory.
 
 ## skill-dependencies
 

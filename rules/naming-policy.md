@@ -957,7 +957,74 @@ CREATE FUNCTION insert_detection_batch(detections JSONB) RETURNS void ...
 
 ---
 
-## 8. File Naming
+## 8. Encoding Conventions
+
+Encoding errors are silent bugs. Apply these rules consistently
+across code, configs, and database connections.
+
+### 8.1 Files and source code
+
+All text files — Python source, Markdown, YAML, TOML, JSON,
+SQL scripts, config files, logs — MUST use **UTF-8**.
+
+```python
+# GOOD — explicit encoding on every file open
+with open(path, "r", encoding="utf-8") as f:
+    content = f.read()
+
+with open(path, "w", encoding="utf-8") as f:
+    f.write(content)
+
+# BAD — relies on platform default (breaks on Windows)
+with open(path, "r") as f:
+    content = f.read()
+```
+
+**Rule:** Never rely on the platform default encoding.
+Always specify `encoding="utf-8"` explicitly.
+
+### 8.2 PostgreSQL (authoritative SQL dialect)
+
+```sql
+-- Server and client must both use UTF-8
+-- Verify with:
+SHOW server_encoding;   -- should return UTF8
+SHOW client_encoding;   -- should return UTF8
+
+-- Set in connection string if needed
+postgresql://user:pass@host/db?client_encoding=UTF8
+```
+
+**Rule:** PostgreSQL server encoding MUST be `UTF8`.
+Client encoding MUST match. Encode this in the connection
+config, not in application code.
+
+### 8.3 Linux filenames
+
+```bash
+# GOOD — lowercase with hyphens for filesystem files
+ml-cv-roadmap.csv
+training-run-2026-04-05.log
+
+# BAD — spaces and uppercase
+ML CV Roadmap.csv
+Training Run.log
+```
+
+**Rule:** Linux filenames use lowercase with hyphens
+(`kebab-case`). No spaces. No uppercase. This applies to
+data files, logs, and exported artefacts — not Python
+source files, which follow `snake_case.py`.
+
+### 8.4 Out of scope
+
+MySQL/MariaDB (`utf8mb4`) and Oracle (`AL32UTF8`) encoding
+rules are not applicable — PostgreSQL is the only approved
+SQL dialect (see `sql-and-mcp-notes-ml-cv.md`).
+
+---
+
+## 9. File Naming
 
 | Language | Convention | Example |
 |----------|-----------|---------|
@@ -983,7 +1050,7 @@ CREATE FUNCTION insert_detection_batch(detections JSONB) RETURNS void ...
 
 ---
 
-## 9. Automated Enforcement
+## 10. Automated Enforcement
 
 ### Python
 
@@ -1065,7 +1132,7 @@ iou = compute_iou(a, b)  # noqa: N806 — iou is a domain-standard abbreviation
 
 ---
 
-## 10. Refactoring Strategy
+## 11. Refactoring Strategy
 
 ### When to rename
 
@@ -1099,7 +1166,7 @@ If you rename the same entity repeatedly, you have a responsibility boundary pro
 
 ---
 
-## 11. Quick-Reference Card
+## 12. Quick-Reference Card
 
 ### Boolean prefixes
 `is_`, `has_`, `can_`, `should_`, `needs_`, `was_`, `will_`

@@ -79,6 +79,8 @@ scope: Concept-to-authority lookup for policies and references
 | LLM inference GPU selection / economics | `rules/mlops-policy.md` (inference, GPU, cost) | `rules/references/best-gpu-for-llms-2026.pdf` |
 | Local model runtime validation on this machine (Ollama/llama.cpp model+path+VRAM notes) | `rules/approved-ai-tools.md`, `rules/security-policy.md` (approval/prohibition posture) | `rules/references/local-model-runtime-status.md` |
 | ML/CV experiment tracking (learning phase) | `rules/ml-experiment-tracking-policy.md` | Repo READMEs using `EXPERIMENTS.md` |
+| ML/CV naming conventions (tensors, bbox formats, unit suffixes, verb vocabulary, DB columns, API schemas) | `rules/naming-policy.md` | `rules/templates/naming-policy.md` |
+| ML/CV project folder structure (src/ layout, tests/, configs/, scripts/, db/, api/, Makefile interface) | `rules/folder-organisation-policy.md` | `rules/templates/folder-organisation-policy.md` |
 
 ## Templates & Governance
 
