@@ -1398,6 +1398,12 @@ Rather than committing to a fixed retry count, update the estimate of *p* after 
 - [`agent-stopping-conditions.md`](agent-stopping-conditions.md) — runtime thresholds and layered timeouts
 - [`model-cost-discipline.md`](model-cost-discipline.md) — cost-per-inference and smaller-model-first
 
+## task-horizon-and-verification
+
+- Agent output quality is bounded by spec precision and verification signal quality, not by token budget.
+- Long-horizon tasks require: decomposition into verifiable steps, intermediate checkpoints with testable outputs, and a stopping condition tied to verification — not elapsed tokens.
+- Rule: a task with no verifiable output is invalid for agent execution. Define the verification signal before execution begins.
+
 ### Token Budget Thresholds
 
 **Recommended thresholds (per `skills-lint` defaults):**

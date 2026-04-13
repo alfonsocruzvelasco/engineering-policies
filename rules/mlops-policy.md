@@ -3072,6 +3072,11 @@ Success is **statistical**, not binary. This requires a fundamental shift in tes
 
 **See also:** [AI Mutation Testing & Debugging Reference](./references/ai-mutation-testing-debugging-reference.md) for mutation testing applied to AI systems, LLM debugging methods, and observability infrastructure patterns.
 
+## long-horizon-evaluation
+
+- Evaluate: step completion rate, absence of dead loops, correctness via automated tests or observable outputs.
+- Rule: all non-trivial agent tasks must define verification signals (tests, assertions, or observable outputs) before the task starts. A task without a verification signal is not ready to run.
+
 ---
 
 ## Implementation Checklist

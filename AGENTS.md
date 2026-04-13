@@ -22,6 +22,8 @@ Before proposing tool or skill sequences, inspect prerequisite and dependency st
 
 Before modifying agent workflows (prompts, skills, hooks, or orchestration), state **success criteria** for the real task and the **likely failure modes** you are mitigating (see `rules/references/ai-mutation-testing-debugging-reference.md`).
 
+- Before executing any non-trivial task: identify expected outputs, define how correctness will be verified, decompose into verifiable steps.
+
 ## observable-state
 
 Before proposing actions over browsers, images, or UI, state what **observable representation** the agent actually gets (e.g. screenshot, a11y tree, HTML snapshot, API fields)—not assumed free-text page content alone (see `rules/references/rodney-notes.md`).
