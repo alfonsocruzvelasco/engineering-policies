@@ -1350,6 +1350,8 @@ MCP servers in Cursor provide structured access to tools (Databases, Git, APIs, 
 
 Skills enforce structure, token budgets, and progressive disclosure for Claude agent skills. All `SKILL.md` files must pass `skills-lint`, CI/CD must fail on budget violations, and skills must use the three-level progressive disclosure model (frontmatter → body → linked files).
 
+**MUST:** Do not expose a flat unstructured tool list when skills have prerequisites; document dependencies explicitly (graph or ordered prerequisite list in repo docs, skill metadata, or discovery index).
+
 **Full guide:** See `references/ai-workflow-agent-skills-reference.md` for categories, YAML frontmatter requirements, `skills-lint` CI/CD integration, progressive disclosure structure, testing, and distribution.
 
 <a id="agent-cost-budgeting"></a>
@@ -1591,6 +1593,8 @@ For every AI-generated change:
 **Core principle:** Generated work is untrusted until verified.
 
 Verification instruments are specialized tools that serve as **verification oracles**, not productivity tools. They provide fast, deterministic feedback on AI-generated outputs, particularly for UI-visible effects and frontend changes.
+
+**MUST:** Do not assume text-only context when an agent operates over screens, images, or UI state. Document what observable representation the harness uses (e.g. rendered view, accessibility tree, DOM snapshot, tool-returned pixels). See `references/rodney-notes.md` (`visual-grounding-for-agents`, `perception-reasoning-action-loop`) and `references/molmoweb.pdf`.
 
 #### Rodney as Verification Instrument
 
@@ -3088,6 +3092,8 @@ Files owned:
 ### Reliability Surface (Agent Evaluation Metrics)
 
 Evaluate agent runs on a multi-dimensional reliability surface, not single-run pass/fail. These metrics should be interpreted jointly.
+
+**MUST:** Agent changes (prompts, skills, hooks, orchestration, tool allowlists) MUST define how **success is measured on a real workflow**—verifiable end-to-end completion criteria, not only response quality or single-turn checks. See `references/ai-mutation-testing-debugging-reference.md` (`agent-evaluation`, `failure-taxonomy`) and `references/clawbench.pdf`.
 
 | Metric | Definition | Purpose |
 |---|---|---|

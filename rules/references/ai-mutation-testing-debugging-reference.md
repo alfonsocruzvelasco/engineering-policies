@@ -18,6 +18,24 @@ This is a **reference document**, not a policy. For enforcement rules, see the r
 
 ---
 
+## agent-evaluation
+
+Treat **agent evaluation** as **end-to-end task completion** in a realistic harness (correct tools called, valid arguments, termination, and delivered artifacts)—not as answer quality, single-turn helpfulness, or isolated model scores. Benchmarks and regressions should score whether the agent **finished the workflow**, with auditable traces. Grounding: `references/clawbench.pdf`.
+
+## failure-taxonomy
+
+Use a shared vocabulary when triaging agent runs (debugging, eval analysis, incident review). Primary classes:
+
+- **wrong-tool-selection** — Picks an inappropriate capability for the intent or context.
+- **invalid-tool-use** — Right tool family, wrong schema, args, or preconditions.
+- **dead-loop** — Repeats non-progressing steps without convergence or exit.
+- **partial-completion** — Stops short of the task boundary (files, checks, deployment) while appearing done.
+- **hallucinated-action** — Claims a tool run, file change, or state transition that did not occur.
+
+Grounding: `references/clawbench.pdf`.
+
+---
+
 ## Table of Contents
 
 - [AI Mutation Testing & Debugging Reference](#ai-mutation-testing--debugging-reference)

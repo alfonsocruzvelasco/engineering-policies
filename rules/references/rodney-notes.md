@@ -15,6 +15,16 @@ Rodney sits between *ad-hoc curl checks* and *full UI test frameworks* (Playwrig
 
 ---
 
+## visual-grounding-for-agents
+
+Agents that operate on **browsers, GUIs, or other rendered surfaces** must account for **visual and structural UI state**—pixels, element geometry, accessibility trees, screenshots—not only serialized text or a model’s prior summary of the page. Specs, prompts, and evals should state what the agent can actually observe; otherwise plans drift from on-screen reality. Grounding: `references/molmoweb.pdf`.
+
+## perception-reasoning-action-loop
+
+**Web and GUI agents** run a closed loop: **perceive** current UI/visual state → **reason** over goals and constraints → **act** via tools (navigate, click, type, API) → perceive again. Treat long-horizon tasks as iterations of this loop, not one-shot Q&A over a static text dump, unless the harness explicitly materializes state each turn. Grounding: `references/molmoweb.pdf`.
+
+---
+
 ## Core design goals
 
 - **CLI-first**: everything is a shell command

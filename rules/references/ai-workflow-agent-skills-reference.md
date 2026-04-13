@@ -11,6 +11,16 @@ scope: Agent skills management, learning protocols, delegation frameworks, scien
 
 ---
 
+## skill-retrieval
+
+Retrieval for agent systems must surface **executable skills** (structured procedures, scripts, tool contracts, and linked artifacts), not only prose passages. Treat skill records as loadable capabilities with entry points and side effects, analogous to code modules—not as undifferentiated text chunks. Grounding: `references/graph-of-skills.pdf`.
+
+## dependency-aware-skill-selection
+
+Skills compose as a **dependency graph or DAG**: some capabilities require others (data, auth, environment, or ordering). Retrieval and ranking must therefore respect **prerequisites and edges**, not semantic similarity alone—otherwise the model picks plausible but unusable or unsafe orderings. Discovery indexes and runtimes should expose enough structure to plan valid sequences. Grounding: `references/graph-of-skills.pdf`.
+
+---
+
 ## Claude Code Skills Management
 
 **Purpose:** Enforce skill structure, token budget limits, and progressive disclosure architecture for Claude agent skills to prevent context bloat and maintain performance.

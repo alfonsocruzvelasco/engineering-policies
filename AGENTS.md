@@ -13,6 +13,18 @@
 - `rules/system/`: scripts and infrastructure docs used by policies.
 - `rules/todo/`: deferred specs, not yet authoritative.
 
+## skill-dependencies
+
+Before proposing tool or skill sequences, inspect prerequisite and dependency structure between skills (see `rules/references/ai-workflow-agent-skills-reference.md`).
+
+## agent-workflow-changes
+
+Before modifying agent workflows (prompts, skills, hooks, or orchestration), state **success criteria** for the real task and the **likely failure modes** you are mitigating (see `rules/references/ai-mutation-testing-debugging-reference.md`).
+
+## observable-state
+
+Before proposing actions over browsers, images, or UI, state what **observable representation** the agent actually gets (e.g. screenshot, a11y tree, HTML snapshot, API fields)—not assumed free-text page content alone (see `rules/references/rodney-notes.md`).
+
 ## Build and Test Commands
 - Install hooks: `pre-commit install`
 - Full checks: `pre-commit run --all-files`
