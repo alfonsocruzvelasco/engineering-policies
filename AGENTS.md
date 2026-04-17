@@ -11,7 +11,7 @@
 - `rules/templates/`: starter templates (`readme`, `agents`, `prompt`, `mcp`, etc.).
 - `rules/references/`: supporting references and research notes.
 - `rules/system/`: scripts and infrastructure docs used by policies.
-- `rules/todo/`: deferred specs, not yet authoritative.
+- `openspec/changes/`: deferred specs and OpenSpec change proposals, not authoritative policy until promoted into `rules/`.
 - `openspec/`: OpenSpec change proposals — change management layer above rules/; not a policy directory.
 
 ## skill-dependencies

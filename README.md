@@ -305,10 +305,11 @@ The `openspec/` directory at the repository root contains OpenSpec change propos
   *AI usage boundaries for **external** learning repositories*
   (learning-only classification, BYOAI-safe design, permitted vs restricted AI usage, ai-assisted-engineering folder boundaries, Cursor plugin workspace usage in learning repos, policy compliance statement, documentation requirements)
 
-### Todo (deferred specs)
+### Deferred specs (OpenSpec)
 
-- **`rules/todo/`** — Deferred implementation designs (trigger-based); not normative policy until promoted into an authoritative doc.
-  - [`todo-model-benchmark-and-capping.md`](rules/todo/todo-model-benchmark-and-capping.md) — ML model benchmark suite and cloud spend cap (deferred until first real CV workload to benchmark).
+- **`openspec/changes/`** — Deferred implementation designs and OpenSpec change proposals; not normative policy until promoted into an authoritative doc under `rules/`.
+  - [`todo-model-benchmark-and-capping.md`](openspec/changes/2026-04-17-merge-rules-todo-into-openspec/specs/todo-model-benchmark-and-capping.md) — ML model benchmark suite and cloud spend cap (deferred until first real CV workload to benchmark).
+  - [`todo-muse-spark-public-api.md`](openspec/changes/2026-04-17-merge-rules-todo-into-openspec/specs/todo-muse-spark-public-api.md) — Deferred public API spec for Muse Spark.
 
 ### System configuration and infrastructure
 
