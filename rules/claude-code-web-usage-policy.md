@@ -75,6 +75,24 @@ Use as:
 
 If in doubt, **do not connect the repo or paste context** — use local tooling or air-gapped flows instead.
 
+**Claude Code Routines (research preview, April 2026):**
+Scheduled, API-triggered, and webhook-triggered automations
+that run on Anthropic cloud infrastructure — configured
+once (prompt + repo + connectors) and executed without
+local machine involvement. Subject to the same restrictions
+as Claude Code Web: forbidden for ML/CV core workloads,
+secrets, credentials, datasets, and infra configs.
+Rationale: remote execution = loss of control; audit trail
+behaviour under routine scheduling is not yet documented.
+Daily limits apply (5/day Pro, 15/day Max, 25/day
+Team/Enterprise); routine runs draw down subscription
+limits identically to interactive sessions.
+Re-evaluate for production use when research preview
+designation is removed and session traceability meets the
+standard in `ai-workflow-policy.md` Part 1 (agent session
+traceability). Reference:
+https://claude.com/blog/introducing-routines-in-claude-code
+
 ---
 
 ## 5. Security model
