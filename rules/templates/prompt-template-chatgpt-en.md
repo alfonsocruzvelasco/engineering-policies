@@ -11,6 +11,7 @@
 * Do NOT rewrite existing content
 * Only perform the requested changes
 * Output must be complete and final
+* If any ambiguity → ASK (max 2 questions) BEFORE answering
 
 ---
 
@@ -22,6 +23,7 @@
 * Adding explanations
 * Adding suggestions
 * Omitting any original content
+* Making assumptions when input is unclear
 
 ---
 
@@ -30,6 +32,8 @@
 * Treat input as immutable
 * Apply only minimal patch
 * Do not interpret intent beyond instructions
+* If confident → output result only
+* If not confident → ask first
 
 ---
 
@@ -40,6 +44,8 @@ Before responding:
 * Is original content preserved 100%?
 * Are changes strictly limited to request?
 * Is output complete?
+* Is format EXACTLY as requested?
+* Any risk of ambiguity or misinterpretation?
 
 If NOT:
 
@@ -52,3 +58,4 @@ If NOT:
 Full final result
 No explanations
 No extra text
+Exact requested format only
