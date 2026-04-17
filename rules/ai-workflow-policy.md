@@ -1302,6 +1302,41 @@ git restore .  # if you haven't committed
 - Running validation commands
 - Confirming the change is scoped and correct
 
+### AI attribution in commit messages (Assisted-by tag)
+
+All commits that include code materially generated or
+substantially shaped by an AI tool MUST include an
+Assisted-by tag in the commit message trailer, following
+the Linux kernel convention (April 2026):
+
+  Assisted-by: AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2]
+
+Examples:
+
+  Assisted-by: Claude:claude-sonnet-4-20250514 [Cursor]
+  Assisted-by: Codex:gpt-5.3-codex [Claude-Code]
+
+**Rules:**
+- Assisted-by MUST appear in the commit trailer, not the body
+- The human author's Signed-off-by (or equivalent) MUST
+  also be present — the human is the sole legal and quality
+  guarantor of the submitted code, regardless of what
+  generated it
+- AI tools MUST NOT be listed as authors or co-authors
+- If the commit contains no AI-generated code, no tag is
+  needed — do not add it performatively
+- "Materially generated" means: the AI produced the logic,
+  not just reformatted or autocompleted trivial boilerplate
+
+**Rationale:** Transparency about AI assistance is not
+optional. The Linux kernel, after months of community
+debate led by Torvalds (April 2026), established this
+convention as the industry baseline. Undisclosed AI
+assistance — even when the code is functional — erodes
+maintainer trust and violates the verification-first
+principle. The human submitter answers for every line
+regardless of origin.
+
 ---
 
 ## MCP (Model Context Protocol)

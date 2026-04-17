@@ -2038,6 +2038,14 @@ If it fails:
 19. **Imperative mood** in subject lines ("add", not "added").
 20. **Explain why, not just what**, in the body when context matters.
 21. **No local noise commits** (debug prints, accidental formatting), unless isolated and intentional.
+22. **AI-assisted commits:** If an AI tool materially contributed
+to the code in a commit, append an Assisted-by trailer
+(see `ai-workflow-policy.md` Part 1 — AI attribution).
+The human author remains solely responsible for correctness,
+security, and licensing compliance. No AI tool, model name,
+or vendor claim constitutes a defence against a defect.
+This mirrors the Linux kernel AI contribution policy
+(April 2026).
 
 ### 5.5 Pull Requests (PRs)
 
