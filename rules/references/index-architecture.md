@@ -84,6 +84,27 @@ Portable distinction when comparing **LLMs** and **coding/agent runtimes** (no p
   and MCP (tool execution): cross-organisational runtime skill
   discovery. Status: draft — monitor for adoption before enforcing.
   Source: https://github.com/cloudflare/agent-skills-discovery-rfc
+- `sema-code-semaclaw-harness-engineering` — Midea AIRC
+  (arXiv:2604.11045 + arXiv:2604.11548, April 2026).
+  Introduces "harness engineering" as the discipline of
+  building infrastructure around a model to make it
+  controllable, auditable, and production-reliable —
+  as distinct from model capability. Provides the clearest
+  published taxonomy of the four agent extension layers:
+  (1) MCP Tools — action space, typed schema interface;
+  (2) Subagents — reasoning scope, prompt interface;
+  (3) Skills — capability/context, progressive injection;
+  (4) Hooks — execution control, lifecycle callbacks.
+  Each layer addresses a distinct engineering concern;
+  conflating them produces systems that are harder to
+  reason about and test. Note: papers reference OpenClaw
+  extensively as the ecosystem reference architecture —
+  OpenClaw remains prohibited under security-policy.md
+  (credential harvesting, prompt injection vector);
+  the architectural patterns described are separable
+  from the tool.
+  Sources: https://arxiv.org/abs/2604.11045
+  https://arxiv.org/abs/2604.11548
 
 ## Retrieval, Vector DBs, and RAG
 
