@@ -105,6 +105,10 @@ Portable distinction when comparing **LLMs** and **coding/agent runtimes** (no p
   from the tool.
   Sources: https://arxiv.org/abs/2604.11045
   https://arxiv.org/abs/2604.11548
+- `the-agent-stack-bet.pdf` — **The Agent Stack Bet** (PDF).
+  Provenance note only: a local copy was evaluated and is not usable
+  as policy reference material under current controls, so no artifact
+  is retained in `rules/references/`.
 
 ## Retrieval, Vector DBs, and RAG
 
