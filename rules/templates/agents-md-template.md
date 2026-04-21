@@ -127,6 +127,33 @@ See `../references/ai-workflow-prompt-patterns-reference.md` (Hypothesis Stress 
 - Stale context is worse than none. Update trigger: new framework version, major refactor, repeated AI mistake.
 - Do not run `/init`. Do not commit auto-generated context files.
 
+**REVIEW.md (forward reference — not yet applicable):**
+A repo-level config file that controls what Claude Code
+Review agents flag on pull requests. Sits alongside
+CLAUDE.md in the repository root. Allows customisation
+of review scope, severity thresholds, and project-specific
+checks (e.g. internal best-practice rules beyond the
+default logic/security/regression classes).
+
+Claude Code Review (announced March 2026, research preview)
+dispatches parallel agents per PR — each targeting a
+different issue class, with a verification step to filter
+false positives — and posts inline comments ranked by
+severity. Runs on Anthropic cloud infrastructure on PR
+open/push events. Average cost $15–25/review (token-based).
+
+Not applicable until:
+- Feature exits research preview
+- Feature becomes available on your plan tier
+  (currently Team/Enterprise only — not Pro/Max)
+- Remote execution constraints in
+  `claude-code-web-usage-policy.md` are re-evaluated
+
+When those conditions are met: add REVIEW.md spec to this
+template and update `claude-code-web-usage-policy.md`.
+Reference: https://claude.com/blog/code-review
+           https://code.claude.com/docs/en/code-review
+
 ---
 
 ## Claude Code Rules (`.claude/rules/`)
