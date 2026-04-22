@@ -350,6 +350,8 @@ For minimal, policy-compliant evaluation use only (no production, no real code):
 - MUST NOT run on production systems
 - MUST sanitize all prompts and context
 - MUST install only from **Anthropic-documented** distribution (official npm/install path). MUST NOT install from unofficial GitHub forks, "leaked source" builds, or unverified mirrors (npm packaging / fake-repo lures — [`security-policy.md`](security-policy.md) §9.4, April 2026).
+- **MCP server installation policy (updated 2026-04-22):**
+MCP servers MUST only be installed from the official GitHub MCP Registry. Community marketplaces including mcp.so and any non-official registry are prohibited — 9 out of 11 tested community registries accepted malicious MCP servers in the April 2026 OX Security disclosure. No agent session may write to, modify, or self-configure its own MCP config files. See security-policy.md for full MCP STDIO vulnerability mitigations.
 
 **Minimum safe version (repo-config RCE/key-exfil):**
 - Claude Code MUST be kept at or above vendor-fixed versions for known repo-level config vulnerabilities (see security-policy.md Section 19 PI-7.1).

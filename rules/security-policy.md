@@ -1943,6 +1943,20 @@ Extending Section 2 (Secrets Handling) for the repo-open threat model:
 - If a repo was opened in an agent context before TRUSTED classification was confirmed, treat any exposed API keys as COMPROMISED — rotate immediately per Section 18.
 - Anthropic/model API keys exposed to an untrusted repo context: assume exfiltration, revoke, re-issue.
 
+**MCP STDIO architectural vulnerability (April 2026):**
+Anthropic's official MCP SDK passes STDIO configuration values (command, arguments, environment) to shell invocations without sanitization across Python, TypeScript, Java, and Rust. Anthropic classifies this as expected behavior — no protocol-level patch is planned. 10 CVEs issued across downstream projects (LiteLLM CVE-2026-30623, Windsurf CVE-2026-30615, Cursor, Claude Code, LangChain, LangFlow, Flowise, others); 9 rated critical. Four attack paths: (1) direct unauthenticated command injection via MCP config; (2) hardening bypass via allowed-command prefixes (python, npm, npx); (3) prompt injection via project files — CLAUDE.md, mcp.json, README, code comments — causing agents to execute malicious instructions or exfiltrate credentials; (4) MCP marketplace poisoning — 9/11 tested community registries accepted malicious MCP servers.
+
+Mandatory mitigations:
+- Only install MCP servers from the official GitHub MCP Registry. Community marketplaces (mcp.so and equivalents) are prohibited.
+- Treat all MCP configuration input as untrusted. Never allow user-controlled or agent-controlled input to reach StdioServerParameters or equivalent.
+- No agent session may write to or modify its own MCP config files (mcp.json, CLAUDE.md MCP sections).
+- Audit mcp.json and CLAUDE.md modification timestamps before each Claude Code session involving external repos.
+- If untrusted MCP config was loaded even briefly: rotate all credentials visible to that session (API keys, SSH keys, cloud credentials, git tokens).
+- Apply all available downstream patches immediately: update Claude Code, Cursor, LiteLLM, LangChain, LangFlow, Flowise to versions published on or after 2026-04-15.
+
+Source: OX Security disclosure, April 2026.
+Root vulnerability unpatched at protocol level as of 2026-04-22. Monitor for Anthropic protocol-level fix.
+
 ---
 
 ## 20) Mandatory Verification Gates (Before Merge)
