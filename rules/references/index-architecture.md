@@ -158,6 +158,24 @@ Portable distinction when comparing **LLMs** and **coding/agent runtimes** (no p
 - `claude-million-token-pricing-reference.md` — 1M context pricing shift (no long-context surcharge) and architecture implications.
 - `stochastic-scheduling-ai-coding-agents.pdf` — Agents as bounded stochastic workers: pass@k geometric CDF, non-homogeneous Bernoulli model, optimal stopping, context poisoning, Spec–Plan–Patch–Verify protocol, token budget governance, reliability surface metrics.
 - `best-gpu-for-llms-2026.pdf` — GPU selection and inference economics for LLM workloads (2026).
+- `openai-aws-partnership-2026` — OpenAI and AWS
+  expanded strategic partnership (April 28 2026).
+  Three offerings launched in limited preview:
+  GPT-5.5 and frontier models on Amazon Bedrock,
+  Codex coding agent on Bedrock (CLI/desktop/VSCode),
+  Amazon Bedrock Managed Agents powered by OpenAI
+  (cloud-hosted, per-agent identity, action logging,
+  AgentCore runtime). Broader deal: Amazon $50B
+  investment in OpenAI, OpenAI commits to 2GW of
+  AWS Trainium capacity. Ecosystem context: Microsoft
+  exclusivity with OpenAI ended same week; Microsoft
+  pivoting to Anthropic/Claude for its own agent
+  offering. Codex on Bedrock: evaluation pending in
+  approved-ai-tools.md. Bedrock Managed Agents:
+  remote execution restriction applies —
+  same class as Claude Code Routines.
+  Source: https://openai.com/index/openai-on-aws/
+          https://aws.amazon.com/about-aws/whats-new/2026/04/bedrock-openai-models-codex-managed-agents/
 
 ## Extracted Reference Companions
 

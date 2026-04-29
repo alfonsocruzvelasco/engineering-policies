@@ -367,6 +367,21 @@ MCP servers MUST only be installed from the official GitHub MCP Registry. Commun
 
 ---
 
+#### Codex on Amazon Bedrock (NOT APPROVED — evaluation pending)
+OpenAI coding agent available on Amazon Bedrock since April 28 2026 (limited preview). Accessible via Codex CLI, Codex desktop app, and VS Code extension. Authentication via AWS credentials; inference runs on Bedrock infrastructure.
+
+**Not approved because:**
+- Limited preview — not yet stable
+- Requires AWS account and Bedrock access not currently in use
+- Remote execution on cloud infrastructure — same restriction class as Claude Code Routines and Claude Code Review (see [`claude-code-web-usage-policy.md`](claude-code-web-usage-policy.md))
+- No evaluation against current stack has been performed
+
+**Re-evaluate when:** limited preview exits, AWS/Bedrock access is active, and a specific use case justifies evaluation against Claude Code.
+
+**Reference:** https://openai.com/index/openai-on-aws/
+
+---
+
 ### Category: Self-Hosted LLMs (Air-Gapped)
 
 #### Ollama (On-Premises, Air-Gapped Only)
