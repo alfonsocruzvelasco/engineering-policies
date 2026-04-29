@@ -261,7 +261,7 @@ This prevents "AI churn" and maintains control.
 | **1. Spec** | Give a scoped brief: one concrete objective, acceptance test, files in scope, exact output format. | A precise task contract saves more tokens than any model or parameter tweak. |
 | **2. Plan** | Run Plan Mode. Review the proposed plan. Approve only the first bounded implementation step. | Plan Mode raises the first-attempt success probability *p₁* and prevents expensive wide diffs. |
 | **3. Patch** | Implement one bounded step only. | Small diffs are reviewable, reversible, and cheap to fix. |
-| **4. Verify** | Run the specified tests. Write a short checkpoint note summarising what changed. | Checkpoints arrest context poisoning by resetting the context window for the next step. |
+| **4. Verify** | Run the specified tests. Write a short checkpoint note summarising what changed. After any refactoring step, sync changes back to the spec file before committing — the spec must remain an accurate record of the current code, not the code as it was first generated. (See rules/references/spdd-martinfowler-2026.md) | Checkpoints arrest context poisoning by resetting the context window for the next step. |
 | **5. Stop or continue** | Start the next step from the checkpoint. Stop when the next step is no longer clearly higher-value than its token cost. | This is the stopping rule from the Stochastic Scheduling principle — do not continue when marginal gains are negative. |
 
 **Rule:** No coding without a plan for tasks spanning multiple files or requiring architectural decisions.

@@ -33,6 +33,7 @@ scope: Concept-to-authority lookup for policies and references
 | Context rot prevention and wave-based execution | `rules/ai-workflow-policy.md` Part 1 (Context Rot Prevention, Wave-Based Execution) | [GSD](https://github.com/gsd-build/get-shit-done) |
 | Ubiquitous language (DDD glossary extraction) | `rules/ai-workflow-policy.md` Part 4 (Before Writing Code checklist) | [ubiquitous-language](https://github.com/mattpocock/skills/tree/main/ubiquitous-language) |
 | Spec-driven development (OpenSpec, protocols) | `rules/ai-workflow-policy.md` Part 4 | `rules/references/spec-protocols-guide.md`, `rules/references/openspec-ml-cv-reference.md` |
+| Prompt-code sync discipline (reverse sync: refactoring → spec, via /spdd-sync pattern) | `rules/ai-workflow-policy.md` | `rules/references/spdd-martinfowler-2026.md` |
 | Hallucination posture (likelihood vs truth, CoT-as-proof, RAG as mitigation not guarantee) | `rules/llm-usage-policy-hallucinations.md` | `rules/ai-workflow-policy.md` §6, Hallucination & Consequence Test; `rules/ai-retrieval-policy.md`; `rules/references/a-survey-of-large-language-models.pdf` |
 | Token economy (prompt length, max_tokens, caching, mandatory per-invocation logging fields) | `rules/token-cost-controls.md` | `rules/ai-workflow-policy.md` Part 2; `rules/ai-retrieval-policy.md` §3 |
 | Token/cost observability tooling (approved vendors, USD, enforcement gap vs LiteLLM) | `rules/token-cost-observability.md` (implementation guidance) | `rules/token-cost-controls.md` |
