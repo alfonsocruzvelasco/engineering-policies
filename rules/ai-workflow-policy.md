@@ -270,6 +270,44 @@ This prevents "AI churn" and maintains control.
 
 **See also:** Part 3: Session Management for Planning Session type and workflow. See `stochastic-scheduling-ai-coding-agents.pdf` §7 for the full operational protocol.
 
+## llm-output-validation-constraints
+
+LLM output must not be trusted as correct for the following task
+categories without external verification:
+
+- Temporal and date arithmetic: use an external tool or deterministic
+  function for any calculation involving dates, durations, offsets,
+  recurrence, or calendar logic. Do not rely on model output alone.
+- Exact arithmetic and numerical computation: validate with a
+  deterministic compute step, not a second model pass.
+- API call arguments: validate tool call outputs at the harness layer
+  before execution. Do not assume the model generated correct
+  parameters, endpoint names, or argument types.
+- Logical constraint satisfaction: add an assertion or test that
+  verifies the constraint is actually satisfied, independent of the
+  model's reasoning trace.
+
+Additional rules:
+- Chain-of-thought output is a prompting technique, not a correctness
+  certificate. A reasoning trace that looks correct is not proof.
+- Do not use the same model to self-verify its own reasoning output.
+  Self-correction without an external oracle does not reliably improve
+  accuracy and can degrade it. External verification signals are
+  required.
+- Evaluate agent output with perturbation tests before production:
+  change numbers, names, date formats, premise order, and add
+  irrelevant clauses. Performance must be stable across these
+  variants.
+- In RAG pipelines, test evidence placement explicitly. Retrieved
+  evidence placed in the middle of the context may be underused.
+  Validate retrieval position as part of pipeline testing.
+
+Source: rules/references/ — llm-reasoning-failures library
+(evaluation-debugging/llm-reasoning-failures/)
+Implementation patterns for all mitigations above:
+4-ml-systems-mlops/evaluation-debugging/llm-reasoning-failures/
+llm-limitations-mitigation-patterns.md
+
 ### Parallel Workflows
 
 **Run multiple Claude Code sessions in parallel** to maintain focused context:

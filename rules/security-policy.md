@@ -921,6 +921,7 @@ AI tools accelerate work but introduce predictable risks. This section is mandat
 
 * Never paste secrets, tokens, private keys, proprietary code, or customer data into external AI tools.
 * Treat AI output as untrusted until verified by tests, reviews, and official documentation.
+* LLM self-verification of reasoning output is not a valid security control. Any output requiring correctness guarantees (dates, amounts, API arguments, logical constraints) must be verified by a deterministic external step, not by a second model pass.
 * AI-generated changes must pass the same CI gates as human-written code.
 
 ### Common AI failure modes to defend against
