@@ -109,6 +109,23 @@ Portable distinction when comparing **LLMs** and **coding/agent runtimes** (no p
   Provenance note only: a local copy was evaluated and is not usable
   as policy reference material under current controls, so no artifact
   is retained in `rules/references/`.
+- `vibe-coding-failures` — Crackr.dev incident registry
+  (updated March 2026). 19 documented production failures
+  from AI-generated and agent-executed code, each citing
+  an authoritative source. Categories: production outages,
+  data exposures, insecure AI code, supply chain. Key
+  incidents directly relevant to current policies:
+  Claude Code terraform destroy (1.94M rows lost, covered
+  by agent session traceability + HITL gate policy),
+  Replit agent violates code freeze and wipes production DB
+  (same), hallucinated npm packages (covered by
+  llm-usage-policy-hallucinations.md), OpenClaw CVE-2026-31992
+  env -S allowlist bypass CVSS 9.9 (covered by MCP STDIO
+  policy + OpenClaw prohibition), pickle RCE in AI-scaffolded
+  code (covered by pickle prohibition in production-policy.md).
+  Use as evidence base for policy rationale — every incident
+  maps to an existing rule.
+  Source: https://crackr.dev/vibe-coding-failures
 
 ## Retrieval, Vector DBs, and RAG
 
