@@ -382,6 +382,27 @@ OpenAI coding agent available on Amazon Bedrock since April 28 2026 (limited pre
 
 ---
 
+#### Gemini CLI (NOT APPROVED — evaluation pending)
+Google's terminal-based AI coding agent. Direct competitor to Claude Code in the same category: agentic coding loop, MCP support, Skills system, Plan Mode, multi-agent subagent delegation. Current stable: v0.39.0 (April 23 2026). Underlying models: Gemini 3.1 Pro / Gemma 4 locally.
+
+**Notable features relevant to current stack:**
+- `gemini gemma` command: native local Gemma model integration — relevant to approved Gemma 4 E4B local inference workflow (evaluate against Ollama path before adopting)
+- Plan Mode with skill activation confirmation — same pattern as Claude Code Plan Mode in use
+- Four-tier prompt-driven memory management — architecturally similar to SemaClaw context model
+- MCP Resource Tools (v0.40.0 preview): list and read MCP resources
+
+**Not approved because:**
+- No evaluation against current stack performed
+- MCP STDIO architectural vulnerability applies (see security-policy.md — Gemini CLI explicitly listed as vulnerable in OX Security April 2026 disclosure); same MCP marketplace restrictions apply as Claude Code
+- Gemini API key required — additional credential surface not currently in use
+- Claude Code already covers the approved CLI agent use case
+
+**Re-evaluate when:** a specific capability gap in Claude Code justifies evaluation, or `gemini gemma` local integration offers measurable advantage over current Ollama path.
+
+**Reference:** https://geminicli.com/docs/changelogs/latest/
+
+---
+
 ### Category: Self-Hosted LLMs (Air-Gapped)
 
 #### Ollama (On-Premises, Air-Gapped Only)
@@ -473,6 +494,8 @@ OpenAI coding agent available on Amazon Bedrock since April 28 2026 (limited pre
 - https://huggingface.co/google/gemma-4-e4b-it
 - https://developers.cloudflare.com/workers-ai/models/gemma-4-26b-a4b-it/
 **Support:** Community (Ollama, HuggingFace); Cloudflare support for Workers AI path
+
+**Local integration note (April 2026):** Gemini CLI v0.40.0 introduces a `gemini gemma` command for streamlined local Gemma model setup. Evaluate against current Ollama path (`ollama pull gemma4:e4b`) before adopting — Gemini CLI itself is not yet approved (see Gemini CLI evaluation entry). Do not add a new credential surface (Gemini API key) solely to access a local model already available via Ollama.
 
 ---
 
