@@ -382,6 +382,25 @@ OpenAI coding agent available on Amazon Bedrock since April 28 2026 (limited pre
 
 ---
 
+#### Codex — OpenAI VS Code/Cursor Extension (APPROVED with restrictions)
+OpenAI's coding agent VS Code extension (identifier: openai.chatgpt). Currently installed in Cursor (v26.422.71525, last updated 2026-04-29). 5M installs. Requires ChatGPT Plus/Pro/Business/Edu/Enterprise account authentication.
+
+Two operating modes — different approval status:
+
+APPROVED: Local pairing mode — chat, edit, and preview changes side-by-side in IDE with opened file and selected code context. Runs locally, no code sent to cloud execution. Equivalent risk to Cursor's native AI features.
+
+RESTRICTED: Cloud delegation mode — "Delegate to Codex in the cloud" offloads jobs to OpenAI infrastructure. Same restriction class as Claude Code Routines and Claude Code Review: forbidden for ML/CV core workloads, credentials, datasets, and infra configs. Permitted only for non-sensitive tasks where output is reviewed before use.
+
+Additional constraints:
+- ChatGPT account credential: do not store API keys or tokens in Cursor environment variables accessible to MCP sessions (see MCP STDIO policy in security-policy.md)
+- Assisted-by tag required in commits where Codex materially contributed (see ai-workflow-policy.md):
+  Assisted-by: Codex:gpt-5.x [Cursor]
+- Cloud delegation subject to same audit trail requirement as all agentic sessions
+
+Reference: https://developers.openai.com/codex/ide
+
+---
+
 #### Gemini CLI (NOT APPROVED — evaluation pending)
 Google's terminal-based AI coding agent. Direct competitor to Claude Code in the same category: agentic coding loop, MCP support, Skills system, Plan Mode, multi-agent subagent delegation. Current stable: v0.39.0 (April 23 2026). Underlying models: Gemini 3.1 Pro / Gemma 4 locally.
 
