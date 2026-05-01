@@ -1958,6 +1958,22 @@ Mandatory mitigations:
 Source: OX Security disclosure, April 2026.
 Root vulnerability unpatched at protocol level as of 2026-04-22. Monitor for Anthropic protocol-level fix.
 
+**AI coding agent Git hook injection (April 2026):** Cursor CVE-2026-26268 (CVSS 8.1, fixed in Cursor ≥ 2.5): an AI agent operating in a Cursor session can create a bare .git repository with malicious Git hooks that execute automatically on every commit within the embedded repository context — no user interaction required, no prompt injection needed. The hook fires at the infrastructure level before any sandbox check.
+
+Mandatory mitigations:
+- Cursor MUST be kept at version ≥ 2.5
+- Never allow agent sessions to create bare .git repositories or modify .git/hooks/ in any repository
+- Audit .git/hooks/ in any repo touched by an agent session before committing
+- Apply same version floor discipline as Claude Code: update within 7 days of any Cursor security advisory
+
+**CursorJacking — unpatched credential exfiltration (April 2026, no CVE, CVSS 8.2):** Any installed Cursor extension can read sensitive API keys and credentials from Cursor's local SQLite credential database. Cursor does not enforce access control between extensions and this store. Status: unpatched as of 2026-05-02.
+
+Mandatory mitigations until patched:
+- Do NOT store API keys, tokens, or secrets in Cursor's built-in credential store
+- Store credentials in shell environment variables (~/.bashrc or ~/.profile) or a dedicated secrets manager, not in Cursor settings
+- Audit installed Cursor extensions — each extension is a potential credential exfiltration vector
+- Monitor: https://www.cursor.com/security for patch
+
 ---
 
 ## 20) Mandatory Verification Gates (Before Merge)

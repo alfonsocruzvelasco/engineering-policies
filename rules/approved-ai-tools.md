@@ -397,6 +397,8 @@ Additional constraints:
   Assisted-by: Codex:gpt-5.x [Cursor]
 - Cloud delegation subject to same audit trail requirement as all agentic sessions
 
+**CursorJacking exposure (unpatched, April 2026):** The Codex extension authenticates via ChatGPT account credentials. Do NOT store this credential in Cursor's built-in credential store — any other installed extension can read it via the unpatched CursorJacking vulnerability (CVSS 8.2). Store OpenAI API keys in shell environment variables only. Re-evaluate storage approach when Cursor ships a patch for the SQLite access control issue.
+
 Reference: https://developers.openai.com/codex/ide
 
 ---
@@ -419,6 +421,8 @@ Google's terminal-based AI coding agent. Direct competitor to Claude Code in the
 **Re-evaluate when:** a specific capability gap in Claude Code justifies evaluation, or `gemini gemma` local integration offers measurable advantage over current Ollama path.
 
 **Reference:** https://geminicli.com/docs/changelogs/latest/
+
+**Minimum version floor (April 2026):** Any future evaluation of Gemini CLI MUST use version ≥ 0.39.1. Versions below 0.39.1 carry a CVSS 10.0 RCE vulnerability (no CVE assigned yet): headless mode automatically trusted workspace folders for config loading, allowing attacker-controlled .gemini/ directory content in a cloned repo to execute commands on the host before any sandbox initialized. Same attack class as MCP STDIO prompt injection via repo files (see security-policy.md). Patched in 0.39.1 via explicit workspace trust requirement.
 
 ---
 
