@@ -55,7 +55,22 @@ Before a tool can be added to this registry, it MUST satisfy ALL of the followin
   - [ ] Timeout enforcement
 
 - [ ] **Billing / access tier (Anthropic Claude ecosystem)**
-  - [ ] Use stays within **subscription-covered** access for **first-party** products (e.g. Claude Code, Claude Cowork) per current vendor terms, **or** any reliance on **third-party harnesses** that require **Claude API** or vendor **"extra usage" / pay-as-you-go** (subscription excludes those harnesses per Anthropic policy **April 2026**; more harnesses may follow) has a **recorded cost exception**: business justification + **monthly budget cap**, approved by Security. Tools that depend on excluded billing paths without that exception are **not approved**.
+
+**Anthropic billing policy — programmatic usage (updated May 2026, effective June 15 2026):**
+
+Anthropic has restructured how subscriptions handle programmatic usage. Starting June 15 2026, a dedicated monthly Agent SDK credit is issued separately from interactive subscription limits:
+
+- Pro: $20/month
+- Max 5x: $100/month
+- Max 20x: $200/month
+
+This credit covers: Claude Agent SDK, claude -p, Claude Code GitHub Actions, third-party apps built on the Agent SDK. Interactive usage (Claude.ai chat, Claude Code terminal, Claude Code interactive sessions) draws from the unchanged subscription limits and is unaffected.
+
+Credit is non-rollover. When exhausted, programmatic usage pauses until reset unless pay-as-you-go extra usage billing is enabled. Activation required: claim credit via email notification on June 8 2026.
+
+**Spend cap policy (unchanged):** $20/month combined hard cap across all cloud AI spend remains in force. On Pro, the Agent SDK credit IS the $20 cap — do not enable pay-as-you-go extra usage billing, which would allow charges beyond the cap at standard API rates. Exit code 2 on cap hit (see budget_guard.py spec).
+
+**OpenClaw — prohibition unchanged:** OpenClaw is now technically permitted via Agent SDK credits per Anthropic's May 2026 reversal. The prohibition in this repo is NOT a billing restriction — it is a security prohibition: credential harvesting via `openclaw models auth login --provider anthropic --method cli --set-default` and prompt injection via social engineering bypass (see security-policy.md and April 2026 OpenClaw social engineering incident). OpenClaw remains prohibited regardless of billing status.
 
 ---
 
