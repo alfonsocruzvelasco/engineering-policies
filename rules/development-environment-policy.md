@@ -1,7 +1,7 @@
 # Development Environment Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-03-11
+**Last updated:** 2026-05-16
 
 ---
 
@@ -50,6 +50,7 @@ Those are governed by:
     - [Dates](#dates)
     - [Underscores (`_`) rule](#underscores-_-rule)
   - [Top-Level Directory Structure](#top-level-directory-structure)
+  - [~/apps Directory](#apps-directory)
   - [Storage Layer: `/workspace` (RAID backing store)](#storage-layer-workspace-raid-backing-store)
     - [Non-negotiable rules](#non-negotiable-rules)
     - [Recommended symlink mapping (examples)](#recommended-symlink-mapping-examples)
@@ -172,6 +173,21 @@ Each directory has **one meaning only**.
 | `~/tmp_backup` | Temporary safety net                                 |
 | `~/vpn`        | VPN configs                                          |
 
+
+---
+
+## ~/apps Directory
+
+<a id="apps-directory"></a>
+
+`~/apps` holds **manually installed user applications** that are not provided as native Fedora packages.
+
+### AppImage policy
+
+- **Location:** AppImages for tools unavailable in Fedora repos live in `~/apps/`.
+- **Naming:** kebab-case basename plus `.AppImage` suffix — e.g. `cursor.AppImage`, `tool-name.AppImage`.
+- **Desktop integration:** `.desktop` launcher files for AppImages go in `~/.local/share/applications/`.
+- **Preferred over legacy RPMs:** On Fedora, AppImages are the preferred install method over `.el7`/`.el8` RPMs built for older RHEL-era targets.
 
 ---
 
