@@ -105,6 +105,32 @@ Portable distinction when comparing **LLMs** and **coding/agent runtimes** (no p
   from the tool.
   Sources: https://arxiv.org/abs/2604.11045
   https://arxiv.org/abs/2604.11548
+- `harness-engineering-design-guide-claude-code` —
+  agentway.dev HarnessBooks (108pp, April 2026).
+  Source-level analysis of Claude Code's runtime
+  architecture distilling ten engineering principles:
+  (1) treat models as unstable components not teammates;
+  (2) prompt is part of the control plane, not dialogue;
+  (3) query loop is the heartbeat — state, interrupts,
+  recovery, stop conditions; (4) permission comes before
+  capability — runtime semantics not booleans;
+  (5) context governance is budget governance first —
+  CLAUDE.md/MEMORY.md separation, autocompact circuit
+  breaker; (6) errors are on the main path, not
+  exceptional — reactive compact, abort semantics;
+  (7) verification must be independent or implementation
+  completion impersonates problem solved;
+  (8) multi-agent solves uncertainty partitioning, not
+  parallelism; (9) approval tiered by risk;
+  (10) replayability requires baseline traces before
+  advanced audit trails.
+  Practitioner counterpart to SemaClaw academic paper.
+  Directly validates: four-layer verification gates,
+  HITL permission model, agent session traceability,
+  context lifecycle policies in ai-workflow-policy.md.
+  Read Chapter 7 (multi-agent) and Chapter 5 (context
+  governance) before Stage 3 of learning path.
+  Source: agentway.dev/en/claudecode (PDF, local copy)
 - `the-agent-stack-bet.pdf` — **The Agent Stack Bet** (PDF).
   Provenance note only: a local copy was evaluated and is not usable
   as policy reference material under current controls, so no artifact
