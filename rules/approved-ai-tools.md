@@ -72,6 +72,18 @@ Credit is non-rollover. When exhausted, programmatic usage pauses until reset un
 
 **OpenClaw — prohibition unchanged:** OpenClaw is now technically permitted via Agent SDK credits per Anthropic's May 2026 reversal. The prohibition in this repo is NOT a billing restriction — it is a security prohibition: credential harvesting via `openclaw models auth login --provider anthropic --method cli --set-default` and prompt injection via social engineering bypass (see security-policy.md and April 2026 OpenClaw social engineering incident). OpenClaw remains prohibited regardless of billing status.
 
+**Mandatory reliability evaluation before approval (added May 2026):**
+
+No agent tool may be approved without completing all three:
+
+1. Check Princeton HAI reliability dashboard (https://hal.cs.princeton.edu/reliability) for the tool or its underlying model. If not listed, require independent task-class evaluation.
+
+2. Verify benchmark scores are from independent evaluation not self-reported marketing. UC Berkeley (April 2026) demonstrated all major benchmarks can be gamed to 100% without solving a single task — published leaderboard scores are disqualifying if self-reported.
+
+3. Confirm task-class score exceeds OSWorld human baseline (72.36%) or equivalent human baseline for the intended use case. Agents scoring below human baseline are not approved for autonomous operation.
+
+Cross-reference: rules/security-policy.md §Prohibited Agent Platforms and Frameworks for the full blacklist and incident register.
+
 ---
 
 ## Approved Tools

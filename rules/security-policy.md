@@ -1958,6 +1958,108 @@ Mandatory mitigations:
 Source: OX Security disclosure, April 2026.
 Root vulnerability unpatched at protocol level as of 2026-04-22. Monitor for Anthropic protocol-level fix.
 
+---
+
+## Prohibited Agent Platforms and Frameworks
+
+The following agent platforms and frameworks are prohibited due to documented security incidents, CVEs, or structural architectural risks. Prohibition is independent of whether individual vulnerabilities have been patched — the platform's security track record or architectural design disqualifies it.
+
+### Explicitly prohibited — platforms
+
+**OpenClaw (all versions)**
+CVE-2025-59536 (CVSS 8.7): Claude Code hooks injection and MCP consent bypass via .claude/settings.json in untrusted repos. CVE-2026-21852 (CVSS 5.3): companion disclosure. CVE-2026-25253 (CVSS 9.3): RCE and API key exfiltration via malicious link. 1,184 confirmed malicious skills on ClawHub (of 10,700 total — 11%). 40,214 internet-exposed instances, 35.4% flagged vulnerable. Supply chain compromise via auto-updating skills (Antiy CERT ClawHavoc campaign). Google permanently banned accounts connected via OpenClaw OAuth — no warnings, no refunds.
+Prohibition basis: security track record, credential harvesting architecture, social engineering bypass (April 2026 incident). NOT a billing restriction.
+Mitigation: review .claude/settings.json before opening any cloned repository with Claude Code active.
+
+**DeepSeek models via direct API**
+Banned in US, Italy, South Korea, Australia, Taiwan, India on data privacy and national security grounds. Data routing to servers under PRC jurisdiction confirmed.
+Exception: local self-hosted DeepSeek models with no external API calls may be evaluated when approved.
+
+**LiteLLM (unverified/unpinned versions)**
+Supply chain attack March 2026: malicious versions 1.82.7 and 1.82.8 distributed via PyPI, live for ~3 hours, 40,000 downloads. Used in Mercor breach (TeamPCP cascade: Trivy→Checkmarx→LiteLLM→Telnyx→Cisco→Mercor, 1,000+ SaaS environments breached).
+Approved only when: pinned to a verified commit hash in uv.lock or requirements.txt, sourced from official repo, verified against known-good checksums.
+
+**Langflow (unpatched versions)**
+CVE-2026-33017 (CVSS 9.3): unauthenticated RCE on the public flow build endpoint. Weaponized within 20 hours of advisory — no PoC required. Third critical RCE added to CISA KEV catalog since May 2025. Root cause architectural: attacker-controlled flow definitions through unsandboxed exec().
+Approved only when: patched version, not network-exposed, no public endpoint.
+
+### Frameworks approved with mandatory version floors
+
+**LangChain / LangGraph**
+CVE-2026-34070 (CVSS 7.5): path traversal — arbitrary file read via prompt template API.
+CVE-2025-68664 (CVSS 9.3) "LangGrinch": serialization injection — API key and secret exfiltration.
+CVE-2025-67644 (CVSS 7.3): SQL injection in LangGraph SQLite checkpoint — arbitrary queries against conversation history.
+Approved only when: all three CVEs patched, dependencies pinned, no untrusted input reaches prompt templates or checkpoint metadata.
+
+**Antigravity (Google)**
+Strict Mode sandbox bypass (Jan 2026, patched Feb 2026): RCE via fd -X flag. Persistent indirect prompt injection via invisible characters in C++ comments (FireTail, Mar 2026) — source file exfiltration, not fully patched. Antigravity 2.0 (Google I/O May 2026): separate codebase, new versioning and security advisory process.
+Status: NOT APPROVED — re-evaluate at version ≥ 2.0 when specific use case justifies it.
+
+**Semantic Kernel**
+CVE-2026-25592: RCE via prompt injection (.NET SDK < 1.71.0)
+CVE-2026-26030: RCE via Vector Store filter (Python < 1.39.4)
+Approved only when: .NET SDK ≥ 1.71.0,
+Python semantic-kernel ≥ 1.39.4.
+Not currently in use.
+
+### Structural prohibitions (apply to any platform)
+
+- Auto-updating agent skills or plugins with no version pinning (OpenClaw ClawHub, LiteLLM PyPI incident)
+- Community plugin registries without code review gates (11% malicious skill rate on ClawHub is the benchmark)
+- Agent frameworks that allow the agent to modify its own system prompt at runtime
+- Agent frameworks with no least-privilege tool access model
+- Any agent that can write to its own audit log
+- MCP servers from community registries — official GitHub MCP Registry only (9/11 community registries accepted malicious servers, OX Security April 2026)
+- Untrusted repository .claude/settings.json loaded without review (CVE-2025-59536 attack vector)
+- Agent frameworks with no hard session timeout and no token budget cap
+- Any agent scoring below human baseline on OSWorld (72.36%) for the task class it will be used for — do not deploy agents that are demonstrably worse than a human
+
+### Reliability prohibitions (incompetence, not just security)
+
+The following platforms have documented production failures independent of security vulnerabilities:
+
+**OpenAI Operator (original, pre-ChatGPT agent merger)**
+Scored 38.1% on OSWorld at launch — below human baseline of 72.36%. Made unauthorised $31.43 purchase from Instacart violating user confirmation safeguard. Folded into ChatGPT agent July 2025. Do not use the original Operator API.
+
+**Any agent with no published reliability benchmarks**
+If a vendor cannot produce per-task-class benchmark scores from an independent evaluation (not self-reported), do not approve. Marketing claims without benchmark evidence are disqualifying, not qualifying.
+
+**Benchmark inflation caveat (mandatory)**
+UC Berkeley (April 2026) demonstrated that every major AI agent benchmark (SWE-bench, WebArena, OSWorld, GAIA, Terminal-Bench) can be exploited to achieve near-perfect scores without solving a single task. Published leaderboard scores are not a reliable quality signal. Require Princeton HAI reliability dashboard assessment (https://hal.cs.princeton.edu/reliability) or equivalent independent evaluation before approving any agent tool.
+
+### Incident register (evidence basis)
+
+| Platform | Incident | CVE | CVSS | Date | Source |
+|----------|----------|-----|------|------|--------|
+| OpenClaw | RCE + API key exfiltration | CVE-2026-25253 | 9.3 | Feb 2026 | Check Point Research |
+| Claude Code | Hooks injection + MCP consent bypass | CVE-2025-59536 | 8.7 | Feb 2026 | Check Point Research |
+| Claude Code | Companion disclosure | CVE-2026-21852 | 5.3 | Feb 2026 | Check Point Research |
+| OpenClaw/ClawHub | 1,184 malicious skills (ClawHavoc) | — | — | Feb 2026 | Antiy CERT |
+| LiteLLM | Supply chain PyPI (TeamPCP cascade) | — | — | Mar 2026 | OWASP Q1 2026 |
+| Langflow | Unauthenticated RCE, CISA KEV | CVE-2026-33017 | 9.3 | Mar 2026 | CISA KEV |
+| LangChain | Path traversal | CVE-2026-34070 | 7.5 | Mar 2026 | Cyera |
+| LangChain | LangGrinch serialization injection | CVE-2025-68664 | 9.3 | Mar 2026 | Cyera |
+| LangGraph | SQLite SQL injection | CVE-2025-67644 | 7.3 | Mar 2026 | Cyera |
+| MCP ecosystem | 492 servers no auth/encryption | — | — | Mar 2026 | Trend Micro |
+| MCP ecosystem | 9/11 community registries accept malicious servers | — | — | Apr 2026 | OX Security |
+| Antigravity | Sandbox escape RCE via fd -X | — | — | Jan 2026 | Pillar Security |
+| Antigravity | Persistent source file exfiltration | — | — | Mar 2026 | FireTail |
+| Cursor | Sandbox escape via .git hooks | CVE-2026-26268 | 8.1 | Apr 2026 | Disclosed |
+| Cursor | Extension credential exfiltration (CursorJacking) | — | 8.2 | Apr 2026 | Disclosed |
+| Gemini CLI | Headless workspace trust RCE | — | 10.0 | Apr 2026 | Google advisory |
+| GitHub Copilot | PR comment prompt injection RCE | CVE-2025-53773 | 9.6 | 2026 | Cycode |
+| Semantic Kernel | RCE via tool call prompt injection (.NET) | CVE-2026-25592 | — | 2026 | Microsoft Security |
+| Semantic Kernel | RCE via Vector Store filter (Python) | CVE-2026-26030 | — | 2026 | Microsoft Security |
+| Moltbook | Unsecured DB — 1.5M agents hijackable | — | — | Jan–Mar 2026 | AI Automation Global |
+| DeepSeek | Government bans — data routing to PRC | — | — | Jan 2026 | Multiple governments |
+| Docker | AuthZ plugin bypass via oversized body | CVE-2026-34040 | 8.8 | Apr 2026 | Docker Security |
+| OpenAI Operator | Unauthorised $31 purchase, 38.1% OSWorld | — | — | 2025 | Washington Post / Coasty |
+| Replit AI Agent | Deleted production database despite instructions | — | — | Jul 2025 | Princeton HAI |
+| NYC Gov chatbot | Systematic illegal housing advice | — | — | 2024 | Princeton HAI |
+| Xinference | PyPI compromise — 600,000+ downloads | — | — | Apr 2026 | webpro255/awesome-ai-agent-attacks |
+
+---
+
 **AI coding agent Git hook injection (April 2026):** Cursor CVE-2026-26268 (CVSS 8.1, fixed in Cursor ≥ 2.5): an AI agent operating in a Cursor session can create a bare .git repository with malicious Git hooks that execute automatically on every commit within the embedded repository context — no user interaction required, no prompt injection needed. The hook fires at the infrastructure level before any sandbox check.
 
 Mandatory mitigations:
