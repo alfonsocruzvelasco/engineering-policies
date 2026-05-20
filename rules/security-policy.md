@@ -2077,7 +2077,6 @@ Three steps — all required:
 | Xinference | PyPI compromise — 600,000+ downloads | — | — | Apr 2026 | webpro255/awesome-ai-agent-attacks |
 
 ---
----
 
 **AI coding agent Git hook injection (April 2026):** Cursor CVE-2026-26268 (CVSS 8.1, fixed in Cursor ≥ 2.5): an AI agent operating in a Cursor session can create a bare .git repository with malicious Git hooks that execute automatically on every commit within the embedded repository context — no user interaction required, no prompt injection needed. The hook fires at the infrastructure level before any sandbox check.
 
