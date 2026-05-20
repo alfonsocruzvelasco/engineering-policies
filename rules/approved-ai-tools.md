@@ -72,17 +72,15 @@ Credit is non-rollover. When exhausted, programmatic usage pauses until reset un
 
 **OpenClaw — prohibition unchanged:** OpenClaw is now technically permitted via Agent SDK credits per Anthropic's May 2026 reversal. The prohibition in this repo is NOT a billing restriction — it is a security prohibition: credential harvesting via `openclaw models auth login --provider anthropic --method cli --set-default` and prompt injection via social engineering bypass (see security-policy.md and April 2026 OpenClaw social engineering incident). OpenClaw remains prohibited regardless of billing status.
 
-**Mandatory reliability evaluation before approval (added May 2026):**
+**Mandatory three-step reliability evaluation (May 2026):**
 
 No agent tool may be approved without completing all three:
 
-1. Check Princeton HAI reliability dashboard (https://hal.cs.princeton.edu/reliability) for the tool or its underlying model. If not listed, require independent task-class evaluation.
+1. Check Princeton HAI reliability dashboard (https://hal.cs.princeton.edu/reliability). If not listed, require independent task-class evaluation.
+2. Verify benchmark scores are from independent evaluation not self-reported marketing. UC Berkeley (April 2026) demonstrated all major benchmarks can be gamed — published leaderboard scores are disqualifying if self-reported.
+3. Confirm task-class score exceeds human baseline (OSWorld 72.36% or equivalent for intended use case). Agents below human baseline are not approved for autonomous operation.
 
-2. Verify benchmark scores are from independent evaluation not self-reported marketing. UC Berkeley (April 2026) demonstrated all major benchmarks can be gamed to 100% without solving a single task — published leaderboard scores are disqualifying if self-reported.
-
-3. Confirm task-class score exceeds OSWorld human baseline (72.36%) or equivalent human baseline for the intended use case. Agents scoring below human baseline are not approved for autonomous operation.
-
-Cross-reference: rules/security-policy.md §Prohibited Agent Platforms and Frameworks for the full blacklist and incident register.
+Architectural risk and CVE risk are evaluated separately. A tool with patched CVEs may still be architecturally prohibited. See security-policy.md §Prohibited Agent Platforms and Frameworks.
 
 ---
 
@@ -122,6 +120,8 @@ Cross-reference: rules/security-policy.md §Prohibited Agent Platforms and Frame
 - MUST NOT share production credentials in prompts
 - MUST sanitize sensitive data before prompting
 - MUST review all generated code before deployment
+
+**Model deprecation (May 2026):** Claude Sonnet 3.7 is deprecated for new workloads. Anthropic's system card for Claude Opus 4 and Sonnet 4 (May 2025) documents lower over-refusal rates than Sonnet 3.7 on benign requests. Use `claude-sonnet-4-20250514` or above. Do not start new workloads on Sonnet 3.7.
 
 **Cost Model:** Per-token pricing, ~$0.015/1K input tokens
 **Documentation:** https://docs.anthropic.com/

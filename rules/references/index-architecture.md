@@ -152,12 +152,38 @@ Portable distinction when comparing **LLMs** and **coding/agent runtimes** (no p
   Use as evidence base for policy rationale — every incident
   maps to an existing rule.
   Source: https://crackr.dev/vibe-coding-failures
-- `awesome-ai-agent-attacks` — webpro255 (GitHub, updated continuously). Curated timeline of real AI agent security incidents 2024–2026, every entry sourced and dated. Primary evidence base for prohibited-agent-platforms blacklist in security-policy.md. Source: https://github.com/webpro255/awesome-ai-agent-attacks
-- `LLMSecurityGuide` — requie (GitHub, updated 2026). OWASP Top 10 for LLM Applications 2025 + OWASP Top 10 for Agentic Applications 2026 (official ASI prefix). Taxonomy layer for classifying incidents in the blacklist. Source: https://github.com/requie/LLMSecurityGuide
-- `ai-agent-reliability-science` — Princeton HAI (Feb 2026). Interactive dashboard tracking agent reliability as consistency, perturbation resistance, failure predictability, error severity — not single-metric benchmark scores. Use before approving any new agent tool. Dashboard: https://hal.cs.princeton.edu/reliability Paper: https://arxiv.org/abs/2602.16666
-- `trustworthy-benchmarks` — UC Berkeley RDI (Apr 2026). Every major AI agent benchmark can be exploited to achieve near-perfect scores without solving a single task. Advertised leaderboard scores are not a reliable quality signal. Verify with independent evaluation before trusting any published benchmark claim. Source: https://github.com/moogician/trustworthy-env
-- `ai-agent-benchmark-results-2026` — Coasty (May 2026). Named benchmark scores with hype vs. reality comparison. Human baseline on OSWorld: 72.36%. Several well-marketed agents score below human baseline. Source: https://coasty.ai/blog/ai-agent-benchmark-results-2026
-- `docker-ai-coding-agent-horror-stories` — Docker Blog (May 2026). 10+ documented incidents across 6 major AI coding tools in 16 months. Six critical risk categories. Source: https://www.docker.com/blog/ai-coding-agent-horror-stories-security-risks/
+- `awesome-ai-agent-attacks` — webpro255 (GitHub, updated
+  continuously). Curated timeline of real AI agent security
+  incidents 2024–2026, every entry sourced and dated.
+  Primary evidence base for prohibited-agent-platforms
+  blacklist in security-policy.md.
+  Source: https://github.com/webpro255/awesome-ai-agent-attacks
+- `LLMSecurityGuide` — requie (GitHub, updated 2026).
+  OWASP Top 10 for LLM Applications 2025 + OWASP Top 10
+  for Agentic Applications 2026 (official ASI prefix).
+  Taxonomy layer for classifying incidents in blacklist.
+  Source: https://github.com/requie/LLMSecurityGuide
+- `ai-agent-reliability-science` — Princeton HAI (Feb 2026).
+  Interactive dashboard: agent reliability as consistency,
+  perturbation resistance, failure predictability, error
+  severity — not single-metric benchmark scores. Mandatory
+  first step before approving any agent tool.
+  Dashboard: https://hal.cs.princeton.edu/reliability
+  Paper: https://arxiv.org/abs/2602.16666
+- `trustworthy-benchmarks` — UC Berkeley RDI (Apr 2026).
+  Every major AI agent benchmark can be gamed to near-
+  perfect scores without solving a single real task.
+  Published leaderboard scores are not a reliable quality
+  signal.
+  Source: https://github.com/moogician/trustworthy-env
+- `ai-agent-benchmark-results-2026` — Coasty (May 2026).
+  Named benchmark scores with hype vs. reality comparison.
+  Human baseline on OSWorld: 72.36%.
+  Source: https://coasty.ai/blog/ai-agent-benchmark-results-2026
+- `docker-ai-coding-agent-horror-stories` — Docker Blog
+  (May 2026). 10+ incidents across 6 major AI coding tools
+  in 16 months. Six critical risk categories.
+  Source: https://www.docker.com/blog/ai-coding-agent-horror-stories-security-risks/
 
 ## Retrieval, Vector DBs, and RAG
 
