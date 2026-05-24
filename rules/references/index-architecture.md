@@ -131,6 +131,32 @@ Portable distinction when comparing **LLMs** and **coding/agent runtimes** (no p
   Read Chapter 7 (multi-agent) and Chapter 5 (context
   governance) before Stage 3 of learning path.
   Source: agentway.dev/en/claudecode (PDF, local copy)
+- `anatomy-of-an-agent-harness` — agentway.dev
+  (May 2026). Synthesis of harness patterns across
+  Anthropic, OpenAI, LangChain, CrewAI, AutoGen.
+  12 harness components: orchestration loop, tools,
+  memory, context management, prompt construction,
+  output parsing, state management, error handling,
+  guardrails, verification loops, subagent
+  orchestration, termination conditions.
+  Key findings: (1) LangChain changed only harness
+  infrastructure (same model/weights) and jumped
+  from outside top 30 to rank 5 on TerminalBench 2.0
+  — harness is not a commodity layer; (2) 10-step
+  process at 99% per-step = 90.4% end-to-end success
+  — errors compound multiplicatively; (3) Vercel
+  removed 80% of tools and got better results —
+  minimum tool set principle; (4) Ralph Loop pattern
+  for multi-context-window tasks (see
+  ai-workflow-policy.md); (5) harnesses are thinning
+  as models improve — Manus rebuilt 5x in 6 months,
+  each rewrite removing complexity.
+  Seven harness design decisions: single vs. multi-
+  agent, ReAct vs. plan-and-execute, context
+  management strategy, verification loop design,
+  permission architecture, tool scoping, harness
+  thickness.
+  Source: agentway.dev/en/claudecode (article)
 - `the-agent-stack-bet.pdf` — **The Agent Stack Bet** (PDF).
   Provenance note only: a local copy was evaluated and is not usable
   as policy reference material under current controls, so no artifact

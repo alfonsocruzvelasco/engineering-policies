@@ -77,6 +77,8 @@ LLM output = **candidate**, not **result**.
 - prefer deterministic systems when possible
 - **Retrieval grounding (RAG)** is a **mitigation layer**, not a solution — it can reduce hallucination frequency on factual queries but **does not** eliminate confabulation; the model can still invent or miscombine facts when retrieved context is ambiguous, incomplete, or mis-weighted. **Normative detail:** [`ai-retrieval-policy.md`](ai-retrieval-policy.md) (architecture selection, ingestion, sandboxing, evaluation). Treat RAG as **one** layer alongside tests, measurements, and external fact checks — not a substitute for them.
 
+**Compounding failure math (rationale for verification gates):** A 10-step agentic process with 99% per-step success rate has only 90.4% end-to-end success probability. At 95% per-step, a 10-step process succeeds only 59.9% of the time. Errors compound multiplicatively, not additively. This is the quantitative basis for the four-layer verification gates in this repo: each verification checkpoint resets the compounding error chain. Never skip a verification step to save time — the probability math makes this a false economy.
+
 ---
 
 ## 6. Key tradeoff

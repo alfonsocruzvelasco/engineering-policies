@@ -365,6 +365,20 @@ WAVE 1 (parallel)        WAVE 2 (parallel)        WAVE 3
 
 **See also:** Part 3: Session Management for comprehensive session lifecycle management, coordination guidelines, and metrics tracking.
 
+**Agent harness principles (May 2026):**
+
+The harness is the complete software infrastructure wrapping an LLM: orchestration loop, tools, memory, context management, state persistence, error handling, and guardrails. The model decides what to attempt; the harness decides what is allowed and manages everything the model cannot manage itself.
+
+Canonical formula (LangChain, Vivek Trivedy): "If you're not the model, you're the harness."
+
+**Tool scoping rule:** Expose the minimum tool set needed for the current step. More tools = worse performance. Vercel removed 80% of tools from v0 and got better results. Claude Code achieves 95% context reduction via lazy loading. Never load all available tools into context simultaneously.
+
+**Ralph Loop pattern (Anthropic) for long-running tasks spanning multiple context windows:**
+Two-phase structure:
+- Phase 1 — Initializer Agent: init script, progress file, feature list, initial git commit
+- Phase 2 — Coding Agent (every subsequent session): read git logs and progress files to orient, pick highest-priority incomplete feature, work, commit, write summary
+The filesystem provides continuity across context windows. Apply this pattern to any CV project task that spans more than one Claude Code session.
+
 ### Task Tool Usage (Claude Code)
 
 **Mandatory workflow for multi-step tasks using Claude Code's task management:**
