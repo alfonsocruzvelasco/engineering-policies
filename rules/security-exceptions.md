@@ -21,13 +21,15 @@ CISO + VP Engineering approval with documented compensating controls.
 
 | ID | Policy Section | Requestor | Approver | Start Date | End Date | Compensating Controls |
 |----|----------------|-----------|----------|------------|----------|-----------------------|
-| CVE-2026-34040 | Docker Engine / moby-engine (CVE-2026-34040); moby-engine 29.0.4 (Fedora 41 — unpatched) | Alfonso Cruz | — | 2026-04-10 | 2026-04-14 | Fedora 41 repo has not shipped the fix as of 2026-04-10. No AuthZ plugins active — primary exploit vector not exposed. Socket permissions correct (srw-rw---- root docker). Single-user workstation — no co-tenant threat model. Planned resolution: Fedora 43 upgrade 2026-04-13. Update moby-engine immediately post-upgrade and verify ≥ 29.3.1. |
+| -  | -              | -         | -        | -          | -        | -                     |
 
 ## Expired/Closed Exceptions
 
-| ID | Policy Section | Requestor | Approver | Start Date | End Date | Closure Reason |
-|----|----------------|-----------|----------|------------|----------|----------------|
-| -  | -              | -         | -        | -          | -        | -              |
+| CVE-2026-31431 (Copy Fail) | CLOSED 2026-05-27 |
+| Linux kernel algif_aead LPE CVSS 7.8. Fedora 41 unpatched — CONFIG_CRYPTO_USER_API_AEAD=y (built-in), modprobe.d mitigation ineffective on RHEL-family. Correct mitigation applied 2026-04-30: initcall_blacklist=algif_aead_init via grubby. Resolved by Fedora 43 upgrade 2026-05-27 — kernel 7.0.8-100.fc43.x86_64 includes upstream fix. Mitigation parameter removed post-upgrade and verified absent in /proc/cmdline. | Alfonso Cruz |
+
+| CVE-2026-34040 | CLOSED 2026-05-27 |
+| Docker Engine AuthZ plugin bypass via oversized request body CVSS 8.8. moby-engine 29.0.4 unpatched on Fedora 41 as of 2026-04-10 — no AuthZ plugins active, socket permissions correct, single-user machine. Resolved by Fedora 43 upgrade 2026-05-27 — Docker 29.4.2 ≥ 29.3.1 patched threshold. Verified: docker version --format '{{.Server.Version}}' returns 29.4.2. | Alfonso Cruz |
 
 ---
 

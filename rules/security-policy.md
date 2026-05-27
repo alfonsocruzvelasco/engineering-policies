@@ -3471,7 +3471,7 @@ Immediate investigation required when:
 
 ## 14. **Required Security Tooling for AI-Assisted Development**
 
-Organizations developing with AI assistance must deploy appropriate security tooling to enforce the policies and verification gates described in this document. The following sections detail essential tools for Fedora 41/RHEL-based systems, though most tools are cross-platform.
+Organizations developing with AI assistance must deploy appropriate security tooling to enforce the policies and verification gates described in this document. The following sections detail essential tools for Fedora 43/RHEL-based systems, though most tools are cross-platform.
 
 ### 15.1 Essential Security Tools
 
@@ -3884,8 +3884,8 @@ construct and trigger the exploit payload without human
 instruction while performing legitimate debugging tasks (see §9.4
 AI tool weaponization). Update within 7 days of any future Docker
 security advisory — same cadence as Claude Code version floor
-(§14.6.8 / PI-7.1). Current exception: see security-exceptions.md
-(CVE-2026-34040, open until Fedora 43 upgrade).
+(§14.6.8 / PI-7.1). Exception closed 2026-05-27: Docker 29.4.2
+confirmed on Fedora 43. No open exceptions.
 
 #### Secure Secrets Management
 
