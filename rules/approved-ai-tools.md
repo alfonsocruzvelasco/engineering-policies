@@ -453,6 +453,27 @@ Google's terminal-based AI coding agent. Direct competitor to Claude Code in the
 
 ---
 
+#### Herdr (NOT APPROVED — evaluation pending)
+Terminal-native agent runtime ([herdr.dev](https://herdr.dev/)). Runs inside the existing terminal emulator (Ghostty, Kitty, iTerm, Alacritty, etc.) — not a browser dashboard or terminal replacement. Provides tmux-style persistent PTY sessions, mouse-native panes, semantic agent state rollups (blocked / working / done / idle), detach/reattach, remote SSH attach (`herdr --remote`), and a CLI plus newline-delimited JSON socket API for workspace/tab/pane orchestration. Single Rust binary; install via vendor script, Homebrew, or Nix flake. Integrates with terminal agents already in this registry (Claude Code, Codex, Cursor, Pi, and others listed on the vendor site).
+
+**Layer classification:** Agent system layer (harness / orchestration) — not a model. Complements approved CLI agents; does not replace them. See `ai-workflow-policy.md` Agent harness principles (May 2026) and Ralph Loop pattern for filesystem continuity across sessions.
+
+**Tracked for evaluation because:**
+- Potential fit for parallel Claude Code sessions, Ralph Loop progress files, and harness tool-scoping (minimum tool exposure per workspace)
+- Keeps shell, SSH, fonts, and keybinds while adding agent-aware layout vs. raw tmux alone
+
+**Not approved because:**
+- No security or reliability evaluation against current stack (mandatory three-step gate in this file not completed)
+- Socket API allows agents to create panes, run commands, read output, and wait on state — expands automated execution surface; must be assessed against `security-policy.md` §8 (tool use) and PI-7 repo-config rules before approval
+- `curl | sh` install path requires same supply-chain discipline as any new binary (pin version, verify checksums, prefer Homebrew/Nix after review)
+- No published enterprise SLA, DPA, or SOC attestation on vendor site as of 2026-05-24
+
+**Re-evaluate when:** a concrete use case (e.g. multi-agent CV training/debug herd) justifies evaluation; install channel and API permissions are documented; and evaluation covers remote attach, persistence across untrusted repos, and interaction with approved agents only.
+
+**Reference:** https://herdr.dev/ — Docs: https://herdr.dev/ (compare, quick start, API)
+
+---
+
 ### Category: Self-Hosted LLMs (Air-Gapped)
 
 #### Ollama (On-Premises, Air-Gapped Only)
