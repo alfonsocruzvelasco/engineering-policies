@@ -1,5 +1,25 @@
 # PRD Template — Minimal Product Requirements Document
 
+**Constitution requirement (SDD, May 2026):**
+Before writing this PRD, create three documents
+in a specs/ directory:
+
+  specs/mission.md   — what and why; key goals
+  specs/tech-stack.md — technical decisions,
+                        deployment, update process
+  specs/roadmap.md   — project phases in
+                        implementation order
+
+These three files are committed first, before
+any code. The PRD is written against them, not
+before them. If the PRD contradicts the
+constitution, update the constitution first.
+
+After each feature ships: replan. Revisit the
+constitution and update it before starting the
+next feature. The constitution is a living
+document, not a one-time artefact.
+
 **Status:** Authoritative
 **Purpose:** Mandatory pre-coding artifact for any work estimated at >2 hours. Prevents drift, forces clarity, enables issue decomposition.
 

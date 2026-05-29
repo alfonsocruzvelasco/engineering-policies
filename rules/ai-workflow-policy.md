@@ -69,6 +69,52 @@ scope: AI-assisted development workflows (core workflow, prompt engineering, ses
 
 # Part 1: Core Workflow
 
+**Agentic engineering (working definition):**
+"Agentic because the new default is that you are
+not writing the code directly 99% of the time,
+you are orchestrating agents who do and acting as
+oversight. Engineering to emphasize that there is
+an art and science and expertise to it."
+— Andrej Karpathy, February 2026
+
+This is the working method of this repo. It is
+not vibe coding. Every task begins with a
+specification; every agent output is verified
+before it is accepted; every architectural
+decision is recorded. The leverage comes from
+the agents. The quality comes from the oversight.
+
+**Spec-Driven Development (SDD) workflow:**
+Every new project or significant feature follows
+this sequence — no exceptions:
+
+1. Constitution first (before any code):
+   - specs/mission.md — what and why
+   - specs/tech-stack.md — core technical decisions
+   - specs/roadmap.md — phases in implementation
+     order
+   These three documents are the first commit.
+   No implementation starts without them.
+
+2. Feature development:
+   - Spec: write detailed feature specification
+   - Implement: agent executes against spec
+   - Verify: evidence-based validation only
+     (no claimed success without executed commands
+     and outputs)
+
+3. Replan (mandatory before next feature):
+   Revisit the constitution after every shipped
+   feature. Update mission.md, tech-stack.md,
+   or roadmap.md if the implementation revealed
+   new constraints or changed the scope. Context
+   decay is the enemy — the constitution is the
+   antidote.
+
+Source: JetBrains / DeepLearning.AI Spec-Driven
+Development course; Karpathy agentic engineering
+framing (February 2026).
+
 ## Core Principle
 
 **AI coding has shifted software craftsmanship from "writing code" toward "specifying, verifying, and steering".** Best practice with Cursor (as an AI coding IDE) is to treat it like a junior engineer with very fast typing: you control scope, you demand diffs, you gate everything with tests, and you never let it wander outside the repo and your rules.
