@@ -392,6 +392,34 @@ MCP servers MUST only be installed from the official GitHub MCP Registry. Commun
 
 **Related product (separate posture — Claude Code Web):** Browser/cloud async agent with GitHub integration is **not** classified the same as local CLI Claude Code for data-exfiltration and control boundaries. **MUST** follow [`claude-code-web-usage-policy.md`](claude-code-web-usage-policy.md) (forbidden for ML/CV core, secrets, credentials, datasets, infra configs; review-before-integrate).
 
+**ccusage (APPROVED)**
+Local CLI for tracking token usage and estimated
+costs across Claude Code, Codex, Gemini CLI, and
+14 other coding agent CLIs. Reads local log files
+only — no data uploaded. MIT licensed.
+Source: https://ccusage.com / https://github.com/ryoppippi/ccusage
+
+Approved because:
+- Local data only — no cloud upload
+- Fills the spend metering gap pending budget_guard.py
+- MIT licensed, open source, auditable
+- Supports Claude Code, Codex VS Code extension,
+  and Gemini CLI — all tools in active use or
+  evaluation
+
+Usage constraints:
+- Install with explicit version pin:
+  npm install -g ccusage@<version>
+  Verify version against https://www.npmjs.com/package/ccusage
+  before installing — npm supply chain attacks are
+  active (TrapDoor, Mini Shai-Hulud, May 2026)
+- OpenClaw appears in the supported sources list —
+  this does not affect the OpenClaw prohibition,
+  which covers use of OpenClaw, not tools that
+  read its log format
+- When budget_guard.py is implemented, ccusage
+  output can serve as the metering input
+
 ---
 
 #### Codex on Amazon Bedrock (NOT APPROVED — evaluation pending)
