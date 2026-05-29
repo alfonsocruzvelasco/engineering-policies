@@ -93,6 +93,45 @@ standard in `ai-workflow-policy.md` Part 1 (agent session
 traceability). Reference:
 https://claude.com/blog/introducing-routines-in-claude-code
 
+**Claude Code Dynamic Workflows (research preview,
+May 28 2026):**
+Claude dynamically writes orchestration scripts
+that execute tens to hundreds of parallel subagents
+in a single session, with built-in verification
+before output is returned. Activated via: (1) asking
+Claude to "Create a workflow" directly, or (2)
+enabling the `ultracode` setting via the effort menu
+(sets effort to xhigh, Claude decides when to invoke
+a workflow automatically).
+
+Available on: Claude Code CLI, Desktop, VS Code
+extension — Max, Team, and Enterprise plans only.
+Also available via Claude API, Amazon Bedrock,
+Vertex AI, Microsoft Foundry.
+
+Restrictions under this policy:
+- Research preview — same restrictions as Claude
+  Code Routines: forbidden for ML/CV core workloads,
+  credentials, datasets, and infra configs
+- **Spend cap risk:** Anthropic explicitly warns
+  that dynamic workflows consume substantially more
+  tokens than a typical Claude Code session.
+  Tens to hundreds of parallel subagents will
+  exhaust the $20/month Pro Agent SDK credit
+  rapidly. Do NOT enable `ultracode` or invoke
+  dynamic workflows without first scoping the task
+  and estimating token cost via ccusage. Exit code
+  2 on cap hit (see budget_guard.py spec).
+- Do not enable auto-approve (`ultracode`) for
+  any task touching credentials, production data,
+  or infra configs — parallel subagents at xhigh
+  effort with no human gate is outside the HITL
+  policy
+- Re-evaluate for production use when research
+  preview designation is removed
+Reference:
+https://claude.com/blog/introducing-dynamic-workflows-in-claude-code
+
 ---
 
 ## 5. Security model
