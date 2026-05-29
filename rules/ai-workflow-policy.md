@@ -1269,23 +1269,23 @@ Agents are not uniform. Different operational contexts require different governa
 
 **Classification assignment:** Repository-level. Set in `AGENTS.md` header or infer from repository type (`~/learning-repos/` = exploratory; `~/dev/repos/` = production).
 
-### Effort Parameter (Opus 4.6)
+### Effort and model policy (adaptive thinking, May 2026)
 
-**Adaptive thinking with `/effort` parameter:**
+Models use adaptive thinking — reasoning depth self-calibrates
+within the effort ceiling. Do not over-provision.
 
-- **`/effort=low`**: Fast inference, lower cost, acceptable for routine tasks (target: 80% accuracy)
-- **`/effort=medium`**: Balanced quality/speed/cost
-- **`/effort=high`**: Extended thinking, maximum quality, use for critical decisions
+Default: Sonnet 4.6 / high
+- Chat, queries, drafts: Sonnet 4.6 / medium
+- Routine code, refactoring: Sonnet 4.6 / high
+- Complex CV/ML, hard debugging: Opus 4.8 / high
+- Deep reasoning, novel problems: Opus 4.8 / xhigh
+- Long async multi-agent: Opus 4.8 / ultracode
+  (monitor Agent SDK spend — exhausts $20/month cap fast)
+- Absolute quality ceiling: Opus 4.8 / max
+  (one-off only, never as session default)
 
-**Selection guidance:**
-- Task complexity < threshold → `low`
-- Task complexity < high threshold → `medium`
-- Critical decisions or high complexity → `high`
-
-**Empirical calibration:**
-- Build decision tree: "Does low-effort produce acceptable accuracy 80% of the time for task class X?"
-- Measure: accuracy, latency, cost across effort levels
-- Deliverable: Calibration curves for task_complexity → effort_level mapping
+Spend discipline: run `npx ccusage@latest daily` after
+any Opus 4.8 / xhigh or ultracode session.
 
 ### Key Capabilities
 
