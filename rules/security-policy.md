@@ -2086,6 +2086,15 @@ Mandatory mitigations:
 - Audit .git/hooks/ in any repo touched by an agent session before committing
 - Apply same version floor discipline as Claude Code: update within 7 days of any Cursor security advisory
 
+**Billing attack dimension (May 2026):** With
+token-based pricing, a persistent SessionStart hook
+on an active development machine is not only a
+credential exfiltration risk — it is an unbounded
+billing attack. A hook that triggers Claude Code
+sessions consumes Agent SDK credits on every
+invocation. Audit hooks before any billing anomaly
+investigation, not after.
+
 **CursorJacking — unpatched credential exfiltration (April 2026, no CVE, CVSS 8.2):** Any installed Cursor extension can read sensitive API keys and credentials from Cursor's local SQLite credential database. Cursor does not enforce access control between extensions and this store. Status: unpatched as of 2026-05-02.
 
 Mandatory mitigations until patched:
