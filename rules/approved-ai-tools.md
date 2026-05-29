@@ -598,6 +598,71 @@ Terminal-native agent runtime ([herdr.dev](https://herdr.dev/)). Runs inside the
 
 ---
 
+### Category: Cloud GPU Infrastructure
+
+**RunPod — Cloud GPU Rental (APPROVED with
+restrictions)**
+On-demand GPU cloud for ML/CV training and
+fine-tuning runs that exceed local RTX 4070
+12GB VRAM capacity.
+Source: https://www.runpod.io
+
+Two tiers:
+- Community Cloud: GPUs from individual providers
+  globally. RTX 4090 ~$0.34/hr, A100 80GB ~$0.89/hr.
+  Prices fluctuate. Machines can go offline.
+  Use for: training runs, experimentation, workloads
+  that checkpoint and resume.
+  Do NOT use for: production inference, sensitive
+  data, anything that cannot tolerate interruption.
+- Secure Cloud: RunPod's own data centres.
+  Higher prices, enterprise reliability.
+  Use for: workloads requiring stable uptime.
+  Not required for CV portfolio training runs.
+
+**Approved use cases:**
+- YOLOv8/CV model training that exceeds 12GB VRAM
+- Fine-tuning runs requiring A100+ memory
+- Benchmark runs requiring sustained GPU hours
+
+**Spend cap:**
+$20/month combined hard cap across all cloud AI
+spend (RunPod + Anthropic API). RunPod GPU hours
+draw from the same cap. RTX 4090 at $0.34/hr =
+~58 hours/month at cap. A100 at $0.89/hr = ~22
+hours/month at cap. Run `npx ccusage@latest monthly`
+before each RunPod session to check remaining budget.
+Exit code 2 on cap hit (see budget_guard.py spec).
+
+**Security constraints (mandatory):**
+- No production data, credentials, API keys, or
+  secrets in any RunPod session — treat all
+  Community Cloud environments as potentially
+  compromised at the hardware level
+- GPUBreach (GDDR6 RowHammer, April 2026): RTX
+  4090 and A100 on Community Cloud are multi-tenant
+  — hardware-level isolation is not guaranteed.
+  No secrets in environment variables, no credential
+  files on attached storage, no SSH keys beyond
+  session scope
+- Rotate any credentials exposed in a RunPod
+  session immediately after session ends
+- Use network storage only for model weights and
+  datasets — never for credentials or configs
+  containing secrets
+- Terminate pods immediately when training completes
+  — do not leave pods running idle
+
+**Workflow:**
+1. Check monthly spend: `npx ccusage@latest monthly`
+2. Spin up pod with minimal required GPU
+3. Train / benchmark / evaluate
+4. Download artefacts to ~/dev/models/<project>/
+5. Terminate pod immediately
+6. Verify termination in RunPod console
+
+---
+
 ## Prohibited Tools (Reference)
 
 For the complete list of prohibited tool categories and characteristics, see **security-policy.md Section 14.6.1**.
