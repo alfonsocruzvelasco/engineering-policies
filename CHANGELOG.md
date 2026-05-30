@@ -8,6 +8,7 @@ and this project follows Semantic Versioning guidance in `rules/versioning-and-r
 ## [Unreleased]
 
 ### Added
+- Mandatory ChatGPT untrusted-content isolation controls in `rules/ai-workflow-policy.md` §8.1 (isolated browser profile, manual plain-text paste, Temporary Chat, connector restrictions); cross-reference in `rules/security-policy.md` §19; concept-index row (2026-05-30).
 - Added root `.gitignore` with policy-aligned ignore rules for environment artifacts, build outputs, and local secrets.
 - Added root `.editorconfig` for consistent newline, whitespace, and indentation behavior.
 - Added root `AGENTS.md` with required project context, constraints, and verification commands.

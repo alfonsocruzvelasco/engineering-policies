@@ -9,7 +9,7 @@ scope: Concept-to-authority lookup for policies and references
 
 **Purpose:** Fast lookup from a concept to the **authoritative policy** and **supporting references**. This file is descriptive, not normative.
 
-**Last updated:** 2026-04-09
+**Last updated:** 2026-05-30
 
 > **Rule:** When concepts overlap, defer to the file listed under **Authoritative policy**. Other documents are references only.
 
@@ -25,6 +25,7 @@ scope: Concept-to-authority lookup for policies and references
 | Executable output and sandboxed code execution | `rules/ai-workflow-policy.md`, `rules/security-policy.md` §§8.2-8.4, §14.4 | `rules/references/code-mode-cloudflare.pdf`, `rules/references/cloudflare-ai-sandboxing.pdf`, `rules/references/sandboxing-ai-agents-100x-faster.pdf` |
 | English-first prompts & multilingual strategy | `rules/ai-workflow-policy.md` (Part 2: Prompt Engineering) | `rules/references/a-fail-comparison-without-translationese.pdf`, `rules/references/do-multilingual-language-models-think-better-in-english.pdf`, `rules/references/do-multilingual-llms-think-in-english.pdf`, `rules/references/do-all-languages-cost-the-same.pdf` |
 | Prompt tone / politeness effects | `rules/ai-workflow-policy.md` (Prompt Operating Principles, COSTAR/CRISPE) | `rules/references/mind-your-tone.pdf`, `rules/references/should-we-respect-llm.pdf` |
+| ChatGPT untrusted web content isolation (isolated browser profile, manual plain-text paste, Temporary Chat) | `rules/ai-workflow-policy.md` §8.1 | `rules/security-policy.md` §19 (PI defense), `rules/templates/prompt-template-chatgpt-en.md` |
 | Prompt engineering theory (temperature, structure, evals) | `rules/ai-workflow-policy.md` | `rules/references/prompt-engineering-theory.md`, `rules/references/ai-workflow-prompt-patterns-reference.md` |
 | Token optimization, slash commands, and context engineering | `rules/ai-workflow-policy.md` (Part 2 summary) | `rules/references/ai-workflow-prompt-patterns-reference.md` |
 | Skills management, agent delegation, and learning protocol | `rules/ai-workflow-policy.md` (Part 1 summary) | `rules/references/ai-workflow-agent-skills-reference.md` |

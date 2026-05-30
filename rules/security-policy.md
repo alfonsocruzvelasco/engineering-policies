@@ -1764,6 +1764,9 @@ If untrusted content contains instructions like "ignore", "override", "exfiltrat
 - extract facts
 - propose actions, but require explicit user confirmation before destructive/high-impact steps
 
+### PI-5.1: ChatGPT untrusted-content isolation (mandatory)
+When using ChatGPT in a browser to analyze untrusted external content, operators **MUST** follow [`ai-workflow-policy.md`](ai-workflow-policy.md) §8.1 (ChatGPT Untrusted Content Isolation). This section does not duplicate those controls.
+
 ### PI-6: Supply Chain Prompt Injection Defense (Critical)
 
 **Incident Reference:** Amazon Q Developer extension (July 2025) - malicious prompt injection via pull request merged into production codebase, instructing AI to wipe filesystems and delete cloud resources.
