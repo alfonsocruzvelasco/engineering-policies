@@ -134,6 +134,26 @@ https://claude.com/blog/introducing-dynamic-workflows-in-claude-code
 
 ---
 
+## Browser Agent and Web Summarization Policy (May 2026)
+
+**AI browser-agent extensions are prohibited unless explicitly reviewed and approved.** ClaudeBleed (May 2026, partially unpatched) and ShadowPrompt (March 2026) demonstrate that AI browser extensions carry a systemic trust model failure class — unpatched vulnerabilities affecting Gmail, GitHub, Google Drive, and credential stores. Each new extension is an unreviewed attack surface until proven otherwise.
+
+**Untrusted web summarization** (asking any AI assistant to summarize, browse, or retrieve content from pages you do not fully control) MUST follow all of the following conditions:
+
+- Isolated browser profile — dedicated profile with no connection to your primary profile
+- No browser sync — profile must not sync history, extensions, passwords, or settings to any account
+- No private accounts — no Gmail, GitHub, Google Drive, or any authenticated service connected in that profile
+- No AI connectors — no MCP servers, no browser extensions with AI integration active
+- Temporary Chat — use Temporary Chat mode if available; no session persistence
+- Pasted plain text only — copy the text content manually and paste it; never pass a live URL directly to an AI summarization feature
+- Close the isolated profile entirely when done — do not leave it running in the background; session isolation only holds if the session ends
+
+**Connected private data must never be combined with untrusted external content in the same chat or session.** A session that has access to Gmail, GitHub, or Google Drive must never also process content from untrusted external pages. Split into separate sessions — one for private data, one for external content.
+
+Rationale: ChatGPhish (May 2026, unpatched) demonstrated that untrusted page content rendered inside a trusted AI assistant UI is indistinguishable from legitimate assistant output. ClaudeBleed demonstrated that any Chrome extension can hijack a trusted AI browser agent. The only reliable mitigation is isolation — profile, session, and data source separation.
+
+---
+
 ## 5. Security model
 
 **Assumption:** Remote execution = **loss of full control**.
