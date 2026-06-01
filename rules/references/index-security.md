@@ -23,6 +23,11 @@ Use this when you need **supporting evidence** or deeper context for security an
 - **[Lighthouse](https://developer.chrome.com/docs/lighthouse/overview)** — Performance, accessibility, best practices, SEO on a live URL; JSON evidence archived in product repos per `web-policies.md`.
 - **[Web Almanac 2025 — Performance](https://almanac.httparchive.org/en/2025/performance)** — Industry Core Web Vitals context (LCP, INP, CLS); **non-normative** targets only.
 
+## Content UX (non-normative, Tier A human review)
+
+- **[NN/g — Top 10 Web Design Mistakes](https://www.nngroup.com/articles/top-10-mistakes-web-design/)** — Scannable content, search, titles, conventions; checklist in `web-policies.md`.
+- **[Baymard UX Benchmark](https://baymard.com/ux-benchmark)** — Ecommerce flow benchmarking; use when the product has browse/select/pay paths.
+
 ## OWASP (external)
 
 - **[OWASP Top 10:2025](https://owasp.org/Top10/2025/)** — Web application risk categories; traceability matrix in `security-policy.md` **Appendix C** (coverage per A01–A10; not a compliance certificate).

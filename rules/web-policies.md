@@ -1,7 +1,7 @@
 # Web Policies
 
 **Status:** Authoritative
-**Last updated:** 2026-06-01
+**Last updated:** 2026-06-02
 **Purpose:** Web technology standards for API design, JavaScript/React, HTML/CSS, and tiered browser-facing quality gates
 
 ---
@@ -728,6 +728,20 @@ Optional: `lighthouse-ci` on **stable PR preview URLs** for Tier A repos — use
 - Fail ML/CV API-only repos (Tier B/C) for missing Lighthouse or Observatory artifacts.
 - Gate the engineering-policies repository on Lighthouse or Observatory.
 - Encode Almanac yearly statistics as mandatory policy thresholds.
+
+### Tier A — Content UX checklist (non-normative)
+
+Human review **SHOULD** accompany automated Tier A scans before major doc/site launches. Sources: [NN/g — Top 10 Web Design Mistakes](https://www.nngroup.com/articles/top-10-mistakes-web-design/) (content and navigation); [Baymard UX Benchmark](https://baymard.com/ux-benchmark) (browse → select → pay flows only).
+
+**Top five checks (keep):**
+
+1. **Answer the user’s question on the page** — State what the page is, who it is for, and the next action (install, configure, buy, contact). Avoid burying price, limits, or prerequisites in slogans or PDF-only paths.
+2. **Match web conventions** — Navigation, links, and forms behave like other sites users already know; distinct visited-link styling; do not open new browser windows by default (`target="_blank"` only when justified).
+3. **Design for scanning** — Headings, short paragraphs, bullets, and specific link text; unique, descriptive `<title>` per page (bookmarks, tabs, search listings).
+4. **Measure critical flows, not vibes** — For transactional UIs (cart, checkout, signup, pricing), walk 5–10 task paths and compare to a known-good peer; use Baymard-style flow review when the product is ecommerce or self-serve purchase.
+5. **Keep automated and content review separate** — Lighthouse/Observatory on a schedule (above); this checklist on a human pass — do not add NN/g or Baymard scores as CI gates.
+
+**Supporting NN/g habits (Tier A docs and marketing HTML):** working on-site search when the site has many pages; relative font sizes (do not block browser zoom); HTML over PDF for primary reading; avoid banner-like promos and aggressive motion that users learn to ignore.
 
 ### Exceptions
 
