@@ -17,8 +17,15 @@ Use this when you need **supporting evidence** or deeper context for security an
 - `../security-policy.md` §9.4 — Claude Code npm packaging incident and fake "leaked source" / typosquat lures (Apr 2026): official install channel only; [THN coverage](https://thehackernews.com/2026/04/claude-code-tleaked-via-npm-packaging.html#fake-claude-code-repos-deploy-vidar-stealer-and-ghostsocks).
 - `../claude-code-web-usage-policy.md` — Claude Code Web (browser/cloud async): allow/deny contexts vs local CLI; points to `security-policy.md` §14.
 
-## OWASP Cheat Sheet Series (external)
+## Browser-facing runtime quality (external tools)
 
+- **[MDN HTTP Observatory](https://developer.mozilla.org/en-US/observatory/)** — Header/TLS/cookie posture on a live URL; Tier A cadence in `web-policies.md` (Browser-Facing Quality Gates).
+- **[Lighthouse](https://developer.chrome.com/docs/lighthouse/overview)** — Performance, accessibility, best practices, SEO on a live URL; JSON evidence archived in product repos per `web-policies.md`.
+- **[Web Almanac 2025 — Performance](https://almanac.httparchive.org/en/2025/performance)** — Industry Core Web Vitals context (LCP, INP, CLS); **non-normative** targets only.
+
+## OWASP (external)
+
+- **[OWASP Top 10:2025](https://owasp.org/Top10/2025/)** — Web application risk categories; traceability matrix in `security-policy.md` **Appendix C** (coverage per A01–A10; not a compliance certificate).
 - **[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/index.html)** — Canonical topic-based application security guidance; **normative alignment** for npm is mandated in `security-policy.md` §9.3.
 - **[NPM Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/NPM_Security_Cheat_Sheet.html)** — Lockfiles, lifecycle scripts, audit, typosquatting/slopsquatting, dependency confusion, tokens, provenance (see §9.3–9.5).
 - **pip / PyPI:** No dedicated OWASP sheet; `security-policy.md` §9.3 translates the same principles (pins/lockfiles, `pip-audit`/`safety`, install = execution risk, slopsquatting).

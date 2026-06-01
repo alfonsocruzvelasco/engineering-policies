@@ -8,6 +8,8 @@ and this project follows Semantic Versioning guidance in `rules/versioning-and-r
 ## [Unreleased]
 
 ### Added
+- Tiered browser-facing quality gates in `rules/web-policies.md` (Tier A/B/C, Observatory + Lighthouse evidence, regression-first blockers); Appendix C A02 verification cross-link; concept-index and `index-security.md` links (2026-06-01).
+- OWASP Top 10:2025 web application coverage matrix in `rules/security-policy.md` Appendix C (A01–A10 traceability, Covered/Partial/N/A legend, per-app assessment obligation); concept-index and `index-security.md` links (2026-05-30).
 - Mandatory ChatGPT untrusted-content isolation controls in `rules/ai-workflow-policy.md` §8.1 (isolated browser profile, manual plain-text paste, Temporary Chat, connector restrictions); cross-reference in `rules/security-policy.md` §19; concept-index row (2026-05-30).
 - Added root `.gitignore` with policy-aligned ignore rules for environment artifacts, build outputs, and local secrets.
 - Added root `.editorconfig` for consistent newline, whitespace, and indentation behavior.

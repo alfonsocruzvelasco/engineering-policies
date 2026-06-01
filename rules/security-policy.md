@@ -8,7 +8,7 @@ scope: Security controls for secrets, IAM, infrastructure access, API/tool-use s
 # Security Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-04-04
+**Last updated:** 2026-06-01
 
 **Scope:** This policy defines how **credentials, secrets, dependencies, identity and access controls, APIs, and AI-assisted engineering risks** are handled. It applies to all environments (local, CI, staging, production) and all repositories, with special emphasis on ML/CV engineering security.
 
@@ -46,6 +46,8 @@ scope: Security controls for secrets, IAM, infrastructure access, API/tool-use s
 - [Mandatory Verification Gates (Before Merge)](#20-mandatory-verification-gates-before-merge)
   - [AI-assisted security review workflow](#205-ai-assisted-security-review-workflow)
 - [Exceptions](#21-exceptions)
+- [Appendix A: OWASP Top 10 for LLMs](#appendix-a-owasp-top-10-for-llms-coverage-matrix)
+- [Appendix C: OWASP Top 10:2025 (Web)](#appendix-c-owasp-top-102025-web-applications-coverage-matrix)
 
 ---
 
@@ -4492,6 +4494,41 @@ This document is part of a comprehensive policy framework. All sections integrat
 | LLM08: Excessive Agency         | Sections 5.1, 6.2              | ✅      |
 | LLM09: Overreliance             | Section 11 (Verification Gates)| ✅      |
 | LLM10: Model Theft              | Section 12                     | ✅      |
+
+**Note:** Appendix A maps **OWASP Top 10 for LLM Applications** (a separate document). Appendix C maps **[OWASP Top 10:2025](https://owasp.org/Top10/2025/)** for **web applications and services**.
+
+---
+
+## Appendix C: OWASP Top 10:2025 (Web Applications) Coverage Matrix
+
+**Purpose:** Traceability from [OWASP Top 10:2025](https://owasp.org/Top10/2025/) to controls in this policy corpus. This appendix is **not** a certificate of compliance for any specific deployed application.
+
+**Scope:** Applies to **internet-facing or internal web applications, HTTP APIs, and browser-based AI workflows** built or operated under these policies. This **policy repository** itself is documentation only — row-level **N/A** means “no runnable application in this repo”; product teams still assess their own apps.
+
+**Coverage legend:**
+
+| Status | Meaning |
+|--------|---------|
+| **Covered** | Mandatory controls in authoritative policy address the primary risk for typical stacks in scope. |
+| **Partial** | Controls exist but do not fully satisfy OWASP category expectations without per-application design, implementation, or operations work. |
+| **N/A** | Category does not apply to the policy corpus repo; **does not** exempt product codebases from assessment. |
+
+| OWASP Top 10:2025 | Primary controls (this document) | Supporting policies | Coverage | Verification (minimum) |
+|-------------------|----------------------------------|---------------------|----------|-------------------------|
+| **A01:2025 — Broken Access Control** | §§4, 7, 16; deny-by-default APIs | `web-policies.md` (auth on APIs/HTML); `production-policy.md` (data access) | **Covered** | Human review for auth/authz changes (§14.3); §20 CI/SAST; pre-commit secret scan |
+| **A02:2025 — Security Misconfiguration** | §10 (cloud baseline, WAF); §16 (CORS, TLS, API keys) | `web-policies.md` (Browser-Facing Quality Gates — Tier A); `development-environment-policy.md` | **Partial** | Tier A: [HTTP Observatory](https://developer.mozilla.org/en-US/observatory/) or Lighthouse Best Practices per release/quarterly (`web-policies.md`); Tier B/C: cloud/IaC review only |
+| **A03:2025 — Software Supply Chain Failures** | §§9, 9.3–9.6 (OWASP npm/PyPI alignment, IDE extensions, NL auditing) | `dependency-install-policy.md`; `language-policies.md` | **Covered** | `pre-commit` + `ai-prohibited-tools-check.sh`; `pip-audit` / `npm audit` in CI (§20); lockfiles required (§9.3) |
+| **A04:2025 — Cryptographic Failures** | §10 (KMS, TLS); §16 (transport); §17 (artifact encryption/hashes) | `production-policy.md` (secrets at rest in transit) | **Partial** | §14.3 security review for crypto-touching code; `check-secrets-compliance.sh`; no automated cipher-suite lint |
+| **A05:2025 — Injection** | §15 (SQL, shell, template, deserialization); §19 (prompt injection) | `web-policies.md` (XSS/CSRF); `ai-workflow-policy.md` §8.1 (ChatGPT untrusted content) | **Covered** | §20 Semgrep/CodeQL; parameterized-query rules (§15); PI defenses (§19) |
+| **A06:2025 — Insecure Design** | §13.1 (AI threat modeling); design/PRD gates | `ai-workflow-policy.md` Part 4 (PRD, design stress test) | **Partial** | Threat modeling and grill-me are mandatory for large work — not a formal STRIDE/OWASP ASVS gate per feature |
+| **A07:2025 — Authentication Failures** | §§4, 5, 7 (MFA, OAuth/OIDC, PKCE, session hygiene) | `web-policies.md` (401/403 semantics) | **Covered** | §14.3 review for authentication changes; phishing-resistant MFA (§4) |
+| **A08:2025 — Software or Data Integrity Failures** | §§9.3, 9.5 (provenance, OIDC publish); §8.4, §15, §17 (deserialization, model hashes) | `dependency-install-policy.md`; `versioning-and-release-policy.md` | **Covered** | Lockfiles/pins; hash/signature verification (§17); CI dependency and agent-config gates (§11, §20) |
+| **A09:2025 — Security Logging and Alerting Failures** | §10 (centralized logging, audit); §18 (incident response); §14.5 (agent audit) | `production-policy.md` (observability expectations) | **Partial** | Cloud billing/IAM alerts (§10.3); anomaly patterns (§20) — per-app SIEM/alert tuning not fully specified |
+| **A10:2025 — Mishandling of Exceptional Conditions** | §14.3, §16 (sanitized errors); agent timeouts | `agent-stopping-conditions.md`; `testing-policy.md` (error paths) | **Partial** | Error redaction required before external AI sharing (§14); **gap:** no corpus-wide fail-secure / exception-handling standard — product teams MUST define per service |
+
+**Per-application obligation:** For each shipped web app or API, maintain a short record (in the product repo or `exception-and-decision-log.md`) listing: (1) applicable A01–A10 rows marked **Partial**, (2) compensating controls, (3) owner and review date. Re-assess when OWASP publishes Top 10 updates or on major architecture change.
+
+**External reference:** [OWASP Top 10:2025](https://owasp.org/Top10/2025/) — authoritative category definitions and remediation guidance.
 
 ---
 

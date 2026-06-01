@@ -1,8 +1,8 @@
 # Web Policies
 
 **Status:** Authoritative
-**Last updated:** 2026-03-24
-**Purpose:** Web technology standards for API design, JavaScript/React, and HTML/CSS
+**Last updated:** 2026-06-01
+**Purpose:** Web technology standards for API design, JavaScript/React, HTML/CSS, and tiered browser-facing quality gates
 
 ---
 
@@ -667,6 +667,71 @@ Below is a professional-team rule set for **HTML + CSS**.
 67. Styles are scoped (or globally minimal) with predictable specificity.
 68. Stylelint + formatter enforced in CI; Autoprefixer enabled.
 69. Responsive images handled; motion respects user preferences.
+
+---
+
+## Browser-Facing Quality Gates (Tiered)
+
+**Purpose:** Maintainable runtime checks for **deployed browser origins** (headers, Core Web Vitals, accessibility). Complements build-time controls in [`security-policy.md`](security-policy.md) (supply chain, SAST, Appendix C). This section is **not** a compliance certificate and does **not** require scans of the engineering-policies repository itself.
+
+**See also:** [`security-policy.md`](security-policy.md) Appendix C (OWASP A02 misconfiguration — **Partial** until Tier A evidence exists).
+
+### Origin tiers (classify once per deployable URL)
+
+Each product repository **MUST** record its tier in `WEB_QUALITY.md` (or `docs/security/web-quality.md`) at repo root, including origin URLs and owner.
+
+| Tier | Applies to | Runtime scans in this section |
+|------|------------|-------------------------------|
+| **A — Browser HTML** | Public or authenticated pages served as HTML (marketing, docs, demos, admin UI, Gradio with browser UI) | **Required** (below) |
+| **B — API / JSON only** | REST/gRPC/JSON with no meaningful HTML document | **N/A** — enforce TLS, auth, rate limits, and error sanitization per API sections above and `security-policy.md` §16 |
+| **C — Non-web** | CLI, batch jobs, training pipelines, internal agents without a browser origin | **N/A** |
+
+Re-classify when the surface changes (new public hostname, new SPA, or API-only split).
+
+### Tools (do not duplicate the same gate)
+
+| Tool | Use for Tier A | Frequency |
+|------|----------------|-----------|
+| [MDN HTTP Observatory](https://developer.mozilla.org/en-US/observatory/) | HTTP security headers, TLS, cookie posture (A02-style misconfiguration) | Each **production release** to a new/changed origin, or **at least quarterly** |
+| [Lighthouse](https://developer.chrome.com/docs/lighthouse/overview) (CLI, DevTools, or CI) | Performance, Accessibility, Best Practices (incl. vulnerable libraries), SEO | Same cadence as Observatory; **one JSON report** per origin per run |
+| [Web Almanac — Performance](https://almanac.httparchive.org/en/2025/performance) | **Non-normative** context for targets (e.g. Core Web Vitals: LCP ≤ 2.5s, INP ≤ 200ms, CLS ≤ 0.1 at p75) | Reference only — do not copy statistics into policy text |
+
+**Consolidation rule:** Treat Observatory **or** Lighthouse Best Practices as the primary **header/TLS** check, not both as separate hard gates with identical remediations.
+
+### Tier A — Required evidence (product repo, not this corpus)
+
+For each Tier A origin, the owning repository **MUST** store:
+
+1. **Last scan date** and **URL** scanned (staging acceptable before first prod cutover; prod required for production releases).
+2. **Archived JSON** (recommended paths: `docs/security/observatory-<YYYY-MM>.json`, `docs/security/lighthouse-<env>-<YYYY-MM>.json`) **or** a link to CI artifacts with retention ≥ 90 days.
+3. **Open findings** with owner and target date, or explicit “none” after remediation.
+
+Scans **MUST NOT** be required on every commit. **SHOULD** run on release promotion, staging deploy, or a **scheduled** job (weekly/monthly) when the origin changes frequently.
+
+Optional: `lighthouse-ci` on **stable PR preview URLs** for Tier A repos — use **regression budgets** (see below), not a fixed “score ≥ 90” gate.
+
+### Tier A — Pass/fail policy (regression-first)
+
+**MUST fix before production cutover (blockers):**
+
+- No HTTPS or no redirect from HTTP to HTTPS on the public origin.
+- Observatory or Lighthouse reports **high-severity** Best Practices failures introduced since the last archived scan (e.g. known vulnerable front-end library versions called out by Lighthouse).
+- New **critical** accessibility failures on agreed key URLs (home, login, primary workflow) compared to the previous archived Lighthouse a11y audit.
+
+**SHOULD track (warn, do not block CI by default):**
+
+- Lighthouse Performance score drift.
+- Core Web Vitals field data (CrUX / PageSpeed Insights) when the site has real users — compare to Almanac-style targets, not to corpus policy numbers.
+
+**MUST NOT:**
+
+- Fail ML/CV API-only repos (Tier B/C) for missing Lighthouse or Observatory artifacts.
+- Gate the engineering-policies repository on Lighthouse or Observatory.
+- Encode Almanac yearly statistics as mandatory policy thresholds.
+
+### Exceptions
+
+Deferring Tier A scans beyond one release cycle **MUST** be an explicit recorded decision in [`exception-and-decision-log.md`](exception-and-decision-log.md) (risk, scope, sunset date). Tier B/C origins do not require an exception to skip browser scans.
 
 ---
 
