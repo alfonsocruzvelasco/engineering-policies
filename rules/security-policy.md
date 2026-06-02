@@ -2033,6 +2033,12 @@ Anthropic's own system card for Claude Opus 4 and Sonnet 4 (May 2025) confirmed 
 - Agent frameworks with no hard session timeout and no token budget cap
 - Any agent scoring below human baseline on OSWorld (72.36%) for its intended task class
 
+**Legitimate tool weaponization (new attack class, May-June 2026):**
+codexui-android demonstrates a new supply chain pattern: build a genuinely useful tool, grow a real user base, then inject malicious payload into a later version. The package is functional — developers actually want it. Traditional signals (typosquats, throwaway accounts, zero downloads) do not apply. The only reliable mitigation is the same as all supply chain attacks: version pinning + checksum verification. A high download count is not a safety signal — it is a higher-value target.
+
+**OIDC CI/CD pipeline compromise (Miasma, June 2026):**
+Miasma compromised a legitimate, trusted npm namespace (@redhat-cloud-services) by exploiting a compromised employee GitHub account with OIDC tokens — not by stealing developer credentials. The malicious packages were published with valid SLSA provenance signatures. SLSA provenance is not a sufficient trust signal when the pipeline itself is compromised. Treat any dependency update from any namespace — including official vendor namespaces — with the same version-pinning discipline as community packages.
+
 ### Reliability prohibitions
 
 **OpenAI Operator (original, pre-ChatGPT agent merger)**
@@ -2080,6 +2086,9 @@ Three steps — all required:
 | Replit AI Agent | Deleted production database despite instructions | — | — | Jul 2025 | Princeton HAI |
 | NYC Gov chatbot | Systematic illegal housing advice | — | — | 2024 | Princeton HAI |
 | Xinference | PyPI compromise — 600,000+ downloads | — | — | Apr 2026 | webpro255/awesome-ai-agent-attacks |
+| CIFSwitch | Linux LPE via CIFS/Kerberos namespace confusion | CVE-2026-46243 | — | May 2026 | Asim Manizada / oss-security |
+| Miasma (@redhat-cloud-services) | 32+ npm packages compromised via OIDC CI/CD pipeline — Mini Shai-Hulud variant, self-propagating worm, GitHub Actions workflow injection | — | — | Jun 2026 | Wiz/Snyk/JFrog |
+| codexui-android | Functional npm package (27K downloads) silently exfiltrating Codex auth tokens for ~1 month | — | — | May 2026 | Aikido Security |
 
 ---
 
