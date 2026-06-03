@@ -458,6 +458,21 @@ Reference: https://developers.openai.com/codex/ide
 
 ---
 
+#### MAI-Code-1-Flash via GitHub Copilot (APPROVED with same restrictions as Codex VS Code extension)
+Microsoft's 5B parameter coding model, rolling out to all GitHub Copilot tiers in VS Code from June 2 2026. Appears in the VS Code model picker automatically — no separate installation required.
+Built on commercially licensed data without third-party distillation. Trained on GitHub Copilot production harness. Benchmark: outperforms Claude Haiku 4.5 by 16 points on SWE-Bench Pro at 60% fewer tokens on complex tasks.
+
+Same restrictions as Codex VS Code extension:
+- Local assistance mode: APPROVED
+- Cloud delegation: RESTRICTED — forbidden for ML/CV core, credentials, datasets, infra configs
+- Assisted-by tag required in commits where MAI-Code-1-Flash materially contributed:
+  Assisted-by: MAI-Code-1-Flash:microsoft [Copilot]
+- GitHub Copilot CVE-2025-53773 (CVSS 9.6) applies to the Copilot harness — not model-specific. See security-policy.md prohibited platforms.
+
+MAI-Thinking-1 (35B MoE reasoning, 256K context): private preview only on Microsoft Foundry as of June 2 2026 — not yet actionable. Re-evaluate when generally available.
+
+---
+
 #### Gemini CLI (NOT APPROVED — evaluation pending)
 Google's terminal-based AI coding agent. Direct competitor to Claude Code in the same category: agentic coding loop, MCP support, Skills system, Plan Mode, multi-agent subagent delegation. Current stable: v0.39.0 (April 23 2026). Underlying models: Gemini 3.1 Pro / Gemma 4 locally.
 
@@ -595,6 +610,12 @@ Terminal-native agent runtime ([herdr.dev](https://herdr.dev/)). Runs inside the
 **Support:** Community (Ollama, HuggingFace); Cloudflare support for Workers AI path
 
 **Local integration note (April 2026):** Gemini CLI v0.40.0 introduces a `gemini gemma` command for streamlined local Gemma model setup. Evaluate against current Ollama path (`ollama pull gemma4:e4b`) before adopting — Gemini CLI itself is not yet approved (see Gemini CLI evaluation entry). Do not add a new credential surface (Gemini API key) solely to access a local model already available via Ollama.
+
+**Gemma 4 12B (NOT APPROVED for local inference):**
+Announced June 3 2026. Encoder-free architecture — 35M vision embedder replaces full vision encoder, raw audio projected directly without separate audio encoder. Requires 16GB VRAM for local inference. Your RTX 4070 has 12GB VRAM — Gemma 4 12B is not runnable locally.
+Approved path: RunPod evaluation only (RTX 4090 or A100), subject to $20/month spend cap.
+Architecture note: encoder-free design means a single LoRA pass updates all modalities (vision, audio, text) simultaneously — directly relevant to future multimodal CV fine-tuning work.
+Reference: https://developers.googleblog.com/gemma-4-12b-the-developer-guide/
 
 ---
 
