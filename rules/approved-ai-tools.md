@@ -629,11 +629,31 @@ Reference: rules/references/ — reve-2-plan-render-architecture.md
 
 **Local integration note (April 2026):** Gemini CLI v0.40.0 introduces a `gemini gemma` command for streamlined local Gemma model setup. Evaluate against current Ollama path (`ollama pull gemma4:e4b`) before adopting — Gemini CLI itself is not yet approved (see Gemini CLI evaluation entry). Do not add a new credential surface (Gemini API key) solely to access a local model already available via Ollama.
 
-**Gemma 4 12B (NOT APPROVED for local inference):**
-Announced June 3 2026. Encoder-free architecture — 35M vision embedder replaces full vision encoder, raw audio projected directly without separate audio encoder. Requires 16GB VRAM for local inference. Your RTX 4070 has 12GB VRAM — Gemma 4 12B is not runnable locally.
-Approved path: RunPod evaluation only (RTX 4090 or A100), subject to $20/month spend cap.
-Architecture note: encoder-free design means a single LoRA pass updates all modalities (vision, audio, text) simultaneously — directly relevant to future multimodal CV fine-tuning work.
-Reference: https://developers.googleblog.com/gemma-4-12b-the-developer-guide/
+**Gemma 4 12B — updated June 4 2026:**
+Google AI Edge blog (June 3 2026) clarifies that 16GB refers to system RAM, not VRAM, for LiteRT-LM CPU inference path. Your machine has 64GB RAM — Gemma 4 12B may be runnable locally via CPU inference without RunPod.
+
+Two local inference paths to evaluate:
+
+Path A — LiteRT-LM (CPU, system RAM):
+  pip install litert-lm
+  litert-lm serve --model gemma-4-12b-it
+  Exposes OpenAI-compatible local endpoint.
+  Slower than GPU but no VRAM constraint.
+  No RunPod spend required.
+  Test: latency acceptable for CV pipeline use?
+
+Path B — RunPod (GPU, RTX 4090 or A100):
+  For throughput-sensitive workloads, batch
+  inference, fine-tuning. Subject to $20/month
+  spend cap.
+
+Status: CANDIDATE — evaluate Path A first.
+Before approving: benchmark inference latency
+via LiteRT-LM on your hardware. If latency is
+acceptable for intended use case, approve for
+local use. If not, defer to RunPod path.
+Reference:
+https://developers.googleblog.com/bringing-gemma-4-12b-to-your-laptop-unlocking-local-agentic-workflows-with-google-ai-edge/
 
 ---
 
