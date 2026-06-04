@@ -517,6 +517,24 @@ Terminal-native agent runtime ([herdr.dev](https://herdr.dev/)). Runs inside the
 
 ---
 
+**Reve 2.0 (CANDIDATE — evaluation pending)**
+Text-to-image generation using plan/render architecture: LLM generates structured intermediate code representation (composition, layout, element relationships, style, text positioning) before diffusion renderer is invoked.
+Source: https://app.reve.com
+Arena AI leaderboard: #2 text-to-image (June 2026).
+
+Relevant to CV portfolio for:
+- Synthetic training data generation with free ground truth labels (element positions and relationships are explicit in the intermediate representation — no manual annotation needed)
+- Dataset augmentation for rare or long-tail AV perception scenarios
+
+Not approved until:
+- API access confirmed (UI-only tools cannot be integrated into CV pipelines)
+- Pricing evaluated against $20/month hard cap
+- No credentials, repo content, or production data in any Reve session (browser-based tool, same isolation policy as untrusted web summarization)
+
+Reference: rules/references/ — reve-2-plan-render-architecture.md
+
+---
+
 ### Category: Self-Hosted LLMs (Air-Gapped)
 
 #### Ollama (On-Premises, Air-Gapped Only)
