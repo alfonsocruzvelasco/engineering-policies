@@ -652,6 +652,28 @@ Before approving: benchmark inference latency
 via LiteRT-LM on your hardware. If latency is
 acceptable for intended use case, approve for
 local use. If not, defer to RunPod path.
+
+**True throughput evaluation (not just tok/s):**
+Benchmark against actual CV pipeline task classes,
+not synthetic prompts:
+
+1. Short structured output (<500 tokens):
+   acceptable if ≥ 5 tok/s
+2. Long structured output (2,000-4,000 tokens):
+   measure wall-clock time end-to-end
+3. Agentic loop (10 tool calls, ReAct):
+   measure total session time — if > 5 minutes
+   per task, CPU path is not viable for
+   interactive development
+4. Context scaling: benchmark at 512, 2K, 8K
+   token context — CPU inference degrades
+   non-linearly with context length
+
+If tasks 2 and 3 exceed acceptable thresholds,
+CPU path is viable only for batch/offline use,
+not interactive CV pipeline development.
+Approve with explicit scope restriction or
+defer to RunPod path.
 Reference:
 https://developers.googleblog.com/bringing-gemma-4-12b-to-your-laptop-unlocking-local-agentic-workflows-with-google-ai-edge/
 
