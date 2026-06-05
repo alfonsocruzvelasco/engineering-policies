@@ -474,7 +474,12 @@ MAI-Thinking-1 (35B MoE reasoning, 256K context): private preview only on Micros
 ---
 
 #### Gemini CLI (NOT APPROVED — evaluation pending)
-Google's terminal-based AI coding agent. Direct competitor to Claude Code in the same category: agentic coding loop, MCP support, Skills system, Plan Mode, multi-agent subagent delegation. Current stable: v0.39.0 (April 23 2026). Underlying models: Gemini 3.1 Pro / Gemma 4 locally.
+Google's terminal-based AI coding agent. Direct competitor to Claude Code in the same category: agentic coding loop, MCP support, Skills system, Plan Mode, multi-agent subagent delegation. Current stable: v0.39.0 (April 23 2026).
+
+Underlying models (as of Google I/O 2026, May 19 2026):
+- Default: Gemini 3.5 Flash — surpasses Gemini 3.1 Pro on coding, agentic, and multimodal benchmarks at 4x output token speed
+- Gemini 3.5 Pro: in testing, available June 2026
+- Gemini 3.5 Flash powers Antigravity 2.0 CLI (same codebase as Gemini CLI — see Antigravity entry in prohibited frameworks)
 
 **Notable features relevant to current stack:**
 - `gemini gemma` command: native local Gemma model integration — relevant to approved Gemma 4 E4B local inference workflow (evaluate against Ollama path before adopting)
@@ -491,6 +496,12 @@ Google's terminal-based AI coding agent. Direct competitor to Claude Code in the
 **Re-evaluate when:** a specific capability gap in Claude Code justifies evaluation, or `gemini gemma` local integration offers measurable advantage over current Ollama path.
 
 **Reference:** https://geminicli.com/docs/changelogs/latest/
+
+Deprecation notice (action before June 25 2026):
+gemini-3.1-flash-image-preview and gemini-3-pro-image-preview shut down June 25 2026. Any code in learning repos referencing these model strings will break after that date.
+Audit: grep -r "gemini-3.1-flash-image-preview|gemini-3-pro-image-preview" ~/dev/repos/
+
+NOT APPROVED status unchanged — model upgrade does not change the security evaluation. Minimum version floor remains ≥ 0.39.1 (CVE-2026 RCE). Re-evaluate when Gemini CLI security evaluation completes and specific use case justifies it.
 
 **Minimum version floor (April 2026):** Any future evaluation of Gemini CLI MUST use version ≥ 0.39.1. Versions below 0.39.1 carry a CVSS 10.0 RCE vulnerability (no CVE assigned yet): headless mode automatically trusted workspace folders for config loading, allowing attacker-controlled .gemini/ directory content in a cloned repo to execute commands on the host before any sandbox initialized. Same attack class as MCP STDIO prompt injection via repo files (see security-policy.md). Patched in 0.39.1 via explicit workspace trust requirement.
 
