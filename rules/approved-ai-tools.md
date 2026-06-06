@@ -419,6 +419,7 @@ Usage constraints:
   read its log format
 - When budget_guard.py is implemented, ccusage
   output can serve as the metering input
+- Built on Vite toolchain (now under Cloudflare/VoidZero stewardship since June 4 2026). Re-pin to a verified version after any upstream Rolldown or Oxc release. See dependency-install-policy.md supply chain centralisation section.
 
 ---
 
@@ -619,6 +620,7 @@ Reference: rules/references/ — reve-2-plan-render-architecture.md
 - ✅ Open weights (MIT-licensed via Hugging Face / Google)
 - ⚠️ Cloudflare Workers AI path: subject to Cloudflare data retention policy —
   verify before sending sensitive data
+- Cloudflare acquired VoidZero (Vite, Rolldown, Oxc, Vitest) June 4 2026 — Cloudflare now owns the JS build toolchain used by 130M weekly developers. Supply chain centralisation risk: monitor VoidZero tool releases with the same scrutiny as Cloudflare infrastructure updates.
 
 **Restrictions:**
 - MUST install weights only from official sources:

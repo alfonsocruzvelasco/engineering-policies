@@ -32,6 +32,17 @@ scope: Mandatory discipline for installing npm and Python (pip/uv/Poetry) depend
 
 **Also mandatory (npm):** Block lifecycle scripts by default (`ignore-scripts` / §9.4). **Also mandatory:** SCA on dependency changes where the repo uses that stack (`npm audit`, `pip-audit` / `safety`) per [`security-policy.md`](security-policy.md) §9.3 and team CI policy.
 
+**Cloudflare/VoidZero acquisition — JS build toolchain centralisation risk (June 4 2026):**
+Cloudflare acquired VoidZero (Vite, Rolldown, Oxc, Vitest) on June 4 2026. Vite has 130M weekly downloads. Rolldown and Oxc are now the default build toolchain for Vue, Nuxt, SvelteKit, Astro, React toolchains, and the majority of modern npm packages.
+
+This is a supply chain centralisation event. One compromised Cloudflare/VoidZero employee account or one malicious release to any of these tools affects the build pipeline of the majority of JS/TS projects globally — same attack pattern as Miasma (@redhat-cloud-services, June 2026) but with 1,000x the blast radius.
+
+Mitigations:
+- Pin Vite, Vitest, Rolldown, Oxc versions explicitly in any JS project. Never use floating @latest for these packages.
+- Monitor Cloudflare security advisories for VoidZero tools alongside npm security alerts: https://www.cloudflare.com/trust-hub/
+- Treat any Vite/Rolldown/Oxc version bump in a dependency as requiring the same scrutiny as a direct dependency update
+- For ccusage and other approved npm tools: re-pin to verified versions after any Rolldown or Oxc upstream release
+
 ---
 
 ## Agents
