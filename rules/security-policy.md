@@ -359,6 +359,8 @@ Just because an agent *can* call an API or tool does not mean it *should*.
 * Log all tool calls through Guardrails for audit trails
 * Set up Guardrails to block unauthorized tool access automatically
 
+**Agent–microservices resilience (mandatory when agents call production APIs):** See [`agent-stopping-conditions.md`](agent-stopping-conditions.md) §Agent–microservices resilience — distinct agent traffic class (rate limits and circuit breakers), universal idempotency for agent-tool endpoints, session-level timeout and rate-limit budgets at the orchestration layer, and per-session call-graph observability (Bhatkoti, DZone, 2026).
+
 ---
 
 ## 8.1) Runtime Trust Layer for Agent Governance (Enterprise / Fleet)

@@ -8,6 +8,7 @@ and this project follows Semantic Versioning guidance in `rules/versioning-and-r
 ## [Unreleased]
 
 ### Added
+- Agent–microservices resilience controls in `rules/agent-stopping-conditions.md` (distinct agent traffic class, universal tool idempotency, session timeout/rate budgets, call-graph observability); cross-refs in `security-policy.md` §8 and `web-policies.md` §10 (Bhatkoti, DZone 2026).
 - Tier A content UX checklist (non-normative, NN/g + Baymard) in `rules/web-policies.md`; concept-index and `index-security.md` links (2026-06-02).
 - Tiered browser-facing quality gates in `rules/web-policies.md` (Tier A/B/C, Observatory + Lighthouse evidence, regression-first blockers); Appendix C A02 verification cross-link; concept-index and `index-security.md` links (2026-06-01).
 - OWASP Top 10:2025 web application coverage matrix in `rules/security-policy.md` Appendix C (A01–A10 traceability, Covered/Partial/N/A legend, per-app assessment obligation); concept-index and `index-security.md` links (2026-05-30).

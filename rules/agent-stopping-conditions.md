@@ -8,7 +8,7 @@ scope: Runtime bounds, timeouts, clean termination, and incident signaling for a
 # Agentic Workflow Stopping Conditions
 
 **Status:** Authoritative
-**Last updated:** 2026-04-09
+**Last updated:** 2026-06-06
 
 **Source:** [AWS Well-Architected Generative AI Lens](https://docs.aws.amazon.com/wellarchitected/latest/generative-ai-lens/welcome.html) (November 2025). Best practice **GENREL03-BP02**.
 
@@ -32,6 +32,24 @@ scope: Runtime bounds, timeouts, clean termination, and incident signaling for a
 
 ---
 
+## Agent–microservices resilience (mandatory for agent-exposed APIs)
+
+**Source:** Vineet Bhatkoti, *AI Agents Expose a Design Gap in Microservices Resilience Architecture* (DZone, 2026) — [`references/ai-agents-microservices-resilience-gap.pdf`](references/ai-agents-microservices-resilience-gap.pdf). Microservices resilience patterns calibrated for bounded human callers do not hold for non-deterministic agent sessions at scale; extend existing mesh/gateway controls with an **agent-awareness layer** — do not replace them.
+
+1. **Distinct traffic class.** AI agents (and any non-deterministic caller) **MUST** be treated as a separate traffic class with their own rate limits and circuit breaker profiles — **not** shared thresholds with human-generated traffic.
+
+2. **Universal idempotency for agent tools.** Every API endpoint exposed as an agent tool **MUST** be idempotent without exception, regardless of original design intent. Agent re-execution during reasoning is normal behavior, not an error condition.
+
+3. **Session-level timeout budget.** Enforce a **session-level (frame-level) timeout budget** at the orchestration layer. Per-stage and per-service timeouts are necessary but not sufficient; the pipeline DAG **MUST** own the cumulative budget across the full reasoning loop.
+
+4. **Session-level rate limiting.** Rate limits **MUST** cap total downstream calls per agent session **across all services**, not only per-service or per-client identity. Per-service limits alone allow unbounded fan-out from a single session.
+
+5. **Call-graph observability.** Distributed tracing alone is insufficient for agent traffic. Observability **MUST** surface a **call graph per session**: how many downstream calls, which services, in what sequence — not only isolated spans.
+
+**See also:** [`security-policy.md`](security-policy.md) §8 (API-calling agents); [`web-policies.md`](web-policies.md) §10 (rate limiting and resilience).
+
+---
+
 ## Quick links
 
 | Topic | Where |
@@ -39,6 +57,7 @@ scope: Runtime bounds, timeouts, clean termination, and incident signaling for a
 | Session lifecycle and reliability | [`ai-workflow-policy.md`](ai-workflow-policy.md) Part 3 |
 | Token bounds (primary/secondary) | [`token-cost-controls.md`](token-cost-controls.md) |
 | Tool use and agent security | [`security-policy.md`](security-policy.md) Part 2 |
+| Agent–microservices resilience (traffic class, session budgets, call graphs) | This document §Agent–microservices resilience |
 
 ## tool-call-argument-validation
 

@@ -41,6 +41,7 @@ scope: Concept-to-authority lookup for policies and references
 | Token economy (prompt length, max_tokens, caching, mandatory per-invocation logging fields) | `rules/token-cost-controls.md` | `rules/ai-workflow-policy.md` Part 2; `rules/ai-retrieval-policy.md` §3 |
 | Token/cost observability tooling (approved vendors, USD, enforcement gap vs LiteLLM) | `rules/token-cost-observability.md` (implementation guidance) | `rules/token-cost-controls.md` |
 | Agentic workflow stopping (runtime limits, layered timeouts, clean termination, repeat-timeout incidents) | `rules/agent-stopping-conditions.md` | `rules/ai-workflow-policy.md` Part 3 |
+| Agent–microservices resilience (distinct traffic class, session budgets, idempotent tool APIs, call-graph observability) | `rules/agent-stopping-conditions.md` §Agent–microservices resilience | `rules/security-policy.md` §8, `rules/web-policies.md` §10, `rules/references/ai-agents-microservices-resilience-gap.pdf` |
 | Model selection economics (cost-per-inference estimate, smaller-model-first, documented upgrade) | `rules/model-cost-discipline.md` | `rules/approved-ai-tools.md`, `rules/mlops-policy.md`, `rules/ai-workflow-policy.md` (agent selection), `rules/references/advisor-strategy-claude-api.md` |
 
 ## Security & AI Tools

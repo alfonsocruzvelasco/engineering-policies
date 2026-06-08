@@ -174,6 +174,8 @@ Below is a professional-team rule set for **API design and implementation**, cov
 74. Bulkheads/circuit breakers are applied for unstable dependencies.
 75. Payload sizes are bounded; reject overly large requests.
 
+**Agent-exposed APIs (mandatory):** When endpoints are registered as agent tools, apply [`agent-stopping-conditions.md`](agent-stopping-conditions.md) §Agent–microservices resilience — separate agent traffic class, universal idempotency, session-level timeout and rate-limit budgets, and per-session call-graph observability (Bhatkoti, DZone, 2026).
+
 ## 11) Data and compatibility rules
 
 76. Do not expose database schema directly as API shapes.
