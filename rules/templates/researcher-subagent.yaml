@@ -1,0 +1,7 @@
+name: researcher
+description: >
+  Read, Grep, Glob across repo. Use for symbol lookups, caller searches,
+  config location. Returns short summary only — never dumps raw file content
+  to main context.
+model: claude-haiku-4-5-20251001
+tools: [Read, Grep, Glob]

@@ -423,6 +423,25 @@ Usage constraints:
 
 ---
 
+**token-savior (Mibayy): APPROVED. MIT. Symbol-nav MCP.**
+Install: isolated venv, core profile only.
+
+**claude-code-router (musistudio): APPROVED. MIT. Model routing.**
+
+**caveman (JuliusBrussee): APPROVED. MIT. Output compression skill, ultra mode.**
+
+**ooples/token-optimizer-mcp: APPROVED. MIT. Caching MCP for repeat reads.**
+
+**thedotmack/claude-mem: APPROVED. MIT. Cross-session memory. Plugin install only.**
+
+**Squeezr (sergioramosv): CONDITIONAL. MIT.**
+Security: no credentials/PII in sessions while proxy active.
+Infra: container only — conflicts with host-install prohibition.
+Local backend mandatory for this setup (RTX 4070 + Ollama).
+Exception: security-exceptions.md EXCEPTION-TOKEN-001.
+
+---
+
 #### Codex on Amazon Bedrock (NOT APPROVED — evaluation pending)
 OpenAI coding agent available on Amazon Bedrock since April 28 2026 (limited preview). Accessible via Codex CLI, Codex desktop app, and VS Code extension. Authentication via AWS credentials; inference runs on Bedrock infrastructure.
 

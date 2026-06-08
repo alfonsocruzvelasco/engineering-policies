@@ -10,7 +10,7 @@
 ## AI Role (Global)
 - Advisory only
 - No autonomous execution
-- No delegation or background agents
+- No unattended delegation or background agents
 - Human is always the final decision-maker
 
 ## Codex-Specific Rules
@@ -32,3 +32,10 @@
 - Max 200 lines per diff
 - No refactors unless explicitly requested
 - No new dependencies unless explicitly requested
+
+## Token Conservation
+- MAX_THINKING_TOKENS=8000. /effort none for edits. /effort high for reasoning.
+- Compact at 60–70% context with explicit preservation hints.
+- Researcher subagent for all Read/Grep/Glob subtasks.
+- If Squeezr active: confirm `squeezr status` before session start.
+  Local backend (Ollama qwen2.5-coder:1.5b) preferred — zero API cost.

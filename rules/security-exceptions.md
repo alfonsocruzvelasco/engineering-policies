@@ -22,6 +22,7 @@ CISO + VP Engineering approval with documented compensating controls.
 | ID | Policy Section | Requestor | Approver | Start Date | End Date | Compensating Controls |
 |----|----------------|-----------|----------|------------|----------|-----------------------|
 | CIFSwitch (CVE-2026-46243) | cifs-utils 7.5 installed on Fedora 43 | Alfonso Cruz | — | 2026-06-01 | 2026-06-15 | cifs-utils installed but CIFS service not running. SELinux enforcing on Fedora 43 prevents the namespace-switching exploit chain per researcher confirmation (Fedora 40-44 default SELinux blocks CIFSwitch). Update kernel when Fedora 43 ships upstream fix (commit 3da1fdf backport). Remove cifs-utils if SMB/CIFS network shares are not actively used. |
+| EXCEPTION-TOKEN-001 | Squeezr localhost proxy | ANTHROPIC_BASE_URL → localhost:8080 | — | 2026-06-08 | 2026-09-06 | Local dev only. No production. No sessions with credentials or PII. Local Ollama backend mandatory. Review: quarterly. |
 
 ## Expired/Closed Exceptions
 

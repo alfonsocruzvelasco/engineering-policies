@@ -25,6 +25,7 @@ scope: AI-assisted development workflows (core workflow, prompt engineering, ses
 - [Explicit Operating Contract (Mandatory)](#explicit-operating-contract-mandatory)
 - [Core Security Position](#core-security-position)
 - [Daily Workflow](#daily-workflow)
+- [Token Conservation](#token-conservation)
 - [Context Rot Prevention](#context-rot-prevention)
 - [Wave-Based Execution](#wave-based-execution-multi-agent)
 - [Agent session traceability](#agent-session-traceability-mandatory)
@@ -274,6 +275,68 @@ ${SANDBOX_ROOT:-~/dev/repos/github.com/${GH_USER:-alfonsocruzvelasco}/sandbox-cl
 
 ---
 
+## Token Conservation
+
+#### Built-in (zero install, apply immediately)
+- MAX_THINKING_TOKENS=8000 globally. /effort none for file edits.
+  /effort high only for genuine reasoning tasks.
+- Manual /compact at 60–70% context window with preservation hints:
+    /compact Keep: [active task], [open decision], [last written file], [error in flight]
+  Never wait for auto-compaction (~93% threshold, costs 100–200K tokens per fire).
+- Context gauge in ~/.claude/settings.json:
+    {
+      "env": { "MAX_THINKING_TOKENS": "8000" },
+      "statusLine": {
+        "type": "command",
+        "command": "echo \"ctx $(jq -r '.context_window.remaining_percentage // 100' < $CLAUDE_STATUS_INPUT)%\""
+      }
+    }
+- Skills over CLAUDE.md for anything >2KB. CLAUDE.md loads every turn;
+  skills load on activation only (~100 tokens per skill at boot vs full body).
+- Researcher subagent: dispatch all Read/Grep/Glob subtasks to Haiku.
+  Main context receives summary only. Definition: rules/templates/researcher-subagent.yaml
+- PostToolUse bash-filter hook — strip ANSI and dedup warnings before
+  Claude sees them. Cuts 40–60% incidental noise from npm/pip/terraform output:
+    #!/usr/bin/env bash
+    cat | sed 's/\x1b\[[0-9;]*m//g' | awk '!seen[$0]++' | head -500
+  Wire in settings.json under hooks.PostToolUse with a Bash matcher.
+
+#### Tool stack (approved below, install order = ROI order)
+1. drona23/claude-token-efficient — drop CLAUDE.md at project root. 40% savings.
+   Zero runtime cost. Rules: think before acting, prefer edits over rewrites,
+   no re-reads of unchanged files, no sycophantic openers, test before done.
+2. Mibayy/token-savior (core profile) — symbol-navigation MCP. 43% savings on
+   typed codebases. Install in isolated venv. Use core profile only — full profile
+   costs ~11K tokens for the tool manifest alone.
+3. musistudio/claude-code-router — route cheap tasks to Haiku, hard to Sonnet.
+   3–5× quota reduction on routed turns. Single highest-leverage quota extender.
+4. Squeezr — localhost:8080 proxy, 3 compression layers. Configure local backend:
+   LOCAL BACKEND (RTX 4070, zero token cost):
+     [local]
+     enabled = true
+     upstream_url = "http://localhost:11434"
+     compression_model = "qwen2.5-coder:1.5b"
+   AI compression runs on Ollama locally — costs zero API tokens.
+   Security constraint: CONDITIONAL. See security-exceptions.md EXCEPTION-TOKEN-001.
+   Infra constraint: containerize, do not install as host npm global.
+5. JuliusBrussee/caveman (ultra mode) — output compression skill. 38% reduction
+   on assistant prose. Best for conversational sessions and code review writeups.
+6. ooples/token-optimizer-mcp — caching MCP. 23% baseline, up to 70–90% on
+   sessions with repeat file reads (long refactor sessions).
+7. thedotmack/claude-mem — cross-session persistent memory. Reduces session
+   startup bloat on long-lived projects. Install via /plugin, not npm global.
+
+Source: [computingforgeeks-apr2026] [squeezr-github]
+
+#### Verification loop (mandatory)
+- Validate savings on real tasks monthly (or after stack changes): record baseline vs current for
+  total tokens, output tokens, turns, and wall time.
+- Use one fixed prompt and one fixed target repository for trend consistency.
+- If token savings regress by >15% from the last verified baseline, review:
+  `/compact` discipline, routing profile, and active tool stack order.
+
+---
+
 ## Daily Workflow
 
 ### Task Card Prompt Template
@@ -451,7 +514,7 @@ The filesystem provides continuity across context windows. Apply this pattern to
    - Use Task Tool for tracking multi-step work
    - Mark subtasks complete only after verification (tests pass, diff reviewed)
    - Update CLAUDE.md immediately if mistakes are discovered during task execution
-   - Use `/compact` manually at max 50% context usage (don't wait for auto-compact)
+   - Use `/compact` manually at 60–70% context usage (don't wait for auto-compact)
 
 5. **Vanilla Claude Code for small tasks:**
    - For single-file edits or trivial changes, use vanilla Claude Code (no task tool)
