@@ -1412,7 +1412,7 @@ Store only references, hashes, and metadata.
 
 Any deviation from this policy requires:
 
-* A written justification in `exception-and-decision-log.md`
+* A written justification in `security-exceptions.md`
 * Risk classification (Low/Medium/High)
 * Mitigation steps and a sunset date
 

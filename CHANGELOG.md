@@ -8,6 +8,8 @@ and this project follows Semantic Versioning guidance in `rules/versioning-and-r
 ## [Unreleased]
 
 ### Added
+- Resolved policy consistency blockers: unified exception logging references to `rules/security-exceptions.md`, clarified README AI-tool guidance (approved-tools + Cursor sandbox scope), and clarified `security-policy.md` sandbox directory table as Cursor-specific while preserving repo-local controls for other approved agents (2026-06-08).
+- Added optional consistency follow-ups: removed orphaned infrastructure stub from `rules/web-policies.md`; expanded `rules/system/concept-index.md` governance/runtime coverage; added `rules/system/scripts/policy-consistency-check.sh` and wired it into `.pre-commit-config.yaml` to guard key policy drift conditions.
 - Agent–microservices resilience controls in `rules/agent-stopping-conditions.md` (distinct agent traffic class, universal tool idempotency, session timeout/rate budgets, call-graph observability); cross-refs in `security-policy.md` §8 and `web-policies.md` §10 (Bhatkoti, DZone 2026).
 - Tier A content UX checklist (non-normative, NN/g + Baymard) in `rules/web-policies.md`; concept-index and `index-security.md` links (2026-06-02).
 - Tiered browser-facing quality gates in `rules/web-policies.md` (Tier A/B/C, Observatory + Lighthouse evidence, regression-first blockers); Appendix C A02 verification cross-link; concept-index and `index-security.md` links (2026-06-01).

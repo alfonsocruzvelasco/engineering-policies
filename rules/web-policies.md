@@ -747,10 +747,6 @@ Human review **SHOULD** accompany automated Tier A scans before major doc/site l
 
 ### Exceptions
 
-Deferring Tier A scans beyond one release cycle **MUST** be an explicit recorded decision in [`exception-and-decision-log.md`](exception-and-decision-log.md) (risk, scope, sunset date). Tier B/C origins do not require an exception to skip browser scans.
+Deferring Tier A scans beyond one release cycle **MUST** be an explicit recorded decision in [`security-exceptions.md`](security-exceptions.md) (risk, scope, sunset date). Tier B/C origins do not require an exception to skip browser scans.
 
 ---
-
-# Docker/Podman/Kubernetes/Kafka
-
-Below is a professional-team rule set for **Docker / Kubernetes / Podman / Kafka**, written as enforceable policy suitable for real production teams.

@@ -1680,7 +1680,7 @@ If you suspect exposure or compromise:
 1. Revoke/rotate affected credentials immediately.
 2. Identify scope and impact.
 3. Purge leaked artifacts where possible (including chat transcripts, logs, CI outputs).
-4. Record the incident in `exception-and-decision-log.md` with mitigation and follow-up actions.
+4. Record the incident in `security-exceptions.md` with mitigation and follow-up actions.
 
 ### Security contact management
 
@@ -2291,7 +2291,7 @@ Exceptions are extremely rare and must be documented with:
 * mitigation
 * sunset date
 
-All exceptions must be recorded in `exception-and-decision-log.md`.
+All exceptions must be recorded in `security-exceptions.md`.
 
 ---
 
@@ -2498,13 +2498,13 @@ All AI-generated outputs used in execution contexts must be validated:
 
 ### Directory Structure Compliance (Integration with `development-environment-policy.md`)
 
-All AI agent file operations must respect the canonical directory structure:
+This subsection applies to Cursor IDE agent sessions. Other approved agents (for example Claude Code/Copilot) must follow repository-local constraints in `AGENTS.md`, plus the guardrails in this document.
 
 **Allowed AI Access Patterns:**
 
 | Directory | AI Read | AI Write | Git Track | Purpose |
 |-----------|---------|----------|-----------|---------|
-| `~/dev/repos/github.com/alfonsocruzvelasco/sandbox-claude-code/` | ✅ | ✅ | ✅ | **ONLY** AI workspace |
+| `~/dev/repos/github.com/alfonsocruzvelasco/sandbox-claude-code/` | ✅ | ✅ | ✅ | Cursor IDE AI workspace |
 | `~/dev/build/<repo>/` | ✅ | ✅ | ❌ | Build artifacts |
 | `~/test-data/<project>/` | ✅ | ✅ | ❌ | Disposable test data |
 | `~/datasets/` | ✅ | ❌ | ❌ | Immutable datasets (read-only) |
@@ -4456,8 +4456,8 @@ This document is part of a comprehensive policy framework. All sections integrat
 ### 15.1 Core Policy Documents
 
 **`ai-workflow-policy.md` (Part 1: Core Workflow) (Authoritative)**
-- **Integrated Sections:** Core Security Position (Section 1), Sandbox Restriction (Section 5.3), Verification-First Workflow (Section 10)
-- **Key Integration:** Cursor sandbox: `/home/alfonso/dev/repos/github.com/alfonsocruzvelasco/sandbox-claude-code/` (enforced in Section 5.3)
+- **Integrated Sections:** Core Security Position, Sandbox Restriction, Verification-First Mindset
+- **Key Integration:** Cursor sandbox: `/home/alfonso/dev/repos/github.com/alfonsocruzvelasco/sandbox-claude-code/` (enforced in Sandbox Restriction)
 - **Defers to this document for:** Security scanning tools (Section 14), verification gates (Section 10)
 
 **Part 1: Core Security (above) (Authoritative)**
@@ -4466,7 +4466,7 @@ This document is part of a comprehensive policy framework. All sections integrat
 - **Defers to this document for:** AI-specific tooling, CodeQL integration, pre-commit hooks
 
 **`development-environment-policy.md` (Authoritative)**
-- **Integrated Sections:** Directory Structure (Section 5.3), Repository Isolation, Artifact Boundaries
+- **Integrated Sections:** Directory Structure, Repository Isolation, Artifact Boundaries
 - **Key Integration:** Canonical paths (`~/dev/repos/`, `~/dev/build/`, `~/datasets/`), AI sandbox enforcement
 - **Defers to this document for:** Security implications, path validation code (Section 5.3)
 
@@ -4478,7 +4478,7 @@ This document is part of a comprehensive policy framework. All sections integrat
 
 **Priority Order:** Part 1: Core Security (above) > `development-environment-policy.md` > `ai-workflow-policy.md` (Part 1: Core Workflow) > this document
 
-**Conflict Resolution:** Higher-priority policy wins. Document conflicts in `exception-and-decision-log.md`.
+**Conflict Resolution:** Higher-priority policy wins. Document conflicts in `security-exceptions.md`.
 
 ### 15.3 Validation Commands
 
@@ -4537,7 +4537,7 @@ This document is part of a comprehensive policy framework. All sections integrat
 | **A09:2025 — Security Logging and Alerting Failures** | §10 (centralized logging, audit); §18 (incident response); §14.5 (agent audit) | `production-policy.md` (observability expectations) | **Partial** | Cloud billing/IAM alerts (§10.3); anomaly patterns (§20) — per-app SIEM/alert tuning not fully specified |
 | **A10:2025 — Mishandling of Exceptional Conditions** | §14.3, §16 (sanitized errors); agent timeouts | `agent-stopping-conditions.md`; `testing-policy.md` (error paths) | **Partial** | Error redaction required before external AI sharing (§14); **gap:** no corpus-wide fail-secure / exception-handling standard — product teams MUST define per service |
 
-**Per-application obligation:** For each shipped web app or API, maintain a short record (in the product repo or `exception-and-decision-log.md`) listing: (1) applicable A01–A10 rows marked **Partial**, (2) compensating controls, (3) owner and review date. Re-assess when OWASP publishes Top 10 updates or on major architecture change.
+**Per-application obligation:** For each shipped web app or API, maintain a short record (in the product repo or `security-exceptions.md`) listing: (1) applicable A01–A10 rows marked **Partial**, (2) compensating controls, (3) owner and review date. Re-assess when OWASP publishes Top 10 updates or on major architecture change.
 
 **External reference:** [OWASP Top 10:2025](https://owasp.org/Top10/2025/) — authoritative category definitions and remediation guidance.
 

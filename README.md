@@ -452,13 +452,13 @@ This repository is **infrastructure**, not documentation noise.
 
 ### Using AI assistance
 
-1. **Cursor only** for coding (see `ai-workflow-policy.md` Part 1)
+1. **Approved AI tools only** for coding (see `approved-ai-tools.md`; Cursor sandbox rules in `ai-workflow-policy.md` Part 1)
 2. **Session discipline** — Use parallel sessions for focused work, follow session lifecycle (see `ai-workflow-policy.md` Part 3)
 3. **English-first** for all prompts (see `ai-workflow-policy.md` Part 2)
 4. **Plan Mode first** — Start with planning for multi-file tasks (see `ai-workflow-policy.md` Part 1)
 5. **Spec-driven development** — Use **OpenSpec (preferred for ML/CV)** or Spec Kit/MCP for multi-file features (see `ai-workflow-policy.md` Part 4 and `rules/references/openspec-ml-cv-reference.md`)
 6. **Verification required** for all AI-generated code (verification-first paradigm)
-7. **Sandbox restriction** to `/home/alfonso/dev/repos/github.com/alfonsocruzvelasco/sandbox-claude-code/`
+7. **Cursor sandbox restriction** to `/home/alfonso/dev/repos/github.com/alfonsocruzvelasco/sandbox-claude-code/`; non-Cursor agents follow repo-level policy controls and `AGENTS.md`
 8. **AI code review protocol** — Follow systematic review process (see `ai-workflow-policy.md` Part 1)
 9. **AI security framework** — Follow comprehensive security controls (see `security-policy.md` Part 2)
 10. **Use templates** — Start from `rules/templates/` for common tasks (`prompt-template.md`, `mcp-template.md`, `claude-md-template.md`, `agents-md-template.md`, `domain-template.md`, `.cursorrules`)

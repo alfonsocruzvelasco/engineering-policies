@@ -26,6 +26,13 @@ repos:
         pass_filenames: false
         always_run: true
         verbose: true
+      - id: policy-consistency-check
+        name: Check policy consistency
+        entry: bash -c 'rules/system/scripts/policy-consistency-check.sh'
+        language: system
+        pass_filenames: false
+        always_run: true
+        verbose: true
 
   # Secret scanning (complementary control)
   # Note: Requires .secrets.baseline file - run 'detect-secrets scan > .secrets.baseline' first

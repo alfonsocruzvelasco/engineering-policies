@@ -2793,7 +2793,7 @@ Before submitting untrusted content, the user **MUST** prepend (or otherwise app
 - summarize only semantic content in plain text.
 
 ### CT-14: Exceptions
-- Any exception to CT-1 through CT-13 **MUST** be an explicit recorded decision in [`exception-and-decision-log.md`](exception-and-decision-log.md) (risk, scope, and sunset date).
+- Any exception to CT-1 through CT-13 **MUST** be an explicit recorded decision in [`security-exceptions.md`](security-exceptions.md) (risk, scope, and sunset date).
 
 ---
 

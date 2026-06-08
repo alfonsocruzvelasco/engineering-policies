@@ -9,7 +9,7 @@ scope: Concept-to-authority lookup for policies and references
 
 **Purpose:** Fast lookup from a concept to the **authoritative policy** and **supporting references**. This file is descriptive, not normative.
 
-**Last updated:** 2026-05-30
+**Last updated:** 2026-06-08
 
 > **Rule:** When concepts overlap, defer to the file listed under **Authoritative policy**. Other documents are references only.
 
@@ -97,6 +97,10 @@ scope: Concept-to-authority lookup for policies and references
 | Learning vs project repo governance | `rules/system/learning-library-governance.md` | `rules/system/learning-ai-usage-boundary.md` |
 | Agent context files (`CLAUDE.md`, `AGENTS.md`) | `rules/ai-workflow-policy.md` (session priming + skills management) | `rules/references/agent-hq-orchestration-complete-notes.md`, `rules/references/ai-pr-communication-notes.md`, `rules/references/knowledge-priming-notes.md` |
 | MCP integration for ML/CV systems | `rules/ai-workflow-policy.md` (MCP section), `rules/ai-retrieval-policy.md` | `rules/references/mcp-ecosystem-notes.md`, `rules/references/sql-and-mcp-notes-ml-cv.md` |
+| Development environment boundaries (canonical paths, repository isolation, AGENTS.md requirement) | `rules/development-environment-policy.md` | `AGENTS.md`, `rules/security-policy.md` (directory compliance) |
+| Infrastructure runtime policy (Docker/Podman/Kubernetes/Kafka) | `rules/infrastructure-policy.md` | `rules/templates/mcp-template.md` (integration examples) |
+| Documentation governance and decision logging templates | `rules/documentation-policy.md` | `rules/security-exceptions.md` (security-specific exceptions registry) |
+| Versioning and release workflow | `rules/versioning-and-release-policy.md` | `README.md`, `CHANGELOG.md` |
 
 ---
 
