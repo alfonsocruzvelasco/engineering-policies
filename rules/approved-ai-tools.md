@@ -77,8 +77,18 @@ Credit is non-rollover. When exhausted, programmatic usage pauses until reset un
 No agent tool may be approved without completing all three:
 
 1. Check Princeton HAI reliability dashboard (https://hal.cs.princeton.edu/reliability). If not listed, require independent task-class evaluation.
+   Cross-reference with METR's autonomous task time-horizon evaluations (metr.org) for independent assessment of agent capability length and reliability. METR's May 2026 productivity survey of 349 technical workers found a median 1.4–2x self-reported productivity gain from AI tools — with explicit caveats on the reliability of self-reported magnitude. Vendor productivity claims must be verified against independent evaluation before approval.
 2. Verify benchmark scores are from independent evaluation not self-reported marketing. UC Berkeley (April 2026) demonstrated all major benchmarks can be gamed — published leaderboard scores are disqualifying if self-reported.
 3. Confirm task-class score exceeds human baseline (OSWorld 72.36% or equivalent for intended use case). Agents below human baseline are not approved for autonomous operation.
+4. **Comprehension audit before production deployment.**
+   Before any AI-generated codebase reaches production, the owning engineer must be able to answer the following three questions without referring to the AI tool or its output:
+   - What does this module do and why is it structured this way?
+   - What breaks if this dependency changes?
+   - Where are the boundaries I do not fully understand?
+
+   If any answer is "I don't know," that is not a blocker on using AI assistance. It is a blocker on shipping. Treat unaudited AI-generated code as an unreviewed external dependency until the comprehension pass is complete.
+
+   Basis: fluency illusion (Alter & Oppenheimer, 2009) — readable output is systematically mistaken for understood output. AI-generated code is maximally fluent. That feeling is not evidence of comprehension. Anthropic's own study (InfoQ, Feb 2026) found developers who delegated code generation to AI scored below 40% on comprehension tests versus 65%+ for those who used AI for conceptual inquiry only.
 
 Architectural risk and CVE risk are evaluated separately. A tool with patched CVEs may still be architecturally prohibited. See security-policy.md §Prohibited Agent Platforms and Frameworks.
 

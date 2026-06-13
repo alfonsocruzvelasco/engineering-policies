@@ -210,6 +210,14 @@ Portable distinction when comparing **LLMs** and **coding/agent runtimes** (no p
   (May 2026). 10+ incidents across 6 major AI coding tools
   in 16 months. Six critical risk categories.
   Source: https://www.docker.com/blog/ai-coding-agent-horror-stories-security-risks/
+- `metr-productivity-survey-2026` — METR (May 2026). Survey of 349 technical workers measuring self-reported productivity impact of AI tools. Median 1.4–2x self-reported increase in value of work. Explicit caveats on self-reported magnitude. Use to challenge vendor productivity claims during tool evaluation.
+  Source: https://metr.org/blog/2026-05-11-ai-usage-survey/
+- `metr-time-horizons` — METR (updated continuously). Independent benchmark measuring the length of autonomous software tasks AI agents can complete reliably. Complementary to Princeton HAI: HAI measures consistency and error severity; METR measures autonomous capability length. Use both before approving any agent tool for autonomous operation.
+  Dashboard: https://metr.org/time-horizons/
+- `ai-coding-skill-formation` — Anthropic / InfoQ (Feb 2026). Developers using AI for code generation scored 17% lower on comprehension tests. Those delegating code generation scored below 40%; those using AI for conceptual inquiry scored 65%+. Primary evidence basis for comprehension audit requirement in approved-ai-tools.md step 4.
+  Source: https://www.infoq.com/news/2026/02/ai-coding-skill-formation/
+- `ai-coding-trap` — Chris Loy (Sep 2025). AI agents write code fast; the human is left doing post hoc understanding of what was generated — harder and slower than writing it would have been. Marketing claims 10x faster code writing; real-world productivity gains closer to 10%. Supporting evidence for comprehension audit requirement.
+  Source: https://chrisloy.dev/post/2025/09/28/the-ai-coding-trap
 
 ## Retrieval, Vector DBs, and RAG
 

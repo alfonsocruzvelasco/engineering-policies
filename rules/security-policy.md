@@ -351,6 +351,24 @@ Just because an agent *can* call an API or tool does not mean it *should*.
 * Download or execute binaries
 * **Autonomously execute destructive operations** (see Section 19.6.3 for mandatory HITL requirements)
 
+**External MCP server trust (attacker-controlled ingestion payloads):**
+External MCP servers that consume third-party-injectable data sources
+(error trackers, public issue queues, webhook endpoints, log aggregators)
+are a distinct prompt injection class. The MCP server itself is legitimate;
+the payload is attacker-controlled via a public write endpoint (e.g. Sentry DSN).
+
+**Mitigations:**
+* Never prompt an agent to "fix all [external-service] issues" without reviewing
+  the raw events first.
+* Treat any MCP tool result from an external ingestion service as untrusted input,
+  not system output.
+* Before connecting any MCP server backed by a public-writable data source,
+  verify whether the service validates or sanitizes ingested payloads.
+
+**Source:** [agentjacking-tenet-security-jun2026]
+**CVE/reference:** https://tenetsecurity.ai/blog/agentjacking-coding-agents-with-fake-sentry-errors/
+**Affected tools:** Claude Code, Cursor. **Exploitation rate:** 85% in controlled test.
+
 **Incident Reference:** [Amazon Q Incident (July 2025)](https://www.techradar.com/pro/hacker-adds-potentially-catastrophic-prompt-to-amazons-ai-coding-service-to-prove-a-point) - malicious prompt instructed AI to use filesystem and AWS CLI privileges to wipe systems and delete cloud resources. This incident demonstrates the critical need for mandatory HITL authorization for all destructive operations.
 
 **Guardrails AI Integration:**
@@ -2034,6 +2052,7 @@ Anthropic's own system card for Claude Opus 4 and Sonnet 4 (May 2025) confirmed 
 - Untrusted .claude/settings.json loaded without review (CVE-2025-59536 attack vector)
 - Agent frameworks with no hard session timeout and no token budget cap
 - Any agent scoring below human baseline on OSWorld (72.36%) for its intended task class
+- AI-generated code deployed without a comprehension audit — code the owning engineer cannot reason about independently creates an ownership gap that survives the code itself and is not detectable until production failure. The IKEA effect (Norton, Mochon & Ariely, 2012) means engineers systematically overestimate ownership of code they prompted but did not write. Treat unaudited AI-generated code as an unreviewed external dependency. Cross-reference: rules/approved-ai-tools.md §Mandatory reliability evaluation before approval, step 4.
 
 **Legitimate tool weaponization (new attack class, May-June 2026):**
 codexui-android demonstrates a new supply chain pattern: build a genuinely useful tool, grow a real user base, then inject malicious payload into a later version. The package is functional — developers actually want it. Traditional signals (typosquats, throwaway accounts, zero downloads) do not apply. The only reliable mitigation is the same as all supply chain attacks: version pinning + checksum verification. A high download count is not a safety signal — it is a higher-value target.
