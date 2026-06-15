@@ -62,3 +62,7 @@ Before proposing actions over browsers, images, or UI, state what **observable r
 - This repository ships policy documents, not runtime services.
 - Validation is documentation integrity plus pre-commit enforcement.
 - Changes remain local unless explicitly pushed by the repository owner.
+
+## Execution discipline
+1. Before any explanation, diagnosis, or plan: does a test or script already exist that reproduces the problem? If not, create it first. Do not describe what you're going to do — do it, and report the result (pass/fail) in one line. If your response doesn't contain a diff or an executed command, don't send it — try again.
+2. Before returning any response, verify: does this produce a verifiable commit? Does it follow kebab-case / snake_case as appropriate? Is it in /workspace with correct symlinks, not on host? If the response is explanatory text only with no attached artifact, rewrite it.
