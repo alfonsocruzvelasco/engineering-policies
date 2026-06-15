@@ -567,6 +567,11 @@ If a serving framework uses brokered execution (e.g., ZeroMQ) and performs unsaf
 - CI pipelines MUST run `npm ci --ignore-scripts` unless the pipeline explicitly documents which postinstall scripts are permitted and why.
 - Pre-commit or CI checks SHOULD flag any new dependency that registers a `preinstall`, `install`, or `postinstall` script.
 
+**Subprocess invocation safety (mandatory):**
+- Scripts and hooks that call `git` or other CLI tools MUST use non-shell subprocess APIs (`execFileSync`, `spawn`/`spawnSync`, or equivalent array-argument invocation).
+- String-interpolated shell execution (`exec`, `os.system`, `shell=True`, backticks, `sh -c`) is prohibited for subprocess calls that handle variable input.
+- Validate and sanitize arguments before invoking subprocesses, and pass them as explicit argument arrays.
+
 **IDE extension and plugin supply chain:**
 
 - IDE plugins and extensions are dependencies — treat them with the same supply chain rigor as npm packages.
@@ -2728,6 +2733,16 @@ on_commit:
 - Hooks must **not** perform state-changing actions (commits, deployments, file modifications)
 - All state changes require explicit human approval or separate automation pipeline
 
+### Rule #1.1: Auxiliary hook fail-safe behavior (mandatory)
+Any hook or script attached to another operation whose role is auxiliary (logging, metrics, telemetry, notifications) MUST fail safe and MUST NOT fail the parent operation.
+
+Mandatory requirements for both git hooks and Claude Code hooks:
+- Catch all internal errors.
+- Log the failure locally for diagnosis.
+- Always exit with status `0`.
+
+Only the primary policy-enforcement logic for that operation may block execution.
+
 ### Rule #2: The Sandbox Imperative
 **Principle:** Isolation is non-negotiable.
 
@@ -3000,6 +3015,14 @@ def execute_hook_with_user_input(hook_name: str, user_data: str):
 ## 6.5 Audit Logging Requirements
 
 All hook executions must be logged for forensic analysis and compliance.
+
+### Telemetry and metrics egress declaration (mandatory)
+Any telemetry or metrics hook that sends data off-machine MUST include a comment block in the hook/script itself that explicitly enumerates:
+- Exactly which fields can leave the machine (for example: commit message, branch name, file path, hostname, username).
+- The destination endpoint/service for each field.
+- Whether fields are transformed, hashed, truncated, or redacted before transmission.
+
+A "fails safely" claim is not sufficient. The outbound data surface must be documented separately in this comment block.
 
 **Required Log Fields:**
 

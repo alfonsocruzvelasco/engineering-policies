@@ -222,79 +222,84 @@ Below is the equivalent “professional-team grade” rule set for **Node.js + n
     * `npm run build`, `test`, `lint`, `typecheck`, `format`, `dev`, etc.
 28. **No “run this tool globally” instructions** in README.
 29. **Scripts must be cross-platform** (avoid bash-only unless you explicitly target Linux only; otherwise use Node-based scripts).
+30. **Node `.mjs` scripts MUST separate pure logic from side effects.** If a script mixes computation with side effects (network call, file write, or process exit), export pure functions for the computation and gate the side-effecting entrypoint:
+
+    * `fileURLToPath(import.meta.url) === process.argv[1]`
+    * Importing the module MUST NOT trigger side effects.
+31. **Side-effecting entrypoints MUST call exported pure functions** rather than embedding all logic inline, so the computation stays testable and reusable.
 
 ## 8) TypeScript configuration discipline
 
-30. **`tsconfig.json` is not personal.** One team-standard config, committed.
-31. **Enable strictness by default** (`"strict": true`) for professional codebases, with explicit exceptions.
-32. **Use consistent module settings** aligned with runtime:
+32. **`tsconfig.json` is not personal.** One team-standard config, committed.
+33. **Enable strictness by default** (`"strict": true`) for professional codebases, with explicit exceptions.
+34. **Use consistent module settings** aligned with runtime:
 
     * Node ESM vs CJS is a deliberate decision; don’t mix casually.
-33. **Separate configs when needed**:
+35. **Separate configs when needed**:
 
     * `tsconfig.json` (base)
     * `tsconfig.build.json` (emit/build)
     * `tsconfig.test.json` (test tooling) if required
-34. **Do not compile in-place.** Emit to `dist/` (or equivalent).
-35. **Commit type boundaries**: public APIs should have stable types; avoid leaking internal types across packages.
+36. **Do not compile in-place.** Emit to `dist/` (or equivalent).
+37. **Commit type boundaries**: public APIs should have stable types; avoid leaking internal types across packages.
 
 ## 9) Formatting, linting, and code quality
 
-36. **Single formatting standard** (typically Prettier) and enforced via script + CI.
-37. **Single lint standard** (typically ESLint) integrated with TypeScript.
-38. **Typechecking is separate and required**:
+38. **Single formatting standard** (typically Prettier) and enforced via script + CI.
+39. **Single lint standard** (typically ESLint) integrated with TypeScript.
+40. **Typechecking is separate and required**:
 
     * `npm run typecheck` must run in CI.
-39. **No “it compiles” without typechecking**. JS builds can pass while TS types fail—CI must catch it.
-40. **Pre-commit hooks are allowed but not relied on**; CI is the enforcement point.
+41. **No “it compiles” without typechecking**. JS builds can pass while TS types fail—CI must catch it.
+42. **Pre-commit hooks are allowed but not relied on**; CI is the enforcement point.
 
 ## 10) Testing rules
 
-41. **Tests run via script** (`npm test`) and are CI-required.
-42. **Test environment matches runtime assumptions** (Node version, ESM/CJS).
-43. **Coverage is measured consistently** (if required), but do not block dev flow with overly strict thresholds unless intentional.
-44. **No flaky tests tolerated**—quarantine or fix quickly.
+43. **Tests run via script** (`npm test`) and are CI-required.
+44. **Test environment matches runtime assumptions** (Node version, ESM/CJS).
+45. **Coverage is measured consistently** (if required), but do not block dev flow with overly strict thresholds unless intentional.
+46. **No flaky tests tolerated**—quarantine or fix quickly.
 
 ## 11) Build and release discipline
 
-45. **Define one build command** producing deterministic artifacts (`dist/`).
-46. **Do not ship source TS** unless your distribution strategy explicitly requires it.
-47. **Source maps policy is explicit** (enabled for debugging; controlled in production if needed).
-48. **For libraries:** ensure `exports`/entry points in `package.json` are correct and tested.
-49. **For apps:** environment config is documented and validated (fail fast if required vars missing).
+47. **Define one build command** producing deterministic artifacts (`dist/`).
+48. **Do not ship source TS** unless your distribution strategy explicitly requires it.
+49. **Source maps policy is explicit** (enabled for debugging; controlled in production if needed).
+50. **For libraries:** ensure `exports`/entry points in `package.json` are correct and tested.
+51. **For apps:** environment config is documented and validated (fail fast if required vars missing).
 
 ## 12) Security and supply chain
 
-50. **Run `npm audit` (or org’s scanner) in CI** with a defined policy for failures.
-51. **Block install scripts by default** (`ignore-scripts=true` in `.npmrc`). Explicitly allowlist packages that require postinstall hooks after human review. See `security-policy.md` §9.3 (OWASP npm alignment) and §9.4 (UNC6426 supply chain attack reference).
-52. **Pin critical dependencies** if you’ve had supply-chain incidents or strict compliance needs.
-53. **Use provenance/attestations if your org requires it** (policy-driven).
-54. **Never commit `.npmrc` with tokens.** Use environment/CI secret injection.
+52. **Run `npm audit` (or org’s scanner) in CI** with a defined policy for failures.
+53. **Block install scripts by default** (`ignore-scripts=true` in `.npmrc`). Explicitly allowlist packages that require postinstall hooks after human review. See `security-policy.md` §9.3 (OWASP npm alignment) and §9.4 (UNC6426 supply chain attack reference).
+54. **Pin critical dependencies** if you’ve had supply-chain incidents or strict compliance needs.
+55. **Use provenance/attestations if your org requires it** (policy-driven).
+56. **Never commit `.npmrc` with tokens.** Use environment/CI secret injection.
 
 ## 13) Monorepos and workspaces (if applicable)
 
-55. **If using npm workspaces:** standardize workspace layout and ensure tooling supports it.
-56. **One lockfile at root** and consistent scripts at root.
-57. **Avoid cross-package relative imports**; use workspace package boundaries.
+57. **If using npm workspaces:** standardize workspace layout and ensure tooling supports it.
+58. **One lockfile at root** and consistent scripts at root.
+59. **Avoid cross-package relative imports**; use workspace package boundaries.
 
 #### Common anti-patterns to ban
 
-58. Committing `node_modules/` or `dist/`.
-59. Using `npm install` in CI instead of `npm ci`.
-60. Mixing npm with yarn/pnpm in one repo.
-61. Allowing multiple Node versions without enforcement.
-62. Skipping `typecheck` in CI.
-63. Relying on globally installed TypeScript/ESLint/Prettier.
-64. Leaving `any` everywhere instead of fixing types (allow exceptions, but track them).
+60. Committing `node_modules/` or `dist/`.
+61. Using `npm install` in CI instead of `npm ci`.
+62. Mixing npm with yarn/pnpm in one repo.
+63. Allowing multiple Node versions without enforcement.
+64. Skipping `typecheck` in CI.
+65. Relying on globally installed TypeScript/ESLint/Prettier.
+66. Leaving `any` everywhere instead of fixing types (allow exceptions, but track them).
 
 ## 14) Minimal “gold standard” checklist
 
-65. Node version pinned (`.nvmrc` / `.node-version` / Volta) and CI matches.
-66. `package-lock.json` committed; CI uses `npm ci`.
-67. `npm run build`, `test`, `lint`, `typecheck` exist and pass in CI.
-68. `tsconfig.json` is strict and emits to `dist/`.
-69. `node_modules/`, `dist/`, caches ignored.
-70. Secrets not in repo; `.env` ignored; example env file provided (`.env.example`).
+67. Node version pinned (`.nvmrc` / `.node-version` / Volta) and CI matches.
+68. `package-lock.json` committed; CI uses `npm ci`.
+69. `npm run build`, `test`, `lint`, `typecheck` exist and pass in CI.
+70. `tsconfig.json` is strict and emits to `dist/`.
+71. `node_modules/`, `dist/`, caches ignored.
+72. Secrets not in repo; `.env` ignored; example env file provided (`.env.example`).
 
 ---
 
