@@ -193,11 +193,13 @@ Define when the task is complete or when to stop.
 - **Success criteria:** What constitutes completion
 - **Failure conditions:** When to stop and escalate
 - **Validation requirements:** How to verify completion
+- **Required format:** `"<verifiable condition> — evaluated by separate model, not maker."`
 
 **Examples:**
 - "Stopping condition: All tests pass AND diff reviewed by human."
 - "Stopping condition: Security review complete with zero critical findings OR human review requested."
 - "Stopping condition: Feature implemented per spec AND CLAUDE.md updated."
+- "Stopping condition: Verification suite green with expected outputs — evaluated by separate model, not maker."
 
 ### Operating Contract Template
 
@@ -220,6 +222,7 @@ For every non-trivial task, include this structure in your prompt:
 - **Mandatory for:** All code changes, reviews, refactoring, architecture decisions
 - **Optional for:** Simple queries, documentation updates, single-line fixes
 - **Violation:** If operating contract is missing, AI MUST request clarification before proceeding
+- **Step 7 (OBSERVE) is mandatory after every session:** log tokens + USD cost, latency + call count, and incidents before considering the session complete.
 
 **Rationale:** Explicit contracts eliminate ambiguity, prevent scope creep, reduce security risks, and ensure consistent output formats. This is a non-negotiable requirement for production-grade AI-assisted development.
 
