@@ -1,5 +1,11 @@
 # Fairest Agent Comparison Metric
 
+> **[REFERENCE — pull on demand]**
+> This policy applies to domains not in active daily use.
+> Consult only when a project requires it. Not maintained proactively.
+> Last verified: 2026-02-02
+
+
 ## **Your Core Question**
 You wanted to know: **"Is there a universally fair formula to compare agents objectively across accuracy, performance, and latency?"**
 
