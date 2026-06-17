@@ -1,5 +1,11 @@
 # Engineering Strategy for Chrome + Gemini Integration
 
+> **[REFERENCE — pull on demand]**
+> This policy applies to domains not in active daily use.
+> Consult only when a project requires it. Not maintained proactively.
+> Last verified: 2026-01-30
+
+
 **Date:** January 29, 2026
 **Subject:** Strategic & Technical Impact of Gemini 3 Integration in Chrome
 
