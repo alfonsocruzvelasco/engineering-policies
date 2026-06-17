@@ -38,7 +38,7 @@ scope: Runtime bounds, timeouts, clean termination, and incident signaling for a
 
 1. **Distinct traffic class.** AI agents (and any non-deterministic caller) **MUST** be treated as a separate traffic class with their own rate limits and circuit breaker profiles — **not** shared thresholds with human-generated traffic.
 
-2. **Universal idempotency for agent tools.** Every API endpoint exposed as an agent tool **MUST** be idempotent without exception, regardless of original design intent. Agent re-execution during reasoning is normal behavior, not an error condition.
+2. **Idempotency with explicit POST exception for agent tools.** API endpoints exposed as agent tools **MUST** be idempotent by default. POST endpoints exposed as agent tools are allowed when explicitly documented as non-idempotent in the agent's tool manifest. Undocumented non-idempotent tools are prohibited. See [`web-policies.md`](web-policies.md) lines 44 and 224.
 
 3. **Session-level timeout budget.** Enforce a **session-level (frame-level) timeout budget** at the orchestration layer. Per-stage and per-service timeouts are necessary but not sufficient; the pipeline DAG **MUST** own the cumulative budget across the full reasoning loop.
 
