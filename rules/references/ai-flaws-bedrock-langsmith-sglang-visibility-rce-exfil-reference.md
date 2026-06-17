@@ -1,5 +1,11 @@
 # Bedrock AgentCore Sandbox Egress + LangSmith URL/Token Safety + SGLang Safe Deserialization (Reference)
 
+> **[REFERENCE — pull on demand]**
+> This policy applies to domains not in active daily use.
+> Consult only when a project requires it. Not maintained proactively.
+> Last verified: 2026-04-09
+
+
 **Status:** Reference
 **Last updated:** 2026-03-20
 
