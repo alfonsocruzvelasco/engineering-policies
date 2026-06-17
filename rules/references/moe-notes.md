@@ -1,5 +1,11 @@
 # Mixture of Experts (MoE) — Engineering Notes
 
+> **[REFERENCE — pull on demand]**
+> This policy applies to domains not in active daily use.
+> Consult only when a project requires it. Not maintained proactively.
+> Last verified: 2026-02-27
+
+
 > **Context:** Hugging Face Transformers now natively supports MoE (announced by Aritra "ariG23498" Roy Gosthipaty). This is the reference note for an ML/CV engineer starting from zero on the topic.
 
 ---
