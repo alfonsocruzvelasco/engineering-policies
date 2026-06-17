@@ -27,6 +27,7 @@
 - Never auto-apply changes
 - Human review required before acceptance
 - Verification required (tests or exact repro commands)
+- OBSERVE (step 7) is mandatory after every session: log tokens + USD, latency + calls, incidents. No session is complete without it.
 
 ## Limits
 - Max 200 lines per diff
