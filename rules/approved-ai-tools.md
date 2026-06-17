@@ -90,6 +90,11 @@ No agent tool may be approved without completing all three:
 
    Basis: fluency illusion (Alter & Oppenheimer, 2009) — readable output is systematically mistaken for understood output. AI-generated code is maximally fluent. That feeling is not evidence of comprehension. Anthropic's own study (InfoQ, Feb 2026) found developers who delegated code generation to AI scored below 40% on comprehension tests versus 65%+ for those who used AI for conceptual inquiry only.
 
+**Model selection criteria (mandatory):**
+
+1. For tasks requiring >200K context tokens: verify the selected model supports the required context length before starting the session. For non-US-origin models in this tier (e.g., GLM family, Zhipu AI), complete data sovereignty check per `security-policy.md` Section 14.6.2 before use.
+   Source: [glm-5.2-architecture-jun2026]
+
 Architectural risk and CVE risk are evaluated separately. A tool with patched CVEs may still be architecturally prohibited. See security-policy.md §Prohibited Agent Platforms and Frameworks.
 
 ---
