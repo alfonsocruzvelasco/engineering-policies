@@ -21,6 +21,7 @@ scope: Model selection economics and documented upgrade criteria for new workflo
 ## Mandatory rules
 
 1. **Model selection for any new workflow must include a cost-per-inference estimate** at expected volume. A smaller or cheaper model must be evaluated first. Upgrade to a larger model only when the smaller model demonstrably fails the quality threshold defined in the project spec. This decision must be documented in the workflow's architecture record.
+2. **Cheaper-first evaluation applies to existing workflows at recertification** as well as creation. Recertification cadence is quarterly or on any model tier change, whichever occurs first.
 
 ---
 
