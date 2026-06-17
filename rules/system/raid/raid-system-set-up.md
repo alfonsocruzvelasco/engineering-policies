@@ -1,5 +1,11 @@
 # Notes — RAID1 pairing + `/workspace` policy (Fedora 41)
 
+> **[REFERENCE — pull on demand]**
+> This policy applies to domains not in active daily use.
+> Consult only when a project requires it. Not maintained proactively.
+> Last verified: 2026-01-26
+
+
 ## 1) What RAID1 means in my system
 
 * I have **two physical NVMe disks** (2 TB each).
