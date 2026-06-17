@@ -41,7 +41,7 @@ Below is a professional-team rule set for **API design and implementation**, cov
 ### HTTP methods and semantics
 
 15. GET is **safe** (no side effects) and **idempotent**.
-16. POST creates or triggers non-idempotent operations.
+16. POST creates or triggers non-idempotent operations. See `agent-stopping-conditions.md` for non-idempotent POST exception when endpoints are exposed as agent tools.
 17. PUT is full replacement and **idempotent**.
 18. PATCH is partial update; define patch semantics clearly.
 19. DELETE is idempotent where feasible.
@@ -221,7 +221,7 @@ This subsection defines **how APIs are consumed from HTML-based clients** (plain
 * No state changes
 * Safe for reloads, back/forward navigation, and caching.
 
-93. **POST forms are non-idempotent by default**:
+93. **POST forms are non-idempotent by default**: See `agent-stopping-conditions.md` for non-idempotent POST exception when endpoints are exposed as agent tools.
 
 * Protect with CSRF tokens
 * Redirect after success (PRG pattern: Post → Redirect → Get).
