@@ -1,5 +1,11 @@
 # Learning Repository AI Usage Boundary
 
+> **[REFERENCE — pull on demand]**
+> This policy applies to domains not in active daily use.
+> Consult only when a project requires it. Not maintained proactively.
+> Last verified: 2026-03-31
+
+
 **Purpose:** Explicitly define AI usage boundaries for learning repositories to ensure policy compliance and reduce ambiguity.
 
 **Scope:** Applies to all learning library repositories (book code, course material, reference implementations, study corpus).
