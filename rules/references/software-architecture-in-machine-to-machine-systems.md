@@ -1,4 +1,10 @@
 # Software Architecture in Machine-to-Machine Systems
+
+> **[REFERENCE — pull on demand]**
+> This policy applies to domains not in active daily use.
+> Consult only when a project requires it. Not maintained proactively.
+> Last verified: 2026-02-02
+
 ## Comprehensive Notes on the Evolving Role When Humans Are Not the Final Consumer
 
 ---
