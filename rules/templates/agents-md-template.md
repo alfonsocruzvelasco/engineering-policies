@@ -158,7 +158,7 @@ Reference: https://claude.com/blog/code-review
 
 ## Claude Code Rules (`.claude/rules/`)
 
-Modular, path-scoped enforcement rules for Claude Code. These are **not** policies (see `policies/`) — they are runtime instructions the agent reads per-task.
+Modular, path-scoped enforcement rules for Claude Code. These are **not** policies (see `rules/`) — they are runtime instructions the agent reads per-task.
 
 | File | Scope | Purpose |
 |---|---|---|
@@ -252,4 +252,4 @@ Agents are stochastic, budget-constrained search systems. Cost is a design varia
 
 ---
 
-*Last updated: 2026-04-04 — source: policies/*
+*Last updated: 2026-04-04 — source: rules/*

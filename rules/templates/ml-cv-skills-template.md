@@ -259,7 +259,7 @@ model = torch.jit.script(model)  # TorchScript optimization
 torch.backends.cudnn.benchmark = True
 ```
 
-**See:** `~/policies/references/spec-protocols-guide.md` for protocol selection
+**See:** `rules/references/spec-protocols-guide.md` for protocol selection
 
 ---
 

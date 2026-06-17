@@ -39,6 +39,7 @@ apply cloud-browser usage boundary checks → rules/claude-code-web-usage-policy
 finalize environment boundary compliance → rules/development-environment-policy.md → §Enforcement
 
 ## Pull on Demand (reference only — do not maintain proactively)
+Quarterly spot-audit required: sample pull-on-demand entries and verify classification still holds.
 rules/daily-navigation.md [REFERENCE]
 rules/infrastructure-policy.md [REFERENCE]
 rules/llm-usage-policy-hallucinations.md [REFERENCE]
@@ -101,6 +102,7 @@ rules/references/hallucinations-is-inevitable.pdf [REFERENCE]
 rules/references/harness-engineering.pdf [REFERENCE]
 rules/references/haven-t-written-code-in-two-months.pdf [REFERENCE]
 rules/references/how-ai-coding-agents-communicate.pdf [REFERENCE]
+rules/references/how-to-make-a-better-product.pdf [REFERENCE]
 rules/references/how-to-reduce-cc-token-usage.pdf [REFERENCE]
 rules/references/index-architecture.md [REFERENCE]
 rules/references/index-prompting.md [REFERENCE]
@@ -178,9 +180,12 @@ rules/system/machine-fedora-43-fractal.md [REFERENCE]
 rules/system/raid/raid-system-set-up.md [REFERENCE]
 rules/system/scripts/ai-prohibited-tools-check.sh [REFERENCE]
 rules/system/scripts/ai-security-check.sh [REFERENCE]
+rules/system/scripts/generate-daily-navigation-references.py [REFERENCE]
 rules/system/scripts/policy-consistency-check.sh [REFERENCE]
 rules/system/scripts/setup-sops-age.sh [REFERENCE]
+rules/system/workspace/.ARCHITECTURE.md [REFERENCE]
 rules/system/workspace/README.md [REFERENCE]
+rules/templates/.cursorrules [REFERENCE]
 rules/templates/agents-md-template.md [REFERENCE]
 rules/templates/claude-md-template.md [REFERENCE]
 rules/templates/domain-template.md [REFERENCE]

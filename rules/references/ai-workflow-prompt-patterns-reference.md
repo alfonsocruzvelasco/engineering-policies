@@ -292,12 +292,12 @@ When working on features that span multiple files or require architectural decis
 5. **Tasks** (`/speckit.tasks`)
    - Break into atomic units (1 file/function max)
    - Verify dependencies are explicit
-   - **See:** `~/policies/rules/references/task-management-guide.md` for comprehensive task decomposition methodology and self-improving loop execution
+   - **See:** `rules/references/task-management-guide.md` for comprehensive task decomposition methodology and self-improving loop execution
 
 6. **Implement** (`/speckit.implement` or `/openspec:apply`)
    - AI executes tasks sequentially
    - Verify each checkpoint before proceeding
-   - **See:** `~/policies/rules/references/self-improving-loop-integration.md` for Osmani's self-improving loop pattern (implement → validate → commit → learn → reset)
+   - **See:** `rules/references/self-improving-loop-integration.md` for Osmani's self-improving loop pattern (implement → validate → commit → learn → reset)
 
 7. **Archive** (`/openspec:archive`)
    - Merge approved deltas back into source specs

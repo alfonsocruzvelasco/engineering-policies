@@ -27,9 +27,9 @@ Rebuilt: 2026-06-17
 
 | Rule | Source file | Section |
 | --- | --- | --- |
-| Tool access must be explicitly allowlisted | `rules/security-policy.md` | `## 8) Security Policy for API-Calling Agents` |
-| Destructive operations require mandatory HITL authorization | `rules/security-policy.md` | `## 8) Security Policy for API-Calling Agents` |
-| Autonomous destructive operations are prohibited | `rules/security-policy.md` | `## 8) Security Policy for API-Calling Agents` |
+| Tool access must be explicitly allowlisted | `rules/security-policy.md` | `## 8) API-Calling Agents (Tool Use Security)` |
+| Destructive operations require mandatory HITL authorization | `rules/security-policy.md` | `## 8) API-Calling Agents (Tool Use Security)` |
+| Autonomous destructive operations are prohibited | `rules/security-policy.md` | `## 8) API-Calling Agents (Tool Use Security)` |
 | Destructive-operation authorization gates are mandatory | `rules/security-policy.md` | `#### PI-6.3: Destructive Operation Authorization (Mandatory HITL)` |
 | PreToolUse hooks enforce pre-execution safety gates | `rules/security-policy.md` | `## 8.1.1) PreToolUse Agent Guardrail Hooks` |
 

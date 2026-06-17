@@ -47,7 +47,7 @@ MCP servers should expose context that specs reference:
 - **THEN** call MCP tool `validate_dataset("dataset://coco-2017-train")`
 ```
 
-**See:** `~/policies/rules/references/spec-protocols-guide.md` Section: "Integration Patterns"
+**See:** `rules/references/spec-protocols-guide.md` Section: "Integration Patterns"
 
 ---
 

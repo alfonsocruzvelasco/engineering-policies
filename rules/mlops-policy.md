@@ -412,7 +412,7 @@ The training process SHALL utilize ≥ 90% GPU during batch processing.
 - Which requirements this experiment validates
 - Acceptance criteria pass/fail status
 
-**See:** `~/policies/rules/references/spec-protocols-guide.md` Section: "Best Practices for ML/CV Engineering"
+**See:** `rules/references/spec-protocols-guide.md` Section: "Best Practices for ML/CV Engineering"
 
 ---
 

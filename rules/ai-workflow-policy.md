@@ -274,7 +274,7 @@ ${SANDBOX_ROOT:-~/dev/repos/github.com/${GH_USER:-alfonsocruzvelasco}/sandbox-cl
 5. **No new dependencies unless explicitly requested.**
 6. **Never touch files outside the repo.** (No `~/.config`, no system changes, no random scripts.)
 
-**See:** `~/policies/rules/references/task-management-guide.md` for comprehensive guidance on atomic task decomposition and self-improving loop execution patterns.
+**See:** `rules/references/task-management-guide.md` for comprehensive guidance on atomic task decomposition and self-improving loop execution patterns.
 
 ---
 

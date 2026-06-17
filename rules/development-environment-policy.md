@@ -31,8 +31,8 @@ It explicitly does **NOT** govern:
 - MCP / AI tooling servers
 
 Those are governed by:
-- `policies/production-policy.md`
-- `policies/ai-workflow-policy.md (Part 2: Prompt Engineering)` (MCP)
+- `rules/production-policy.md`
+- `rules/ai-workflow-policy.md` (`## MCP (Model Context Protocol)`)
 
 ---
 
