@@ -80,6 +80,14 @@ See `security-policy.md §19` (Prompt Injection Defense) for the broader threat 
 
 ---
 
+### Enforcement (Pre-Task Checklist, Mandatory)
+
+- **Retrieved context hard cap:** Retrieved context MUST be `≤ 40%` of the active context window.
+- **Index rebuild trigger:** Any source document change MUST trigger index rebuild before the next retrieval task.
+- **Execution timing:** Both controls are enforced in the pre-task checklist, not post-hoc review.
+
+---
+
 ## 4) MCP vs RAG Decision
 
 RAG combines two memory types (Lewis et al.): **parametric memory** (knowledge stored in model weights) and **non-parametric memory** (knowledge stored in a retrievable document index). MCP bypasses both by querying structured data directly.
