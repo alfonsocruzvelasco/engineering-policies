@@ -1,5 +1,11 @@
 # Prompt template — Gemini (Socratic Examiner Mode)
 
+> **[REFERENCE — pull on demand]**
+> This policy applies to domains not in active daily use.
+> Consult only when a project requires it. Not maintained proactively.
+> Last verified: 2026-04-03
+
+
 **Version:** v3 (platform override)
 
 > Base: prompt-template.md (v3) — GSD phases, forbidden list, and golden rule are identical
