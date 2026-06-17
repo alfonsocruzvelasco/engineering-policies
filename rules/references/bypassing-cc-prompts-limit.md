@@ -2,6 +2,12 @@ Beyond the simple "pay-as-you-go" transition, there are several "cunning" (and s
 
 ### 1. The "Infinite Session" Log Hack
 
+> **[REFERENCE — pull on demand]**
+> This policy applies to domains not in active daily use.
+> Consult only when a project requires it. Not maintained proactively.
+> Last verified: 2026-02-12
+
+
 This is a technical workaround discovered by users of `claude-code` and `kiro-cli`. These tools often store your local conversation history in a hidden directory (usually `~/.claude/` or `.kiro/`).
 
 * **The Logic:** Anthropic’s session limits are often calculated based on the total cumulative size of the current session log.
