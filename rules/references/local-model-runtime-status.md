@@ -1,5 +1,11 @@
 # Local Model Runtime Status (Machine Notes)
 
+> **[REFERENCE — pull on demand]**
+> This policy applies to domains not in active daily use.
+> Consult only when a project requires it. Not maintained proactively.
+> Last verified: 2026-04-09
+
+
 **Status:** Supporting reference (non-normative)
 **Last updated:** 2026-04-09
 **Purpose:** Capture locally validated model/runtime combinations on this machine.
