@@ -1,5 +1,11 @@
 # Prompt Engineering for Production Systems
 
+> **[REFERENCE — pull on demand]**
+> This policy applies to domains not in active daily use.
+> Consult only when a project requires it. Not maintained proactively.
+> Last verified: 2026-02-05
+
+
 **Comprehensive Theory + Control + Anti-Hallucination + Evaluation**
 
 **Purpose:** A production-grade reference for designing, controlling, verifying, and *measuring* LLM prompt performance in engineering environments.
