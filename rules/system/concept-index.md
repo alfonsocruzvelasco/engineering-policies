@@ -9,7 +9,7 @@ scope: Concept-to-authority lookup for policies and references
 
 **Purpose:** Fast lookup from a concept to the **authoritative policy** and **supporting references**. This file is descriptive, not normative.
 
-**Last updated:** 2026-06-08
+**Last updated:** 2026-06-17
 
 > **Rule:** When concepts overlap, defer to the file listed under **Authoritative policy**. Other documents are references only.
 
@@ -42,6 +42,8 @@ scope: Concept-to-authority lookup for policies and references
 | Token/cost observability tooling (approved vendors, USD, enforcement gap vs LiteLLM) | `rules/token-cost-observability.md` (implementation guidance) | `rules/token-cost-controls.md` |
 | Token conservation operations (thinking cap, manual compaction, router/caching stack, monthly benchmark loop) | `rules/ai-workflow-policy.md` §Token Conservation | `rules/approved-ai-tools.md`, [ComputingForGeeks Apr 2026](https://computingforgeeks.com/reduce-claude-code-token-usage-tools/) |
 | Agentic workflow stopping (runtime limits, layered timeouts, clean termination, repeat-timeout incidents) | `rules/agent-stopping-conditions.md` | `rules/ai-workflow-policy.md` Part 3 |
+| Operating Contract stopping-condition format (verifiable condition + separate evaluator) | `rules/ai-workflow-policy.md` §Explicit Operating Contract, `### 5. Stopping Condition` | `rules/templates/prompt-template.md` (workflow template) |
+| OBSERVE stage (mandatory post-session logging of tokens/USD, latency/calls, incidents) | `rules/ai-workflow-policy.md` §Explicit Operating Contract (`### Enforcement`) | `rules/token-cost-controls.md`, `rules/agent-stopping-conditions.md`, `rules/templates/.cursorrules` |
 | Agent–microservices resilience (distinct traffic class, session budgets, idempotent tool APIs, call-graph observability) | `rules/agent-stopping-conditions.md` §Agent–microservices resilience | `rules/security-policy.md` §8, `rules/web-policies.md` §10, `rules/references/ai-agents-microservices-resilience-gap.pdf` |
 | Model selection economics (cost-per-inference estimate, smaller-model-first, documented upgrade) | `rules/model-cost-discipline.md` | `rules/approved-ai-tools.md`, `rules/mlops-policy.md`, `rules/ai-workflow-policy.md` (agent selection), `rules/references/advisor-strategy-claude-api.md` |
 
@@ -73,8 +75,10 @@ scope: Concept-to-authority lookup for policies and references
 | MCP vs CLI vs UTCP tool layers | `rules/ai-workflow-policy.md` (MCP section) | `rules/references/mcp-ecosystem-notes.md`, `rules/references/mcp-vs-acp.md`, `rules/references/architecture-notes.md` |
 | Mixture of Experts (MoE) patterns | `rules/references/moe-notes.md` | `rules/references/ai-systems-architecture.md` |
 | Retrieval / RAG architecture | `rules/ai-retrieval-policy.md` | `rules/references/vector-db-engineering-guide.md`, `rules/references/rag-engineering-notes.md`, `rules/references/rag-production-notes.md`, `rules/references/rag-vs-rerag-technical-reference.md` |
+| Retrieval pre-task enforcement (<=40% context cap and source-change index rebuild) | `rules/ai-retrieval-policy.md` §Enforcement (Pre-Task Checklist, Mandatory) | `rules/token-cost-controls.md`, `rules/ai-workflow-policy.md` (context discipline) |
 | Long-context vs retrieval architecture (1M-token pricing shift) | `rules/ai-workflow-policy.md` (Opus 4.6 capabilities) | `rules/references/claude-million-token-pricing-reference.md`, `rules/references/long-context-windows-opus-4.6+.md` |
 | Stochastic scheduling and token budget governance (pass@k, stopping rules, p-stabilization) | `rules/ai-workflow-policy.md` (Stochastic Scheduling principle, Agent Cost Budgeting); normative caps/logging/timeouts: `rules/token-cost-controls.md`, `rules/agent-stopping-conditions.md`, `rules/model-cost-discipline.md` | `rules/references/stochastic-scheduling-ai-coding-agents.pdf`, `rules/token-cost-observability.md` (tooling guidance) |
+| Non-idempotent POST exception for agent-exposed tools (manifest-documented only) | `rules/agent-stopping-conditions.md` §Agent–microservices resilience | `rules/web-policies.md` §3 and §14 |
 | Remote GPU Linux desktop via browser (WebRTC, optional) | — (supporting only) | `rules/references/selkies-remote-gpu-workstation.md`, [Selkies docs](https://selkies-project.github.io/selkies/) |
 
 ## Production Engineering & MLOps
