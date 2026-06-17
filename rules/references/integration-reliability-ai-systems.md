@@ -1,5 +1,11 @@
 # Integration Reliability for AI Systems — Reference Notes
 
+> **[REFERENCE — pull on demand]**
+> This policy applies to domains not in active daily use.
+> Consult only when a project requires it. Not maintained proactively.
+> Last verified: 2026-02-25
+
+
 **Source**
 Title: *Integration Reliability for AI Systems: A Framework*
 Publisher: DZone
