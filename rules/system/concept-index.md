@@ -19,6 +19,7 @@ scope: Concept-to-authority lookup for policies and references
 
 | Concept | Authoritative policy | Supporting references |
 |--------|----------------------|-----------------------|
+| Daily workflow navigation entry point (moment-to-policy map) | `rules/daily-navigation.md` | `rules/ai-workflow-policy.md`, `rules/system/concept-index.md` |
 | AI-assisted development workflow (Cursor, agents, sessions) | `rules/ai-workflow-policy.md` | `rules/references/ai-systems-architecture.md`, `rules/references/architecture-notes.md` |
 | Claude Code Web (browser / cloud agent) vs local Claude Code | `rules/claude-code-web-usage-policy.md` | `rules/security-policy.md` §14, `rules/approved-ai-tools.md` (Claude Code) |
 | Event-driven agent execution (Channels, async messaging interface) | `rules/ai-workflow-policy.md` | `rules/references/ai-agent-platform-infrastructure.md` |
