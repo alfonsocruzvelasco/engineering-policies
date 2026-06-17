@@ -1,5 +1,11 @@
 # Cloudflare Pay‑Per‑Crawl — Why This Matters for an ML / CV Engineer
 
+> **[REFERENCE — pull on demand]**
+> This policy applies to domains not in active daily use.
+> Consult only when a project requires it. Not maintained proactively.
+> Last verified: 2026-02-22
+
+
 ## Context
 
 Cloudflare has introduced **Pay‑Per‑Crawl**, a mechanism that allows website owners to **block AI crawlers by default** and optionally **charge them per request** for access to content.
