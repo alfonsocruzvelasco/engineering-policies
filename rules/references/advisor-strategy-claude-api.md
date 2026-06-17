@@ -7,6 +7,12 @@ scope: Advisor strategy pattern — Opus as advisor, Sonnet/Haiku as executor, s
 
 # Advisor Strategy — Claude API (April 2026)
 
+> **[REFERENCE — pull on demand]**
+> This policy applies to domains not in active daily use.
+> Consult only when a project requires it. Not maintained proactively.
+> Last verified: 2026-04-10
+
+
 **Source:** Anthropic (@claudeai), X post, April 9 2026. 1M views.
 
 ## What it is
