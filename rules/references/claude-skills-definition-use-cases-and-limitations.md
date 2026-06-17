@@ -1,5 +1,11 @@
 # Claude Skills: Definition, Use Cases, and Limitations
 
+> **[REFERENCE — pull on demand]**
+> This policy applies to domains not in active daily use.
+> Consult only when a project requires it. Not maintained proactively.
+> Last verified: 2026-03-14
+
+
 **Source:** [Portkey AI Blog](https://portkey.ai/blog/claude-skills-definition-use-cases-and-limitations/)
 **Date Accessed:** 2026-02-10
 **Context:** Early-stage documentation of Claude Skills as a structured workflow paradigm shift in LLM interaction patterns
