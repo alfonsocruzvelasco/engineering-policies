@@ -92,7 +92,7 @@ No agent tool may be approved without completing all three:
 
 **Model selection criteria (mandatory):**
 
-1. For tasks requiring >200K context tokens: verify the selected model supports the required context length before starting the session. For non-US-origin models in this tier (e.g., GLM family, Zhipu AI), complete data sovereignty check per `security-policy.md` Section 14.6.2 before use.
+1. For tasks requiring >200K context tokens: verify the selected model supports the required context length before starting the session. For non-US-origin models in this tier (e.g. GLM family, Zhipu AI / Z.ai): these models are EXCLUDED from use via their API endpoints. See Chinese-hosted endpoint prohibition in ai-agent-security-and-supply-chain-notes.md. Self-hosting weights on US/EU trusted infrastructure is the only acceptable path.
    Source: [glm-5.2-architecture-jun2026]
 
 Architectural risk and CVE risk are evaluated separately. A tool with patched CVEs may still be architecturally prohibited. See security-policy.md §Prohibited Agent Platforms and Frameworks.
@@ -183,6 +183,7 @@ Architectural risk and CVE risk are evaluated separately. A tool with patched CV
 ---
 
 #### Z.ai (GLM-5 API)
+STATUS: PROHIBITED — Chinese-hosted infrastructure. Excluded per Chinese-endpoint policy (ai-agent-security-and-supply-chain-notes.md). Do not use API endpoint regardless of task sensitivity. Self-hosting weights on trusted infrastructure is the only acceptable path.
 **Tier:** Enterprise/Paid Only (no free tier)
 **Approval Date:** 2026-02-12
 **Approved By:** CISO, VP Engineering
@@ -898,7 +899,6 @@ All approved tools MUST be recertified annually:
 | ------------------------- | -------------------- | -------------- |
 | Anthropic Claude API      | 2027-02-01           | Security Team  |
 | OpenAI API                | 2027-02-01           | Security Team  |
-| Z.ai (GLM-5 API)          | 2026-05-12           | Security Team  |
 | GitHub Copilot Enterprise | 2027-02-01           | Security Team  |
 | Cursor IDE                | 2027-02-01           | Security Team  |
 | Claude Code               | 2027-02-01           | Security Team  |
