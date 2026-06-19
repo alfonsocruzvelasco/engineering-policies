@@ -271,14 +271,8 @@ For minimal, policy-compliant evaluation use only (no production, no real code):
 **7. Operational rule:**
 > **Use GLM-5 like a public whiteboard: useful for ideas, unsafe for content.**
 
-**Integration:**
-- OpenAI SDK compatible: override base URL to Z.ai endpoint
-- See vendor documentation for OpenAI SDK compatibility setup
-
 **Cost Model:** Per-token pricing (enterprise/paid tier only)
 **Documentation:**
-- Quick Start + OpenAI SDK compatibility: https://z.ai/docs
-- Other Tools (Base URL override): https://z.ai/docs/other-tools
 - GLM-5 model card/license: https://huggingface.co/models/GLM-5 (MIT license)
 **Support:** Enterprise support (verify availability)
 
