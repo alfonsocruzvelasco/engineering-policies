@@ -1979,6 +1979,7 @@ Anthropic's official MCP SDK passes STDIO configuration values (command, argumen
 
 Mandatory mitigations:
 - Only install MCP servers from the official GitHub MCP Registry. Community marketplaces (mcp.so and equivalents) are prohibited.
+- MCP Enterprise-Managed Authorization (stable, June 2026) closes the authentication gap: centralized identity provider controls which servers each user or agent can connect to, replacing per-server OAuth consent screens. This does NOT close the runtime authorization gap — whether a specific agent action is permitted on a specific resource at a given moment remains the responsibility of policy engines and gateways sitting between the agent and its tools. Do not confuse authentication (who can connect) with authorization (what they can do once connected).
 - Treat all MCP configuration input as untrusted. Never allow user-controlled or agent-controlled input to reach StdioServerParameters or equivalent.
 - No agent session may write to or modify its own MCP config files (mcp.json, CLAUDE.md MCP sections).
 - Audit mcp.json and CLAUDE.md modification timestamps before each Claude Code session involving external repos.
