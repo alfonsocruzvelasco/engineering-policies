@@ -10,7 +10,7 @@ scope: Security notes for model routing, infrastructure trust, and agentic suppl
 ## Infrastructure trust and data exposure
 
 - Infrastructure trust (mandatory): Chinese-hosted endpoints are prohibited without exception. See `security-policy.md` §14.6.9. Logged rationale does not constitute an exception.
-- Chinese-hosted model endpoints: Do not route portfolio code, AGENTS.md contents, engineering-policies, or any work product targeting safety-critical or geopolitically sensitive domains through Chinese-hosted API infrastructure (e.g. z.ai, api.z.ai). Open weights under permissive licenses do not change the data exposure profile of the API endpoint. Self-hosting on trusted infrastructure is the only acceptable path.
+- Chinese-hosted model endpoints are prohibited for all engineering work without exception or scope limitation. This is not restricted to safety-critical or geopolitically sensitive domains. Authority: `rules/security-policy.md` §14.6.9.
 
 ## RL-trained model output integrity
 
