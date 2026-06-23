@@ -92,13 +92,14 @@ No agent tool may be approved without completing all three:
 
 **Model selection criteria (mandatory):**
 
-1. For tasks requiring >200K context tokens: verify the selected model supports the required context length before starting the session. For non-US-origin models in this tier (e.g. GLM family, Zhipu AI / Z.ai): these models are EXCLUDED from use via their API endpoints. See Chinese-hosted endpoint prohibition in ai-agent-security-and-supply-chain-notes.md. Self-hosting weights on US/EU trusted infrastructure is the only acceptable path.
+1. For tasks requiring >200K context tokens: verify the selected model supports the required context length before starting the session. For Chinese-hosted or non-US-origin model API endpoints (e.g. GLM family, Zhipu AI), see `security-policy.md` §14.6.9 for authoritative prohibition language and enforcement scope.
    Source: [glm-5.2-architecture-jun2026]
 2. For unattended agentic runs (loops, scheduled automations, subagents operating without human in the loop):
    - Prefer Claude Opus 4.5 (ASR 0.5% — most robust model tested)
    - Acceptable: Claude Sonnet 4.5 (ASR 1.0%), Claude Haiku 4.5 (ASR 1.3%)
    - Model capability does not predict robustness. Do not assume a more capable model is more secure against injection. [ipi-arena-2026]
    - Tool use agents are more vulnerable than coding agents (4.82% vs 2.51%). For tool-heavy unattended loops, use Opus regardless of cost. [ipi-arena-2026]
+   - Opus 4.5 (ASR 0.5%) is the required model for unattended agentic runs based on IPI Arena 2026 data. If Opus 4.6 is used instead, document explicit rationale — no robustness equivalence has been established between 4.5 and 4.6 for injection resistance. [ipi-arena-2026]
 
 Architectural risk and CVE risk are evaluated separately. A tool with patched CVEs may still be architecturally prohibited. See security-policy.md §Prohibited Agent Platforms and Frameworks.
 
@@ -187,100 +188,11 @@ Architectural risk and CVE risk are evaluated separately. A tool with patched CV
 
 ---
 
-#### Z.ai (GLM-5 API)
-STATUS: PROHIBITED — Chinese-hosted infrastructure. Excluded per Chinese-endpoint policy (ai-agent-security-and-supply-chain-notes.md). Do not use API endpoint regardless of task sensitivity. Self-hosting weights on trusted infrastructure is the only acceptable path.
-**Tier:** Enterprise/Paid Only (no free tier)
-**Approval Date:** 2026-02-12
-**Approved By:** CISO, VP Engineering
-**Next Review:** 2026-05-12
-
-**Use Cases:**
-- Code generation (OpenAI SDK compatible)
-- Natural language processing
-- Data analysis
-- Content generation
-
-**Security Features:**
-- ✅ Bring-your-own API key (BYO key)
-- ✅ OpenAI SDK compatibility (drop-in replacement)
-- ✅ Privacy mode available
-- ✅ MIT-licensed model (GLM-5 on Hugging Face)
-- ⚠️ Data retention/training policy: **MUST be explicitly documented by vendor before use**
-- ⚠️ DPA and enterprise compliance: **MUST be verified before production use**
-
-**Access Control:**
-- API key authentication (BYO key)
-- Base URL override for OpenAI SDK compatibility
-- Rate limiting per API key
-- Usage tracking via API key
-
-**Restrictions:**
-- MUST use enterprise/paid tier only (no free tier)
-- MUST use sandbox-only repositories (no production code access)
-- MUST sanitize all prompts before sending
-- MUST enable privacy mode if available
-- MUST perform manual review of all generated code
-- MUST maintain audit logs of all API usage
-- MUST verify vendor data retention and training policies before use
-- MUST verify DPA availability and enterprise compliance before production use
-- MUST NOT use for repositories containing secrets or production credentials
-
-**Evaluation Mode (Free Tier - Policy-Compliant Pattern):**
-
-For minimal, policy-compliant evaluation use only (no production, no real code):
-
-**0. Label the mode correctly (non-negotiable):**
-- You are using **GLM-5 in EVALUATION MODE**
-- Capability sampling only
-- No trust assumptions
-- No durability expectations
-
-**1. Where you may use it (hard boundary):**
-- ✅ **Only** inside a **dedicated sandbox repo**
-- ✅ Repo contains: toy code, synthetic examples, throwaway files
-- ✖ Never: real projects, client code, personal data, configs, secrets, paths, usernames
-- **Rule:** If you wouldn't paste it into a public gist, don't paste it here
-
-**2. Safe interaction pattern in Cursor:**
-- **Allowed prompts:** Generic, abstract, content-free
-  - "Review this function and suggest edge cases."
-  - "Generate unit tests for this toy algorithm."
-  - "Explain tradeoffs in this design pattern."
-  - "Refactor this dummy code for clarity."
-- **Forbidden prompts:** Stack traces with paths, internal architecture, real filenames/repo names, personal/sensitive topics
-- **Assume everything is logged**
-
-**3. Code handling rule:**
-- GLM-5 output is **never trusted**
-- **Never pasted directly** into real code
-- Must be manually reviewed line by line
-- Treat as: "Untrusted external suggestion"
-
-**4. Time-box the evaluation:**
-- Set short evaluation window (1-3 days)
-- Evaluation questions only:
-  - Is reasoning quality interesting?
-  - Is long-context handling noticeably better?
-  - Is latency acceptable?
-- If answer isn't clear **yes**, stop using it
-
-**5. What "free" means:**
-- No payment, no expectations, no guarantees
-- Does **not** mean: low risk, private, ephemeral
-
-**6. Exit conditions (immediately stop if):**
-- You feel tempted to paste real code
-- You want to rely on it repeatedly
-- You forget it's evaluation-only
-- Signal that tool needs either: paid tier + verified DPA, or removal from active use
-
-**7. Operational rule:**
-> **Use GLM-5 like a public whiteboard: useful for ideas, unsafe for content.**
-
-**Cost Model:** Per-token pricing (enterprise/paid tier only)
-**Documentation:**
-- GLM-5 model card/license: https://huggingface.co/models/GLM-5 (MIT license)
-**Support:** Enterprise support (verify availability)
+#### Z.ai / api.z.ai / GLM family (Zhipu AI): PROHIBITED
+Reason: Chinese-hosted infrastructure. Data sovereignty violation.
+No exceptions. No evaluation mode. No proxied access.
+Authority: `security-policy.md` §14.6.9.
+Added: 2026-06-23
 
 ---
 
@@ -917,7 +829,7 @@ All approved tools MUST be recertified annually:
 | Date       | Change                                     | Approver        |
 | ---------- | ------------------------------------------ | --------------- |
 | 2026-02-07 | Initial registry with 6 approved tools     | CISO, VP Eng    |
-| 2026-02-12 | Added Z.ai (GLM-5 API) - Enterprise tier   | CISO, VP Eng    |
+| 2026-02-12 | Z.ai (GLM-5 API) marked PROHIBITED          | CISO, VP Eng    |
 
 ---
 
