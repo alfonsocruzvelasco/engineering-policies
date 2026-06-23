@@ -55,6 +55,16 @@ Lewis et al. define two marginalization strategies. The choice affects how the g
 - Untrusted third-party content without provenance verification
 - Raw LLM outputs not validated by a human (to prevent retrieval of hallucinated content)
 
+### Untrusted input sources
+
+Coding agent injection vectors — treat as untrusted input requiring the same sanitization as external MCP tool outputs:
+- Repository documentation files (README, CONTRIBUTING, docs/)
+- Configuration files (Makefile, pyproject.toml, .github/workflows/)
+- PR descriptions, commit messages, issue bodies
+- Code comments in files being processed
+
+Injections are embedded in contextually plausible fields and impersonate contributor tasks or project conventions. [ipi-arena-2026]
+
 **Versioning:** Every knowledge base must be reproducible. Track: source documents, chunking strategy, embedding model version, ingestion timestamp. If the embedding model changes, the entire index must be rebuilt.
 
 **Index hot-swapping:** Lewis et al. demonstrated that a RAG model's knowledge can be updated by replacing the document index without retraining the model. A model trained with a 2016 index answered 70% correctly for 2016 facts; swapping to a 2018 index shifted accuracy to 2018 facts. This means knowledge base updates are cheap — you rebuild the index, not retrain the model. Use this property: when source documents change, rebuild the index and redeploy; do not retrain the retriever or generator unless retrieval quality degrades.
