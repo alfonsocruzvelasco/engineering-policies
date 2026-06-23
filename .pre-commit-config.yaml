@@ -65,10 +65,14 @@ repos:
           - -c
           - |
             git diff --cached --name-only | while read -r file; do
-              if ! grep -q "AI-Generated" "$file" 2>/dev/null; then
-                echo "Warning: $file may contain AI code without attribution"
-                exit 1
-              fi
+              case "$file" in
+                *.py|*.js|*.ts|*.go|*.rs)
+                  if ! grep -q "AI-Generated" "$file" 2>/dev/null; then
+                    echo "Warning: $file may contain AI code without attribution"
+                    exit 1
+                  fi
+                  ;;
+              esac
             done
         language: system
         files: '\.(py|js|ts|go|rs)$'
