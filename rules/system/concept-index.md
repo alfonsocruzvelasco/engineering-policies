@@ -9,7 +9,7 @@ scope: Concept-to-authority lookup for policies and references
 
 **Purpose:** Fast lookup from a concept to the **authoritative policy** and **supporting references**. This file is descriptive, not normative.
 
-**Last updated:** 2026-06-17
+**Last updated:** 2026-06-23
 
 > **Rule:** When concepts overlap, defer to the file listed under **Authoritative policy**. Other documents are references only.
 
@@ -63,6 +63,10 @@ scope: Concept-to-authority lookup for policies and references
 | Prohibited AI tools & enforcement | `rules/security-policy.md` §14.6, `rules/approved-ai-tools.md` | `rules/ai-tool-policy-quick-reference.md`, `rules/references/integration-guide.md`, `rules/references/open-claw-security-policy.md` |
 | Claude subscription vs third-party harness billing (API / extra usage) | `rules/security-policy.md` §14.6, `rules/approved-ai-tools.md` (approval criteria) | Vendor communications (Anthropic, April 2026) |
 | OpenClaw / agentic endpoint risk | `rules/security-policy.md` §14.6 (prohibited) | `rules/references/open-claw-security-policy.md` (incl. §10 vs Codex CLI — not interchangeable) |
+| Chinese endpoint prohibition (authoritative no-exceptions rule) | `rules/security-policy.md` `#### 14.6.9 Chinese-hosted endpoint prohibition (authoritative)` | `rules/approved-ai-tools.md`, `rules/ai-tool-policy-quick-reference.md` |
+| Concealment-aware injection defense | `rules/security-policy.md` Part 2 (`## 19) Prompt Injection Defense`) | `rules/agent-stopping-conditions.md`, `rules/ai-workflow-policy.md` |
+| Injection hard-stop patterns and tiered response protocol | `rules/agent-stopping-conditions.md` `## Mandatory rules` | `rules/security-policy.md` `## 19) Prompt Injection Defense`, `rules/ai-workflow-policy.md` `## 8) Prompt Injection (PI) Defense` |
+| Unattended run robustness criteria (Opus 4.5 requirement) | `rules/approved-ai-tools.md` `**Model selection criteria (mandatory):**` | `rules/ai-tool-policy-quick-reference.md`, `rules/model-cost-discipline.md` |
 | PreToolUse agent guardrail hooks (git, prompt injection, file deny-lists) | `rules/security-policy.md` §8.1.1 | [git-guardrails-claude-code](https://github.com/mattpocock/skills/tree/main/git-guardrails-claude-code), [GSD](https://github.com/gsd-build/get-shit-done) |
 | Runtime agent governance (visibility + signed audit logs) | `rules/security-policy.md` §8.1 | `rules/references/ceros-claude-code-visibility-control-reference.md`, `rules/references/security-enterprise-controls-reference.md` |
 | Enterprise security controls (trust layer, OIDC, logging) | `rules/security-policy.md` (summaries) | `rules/references/security-enterprise-controls-reference.md` |
