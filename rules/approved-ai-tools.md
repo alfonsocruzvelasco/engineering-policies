@@ -94,6 +94,11 @@ No agent tool may be approved without completing all three:
 
 1. For tasks requiring >200K context tokens: verify the selected model supports the required context length before starting the session. For non-US-origin models in this tier (e.g. GLM family, Zhipu AI / Z.ai): these models are EXCLUDED from use via their API endpoints. See Chinese-hosted endpoint prohibition in ai-agent-security-and-supply-chain-notes.md. Self-hosting weights on US/EU trusted infrastructure is the only acceptable path.
    Source: [glm-5.2-architecture-jun2026]
+2. For unattended agentic runs (loops, scheduled automations, subagents operating without human in the loop):
+   - Prefer Claude Opus 4.5 (ASR 0.5% — most robust model tested)
+   - Acceptable: Claude Sonnet 4.5 (ASR 1.0%), Claude Haiku 4.5 (ASR 1.3%)
+   - Model capability does not predict robustness. Do not assume a more capable model is more secure against injection. [ipi-arena-2026]
+   - Tool use agents are more vulnerable than coding agents (4.82% vs 2.51%). For tool-heavy unattended loops, use Opus regardless of cost. [ipi-arena-2026]
 
 Architectural risk and CVE risk are evaluated separately. A tool with patched CVEs may still be architecturally prohibited. See security-policy.md §Prohibited Agent Platforms and Frameworks.
 
