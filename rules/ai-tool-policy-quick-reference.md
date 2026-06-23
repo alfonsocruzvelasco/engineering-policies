@@ -1,6 +1,6 @@
 # AI Tool Policy Quick Reference
 
-Rebuilt: 2026-06-17
+Rebuilt: 2026-06-23
 
 ## Workflow
 
@@ -30,6 +30,10 @@ Rebuilt: 2026-06-17
 | Tool access must be explicitly allowlisted | `rules/security-policy.md` | `## 8) API-Calling Agents (Tool Use Security)` |
 | Destructive operations require mandatory HITL authorization | `rules/security-policy.md` | `## 8) API-Calling Agents (Tool Use Security)` |
 | Autonomous destructive operations are prohibited | `rules/security-policy.md` | `## 8) API-Calling Agents (Tool Use Security)` |
+| Tiered injection response protocol is mandatory (Tier 1 UNCONDITIONAL STOP / Tier 2 CONTINUE WITH FLAG) | `rules/security-policy.md` | `## 19) Prompt Injection Defense (Critical for AI Coding)` |
+| Chinese-hosted model endpoints are prohibited (authoritative) | `rules/security-policy.md` | `#### 14.6.9 Chinese-hosted endpoint prohibition (authoritative)` |
+| Unattended agentic runs require Opus 4.5; 4.6 requires explicit rationale | `rules/approved-ai-tools.md` | `**Model selection criteria (mandatory):**` |
+| Clean response is not proof of safe execution; expose tool logs to human review after unattended runs | `rules/security-policy.md` | `## 19) Prompt Injection Defense (Critical for AI Coding)` |
 | Destructive-operation authorization gates are mandatory | `rules/security-policy.md` | `#### PI-6.3: Destructive Operation Authorization (Mandatory HITL)` |
 | PreToolUse hooks enforce pre-execution safety gates | `rules/security-policy.md` | `## 8.1.1) PreToolUse Agent Guardrail Hooks` |
 
