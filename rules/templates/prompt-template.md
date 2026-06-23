@@ -34,6 +34,9 @@ Definition of done:
 - <1–3 observable checks> (tests or exact repro commands)
 
 Stopping condition:
+- Stopping condition (required format):
+  '<verifiable condition> — evaluated by separate model, not maker.'
+  Retry budget is a subordinate constraint, not the stopping condition.
 - Max attempts: 3 (if all fail → diagnose p_k trend, harden prompt, restart from clean context)
 - Token budget: <budget or "default 500K">
 
