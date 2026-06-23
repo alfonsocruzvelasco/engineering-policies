@@ -1334,7 +1334,7 @@ Self-hosted or community-hosted AI model deployments that lack enterprise securi
 * Each tool MUST be evaluated against the "Required Tool Characteristics" (Section 14.6.2)
 * Tools MUST be approved by Security/Engineering leadership before organizational use
 * Tool approvals MUST be documented in `approved-ai-tools.md` (maintained by Security team)
-* Tool approvals MUST be reviewed annually
+* Tool approvals MUST be reviewed at minimum annually; operational cadence may be stricter.
 
 ---
 

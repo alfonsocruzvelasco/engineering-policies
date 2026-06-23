@@ -5,6 +5,7 @@
 **Policy Reference:** security-policy.md Section 14.6
 **Owner:** Security Team (security@organization.com)
 **Review Cadence:** Quarterly
+Quarterly cadence satisfies and exceeds the annual policy minimum.
 
 ---
 

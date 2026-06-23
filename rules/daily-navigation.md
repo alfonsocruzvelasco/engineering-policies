@@ -37,6 +37,7 @@ log experiment outcomes consistently → rules/ml-experiment-tracking-policy.md 
 verify canonical project structure state → rules/folder-organisation-policy.md → §1. Top-Level Layout — Universal Project Root
 apply cloud-browser usage boundary checks → rules/claude-code-web-usage-policy.md → §7. Key rules
 finalize environment boundary compliance → rules/development-environment-policy.md → §Enforcement
+OBSERVE (mandatory) → rules/ai-workflow-policy.md → §OBSERVE Log: tokens + USD cost, latency + call count, incidents. Session is not complete until OBSERVE fields are captured.
 
 ## Pull on Demand (reference only — do not maintain proactively)
 Quarterly spot-audit required: sample pull-on-demand entries and verify classification still holds.
