@@ -8,7 +8,7 @@ start a focused execution session → rules/ai-workflow-policy.md → §Session 
 map concept to authority quickly → rules/system/concept-index.md → §AI Workflow & Prompting
 validate local workspace boundaries → rules/development-environment-policy.md → §Repository Isolation Rules
 confirm tool approval before use → rules/approved-ai-tools.md → §Approved Tools
-apply baseline security posture first → rules/security-policy.md → §1) Core principles
+apply injection response protocol first → rules/agent-stopping-conditions.md → §INJECTION RESPONSE PROTOCOL (tiered)
 
 ## Coding
 implement production-grade structure → rules/production-policy.md → §1) Engineering principles (non-negotiable)
