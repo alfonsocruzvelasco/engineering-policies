@@ -47,7 +47,9 @@ Process (Spec–Plan–Patch–Verify):
 6) VERIFY: List exact validation commands. Write a checkpoint note if context is swelling.
 7) STOP OR CONTINUE: If verification passes and next step has positive marginal value, continue
    from checkpoint. If 3 consecutive failures → stop, diagnose, harden prompt before retrying.
-8) After final validation passes: capture learnings in CLAUDE.md, then reset context for next task.
+8) OBSERVE (mandatory): Log tokens + USD cost, latency + call count, incidents before session is considered complete.
+   Authority: rules/ai-workflow-policy.md §OBSERVE.
+9) After final validation passes: capture learnings in CLAUDE.md, then reset context for next task.
 ```
 
 ## Verification Checkpoints (Mandatory)
