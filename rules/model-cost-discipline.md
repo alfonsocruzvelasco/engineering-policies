@@ -22,6 +22,7 @@ scope: Model selection economics and documented upgrade criteria for new workflo
 
 1. **Model selection for any new workflow must include a cost-per-inference estimate** at expected volume. A smaller or cheaper model must be evaluated first. Upgrade to a larger model only when the smaller model demonstrably fails the quality threshold defined in the project spec. This decision must be documented in the workflow's architecture record.
 2. **Cheaper-first evaluation applies to existing workflows at recertification** as well as creation. Recertification cadence is quarterly or on any model tier change, whichever occurs first.
+3. **Long-context vs retrieval trade-off (mandatory evaluation):** Before building a RAG pipeline for any new use case, evaluate whether fitting the full document or knowledge base into a long-context model is viable. RAG adds engineering complexity that is only justified when long-context inference is cost- or latency-prohibitive at the required query volume. Document the trade-off decision as an ADR. Default to long-context when cost and latency constraints allow — retrieval is a cost control mechanism, not an architectural default.
 
 ---
 
