@@ -1387,9 +1387,11 @@ Agents are not uniform. Different operational contexts require different governa
 Models use adaptive thinking — reasoning depth self-calibrates
 within the effort ceiling. Do not over-provision.
 
-Default: Sonnet 4.6 / high
-- Chat, queries, drafts: Sonnet 4.6 / medium
-- Routine code, refactoring: Sonnet 4.6 / high
+Default model is Codex 5.3 (Cursor subscription, no token cost).
+Claude models (Sonnet 5, Opus 4.8) are reserved for hard and very hard tasks respectively.
+Do not use Claude models for routine edits, file reads, or grep tasks.
+- Chat, queries, drafts: Codex 5.3 / default
+- Routine code, refactoring: Codex 5.3 / default
 - Complex CV/ML, hard debugging: Opus 4.8 / high
 - Deep reasoning, novel problems: Opus 4.8 / xhigh
 - Long async multi-agent: Opus 4.8 / ultracode
