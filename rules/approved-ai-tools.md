@@ -102,12 +102,19 @@ No agent tool may be approved without completing all three:
    - Tool use agents are more vulnerable than coding agents (4.82% vs 2.51%). For tool-heavy unattended loops, use Opus regardless of cost. [ipi-arena-2026]
    - Opus 4.5 (ASR 0.5%) is the required model for unattended agentic runs based on IPI Arena 2026 data. If Opus 4.6 is used instead, document explicit rationale — no robustness equivalence has been established between 4.5 and 4.6 for injection resistance. [ipi-arena-2026]
 
-**Approved models list:**
+**Model tier table:**
 
-- `claude-opus-4-8` (Opus 4.8): APPROVED
-  Use case: Claude Tag (Slack-native team agent); not available on current subscription — add when plan supports it.
-  Robustness: no injection ASR data yet; treat as equivalent to Opus 4.5 posture until benchmarked.
-  Source: [anthropic-claude-tag-jun2026]
+- Daily / default (token-free in Cursor subscription):
+  Codex 5.3 — no Claude token cost. Use for routine coding, edits, reads, grep tasks, subagent work.
+
+- Hard tasks (Claude token budget):
+  `claude-sonnet-5` — complex reasoning, repo-level refactors, architecture decisions. Use sparingly against quota.
+
+- Very hard tasks (Claude token budget):
+  `claude-opus-4-8` — maximum reasoning, unattended agentic runs, security-sensitive decisions. Use only when Sonnet 5 fails.
+
+- Subagent / researcher:
+  Codex 5.3 — token-free, use freely for Read/Grep/Glob.
 
 Architectural risk and CVE risk are evaluated separately. A tool with patched CVEs may still be architecturally prohibited. See security-policy.md §Prohibited Agent Platforms and Frameworks.
 
