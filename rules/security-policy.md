@@ -4629,3 +4629,36 @@ This document is part of a comprehensive policy framework. All sections integrat
 - **Hooks running on bare metal (Section 6.2, Rule #2)**
 - **Implicit/automatic hooks without explicit invocation (Section 6.2, Rule #3)**
 - **Hook infinite loops without circuit breakers (Section 6.3)**
+
+## 22) Host OS Kernel CVE Management
+
+**Scope:** Applies to all development machines running the engineering environment.
+
+### 22.1 Tracking
+
+- Monitor kernel CVEs via `sudo dnf check-update kernel` daily when a CVE with public exploit is active.
+- Track active CVEs and their mitigation status in `security-exceptions.md` until patched.
+
+### 22.2 Interim Mitigations
+
+When a patched kernel is not yet available from the distribution:
+
+- Apply module blacklisting where the CVE entry point is a loadable kernel module:
+  ```
+  echo 'install <module> /bin/true' | sudo tee /etc/modprobe.d/disable-<module>.conf
+  ```
+- Apply sysctl restrictions only if they do not break required tooling. If they do, document the accepted risk in `security-exceptions.md` and remove the restriction.
+- Never apply magic-number sysctl values without documenting the rationale.
+
+### 22.3 Patch Application
+
+- When a patched kernel lands: `sudo dnf update && sudo reboot` immediately.
+- Remove all interim mitigation files after confirming the patched kernel is running.
+- Update `security-exceptions.md` to close the tracking entry.
+
+### 22.4 Active CVEs (update as resolved)
+
+| CVE | Description | Mitigation | Status |
+|-----|-------------|------------|--------|
+| CVE-2026-46331 | pedit COW — local root via act_pedit page-cache write | `/etc/modprobe.d/disable-act_pedit.conf` | ⚠️ Pending Fedora kernel patch |
+| CVE-2026-43503 | DirtyClone — local root via cloned packet page-cache write | Accepted risk (single-user machine, no untrusted local users) | ⚠️ Pending Fedora kernel patch |
