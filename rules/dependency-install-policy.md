@@ -45,6 +45,13 @@ Mitigations:
 - Treat any Vite/Rolldown/Oxc version bump in a dependency as requiring the same scrutiny as a direct dependency update
 - For ccusage and other approved npm tools: re-pin to verified versions after any Rolldown or Oxc upstream release
 
+**npm package supply chain — Lazarus/Contagious Interview pattern:**
+- Verify any npm package mimicking known JS tooling before installing: check download count, publish date, author history, and repo link.
+- Rollup polyfill namespace is an active attack surface (Jul 2026). Flag any package matching *polyfill*, *rollup-runtime*, or *rollup-core* patterns for manual review before install.
+- Run npm audit and verify package provenance on any new dependency.
+- Containers-only policy reduces host exposure but does not eliminate risk from packages installed inside containers with mounted volumes.
+  Reference: [lazarus-npm-jul2026]
+
 ---
 
 ## Agents
