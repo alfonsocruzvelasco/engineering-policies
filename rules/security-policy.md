@@ -2702,6 +2702,20 @@ def ai_write_file(agent_id: str, path: str, content: str):
 - [ ] Pre-commit hook blocks system file modifications
 - [ ] Violations trigger security alerts
 
+### Cursor sandbox and agent write restrictions
+
+- Agents must never write to Cursor app resource directories: `/usr/share/cursor/`, `~/.config/Cursor/extensions/`, or any `cursorsandbox` path.
+- Agents must never modify shell startup files (`~/.zshrc`, `~/.bashrc`, `~/.profile`) without explicit human confirmation.
+- These are known DuneSlide (CVE-2026-50548/CVE-2026-50549) exploit targets — sandbox escape via agent-writable startup paths.
+  Fixed in Cursor 3.0. Reference: [duneslidecve-2026]
+
+### Credential file exfiltration targets — treat as protected
+
+- `~/.claude/`, `~/.config/Cursor/`, `~/.aws/`, `~/.ssh/`, `.env` files
+- Agents must never read or transmit these paths.
+- Supply chain threat: Lazarus Group npm packages (Jul 2026) explicitly target these locations via malicious Rollup polyfill mimics.
+  Reference: [lazarus-npm-jul2026]
+
 ---
 
 
