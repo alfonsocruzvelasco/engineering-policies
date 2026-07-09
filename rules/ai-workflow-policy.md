@@ -223,6 +223,7 @@ For every non-trivial task, include this structure in your prompt:
 - **Optional for:** Simple queries, documentation updates, single-line fixes
 - **Violation:** If operating contract is missing, AI MUST request clarification before proceeding
 - **Step 7 (OBSERVE) is mandatory after every session:** log tokens + USD cost, latency + call count, and incidents before considering the session complete.
+- **OBSERVE mandatory fields:** include an answerability record — one sentence stating what changed, why it was safe, and what you would do if it's wrong. [osmani-outer-loop-jul2026]
 
 **Rationale:** Explicit contracts eliminate ambiguity, prevent scope creep, reduce security risks, and ensure consistent output formats. This is a non-negotiable requirement for production-grade AI-assisted development.
 
@@ -1737,6 +1738,13 @@ The engineering "contract" expands from "deliver feature" to:
 - Organization owns liability
 
 **AI expands the risk surface** (security, dependency hallucinations, leakage), so responsibility gets stricter, not looser.
+
+### Human Ownership Anti-Patterns (Do Not Ship With These)
+
+- **Cognitive Surrender:** accepting agent output without verification. Trigger: shipping without running tests or reading the diff.
+- **Cognitive Debt:** delegating reasoning you need to understand. Trigger: agent produces code you cannot explain at the function level.
+- **Orchestration Tax:** running parallel agents beyond your review bandwidth. Trigger: more open agent sessions than you can verify before EOD.
+  [osmani-outer-loop-jul2026]
 
 ---
 
