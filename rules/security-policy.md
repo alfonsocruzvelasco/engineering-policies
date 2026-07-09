@@ -2498,6 +2498,24 @@ Just because an agent *can* call an API or tool does not mean it *should*.
   * explicit human approval or
   * policy-based runtime checks
 
+### GitHub agent token scoping — lethal trifecta prevention
+
+Never grant GitHub agents org-wide read tokens for convenience.
+Scope every agent token to the single repository it operates on.
+
+An agent is a lethal trifecta risk when all three are true:
+  (1) it holds read access to private data
+  (2) it reads untrusted public input (issues, PRs, comments)
+  (3) it can post output to a public channel (comments, PRs)
+
+If all three conditions are met, a human review gate is mandatory
+before any public-facing output is posted. No automated posting
+without human approval in this configuration.
+
+Reference: GitLost (Noma Security, Jul 2026) — one public GitHub
+issue bypassed GitHub's built-in guardrails with a single word.
+[gitlost-noma-jul2026]
+
 **Never allow agents to:**
 
 * Execute arbitrary shell commands
