@@ -1510,6 +1510,10 @@ Chinese-hosted model API infrastructure is prohibited for engineering work in th
 - No exceptions. No evaluation mode. No proxied access.
 - Open weights do not change API endpoint trust requirements.
 - If a model family is required, self-host weights on trusted infrastructure only.
+- Chinese-origin model weights are subject to the same prohibition as Chinese-hosted endpoints.
+- A model trained on or derived from a Chinese-origin base model (e.g. Kimi K2.5 / MoonshotAI) is prohibited regardless of where inference is hosted.
+- Affected: Cursor Composer 2.5 (see approved-ai-tools.md).
+  [spacexai-cursor-grok45-jul2026]
 
 This section is the single source of truth for Chinese-endpoint prohibition language and enforcement scope. Other documents must reference this section rather than restating variant rules.
 
