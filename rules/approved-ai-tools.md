@@ -102,19 +102,54 @@ No agent tool may be approved without completing all three:
    - Tool use agents are more vulnerable than coding agents (4.82% vs 2.51%). For tool-heavy unattended loops, use Opus regardless of cost. [ipi-arena-2026]
    - Opus 4.5 (ASR 0.5%) is the required model for unattended agentic runs based on IPI Arena 2026 data. If Opus 4.6 is used instead, document explicit rationale — no robustness equivalence has been established between 4.5 and 4.6 for injection resistance. [ipi-arena-2026]
 
+**Model status additions (July 2026):**
+
+- `claude-fable-5`: CONDITIONAL
+  Ultra-hard tasks only. Intelligence Index score: 60 (vs Opus 4.8: 56).
+  Currently highest-ranked model. Subscription availability unconfirmed —
+  verify before use. Fallback: `claude-opus-4-8`.
+  Source: [artificialanalysis-jul2026]
+
+- `gpt-5.6-sol`: APPROVED (hard tasks, API only)
+  Intelligence Index score: 59. Use when Sonnet 5 is insufficient and
+  Fable 5 is unavailable. No injection ASR data yet — treat as Opus 4.5
+  posture for unattended runs until benchmarked.
+  Source: [artificialanalysis-jul2026]
+
+- `MiniMax-M3`: PROHIBITED — Chinese-hosted infrastructure (Shanghai).
+  Data sovereignty violation. Score 44 open weights.
+  Authority: `security-policy.md` §14.6.9
+
+- `DeepSeek V4 Pro`: PROHIBITED — Chinese-hosted infrastructure.
+  Data sovereignty violation. Score 44 open weights.
+  Authority: `security-policy.md` §14.6.9
+  Source: [artificialanalysis-jul2026]
+
+- `gemini-2.5-flash-lite`: APPROVED (subagent/researcher pattern only)
+  Lowest latency (0.34s). Use as Haiku alternative for Read/Grep/Glob
+  tasks in researcher subagent. Token-billed — prefer Haiku if quota
+  is constrained.
+  Source: [artificialanalysis-jul2026]
+
 **Model tier table:**
+
+- Ultra-hard tasks (Claude token budget):
+  `claude-fable-5` — CONDITIONAL. Highest-ranked model; verify subscription availability before use. Fallback: `claude-opus-4-8`.
+
+- Very hard tasks (Claude token budget):
+  `claude-opus-4-8` — maximum reasoning, unattended agentic runs, security-sensitive decisions.
+
+- Hard tasks (Claude token budget):
+  `claude-sonnet-5` — complex reasoning, repo-level refactors, architecture decisions.
 
 - Daily / default (token-free in Cursor subscription):
   Codex 5.3 — no Claude token cost. Use for routine coding, edits, reads, grep tasks, subagent work.
 
-- Hard tasks (Claude token budget):
-  `claude-sonnet-5` — complex reasoning, repo-level refactors, architecture decisions. Use sparingly against quota.
-
-- Very hard tasks (Claude token budget):
-  `claude-opus-4-8` — maximum reasoning, unattended agentic runs, security-sensitive decisions. Use only when Sonnet 5 fails.
-
 - Subagent / researcher:
-  Codex 5.3 — token-free, use freely for Read/Grep/Glob.
+  `claude-haiku-4-5` / `gemini-2.5-flash-lite` — default low-cost researcher options for Read/Grep/Glob patterns.
+
+- Legacy:
+  `claude-sonnet-4-6` — migrate to Sonnet 5.
 
 Architectural risk and CVE risk are evaluated separately. A tool with patched CVEs may still be architecturally prohibited. See security-policy.md §Prohibited Agent Platforms and Frameworks.
 
