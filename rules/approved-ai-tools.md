@@ -125,11 +125,34 @@ No agent tool may be approved without completing all three:
   Authority: `security-policy.md` §14.6.9
   Source: [artificialanalysis-jul2026]
 
+- `Cursor Composer 2.5`: PROHIBITED
+  Reason: weights derived from Kimi K2.5 base model (MoonshotAI,
+  China). Chinese-origin weights violate §14.6.9 by intent even
+  if endpoint is US-hosted. Do not use as default or fallback model.
+  Authority: `security-policy.md` §14.6.9
+  Source: [spacexai-cursor-grok45-jul2026]
+
 - `gemini-2.5-flash-lite`: APPROVED (subagent/researcher pattern only)
   Lowest latency (0.34s). Use as Haiku alternative for Read/Grep/Glob
   tasks in researcher subagent. Token-billed — prefer Haiku if quota
   is constrained.
   Source: [artificialanalysis-jul2026]
+
+- `grok-4.5`: APPROVED (Cursor subscription, token-free)
+  Available in Cursor on all plans post-acquisition.
+  Use case: daily tasks, same tier as Codex 5.3.
+  Injection ASR: not yet benchmarked — treat as Opus 4.5 posture
+  for unattended runs until IPI Arena data available.
+  Routing bias risk: Cursor has financial incentive to default to
+  Grok post-acquisition. Verify model selection explicitly each
+  session. [spacexai-cursor-grok45-jul2026]
+
+- `claude-code-cli`: APPROVED — contingency if Anthropic restricts
+  Claude access in Cursor post-SpaceXAI acquisition close (Q3 2026).
+  Most token-efficient option: direct API, full prompt caching,
+  explicit context control. Preferred for portfolio repo work
+  regardless of Cursor status.
+  Model strings: `claude-sonnet-5` (hard), `claude-opus-4-8` (very hard)
 
 **Model tier table:**
 
@@ -144,6 +167,12 @@ No agent tool may be approved without completing all three:
 
 - Daily / default (token-free in Cursor subscription):
   Codex 5.3 — no Claude token cost. Use for routine coding, edits, reads, grep tasks, subagent work.
+  WARNING: Cursor sessions (including Codex 5.3 interactions) are
+  used to train Grok models via SpaceXAI acquisition data pipeline.
+  Do not use Cursor for non-public portfolio code until acquisition
+  closes and data policy is clarified. Use Claude Code CLI directly
+  for portfolio repos.
+  Source: [spacexai-cursor-grok45-jul2026]
 
 - Subagent / researcher:
   `claude-haiku-4-5` / `gemini-2.5-flash-lite` — default low-cost researcher options for Read/Grep/Glob patterns.
