@@ -429,6 +429,25 @@ Every repository that uses an AI coding agent — Claude Code, Codex, Goose, Ope
 
 **Enforcement:** Repositories without a root-level `AGENTS.md` are classified as **agent-unprepared**. Agent work in agent-unprepared repos is a non-professional workflow — higher cost, higher error rate, no constraint enforcement.
 
+### Coding environment constraints
+
+Cursor + SpaceXAI acquisition — data pipeline risk (from Jul 2026):
+All Cursor sessions (prompts, code, tool calls) may be used to
+train Grok models via SpaceXAI data pipeline. This applies
+regardless of which model is selected in Cursor.
+
+Constraint: Do not use Cursor for portfolio repos or any code
+intended for production AV perception work until SpaceXAI
+acquisition closes (expected Q3 2026) and updated data policy
+is reviewed.
+
+For portfolio repos: use Claude Code CLI directly.
+For everything else: Cursor with explicit model selection,
+Composer 2.5 excluded.
+
+Reassess at acquisition close. Add calendar reminder: 2026-10-01.
+[spacexai-cursor-grok45-jul2026]
+
 ---
 
 ## Final Mental Model
