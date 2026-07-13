@@ -603,6 +603,32 @@ Reference: rules/references/ — reve-2-plan-render-architecture.md
 - CPU: AMD Ryzen 9 7900X, 64GB RAM
 - OS: Fedora Linux 41, Python 3.11
 
+### Local model constraints — RTX 4070 (12GB VRAM hard limit)
+
+- Maximum model size at Q4 quantization: ~7.5GB (leaves headroom
+  for 32K KV cache). Do not load models >10GB — VRAM overflow
+  causes crash or unusable speed.
+- Minimum context window for agentic coding: 32K tokens.
+  Set to 64K for multi-file tasks. Never use runtime default.
+- Recommended local models (agentic coding):
+    Gemma 4 12B Q4 GGUF (7.5GB) — largest practical fit
+    Qwen3 8B Q4 GGUF (~5GB) — more headroom, MoE architecture
+- NOT viable locally on this hardware:
+    Qwen3.6 35B MoE (22GB) — exceeds VRAM, CPU fallback too slow
+    Any model >12GB total
+- Tool calling failure is expected for small models.
+  Self-recovery is normal — do not treat malformed tool calls
+  as session-ending errors unless recovery fails 3+ times.
+- Disable reasoning mode for small local models. Reasoning on
+  small models causes circular loops and increases token use
+  with no quality gain. [martinfowler-local-models-jul2026]
+- Local models are viable for: autocomplete, simple edits,
+  Squeezr compression backend (qwen2.5-coder:1.5b).
+  NOT viable for: full loop engineering, complex reasoning,
+  multi-file agentic refactors. Use cloud models for those.
+
+Source: [martinfowler-local-models-jul2026]
+
 **Vision encoder notes (relevant for CV pipeline integration):**
 - All Gemma 4 variants use GemmaVis ViT with variable aspect ratio support
 - Soft token budget: 70 / 140 / 280 / 560 / 1120 tokens — select based on
