@@ -2738,6 +2738,22 @@ def ai_write_file(agent_id: str, path: str, content: str):
 - Supply chain threat: Lazarus Group npm packages (Jul 2026) explicitly target these locations via malicious Rollup polyfill mimics.
   Reference: [lazarus-npm-jul2026]
 
+AI tool config files are active infostealer targets (Jul 2026):
+`~/.claude/`, `~/.config/Cursor/`, `~/.config/Windsurf/`, `~/.vscode/`,
+`~/.zed/` — these contain API keys and MCP credentials.
+A compromised npm package can exfiltrate all of them in seconds
+via a preinstall hook or main-code dropper.
+
+Mandatory post-compromise rotation checklist (trigger: any
+suspected supply chain compromise on a dev machine):
+- Rotate: AWS/GCP/Azure keys, npm token, GitHub token
+- Rotate: Claude API key, Cursor token, all MCP server credentials
+- Revoke: browser sessions, Bitwarden session, Slack/Discord tokens
+- Inspect: `bpftool prog list` for unknown eBPF programs (Linux)
+- Check: `/tmp` for randomly named hidden executables (`.{random}`)
+- Check: `~/.config/systemd/user/` for unknown service units
+Source: [jscrambler-compromise-jul2026]
+
 ---
 
 
