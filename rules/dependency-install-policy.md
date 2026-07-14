@@ -52,6 +52,50 @@ Mitigations:
 - Containers-only policy reduces host exposure but does not eliminate risk from packages installed inside containers with mounted volumes.
   Reference: [lazarus-npm-jul2026]
 
+### Legitimate package compromise — credential theft vector
+
+npm supply chain attacks now operate via two distinct vectors.
+Your existing rules cover vector 1 (typosquatting/malicious packages).
+Vector 2 requires separate controls:
+
+Vector 2 — Compromised legitimate package via stolen npm credential:
+- A package you already trust can be poisoned mid-release.
+- `--ignore-scripts` does NOT protect against payloads moved into
+  package main code or CLI (confirmed: jscrambler 8.18.0/8.20.0,
+  Jul 2026). [jscrambler-compromise-jul2026]
+- Controls:
+  (a) Pin exact versions in lockfiles. Never use ranges for
+      build-time tools (devDependencies).
+  (b) Verify package diff before upgrading any devDependency:
+      https://socket.dev/npm/package/<name>/diff/<version>
+  (c) Cross-reference npm version against GitHub tags. No matching
+      tag = treat as suspect until confirmed by maintainer.
+  (d) On any build machine: rotate cloud keys, npm/GitHub tokens,
+      and AI tool API keys (Claude, Cursor, Windsurf) if a
+      compromised version ran. Treat as stolen, not exposed.
+  (e) Specific target of jscrambler-class infostealers on Linux:
+      eBPF kernel module loaded from memory. If unknown BPF
+      programs appear post-install (`bpftool prog list`), treat
+      the machine as compromised.
+Source: [jscrambler-compromise-jul2026]
+
+### npm 12 — mandatory minimum
+
+npm 12 (released Jul 8, 2026) ships with:
+- allowScripts: off by default. Preinstall/install/postinstall
+  hooks do not run unless explicitly approved.
+- `--allow-git`: none by default. Git dependencies blocked.
+- `--allow-remote`: none by default. Remote URL dependencies blocked.
+
+Policy requirement:
+- Minimum npm version: 12. Do not use npm <12 in any new container
+  or CI pipeline.
+- Run: `npm approve-scripts --allow-scripts-pending` before installing
+  in any new project. Commit the resulting allowlist to `package.json`.
+- Existing projects: upgrade npm to 12 and audit current
+  allow-scripts list. Remove any entry that cannot be justified.
+Source: [npm12-jul2026]
+
 ---
 
 ## Agents
