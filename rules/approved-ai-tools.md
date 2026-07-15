@@ -108,6 +108,15 @@ No agent tool may be approved without completing all three:
   Ultra-hard tasks only. Intelligence Index score: 60 (vs Opus 4.8: 56).
   Currently highest-ranked model. Subscription availability unconfirmed —
   verify before use. Fallback: `claude-opus-4-8`.
+  Pricing: $10/MTok input · $50/MTok output (Anthropic API)
+  Throughput: ~60–69 TPS · TTFT: ~55s
+  Cost gate: MANDATORY before any Fable 5 session —
+    estimate output tokens × $0.00005 per token.
+    A 100K-token output session costs ~$5 in output alone.
+    Use only when Opus 4.8 has demonstrably failed the task.
+    Document justification in session ADR.
+  Source: [anthropic-fable5-pricing-jul2026]
+           [artificialanalysis-fable5-jul2026]
   Source: [artificialanalysis-jul2026]
 
 - `gpt-5.6-sol`: APPROVED (hard tasks, API only)
@@ -141,11 +150,18 @@ No agent tool may be approved without completing all three:
 - `grok-4.5`: APPROVED (Cursor subscription, token-free)
   Available in Cursor on all plans post-acquisition.
   Use case: daily tasks, same tier as Codex 5.3.
+  Pricing: $2/MTok input · $6/MTok output (xAI API)
+  Throughput: 80–112 TPS · Context: 500K tokens
+  In Cursor subscription: token-free — no API cost.
+  Fastest model in this stack. Prefer for time-sensitive
+  daily tasks where throughput matters.
   Injection ASR: not yet benchmarked — treat as Opus 4.5 posture
   for unattended runs until IPI Arena data available.
   Routing bias risk: Cursor has financial incentive to default to
   Grok post-acquisition. Verify model selection explicitly each
   session. [spacexai-cursor-grok45-jul2026]
+  Source: [datanorth-grok45-jul2026]
+           [artificialanalysis-grok45-jul2026]
 
 - `claude-code-cli`: APPROVED — contingency if Anthropic restricts
   Claude access in Cursor post-SpaceXAI acquisition close (Q3 2026).
@@ -158,9 +174,16 @@ No agent tool may be approved without completing all three:
 
 - Ultra-hard tasks (Claude token budget):
   `claude-fable-5` — CONDITIONAL. Highest-ranked model; verify subscription availability before use. Fallback: `claude-opus-4-8`.
+  Pricing: $10/MTok input · $50/MTok output (Anthropic API). Throughput: ~60–69 TPS · TTFT: ~55s.
+  Cost gate: mandatory. Estimate output tokens × $0.00005 before starting. A 100K-token output is ~$5 output-only.
+  Escalate to Fable 5 only after Opus 4.8 demonstrably fails; ADR justification required.
+  Source: [anthropic-fable5-pricing-jul2026] [artificialanalysis-fable5-jul2026]
 
 - Very hard tasks (Claude token budget):
   `claude-opus-4-8` — maximum reasoning, unattended agentic runs, security-sensitive decisions.
+  Pricing: $5/MTok input · $25/MTok output (Anthropic API). Throughput: ~62 TPS.
+  Default ceiling for very hard tasks. Do not escalate to Fable 5 without explicit cost justification.
+  Source: [anthropic-pricing-jul2026]
 
 - Hard tasks (Claude token budget):
   `claude-sonnet-5` — complex reasoning, repo-level refactors, architecture decisions.
@@ -179,6 +202,22 @@ No agent tool may be approved without completing all three:
 
 - Legacy:
   `claude-sonnet-4-6` — migrate to Sonnet 5.
+
+**Cost tier summary (reference):**
+
+| Tier       | Model      | In $/MTok | Out $/MTok | TPS      |
+|------------|------------|-----------|------------|----------|
+| Ultra-hard | Fable 5    | $10       | $50        | 60–69    |
+| Very hard  | Opus 4.8   | $5        | $25        | ~62      |
+| Hard       | Sonnet 5   | $2*       | $?*        | TBD      |
+| Daily      | Grok 4.5   | $0 (Cursor sub) | $0  | 80–112   |
+| Daily      | Codex 5.3  | $0 (Cursor sub) | $0  | TBD      |
+| Subagent   | Haiku 4.5  | see approved entry | —  | —       |
+
+* Sonnet 5 at launch discount through 2026-08-31. Verify after.
+
+Escalation rule: exhaust lower tier before escalating.
+Fable 5 requires documented justification. No casual use.
 
 **Claude model behavioral profiles (operator guidance):**
 
@@ -312,6 +351,10 @@ Reason: Chinese-hosted infrastructure. Data sovereignty violation.
 No exceptions. No evaluation mode. No proxied access.
 Authority: `security-policy.md` §14.6.9.
 Added: 2026-06-23
+Pricing listed for reference only (PROHIBITED):
+$1.40/MTok input · $4.40/MTok output (Z.ai first-party)
+Throughput: 41–425 TPS depending on provider (929% variance)
+Do not use. Chinese-hosted. §14.6.9.
 
 ---
 
