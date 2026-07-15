@@ -129,3 +129,13 @@ repos:
         language: system
         verbose: true
         always_run: false  # Only show on first commit of session
+
+  - repo: local
+    hooks:
+      - id: prompt-injection-patterns
+        name: Scan natural-language prompt injection patterns
+        entry: bash rules/system/scripts/check-prompt-injection-patterns.sh
+        language: system
+        pass_filenames: false
+        files: '\.(md|txt|prompt|yaml|yml|json)$'
+        exclude: '^rules/agent-egress-and-memory-isolation-policy\.md$'
