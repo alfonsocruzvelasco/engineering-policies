@@ -3248,6 +3248,10 @@ Autonomous agents can consume excessive resources through:
 Part 2 uses the authoritative protocol in Part 1:
 - See Section 19 ("Prompt Injection Defense"), including PI-1 through PI-7.
 - See "INJECTION RESPONSE PROTOCOL (tiered)" under Section 19 for mandatory Tier 1 UNCONDITIONAL STOP and Tier 2 CONTINUE WITH FLAG behavior.
+- See also: `rules/agent-egress-and-memory-isolation-policy.md`
+  Where stricter, it governs memory, connectors, web fetch,
+  browser tools, MCP, and network egress.
+  [memory-heist-ayush-paul-jul2026]
 
 ---
 
