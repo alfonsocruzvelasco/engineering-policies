@@ -180,6 +180,46 @@ No agent tool may be approved without completing all three:
 - Legacy:
   `claude-sonnet-4-6` — migrate to Sonnet 5.
 
+**Claude model behavioral profiles (operator guidance):**
+
+- `claude-sonnet-4-6` (legacy — migrate to Sonnet 5):
+  Behavioral profile: warm, deferential, brief.
+  Use when: execution tasks, code generation, subagent work.
+  Avoid when: you need assumptions challenged or risks surfaced.
+  Risk: affirms rather than pushes back. [anthropic-values-research-jul2026]
+
+- `claude-sonnet-5`:
+  Behavioral profile: unknown — no Anthropic values research yet.
+  Treat as Sonnet 4.6 profile until data available.
+  [anthropic-values-research-jul2026]
+
+- `claude-opus-4-6`:
+  Behavioral profile: concise, execution-focused, more rigorous
+  than Sonnet. Good middle ground.
+  Use when: task requires rigor without verbosity.
+  [anthropic-values-research-jul2026]
+
+- `claude-opus-4-7`:
+  Behavioral profile: rigorous, cautious, deep, candid.
+  Challenges assumptions, explains reasoning, identifies risks,
+  acknowledges limitations.
+  Use when: architecture decisions, security review, any task where
+  you need genuine pushback.
+  Risk: over-hedges. May slow workflow with excessive caveats.
+  [anthropic-values-research-jul2026]
+
+- `claude-opus-4-8`:
+  Behavioral profile: unknown — no Anthropic values research yet.
+  Treat as Opus 4.7 profile until data available.
+  [anthropic-values-research-jul2026]
+
+**Language considerations:**
+
+English prompts produce more rigorous, cautious Claude responses
+than Spanish. For architecture and security decisions, prefer
+English prompts regardless of your working language.
+Source: [anthropic-values-research-jul2026]
+
 Architectural risk and CVE risk are evaluated separately. A tool with patched CVEs may still be architecturally prohibited. See security-policy.md §Prohibited Agent Platforms and Frameworks.
 
 ---
