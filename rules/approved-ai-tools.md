@@ -187,6 +187,15 @@ No agent tool may be approved without completing all three:
 
 - Hard tasks (Claude token budget):
   `claude-sonnet-5` — complex reasoning, repo-level refactors, architecture decisions.
+  Pricing (intro): $2/MTok input · $10/MTok output
+    Valid through 2026-08-31 only.
+  Pricing (standard from 2026-09-01): $3/MTok input · $15/MTok output
+  Tokenizer warning: new tokenizer burns ~1.0–1.35× more tokens
+    than Sonnet 4.6 on same input. Code and structured data hit hardest.
+    At standard pricing, real per-task cost can exceed Opus 4.8
+    despite lower per-token rate. Budget at September pricing, not July.
+  Action required: before 2026-09-01, benchmark real portfolio
+    workloads on Sonnet 5 and measure actual token delta.
 
 - Daily / default (token-free in Cursor subscription):
   Codex 5.3 — no Claude token cost. Use for routine coding, edits, reads, grep tasks, subagent work.
@@ -209,12 +218,13 @@ No agent tool may be approved without completing all three:
 |------------|------------|-----------|------------|----------|
 | Ultra-hard | Fable 5    | $10       | $50        | 60–69    |
 | Very hard  | Opus 4.8   | $5        | $25        | ~62      |
-| Hard       | Sonnet 5   | $2*       | $?*        | TBD      |
+| Hard       | Sonnet 5   | $2→$3*    | $10→$15*   | TBD      |
 | Daily      | Grok 4.5   | $0 (Cursor sub) | $0  | 80–112   |
 | Daily      | Codex 5.3  | $0 (Cursor sub) | $0  | TBD      |
 | Subagent   | Haiku 4.5  | see approved entry | —  | —       |
 
-* Sonnet 5 at launch discount through 2026-08-31. Verify after.
+* Steps up 2026-09-01. Tokenizer adds up to 35% tokens.
+  Measure real workload cost before assuming savings vs Opus 4.8.
 
 Escalation rule: exhaust lower tier before escalating.
 Fable 5 requires documented justification. No casual use.
