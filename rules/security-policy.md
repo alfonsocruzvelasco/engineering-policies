@@ -2752,6 +2752,15 @@ suspected supply chain compromise on a dev machine):
 - Inspect: `bpftool prog list` for unknown eBPF programs (Linux)
 - Check: `/tmp` for randomly named hidden executables (`.{random}`)
 - Check: `~/.config/systemd/user/` for unknown service units
+- AsyncAPI/Miasma-class additions:
+- Check systemd user units and crontab before revoking any tokens —
+  Miasma-class malware triggers directory wipe on token revocation
+  (dead man's switch). Isolate first, rotate second.
+- Worm-propagation risk: Miasma spreads across npm, PyPI, and Cargo
+  registries using stolen publish tokens. If a machine is compromised,
+  audit all registry tokens and revoke publish access immediately
+  after isolation.
+[asyncapi-compromise-jul2026]
 Source: [jscrambler-compromise-jul2026]
 
 ---
