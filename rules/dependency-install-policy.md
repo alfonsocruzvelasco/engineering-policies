@@ -77,6 +77,45 @@ Vector 2 — Compromised legitimate package via stolen npm credential:
       eBPF kernel module loaded from memory. If unknown BPF
       programs appear post-install (`bpftool prog list`), treat
       the machine as compromised.
+
+Vector 3 — CI/CD pipeline compromise via push credential
+(confirmed: AsyncAPI @asyncapi/generator family, Jul 15 2026):
+- Attacker gains push access to a legitimate repo.
+- Commits under a placeholder git identity.
+- Project's own GitHub Actions OIDC trusted-publisher workflow
+  publishes the package with valid SLSA provenance attestations.
+- No npm token stolen. No malicious maintainer. Provenance is valid.
+- SLSA attestation proves the authorized workflow produced the
+  package — it does NOT prove the triggering commits were legitimate.
+
+Controls:
+  (a) Provenance attestation is not a trust signal for commit
+      legitimacy. Verify commit author identity independently for
+      any unexpected version bump.
+  (b) Pin exact versions in lockfiles. Any unexpected minor/patch
+      bump in a trusted package warrants a commit diff review before
+      upgrading: https://socket.dev/npm/package/<name>/diff/<version>
+  (c) Require branch protection on release branches: no direct push,
+      require PR + review before any commit triggers a release workflow.
+  (d) Monitor for placeholder git identities in commits upstream of
+      packages you depend on.
+
+NOTE: npm 12 allowScripts=off does NOT protect against load-time
+droppers. The AsyncAPI attack fires when the module is require()d
+during normal build/CI use — not at npm install time. allowScripts
+is a necessary but insufficient defence. Runtime module loading
+of untrusted versions remains a live attack surface.
+[asyncapi-compromise-jul2026]
+
+Miasma persistence indicators (Linux):
+If any build or CI environment loaded one of the affected versions,
+check for:
+- systemd user units: `~/.config/systemd/user/` — unknown `.service` files
+- crontab entries: `crontab -l` — unknown scheduled commands
+- The malware has a dead man's switch: if a stolen token is revoked,
+  it wipes the working directory. Do not revoke tokens before
+  isolating the affected machine.
+[asyncapi-compromise-jul2026]
 Source: [jscrambler-compromise-jul2026]
 
 ### npm 12 — mandatory minimum
