@@ -531,7 +531,17 @@ Install: isolated venv, core profile only.
 
 **ooples/token-optimizer-mcp: APPROVED. MIT. Caching MCP for repeat reads.**
 
-**thedotmack/claude-mem: APPROVED. MIT. Cross-session memory. Plugin install only.**
+**thedotmack/claude-mem: CONDITIONAL. MIT.**
+Cross-session memory. Plugin install only.
+Security status: DISABLED by default for security-sensitive
+engineering work.
+MUST NOT be active in any session that uses web fetch,
+web search, browser tools, external MCP servers, private
+connectors, or untrusted external content.
+Allowed only for local, non-sensitive, no-egress sessions
+with human-supervised tool-call logs.
+See `rules/agent-egress-and-memory-isolation-policy.md`.
+[memory-heist-ayush-paul-jul2026]
 
 **Squeezr (sergioramosv): CONDITIONAL. MIT.**
 Security: no credentials/PII in sessions while proxy active.
