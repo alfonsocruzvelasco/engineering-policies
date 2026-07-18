@@ -56,6 +56,20 @@ Mitigations:
 
 npm supply chain attacks now operate via two distinct vectors.
 Your existing rules cover vector 1 (typosquatting/malicious packages).
+Add explicit Vector 1 amplification control:
+
+Blockchain C2 — infrastructure takedown-resistant malware:
+ViteVenom/ChainVeil (Jul 2026) uses Tron/Aptos/BSC blockchain
+transactions as C2. Domain blocklists are useless — the C2
+address is immutable on-chain. No patch, no takedown path.
+
+Active namespace: `@vite-*` scoped packages.
+Flag any package matching `@vite-*/*`, `@vitets/*`, `@vite-tab/*`,
+`@vite-mcp/*`, `@vite-pro/*`, `@vite-ln/*` for manual review.
+These are not legitimate Vite ecosystem namespaces.
+Legitimate Vite packages use `@vitejs/*` only.
+Source: [vitevenom-checkmarx-jul2026]
+
 Vector 2 requires separate controls:
 
 Vector 2 — Compromised legitimate package via stolen npm credential:
