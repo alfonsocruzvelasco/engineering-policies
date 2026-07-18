@@ -1835,10 +1835,10 @@ fields: sender names, button IDs, tool result records, author
 lines in GitHub comments.
 
 The agent still does your task — on top of attacker-controlled
-facts. Approval prompts are not a reliable defense: the agent's
+facts. Approval prompts are not a reliable defence: the agent's
 reasoning is built on the fake data, so it reads as legitimate.
 Confirmed against Claude Opus 4.5, Sonnet 4.5, GPT-5.2, Gemini 3.
-Success rate: 31-50% against agents with injection defenses active.
+Success rate: 31–50% against agents with injection defences active.
 [adi-snu-uiuc-jul2026]
 
 Attack surfaces in your stack:
@@ -2059,7 +2059,7 @@ Mandatory mitigations:
 
 NadMesh botnet (Jul 2026) specifically targets:
 - Ollama on port 11434 — steals cloud keys from env vars
-- MCP servers via JSON-RPC `execute_command` — highest priority
+- MCP servers via JSON-RPC execute_command — highest priority
   in NadMesh's exploit table
 - Docker API on 2375, Gradio on 7860
 
@@ -2068,7 +2068,7 @@ You run Ollama locally for Squeezr. Required:
   Verify: `ss -tlnp | grep 11434` must show 127.0.0.1:11434.
 - MCP servers MUST NOT be publicly reachable.
   Verify: no MCP port in `ss -tlnp` bound to 0.0.0.0.
-- `execute_command` JSON-RPC tool MUST NOT be exposed without
+- execute_command JSON-RPC tool MUST NOT be exposed without
   authentication. If present in any MCP config, require auth
   or remove it.
 Source: [nadmesh-botnet-jul2026]
