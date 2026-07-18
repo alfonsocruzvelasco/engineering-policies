@@ -2933,6 +2933,19 @@ Before submitting untrusted content, the user **MUST** prepend (or otherwise app
 ### CT-14: Exceptions
 - Any exception to CT-1 through CT-13 **MUST** be an explicit recorded decision in [`security-exceptions.md`](security-exceptions.md) (risk, scope, and sunset date).
 
+### CT-15: Injection evaluation loop for ChatGPT models (mandatory)
+
+ChatGPT usage for engineering tasks MUST be hardened with recurring prompt-injection evaluations, not only static prompting guidance.
+
+Required controls:
+- Run `python3 security-evals/run_injection_evals.py` as a baseline static gate.
+- Maintain direct and indirect injection scenarios in `security-evals/attack-corpus/`.
+- For model/version recertification, run runtime scoring and compare against `security-evals/baselines/injection-baseline.json`.
+- Add newly observed attack patterns to the corpus within 7 days of discovery.
+
+Operational rule:
+- If any `critical` injection case fails, stop autonomous usage for that task class until mitigations are applied and the evaluation is re-run.
+
 ---
 
 ## 9) CV/ML Execution Mode

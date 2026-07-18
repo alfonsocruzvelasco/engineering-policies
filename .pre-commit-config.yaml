@@ -33,6 +33,13 @@ repos:
         pass_filenames: false
         always_run: true
         verbose: true
+      - id: prompt-injection-evals-static
+        name: Validate prompt injection eval corpus
+        entry: python3 security-evals/run_injection_evals.py
+        language: system
+        pass_filenames: false
+        always_run: true
+        verbose: true
 
   # Secret scanning (complementary control)
   # Note: Requires .secrets.baseline file - run 'detect-secrets scan > .secrets.baseline' first

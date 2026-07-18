@@ -8,6 +8,7 @@ and this project follows Semantic Versioning guidance in `rules/versioning-and-r
 ## [Unreleased]
 
 ### Added
+- Added GPT-Red-style prompt-injection hardening framework: authoritative spec `rules/security/injection-eval-spec.md`, versioned corpus under `security-evals/attack-corpus/`, baseline thresholds in `security-evals/baselines/injection-baseline.json`, and automation runner `security-evals/run_injection_evals.py`; wired static validation into `.pre-commit-config.yaml` as `prompt-injection-evals-static` (2026-07-18).
 - Resolved policy consistency blockers: unified exception logging references to `rules/security-exceptions.md`, clarified README AI-tool guidance (approved-tools + Cursor sandbox scope), and clarified `security-policy.md` sandbox directory table as Cursor-specific while preserving repo-local controls for other approved agents (2026-06-08).
 - Added optional consistency follow-ups: removed orphaned infrastructure stub from `rules/web-policies.md`; expanded `rules/system/concept-index.md` governance/runtime coverage; added `rules/system/scripts/policy-consistency-check.sh` and wired it into `.pre-commit-config.yaml` to guard key policy drift conditions.
 - Agent–microservices resilience controls in `rules/agent-stopping-conditions.md` (distinct agent traffic class, universal tool idempotency, session timeout/rate budgets, call-graph observability); cross-refs in `security-policy.md` §8 and `web-policies.md` §10 (Bhatkoti, DZone 2026).
@@ -22,6 +23,9 @@ and this project follows Semantic Versioning guidance in `rules/versioning-and-r
 - Added `rules/references/local-model-runtime-status.md` documenting locally validated Ollama/llama.cpp models, paths, VRAM behavior, and practical usage recommendations (with security posture note).
 
 ### Changed
+- Updated `rules/security-policy.md` with mandatory automated injection evaluation gate (PI-5.2) and verification-gate enforcement under Section 20.
+- Updated `rules/ai-workflow-policy.md` with ChatGPT model hardening control CT-15 (mandatory injection-evaluation loop and critical-failure stop rule).
+- Updated `rules/system/concept-index.md` with authority mappings for prompt-injection evaluation harness controls.
 - Expanded `README.md` policy relationship mermaid map (AI retrieval, hallucinations, token/cost/stopping, security satellites) with an explicit scope note; documented **AI cost, reliability, and observability** in the `/rules` catalogue; extended reading paths and **Using AI assistance** quick reference.
 - Updated `rules/system/concept-index.md` with authority rows for token economy, observability tooling, agent stopping, model cost discipline; cross-linked stochastic scheduling to those policies; added index **Last updated** stamp.
 - Normalized `**Last updated:**` header casing across `rules/` (replacing `Last Updated`); added file-level vs section-level date notes to `production-policy.md`, `documentation-policy.md`, and `ai-workflow-policy.md`; refreshed stale reference stamps in `rag-relevance-for-ides.md` and `vector-db-engineering-guide.md`.
