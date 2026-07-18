@@ -379,9 +379,9 @@ Repos contain only:
 Ollama binding requirement (mandatory):
 Ollama must always start bound to 127.0.0.1, not 0.0.0.0.
 Default Ollama config binds to all interfaces — this is wrong.
-Set `OLLAMA_HOST=127.0.0.1` in your shell profile or systemd unit.
-Verify after every restart: `ss -tlnp | grep 11434`
-Expected output: `127.0.0.1:11434`
+Set OLLAMA_HOST=127.0.0.1 in your shell profile or systemd unit.
+Verify after every restart: ss -tlnp | grep 11434
+Expected output: 127.0.0.1:11434
 Any other binding is a NadMesh-class exposure.
 Source: [nadmesh-botnet-jul2026]
 
