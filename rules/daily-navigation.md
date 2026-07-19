@@ -4,6 +4,9 @@
 > Do not read policies. Find the rule. Apply it. Move on.
 
 ## Session Start
+Model tier (price-capped): check rules/model-registry.md
+last_updated date before any hard+ task. If >30 days old,
+run the snapshot update procedure first.
 start a focused execution session → rules/ai-workflow-policy.md → §Session Lifecycle
 map concept to authority quickly → rules/system/concept-index.md → §AI Workflow & Prompting
 validate local workspace boundaries → rules/development-environment-policy.md → §Repository Isolation Rules
