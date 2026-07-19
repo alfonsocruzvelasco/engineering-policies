@@ -170,64 +170,23 @@ No agent tool may be approved without completing all three:
   regardless of Cursor status.
   Model strings: `claude-sonnet-5` (hard), `claude-opus-4-8` (very hard)
 
-**Model tier table:**
+Current model list with prices: see rules/model-registry.md
+(updated monthly — check last_updated date before any hard+ task).
 
-- Ultra-hard tasks (Claude token budget):
-  `claude-fable-5` — CONDITIONAL. Highest-ranked model; verify subscription availability before use. Fallback: `claude-opus-4-8`.
-  Pricing: $10/MTok input · $50/MTok output (Anthropic API). Throughput: ~60–69 TPS · TTFT: ~55s.
-  Cost gate: mandatory. Estimate output tokens × $0.00005 before starting. A 100K-token output is ~$5 output-only.
-  Escalate to Fable 5 only after Opus 4.8 demonstrably fails; ADR justification required.
-  Source: [anthropic-fable5-pricing-jul2026] [artificialanalysis-fable5-jul2026]
+Selection rules (price-capped, active policy):
+- Trivial/Easy tasks: Codex 5.3 or Grok 4.5 (Cursor sub, free)
+- Medium tasks: Codex 5.3 or Grok 4.5 (free first); escalate to
+  Sonnet 5 only if free models demonstrably fail the task
+- Hard tasks: claude-sonnet-5 (verify current price in model-registry.md)
+- Very hard tasks: claude-opus-4-8
+- Ultra-hard tasks: claude-fable-5 (documented justification required)
+- Subagent/reads: claude-haiku-4-5 or gemini-2.5-flash-lite
 
-- Very hard tasks (Claude token budget):
-  `claude-opus-4-8` — maximum reasoning, unattended agentic runs, security-sensitive decisions.
-  Pricing: $5/MTok input · $25/MTok output (Anthropic API). Throughput: ~62 TPS.
-  Default ceiling for very hard tasks. Do not escalate to Fable 5 without explicit cost justification.
-  Source: [anthropic-pricing-jul2026]
+STATUS: Price-capped. Do not deviate from these tiers.
+Dynamic selection is a TODO: see model-registry.md §TODO.
 
-- Hard tasks (Claude token budget):
-  `claude-sonnet-5` — complex reasoning, repo-level refactors, architecture decisions.
-  Pricing (intro): $2/MTok input · $10/MTok output
-    Valid through 2026-08-31 only.
-  Pricing (standard from 2026-09-01): $3/MTok input · $15/MTok output
-  Tokenizer warning: new tokenizer burns ~1.0–1.35× more tokens
-    than Sonnet 4.6 on same input. Code and structured data hit hardest.
-    At standard pricing, real per-task cost can exceed Opus 4.8
-    despite lower per-token rate. Budget at September pricing, not July.
-  Action required: before 2026-09-01, benchmark real portfolio
-    workloads on Sonnet 5 and measure actual token delta.
-
-- Daily / default (token-free in Cursor subscription):
-  Codex 5.3 — no Claude token cost. Use for routine coding, edits, reads, grep tasks, subagent work.
-  WARNING: Cursor sessions (including Codex 5.3 interactions) are
-  used to train Grok models via SpaceXAI acquisition data pipeline.
-  Do not use Cursor for non-public portfolio code until acquisition
-  closes and data policy is clarified. Use Claude Code CLI directly
-  for portfolio repos.
-  Source: [spacexai-cursor-grok45-jul2026]
-
-- Subagent / researcher:
-  `claude-haiku-4-5` / `gemini-2.5-flash-lite` — default low-cost researcher options for Read/Grep/Glob patterns.
-
-- Legacy:
-  `claude-sonnet-4-6` — migrate to Sonnet 5.
-
-**Cost tier summary (reference):**
-
-| Tier       | Model      | In $/MTok | Out $/MTok | TPS      |
-|------------|------------|-----------|------------|----------|
-| Ultra-hard | Fable 5    | $10       | $50        | 60–69    |
-| Very hard  | Opus 4.8   | $5        | $25        | ~62      |
-| Hard       | Sonnet 5   | $2→$3*    | $10→$15*   | TBD      |
-| Daily      | Grok 4.5   | $0 (Cursor sub) | $0  | 80–112   |
-| Daily      | Codex 5.3  | $0 (Cursor sub) | $0  | TBD      |
-| Subagent   | Haiku 4.5  | see approved entry | —  | —       |
-
-* Steps up 2026-09-01. Tokenizer adds up to 35% tokens.
-  Measure real workload cost before assuming savings vs Opus 4.8.
-
-Escalation rule: exhaust lower tier before escalating.
-Fable 5 requires documented justification. No casual use.
+Chinese API endpoint ban: permanent. See model-registry.md §PROHIBITED.
+Authority: security-policy.md §14.6.9
 
 **Claude model behavioral profiles (operator guidance):**
 
