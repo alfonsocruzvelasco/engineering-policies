@@ -55,6 +55,35 @@ Lewis et al. define two marginalization strategies. The choice affects how the g
 - Untrusted third-party content without provenance verification
 - Raw LLM outputs not validated by a human (to prevent retrieval of hallucinated content)
 
+### HuggingFace dataset loader — code execution risk
+
+HuggingFace `load_dataset()` with `trust_remote_code=True` executes
+arbitrary Python from the dataset repository on your machine.
+This is the confirmed initial access vector in the Hugging Face
+breach (Jul 2026) — malicious dataset loader + template injection
+in dataset config → code execution on processing worker.
+
+Your CV portfolio uses HuggingFace datasets (KITTI, nuScenes,
+and similar). Apply these controls:
+
+Mandatory:
+- Always use `trust_remote_code=False` (the default). Never override.
+  If a dataset requires `trust_remote_code=True`: download the
+  dataset script, review it manually, then run it isolated.
+- Pin datasets to a specific commit hash, not a floating tag.
+  Use: `load_dataset("dataset_name", revision="<commit_sha>")`
+- Run all dataset loading inside a container with no network
+  egress and no access to `~/.aws`, `~/.claude`, `~/.ssh`, or `.env` files.
+- Never load a dataset in the same process that holds API keys
+  or cloud credentials.
+
+If a dataset config YAML/JSON is attacker-controlled:
+template injection can escalate to code execution even without
+`trust_remote_code`. Treat all dataset config files as untrusted
+input — do not execute, evaluate, or f-string-interpolate
+their contents directly.
+Source: [huggingface-breach-jul2026]
+
 ### Untrusted input sources
 
 Coding agent injection vectors — treat as untrusted input requiring the same sanitization as external MCP tool outputs:
