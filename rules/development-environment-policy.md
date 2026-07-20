@@ -374,6 +374,14 @@ Repos contain only:
 
 **All infrastructure services must run in containers, not as host-level installations.** This includes MLflow servers, orchestration systems (Airflow/Prefect), monitoring stacks (Prometheus/Grafana), message brokers (Kafka/Redpanda), databases, and model serving infrastructure. The host OS must remain a clean execution substrate. See `mlops-policy.md` Section 1 (Core Principles, principle #9) for full details.
 
+HuggingFace dataset loading — mandatory container isolation:
+Never load HuggingFace datasets in the same environment that
+holds API keys, cloud credentials, or SSH keys.
+Dedicated dataset container: no network egress, no credential
+mounts, no access to ~/.claude, ~/.aws, ~/.ssh, .env.
+trust_remote_code=False enforced. Commit hash pinning required.
+Source: [huggingface-breach-jul2026]
+
 ### Local service binding rules
 
 Ollama binding requirement (mandatory):
