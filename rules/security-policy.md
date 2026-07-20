@@ -1515,6 +1515,37 @@ Chinese-hosted model API infrastructure is prohibited for engineering work in th
 - Affected: Cursor Composer 2.5 (see approved-ai-tools.md).
   [spacexai-cursor-grok45-jul2026]
 
+Incident response exception — local unrestricted model:
+
+Western frontier models (Claude, GPT, Gemini) will refuse to
+process real exploit payloads, attack commands, and C2 artifacts
+due to safety guardrails. This creates a forensic gap during
+active incident response.
+
+Exception (CONDITIONAL): a Chinese-origin open-weight model may
+be run locally on your own infrastructure for incident response
+only, under these conditions:
+(a) Model runs via Ollama on local hardware. No API calls to
+    any external endpoint.
+(b) No data leaves the machine during the analysis session.
+    Network egress disabled for the duration.
+(c) Scope: incident response only. Not for development,
+    code generation, or any normal workflow task.
+(d) Session is time-bounded. Log start/end time and purpose
+    in security-exceptions.md with EXCEPTION-IR-001 reference.
+(e) After the incident: wipe the model from Ollama if the
+    machine itself is the compromised system.
+
+Recommended local forensic model: GLM-5.2 (open weights, Q4
+quantized, ~7GB — fits RTX 4070 12GB VRAM).
+Install only when needed: `ollama pull glm4` (verify exact tag).
+Do not run it during normal development sessions.
+
+Rationale: Chinese-origin weights on local infrastructure do not
+route data to China. The threat model is API endpoint data access,
+not weight provenance. This exception is threat-model-based, not
+principle-based. [huggingface-breach-jul2026]
+
 This section is the single source of truth for Chinese-endpoint prohibition language and enforcement scope. Other documents must reference this section rather than restating variant rules.
 
 ---
