@@ -46,7 +46,7 @@ National Intelligence Law (2017) and Data Security Law (2021).
 
 | Model | Provider | Index | Reason |
 |-------|----------|-------|--------|
-| GLM-5.2 | Z AI / Zhipu AI | 51 | Chinese API endpoint. §14.6.9 |
+| GLM-5.2 | Z AI / Zhipu AI | 51 | Chinese API endpoint. §14.6.9. EXCEPTION: local open-weight use permitted for incident response only under §14.6.9 incident response exception conditions. API endpoint (Z[.]ai / api[.]z[.]ai) remains prohibited unconditionally. |
 | MiniMax-M3 | MiniMax | 44 | Chinese API endpoint. §14.6.9 |
 | DeepSeek V4 Pro | DeepSeek | 44 | Chinese API endpoint. §14.6.9 |
 | Kimi K3 | MoonshotAI | 57 | Chinese API endpoint. §14.6.9 |
@@ -54,8 +54,9 @@ National Intelligence Law (2017) and Data Security Law (2021).
 
 NOTE on Chinese-origin weights on non-Chinese infrastructure:
 Cursor Composer 2.5 (built on Kimi K2.5 base) runs on US
-infrastructure. Data does not route to China. Prohibition is
-principle-based, not threat-model-based. Documented as such.
+infrastructure. Data does not route to China. Prohibition remains
+active for standard engineering workflows. For incident response
+only, see §14.6.9 local open-weight exception conditions.
 See approved-ai-tools.md for current status.
 
 ## Snapshot update procedure
