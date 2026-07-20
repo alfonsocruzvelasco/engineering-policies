@@ -1320,10 +1320,14 @@ Local models are accelerators. Cloud models are decision tools. Use each where i
 
 ## Frontier Model Selection: Opus 4.6 vs GPT-5.3 Codex
 
-**Status:** Authoritative
+**Status:** Reference (historical)
 **Last updated:** 2026-02-06
 **Reference:** [Opus 4.6 & GPT-5.3 Codex Policy Impact Analysis](references/opus-4.6-gpt-5.3-codex-policy-impact-analysis.md)
-**Primary Model:** Opus 4.6 (enabled and in active use)
+**Primary Model:** See `rules/model-registry.md` (active price-capped tiers)
+
+**Scope note:** This section is retained as historical model-comparison context.
+For active model selection decisions, use `rules/model-registry.md` and
+`rules/approved-ai-tools.md` only.
 
 ### Core Principle
 
@@ -1381,19 +1385,19 @@ flowchart TD
 
 | Task Type | Recommended Model | Reason |
 |-----------|-------------------|--------|
-| "Should we adopt X architecture?" | Opus 4.6 | Policy reasoning, constraints |
+| "Should we adopt X architecture?" | claude-sonnet-5 | Policy reasoning, constraints |
 | "Implement X using Y pattern" | GPT-5.3 Codex | Procedural execution |
-| "Review this against our policies" | Opus 4.6 | Constraint checking |
+| "Review this against our policies" | claude-sonnet-5 | Constraint checking |
 | "Refactor module X to pattern Y" | GPT-5.3 Codex | Mechanical transformation |
-| "Explain why we have rule X" | Opus 4.6 | Governance context |
+| "Explain why we have rule X" | claude-sonnet-5 | Governance context |
 | "Execute deployment checklist" | GPT-5.3 Codex | Step-by-step SOP |
 | "Write unit tests for X" | GPT-5.3 Codex or qwen3-coder | Procedural, routine |
-| "Design new feature architecture" | Opus 4.6 | Architecture decision |
-| "Debug complex logic error" | Opus 4.6 | Deep reasoning required |
+| "Design new feature architecture" | claude-opus-4-8 | Architecture decision |
+| "Debug complex logic error" | claude-sonnet-5 | Hard task reasoning |
 | "Format code, fix linting" | Haiku 4.5 or qwen3-coder | Speed, routine |
 | "Review scientific literature on X" | Gemini 3 Pro | Scientific research, synthesis |
 | "Generate research hypotheses" | Gemini 3 Pro | Exploratory, creative |
-| "Analyze experimental results" | Gemini 3 Pro or Opus 4.6 | Research workflow, reasoning |
+| "Analyze experimental results" | Gemini 3 Pro or claude-opus-4-8 | Research workflow, reasoning |
 
 ### Agent Classification Layer
 
@@ -1423,7 +1427,7 @@ Claude models (Sonnet 5, Opus 4.8) are reserved for hard and very hard tasks res
 Do not use Claude models for routine edits, file reads, or grep tasks.
 - Chat, queries, drafts: Codex 5.3 / default
 - Routine code, refactoring: Codex 5.3 / default
-- Complex CV/ML, hard debugging: Opus 4.8 / high
+- Complex CV/ML, hard debugging: Sonnet 5 / high
 - Deep reasoning, novel problems: Opus 4.8 / xhigh
 - Long async multi-agent: Opus 4.8 / ultracode
   (monitor Agent SDK spend — exhausts $20/month cap fast)
@@ -1432,6 +1436,7 @@ Do not use Claude models for routine edits, file reads, or grep tasks.
 
 Spend discipline: run `npx ccusage@latest daily` after
 any Opus 4.8 / xhigh or ultracode session.
+Selection authority: `rules/model-registry.md` (active price-capped tiers).
 
 ### Key Capabilities
 

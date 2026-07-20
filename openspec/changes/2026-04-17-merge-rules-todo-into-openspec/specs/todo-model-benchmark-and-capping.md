@@ -1,5 +1,10 @@
 # Deferred: ML Model Benchmark Suite
 
+> Historical design snapshot only.
+> Non-authoritative for model approvals, pricing, or legal/security bans.
+> Current authority: `rules/approved-ai-tools.md`, `rules/model-registry.md`,
+> and `rules/security-policy.md` §14.6.9.
+
 **Status:** Ready to implement — deferred until first real CV workload
 **Created:** 2026-04-05
 **Review trigger:** When you have a real inference task to benchmark against
@@ -11,12 +16,11 @@
 A self-contained benchmark suite for all approved AI models:
 
 - **Local:** Gemma 4 E4B via Ollama, any other pulled Ollama models
-- **API:** Claude (claude-sonnet-4-20250514), OpenAI (gpt-4o-mini), Z.ai GLM-5
+- **API:** Claude (claude-sonnet-4-20250514), OpenAI (gpt-4o-mini)
 - **Cloud GPU:** RunPod RTX 4090 — only if local p95 latency > 2000ms
 
-**Hard budget cap:** $20/month combined cloud spend (RunPod + APIs).
-Exit code 2 on cap hit. Warning at $18. Confirmation prompt before any
-RunPod spend. No surprises.
+**Price-cap policy:** follow active price-capped tiers in
+`rules/model-registry.md` and `rules/approved-ai-tools.md`.
 
 ---
 
@@ -42,7 +46,7 @@ These change. Do not trust cached numbers — fetch live prices:
 | RunPod | RTX 4090 | $0.34/hr community | https://www.runpod.io/gpu-pricing |
 | Anthropic | claude-sonnet-4-20250514 | $3/$15 per 1M in/out | https://www.anthropic.com/pricing |
 | OpenAI | gpt-4o-mini | $0.15/$0.60 per 1M in/out | https://openai.com/pricing |
-| Z.ai | GLM-5 | estimated same as gpt-4o-mini | https://z.ai/docs |
+| Z[.]ai | GLM-5 | PROHIBITED (Chinese API endpoint ban) | security-policy.md §14.6.9 |
 | Cloudflare | gemma-4-26b-a4b-it | per-token | https://developers.cloudflare.com/workers-ai/ |
 
 **Update `budget/spend_tracker.py` cost formulas before first run if prices changed.**
@@ -57,8 +61,8 @@ may have changed:
 - [ ] Gemma 4 E4B (self-hosted/Ollama) — added 2026-04-05
 - [ ] Claude API (Anthropic) — approved 2026-02-01
 - [ ] OpenAI API — approved 2026-02-01
-- [ ] Z.ai GLM-5 — approved 2026-02-12 (short recertification: 2026-05-12)
-- [ ] RunPod — not yet in approved-ai-tools.md (add before first cloud run)
+- [ ] Z[.]ai GLM-5 — PROHIBITED (Chinese API endpoint ban, §14.6.9)
+- [ ] RunPod — now listed in approved-ai-tools.md
 
 **RunPod needs a policy entry before you spend any money there.**
 Add it to `approved-ai-tools.md` under a new "Cloud GPU Rental" category
@@ -183,8 +187,8 @@ Build a self-contained ML benchmark suite that:
   Auth: ANTHROPIC_API_KEY env var
 - OpenAI (model: gpt-4o-mini for benchmarking — cheapest capable model)
   Auth: OPENAI_API_KEY env var
-- Z.ai GLM-5 (OpenAI-compatible endpoint)
-  Auth: ZAI_API_KEY env var, base URL: https://api.z.ai/v1
+- Z[.]ai GLM-5 is prohibited and must not be implemented.
+  Auth/base URL guidance removed due to prohibition status.
 
 **Cloud GPU (second/minute-billed — counts against $20 cap):**
 - RunPod: Gemma 4 26B A4B (only if E4B local latency > 2000ms p95)
@@ -215,7 +219,7 @@ Create `budget/spend_tracker.py`:
       input: $3.00/1M tokens, output: $15.00/1M tokens
   - OpenAI gpt-4o-mini:
       input: $0.15/1M tokens, output: $0.60/1M tokens
-  - Z.ai GLM-5: estimate same as gpt-4o-mini until verified
+  - Z[.]ai GLM-5: prohibited by policy; no cost model maintained
   - RunPod RTX 4090: $0.34/hr = $0.000094/second
     Estimate: model_load_time(120s) + inference_time before calling
 

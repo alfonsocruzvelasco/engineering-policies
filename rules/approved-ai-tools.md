@@ -69,7 +69,7 @@ This credit covers: Claude Agent SDK, claude -p, Claude Code GitHub Actions, thi
 
 Credit is non-rollover. When exhausted, programmatic usage pauses until reset unless pay-as-you-go extra usage billing is enabled. Activation required: claim credit via email notification on June 8 2026.
 
-**Spend cap policy (unchanged):** $20/month combined hard cap across all cloud AI spend remains in force. On Pro, the Agent SDK credit IS the $20 cap — do not enable pay-as-you-go extra usage billing, which would allow charges beyond the cap at standard API rates. Exit code 2 on cap hit (see budget_guard.py spec).
+**Spend cap policy (active):** $20/month combined cloud AI spend cap remains in force. On Pro, the Agent SDK credit IS the $20 cap. Keep pay-as-you-go extra usage billing disabled to avoid any charges beyond the cap.
 
 **OpenClaw — prohibition unchanged:** OpenClaw is now technically permitted via Agent SDK credits per Anthropic's May 2026 reversal. The prohibition in this repo is NOT a billing restriction — it is a security prohibition: credential harvesting via `openclaw models auth login --provider anthropic --method cli --set-default` and prompt injection via social engineering bypass (see security-policy.md and April 2026 OpenClaw social engineering incident). OpenClaw remains prohibited regardless of billing status.
 
@@ -96,11 +96,10 @@ No agent tool may be approved without completing all three:
 1. For tasks requiring >200K context tokens: verify the selected model supports the required context length before starting the session. For Chinese-hosted or non-US-origin model API endpoints (e.g. GLM family, Zhipu AI), see `security-policy.md` §14.6.9 for authoritative prohibition language and enforcement scope.
    Source: [glm-5.2-architecture-jun2026]
 2. For unattended agentic runs (loops, scheduled automations, subagents operating without human in the loop):
-   - Prefer Claude Opus 4.5 (ASR 0.5% — most robust model tested)
-   - Acceptable: Claude Sonnet 4.5 (ASR 1.0%), Claude Haiku 4.5 (ASR 1.3%)
+   - Follow active price-capped tiers in `rules/model-registry.md`.
+   - Do not bypass tiers for unattended runs.
    - Model capability does not predict robustness. Do not assume a more capable model is more secure against injection. [ipi-arena-2026]
-   - Tool use agents are more vulnerable than coding agents (4.82% vs 2.51%). For tool-heavy unattended loops, use Opus regardless of cost. [ipi-arena-2026]
-   - Opus 4.5 (ASR 0.5%) is the required model for unattended agentic runs based on IPI Arena 2026 data. If Opus 4.6 is used instead, document explicit rationale — no robustness equivalence has been established between 4.5 and 4.6 for injection resistance. [ipi-arena-2026]
+   - Tool use agents are more vulnerable than coding agents (4.82% vs 2.51%). Use stricter human review, not tier bypass, for unattended loops. [ipi-arena-2026]
 
 **Model status additions (July 2026):**
 
@@ -119,10 +118,9 @@ No agent tool may be approved without completing all three:
            [artificialanalysis-fable5-jul2026]
   Source: [artificialanalysis-jul2026]
 
-- `gpt-5.6-sol`: APPROVED (hard tasks, API only)
-  Intelligence Index score: 59. Use when Sonnet 5 is insufficient and
-  Fable 5 is unavailable. No injection ASR data yet — treat as Opus 4.5
-  posture for unattended runs until benchmarked.
+- `gpt-5.6-sol`: APPROVED (reference only, not active in current price-capped tiers)
+  Intelligence Index score: 59. Keep available for future tier updates;
+  do not use while current price-capped policy is active.
   Source: [artificialanalysis-jul2026]
 
 - `MiniMax-M3`: PROHIBITED — Chinese-hosted infrastructure (Shanghai).
@@ -155,7 +153,7 @@ No agent tool may be approved without completing all three:
   In Cursor subscription: token-free — no API cost.
   Fastest model in this stack. Prefer for time-sensitive
   daily tasks where throughput matters.
-  Injection ASR: not yet benchmarked — treat as Opus 4.5 posture
+  Injection ASR: not yet benchmarked — treat as high-risk for unattended
   for unattended runs until IPI Arena data available.
   Routing bias risk: Cursor has financial incentive to default to
   Grok post-acquisition. Verify model selection explicitly each
@@ -459,7 +457,7 @@ Source: https://ccusage.com / https://github.com/ryoppippi/ccusage
 
 Approved because:
 - Local data only — no cloud upload
-- Fills the spend metering gap pending budget_guard.py
+- Complements spend visibility under the current price-capped policy
 - MIT licensed, open source, auditable
 - Supports Claude Code, Codex VS Code extension,
   and Gemini CLI — all tools in active use or
@@ -475,8 +473,8 @@ Usage constraints:
   this does not affect the OpenClaw prohibition,
   which covers use of OpenClaw, not tools that
   read its log format
-- When budget_guard.py is implemented, ccusage
-  output can serve as the metering input
+- Use ccusage as visibility telemetry only; pricing authority remains
+  the active tiers in `rules/model-registry.md`
 - Built on Vite toolchain (now under Cloudflare/VoidZero stewardship since June 4 2026). Re-pin to a verified version after any upstream Rolldown or Oxc release. See dependency-install-policy.md supply chain centralisation section.
 
 ---
@@ -837,9 +835,7 @@ $20/month combined hard cap across all cloud AI
 spend (RunPod + Anthropic API). RunPod GPU hours
 draw from the same cap. RTX 4090 at $0.34/hr =
 ~58 hours/month at cap. A100 at $0.89/hr = ~22
-hours/month at cap. Run `npx ccusage@latest monthly`
-before each RunPod session to check remaining budget.
-Exit code 2 on cap hit (see budget_guard.py spec).
+hours/month at cap.
 
 **Security constraints (mandatory):**
 - No production data, credentials, API keys, or
@@ -861,12 +857,11 @@ Exit code 2 on cap hit (see budget_guard.py spec).
   — do not leave pods running idle
 
 **Workflow:**
-1. Check monthly spend: `npx ccusage@latest monthly`
-2. Spin up pod with minimal required GPU
-3. Train / benchmark / evaluate
-4. Download artefacts to ~/dev/models/<project>/
-5. Terminate pod immediately
-6. Verify termination in RunPod console
+1. Spin up pod with minimal required GPU
+2. Train / benchmark / evaluate
+3. Download artefacts to ~/dev/models/<project>/
+4. Terminate pod immediately
+5. Verify termination in RunPod console
 
 ---
 

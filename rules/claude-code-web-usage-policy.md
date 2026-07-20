@@ -120,8 +120,7 @@ Restrictions under this policy:
   exhaust the $20/month Pro Agent SDK credit
   rapidly. Do NOT enable `ultracode` or invoke
   dynamic workflows without first scoping the task
-  and estimating token cost via ccusage. Exit code
-  2 on cap hit (see budget_guard.py spec).
+  and estimating token cost via ccusage.
 - Do not enable auto-approve (`ultracode`) for
   any task touching credentials, production data,
   or infra configs — parallel subagents at xhigh
