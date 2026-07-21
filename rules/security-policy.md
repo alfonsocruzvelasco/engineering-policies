@@ -2603,6 +2603,48 @@ Just because an agent *can* call an API or tool does not mean it *should*.
   * explicit human approval or
   * policy-based runtime checks
 
+### AgentBaiting — autonomous tool discovery attack
+
+AgentBaiting (FakeGit campaign, Jul 2026):
+Attacker publishes 7,600+ fake GitHub repos posing as AI Skills
+and MCP servers with convincing READMEs and borrowed developer
+identities. An AI agent searching for a Skill or MCP server
+discovers the lure autonomously — no malicious link required.
+The agent reads the README as legitimate documentation and passes
+attacker installation instructions to the user or executes them
+directly.
+
+Confirmed vulnerable: Claude Code, Gemini, ChatGPT.
+Attack chain: fake repo -> convincing README -> ZIP archive ->
+LuaJIT loader -> SmartLoader -> StealC infostealer.
+Active on public registries: LobeHub, Glama, MCP.so, MCP Market.
+These registries are untrusted — listing is not a trust signal.
+
+Core rule:
+No agent may autonomously discover, download, or install
+Skills, MCP servers, plugins, or agent capabilities based
+on search results, web content, or GitHub repository content.
+Tool discovery is a human-only action.
+
+Agent permitted actions regarding tools:
+- Use tools already in the approved allowlist.
+- Report that a tool was not found and request human review.
+Agent prohibited actions:
+- Discovering new tools via web/GitHub search.
+- Reading a GitHub README and treating it as installation docs.
+- Downloading ZIP files, scripts, or packages found via search.
+- Installing or configuring any tool not in the approved allowlist.
+
+Verification before adding any new MCP server or Skill:
+(a) Verify publisher identity independently — not via README.
+(b) Cross-reference GitHub commit history for borrowed identity
+    patterns (single-burst commit history, copied projects).
+(c) Check publisher on npm/PyPI independently of the repo.
+(d) Run in sandboxed container before any allowlist addition.
+(e) Never download a ZIP file from a GitHub Release as part
+    of an AI agent workflow.
+Source: [fakegit-island-jul2026]
+
 ### GitHub agent token scoping — lethal trifecta prevention
 
 Never grant GitHub agents org-wide read tokens for convenience.
