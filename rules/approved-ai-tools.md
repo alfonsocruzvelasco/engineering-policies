@@ -435,6 +435,12 @@ Do not use. Chinese-hosted. §14.6.9.
 - MUST install only from **Anthropic-documented** distribution (official npm/install path). MUST NOT install from unofficial GitHub forks, "leaked source" builds, or unverified mirrors (npm packaging / fake-repo lures — [`security-policy.md`](security-policy.md) §9.4, April 2026).
 - **MCP server installation policy (updated 2026-04-22):**
 MCP servers MUST only be installed from the official GitHub MCP Registry. Community marketplaces including mcp.so and any non-official registry are prohibited — 9 out of 11 tested community registries accepted malicious MCP servers in the April 2026 OX Security disclosure. No agent session may write to, modify, or self-configure its own MCP config files. See security-policy.md for full MCP STDIO vulnerability mitigations.
+Public MCP registries are active attack surfaces (Jul 2026):
+LobeHub, Glama, MCP.so, MCP Market all contain confirmed
+FakeGit campaign listings. A tool appearing on these registries
+is NOT a trust signal. Apply full verification procedure
+(see security-policy.md Part 2 §AgentBaiting) before adding
+any tool from these sources to the allowlist.
 
 **Minimum safe version (repo-config RCE/key-exfil):**
 - Claude Code MUST be kept at or above vendor-fixed versions for known repo-level config vulnerabilities (see security-policy.md Section 19 PI-7.1).
