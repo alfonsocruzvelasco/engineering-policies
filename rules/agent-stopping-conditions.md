@@ -115,6 +115,38 @@ Source: [osmani-software-factories-jul2026]
 
 ---
 
+## External fail-closed stopping for evaluation runs (mandatory)
+
+For benchmark, red-team, unrestricted-capability, or reduced-refusal
+evaluation runs, monitoring and enforcement MUST be external to the
+evaluated agent and MUST be able to terminate the run without the
+agent's cooperation.
+
+STOP immediately if any of the following is observed in network logs,
+tool/audit logs, host telemetry, or runtime policy alerts:
+- Unexpected or unauthorized outbound network access.
+- Attempts to bypass egress controls or use undeclared proxy/cache paths.
+- Exploitation attempts against sandbox, proxy, cache, orchestrator, or host.
+- Privilege escalation attempts or successful elevation events.
+- Credential discovery, access, extraction, reuse, or token replay.
+- Lateral movement indicators across services, hosts, or trust domains.
+- Persistence attempts (new startup hooks, scheduled tasks, hidden agents).
+- Access attempts to benchmark answers, hidden tests, scoring systems,
+  non-assigned evaluation datasets, or benchmark-host production systems.
+- Interactions with infrastructure outside the declared evaluation boundary.
+- Attempts to disable, evade, corrupt, or overwhelm monitoring.
+- Unexplained high-volume, long-horizon, or swarm-like autonomous activity.
+- Any state where blast radius is no longer confidently bounded.
+
+Mandatory response sequence:
+1. Stop the run immediately.
+2. Preserve logs and volatile evidence.
+3. Revoke the run identity and reachable credentials.
+4. Quarantine affected resources.
+5. Assume the environment is compromised until investigated.
+6. Rebuild compromised nodes rather than trusting cleanup alone.
+7. Resume only after human security review.
+
 ## Agent–microservices resilience (mandatory for agent-exposed APIs)
 
 **Source:** Vineet Bhatkoti, *AI Agents Expose a Design Gap in Microservices Resilience Architecture* (DZone, 2026) — [`references/ai-agents-microservices-resilience-gap.pdf`](references/ai-agents-microservices-resilience-gap.pdf). Microservices resilience patterns calibrated for bounded human callers do not hold for non-deterministic agent sessions at scale; extend existing mesh/gateway controls with an **agent-awareness layer** — do not replace them.
