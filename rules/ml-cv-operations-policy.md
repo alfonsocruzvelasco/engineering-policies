@@ -564,6 +564,35 @@ shap.plots.waterfall(shap_values[0])
 - **Accuracy degradation:** Check data drift, model version, preprocessing
 - **Inconsistent results:** Check random seeds, model version, preprocessing
 
+OpenCV 5.0 DNN engine guidance (GPU-critical):
+Two engines are now available:
+
+New engine (default from OpenCV 5.0):
+- 80%+ ONNX operator coverage (up from 22% in OpenCV 4.x)
+- Supports dynamic shapes, transformer attention, quantized ops
+- CPU-ONLY at launch. No CUDA support yet.
+- Use for: ONNX model prototyping, CPU inference paths
+
+Classic engine (required for GPU work):
+- Retains full CUDA and OpenVINO support
+- Use for: any inference path using your RTX 4070
+- Must be pinned explicitly (ENGINE_CLASSIC + CUDA backend/target):
+```python
+net = cv2.dnn.readNetFromONNX("model.onnx")
+net.setPreferableBackend(cv2.dnn.DNN_BACKEND_CUDA)
+net.setPreferableTarget(cv2.dnn.DNN_TARGET_CUDA)
+```
+- Do not assume default engine uses CUDA. Verify with:
+```python
+print(net.getPreferableBackend())
+```
+
+CPU benchmark: ~27% faster YOLOv8 inference vs OpenCV 4.x.
+GPU parity with classic engine: expected in a follow-up 5.x
+release. No committed date.
+
+Source: [opencv5-release-jun2026]
+
 **Debugging workflow:**
 1. Reproduce issue (capture inputs, outputs, logs)
 2. Isolate cause (model, preprocessing, data, hardware)
