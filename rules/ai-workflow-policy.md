@@ -448,7 +448,37 @@ This prevents "AI churn" and maintains control.
 | **4. Verify** | Run the specified tests. Write a short checkpoint note summarising what changed. After any refactoring step, sync changes back to the spec file before committing — the spec must remain an accurate record of the current code, not the code as it was first generated. (See rules/references/spdd-martinfowler-2026.md) | Checkpoints arrest context poisoning by resetting the context window for the next step. |
 | **5. Stop or continue** | Start the next step from the checkpoint. Stop when the next step is no longer clearly higher-value than its token cost. | This is the stopping rule from the Stochastic Scheduling principle — do not continue when marginal gains are negative. |
 
+Design-first rule (before code generation on non-trivial
+components):
+Before asking an agent to generate code for any new component,
+interface, or data flow, produce a design artifact first:
+component sketch, interface definition, or data flow description.
+This is not the PRD gate (which triggers at >2 hours). This
+applies per component, regardless of session length.
+
+The implementation trap: AI collapses design decisions silently
+into code. The first time you see the AI's design thinking is
+when reading the output — the most expensive moment to discover
+a disagreement. A two-minute design sketch before generation
+avoids a twenty-minute code review untangling invisible decisions.
+
+Pattern: understand -> clarify -> design -> validate -> then code.
+Source: [thoughtworks-design-first-2026]
+
 **Rule:** No coding without a plan for tasks spanning multiple files or requiring architectural decisions.
+
+Control flow rule for critical work (Factor 8, Horthy 2025):
+For any agent loop with blast radius beyond a single file, or
+expected duration beyond 10 steps, prefer an explicit control
+flow graph over an open-ended tool-calling loop.
+Define nodes (discrete steps) and edges (explicit conditions)
+before the loop starts. The agent's autonomy is constrained to
+inside a node; it cannot wander between paths you did not
+sanction.
+"Mostly deterministic code, with LLM steps sprinkled in at just
+the right points" is the target pattern for production-grade
+agentic work.
+Source: [12-factor-agents-horthy-2025]
 
 **Context discipline:** After each milestone, collapse state into a short written checkpoint in the repository or task file. Begin the next episode from that artifact, not from the conversation history. **Put state in files, not in the conversation.**
 
@@ -1854,6 +1884,24 @@ loss of understanding. The distinction between individual
 cognitive debt and codebase-level comprehension debt is used
 here as an internal taxonomy. Neither term is yet standardised
 across the field.
+
+### Intent debt
+
+Intent debt (Storey, 2026): the accumulated cost of failing to
+externalize the goals, constraints, design rationale, and system
+theory that both human developers and AI agents need to work
+safely with a codebase. AI tools can generate code that passes
+tests but violates constraints they were never told about.
+
+Prevention mechanism: SKILL.md files, PRD gates, and OpenSpec
+documents are this policy corpus's intent externalization layer.
+Every SKILL.md is a payment on intent debt before it accumulates.
+Every PRD gate prevents intent debt from being incurred silently.
+
+Source: [storey-triple-debt-2026]
+Empirical basis: [metr-rct-2025] — AI tools increased completion
+time by 19% for experienced developers on mature codebases,
+consistent with intent debt and cognitive debt effects.
 Source: [osmani-software-factories-jul2026]
 
 ---
