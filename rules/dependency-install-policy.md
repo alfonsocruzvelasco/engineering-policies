@@ -32,6 +32,23 @@ scope: Mandatory discipline for installing npm and Python (pip/uv/Poetry) depend
 6. **Require install-time provenance verification in CI (npm)** — CI npm installs must run with signature verification enabled (`npm audit signatures`) or under a policy that requires SLSA provenance attestations. Any package published without provenance must be treated as untrusted regardless of source. Generating provenance on CI publishes is not sufficient; provenance must be required on install, too.
 7. **Revoke contributor package/repo publish access on offboarding** — When a contributor leaves a project or organisation, revoke their npm scope access, GitHub repository access, and any token-based publish rights immediately. Dormant accounts with scope access are a supply chain attack surface. Audit contributor access on the same cadence as dependency security reviews.
 
+### Evaluation runtime dependency boundary (mandatory)
+
+For high-capability evaluation workloads, dependency access is part of
+the security boundary, not a convenience feature.
+
+- An environment is NOT network-isolated if it can reach package
+  registries, dependency proxies, caches, artifact stores, metadata
+  services, or shared control planes.
+- Every permitted dependency service MUST be treated as possible
+  escape path, code-delivery path, credential target, command-and-control
+  channel, and trust-domain pivot.
+- High-capability evaluations SHOULD prefer prebuilt, pinned, immutable
+  dependencies over runtime installation.
+- If runtime dependency access is required, it MUST use explicit
+  allowlists, strict authentication, minimal response scope, complete
+  logging, and no path to arbitrary Internet access.
+
 **Also mandatory (npm):** Block lifecycle scripts by default (`ignore-scripts` / §9.4). **Also mandatory:** SCA on dependency changes where the repo uses that stack (`npm audit`, `pip-audit` / `safety`) per [`security-policy.md`](security-policy.md) §9.3 and team CI policy.
 
 **Cloudflare/VoidZero acquisition — JS build toolchain centralisation risk (June 4 2026):**
