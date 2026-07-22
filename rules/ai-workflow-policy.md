@@ -1781,6 +1781,29 @@ The engineering "contract" expands from "deliver feature" to:
 - **Orchestration Tax:** running parallel agents beyond your review bandwidth. Trigger: more open agent sessions than you can verify before EOD.
   [osmani-outer-loop-jul2026]
 
+### Light vs. dark factory (Osmani, Jul 2026)
+
+A loop runs LIGHT when a human reads what comes out before it
+ships. It runs DARK when code ships verified only by machines.
+
+### Back pressure rule (governing principle)
+
+You can only hand a loop as much autonomy as you can cheaply
+and reliably verify — and not one inch more. Verification, not
+generation, is the real constraint. Speeding up generation
+without widening the verification gate just deepens the pile.
+
+### Comprehension debt
+
+The widening gap between how much code exists and how much any
+human still understands. Distinct from cognitive debt (individual
+engineer's loss of understanding). A dark factory accumulates
+comprehension debt with tests green the whole way. Undetected
+until the reckoning, which arrives quietly and late.
+Mitigation: keep loops short, read diffs, move judgment upstream
+to design and architecture before the agent starts a loop.
+Source: [osmani-software-factories-jul2026]
+
 ---
 
 ## Verification-First Mindset
