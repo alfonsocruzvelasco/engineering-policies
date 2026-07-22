@@ -1818,6 +1818,12 @@ The engineering "contract" expands from "deliver feature" to:
 
 - **Cognitive Surrender:** accepting agent output without verification. Trigger: shipping without running tests or reading the diff.
 - **Cognitive Debt:** delegating reasoning you need to understand. Trigger: agent produces code you cannot explain at the function level.
+  Terminology note: 'comprehension debt' follows Osmani (2026);
+  'cognitive debt' follows Storey's usage for shared team-level
+  loss of understanding. The distinction between individual
+  cognitive debt and codebase-level comprehension debt is used
+  here as an internal taxonomy. Neither term is yet standardised
+  across the field.
 - **Orchestration Tax:** running parallel agents beyond your review bandwidth. Trigger: more open agent sessions than you can verify before EOD.
   [osmani-outer-loop-jul2026]
 
@@ -1842,6 +1848,12 @@ comprehension debt with tests green the whole way. Undetected
 until the reckoning, which arrives quietly and late.
 Mitigation: keep loops short, read diffs, move judgment upstream
 to design and architecture before the agent starts a loop.
+Terminology note: 'comprehension debt' follows Osmani (2026);
+'cognitive debt' follows Storey's usage for shared team-level
+loss of understanding. The distinction between individual
+cognitive debt and codebase-level comprehension debt is used
+here as an internal taxonomy. Neither term is yet standardised
+across the field.
 Source: [osmani-software-factories-jul2026]
 
 ---

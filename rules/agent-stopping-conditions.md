@@ -91,18 +91,32 @@ ONLY when ALL of the following are true:
     negligible cost. Type gates, property tests, lint rules,
     green/red test suites all qualify.
 (b) Oracle cannot be easily faked. Tests that pass on bad code
-    by coincidence do not qualify. Rubric-based review agents
-    with explicit criteria do.
+    by coincidence do not qualify. A review agent with a rubric
+    is insufficient for critical work: generator and reviewer can
+    share the same errors and assumptions. For lights-out
+    eligibility on critical loops, require independent
+    verification: type system enforcement, property tests,
+    invariant checks, regression test suite, static analysis,
+    sandbox execution, observability coverage, and a proven
+    rollback path. Only where all of these exist can a review
+    agent serve as a supplementary gate, not a primary one.
 (c) Oracle answers immediately. Checks that require human
     architectural judgment do not qualify.
-(d) Loop is short: 3–10 agent steps maximum. Past 20 steps,
-    context accumulation causes agents to lose the thread
-    regardless of model quality. Short loops hide fewer mistakes.
+(d) Loop is short: 3–10 agent steps is a useful starting point
+    (HumanLayer rule of thumb). Past 20 steps, context
+    accumulation frequently causes loss of coherence. The real
+    limit depends on model, context window, tool set, and task
+    structure. Calibrate empirically for each loop type; do not
+    treat these as universal ceilings.
 (e) Blast radius is bounded. A wrong answer must not break auth,
     billing, a public API contract, or any system that requires
     more than one PR to fix.
 (f) "Done" can be proved by a machine, not just the agent's
     self-assessment.
+(g) Reversibility is proven: a fast, tested rollback path
+    exists for the change. Bounded blast radius is necessary but
+    not sufficient — the change must also be undoable quickly
+    without manual reconstruction.
 
 If any condition is unmet: keep the lights on. Human reads the
 diff before it ships.
