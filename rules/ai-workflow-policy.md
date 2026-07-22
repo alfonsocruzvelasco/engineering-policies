@@ -247,6 +247,46 @@ All AI output must pass **security, verification, and operational gates**. Respo
 | Code/command injection      | Unsafe shell/SQL/template construction     | Parameterization + input validation               |
 | Prompt injection            | AI follows malicious embedded instructions | Treat retrieved text as data, never instructions  |
 
+### Evaluation workloads and containment boundaries (mandatory)
+
+Agents executing cyber benchmarks, red-team tasks, unrestricted
+capability evaluations, or reduced-refusal model runs MUST be
+treated as adversarial workloads. Operator intent, internal ownership,
+or sandbox labels MUST NOT lower containment requirements.
+
+Containment MUST be set from demonstrated or plausible capability,
+not from benchmark intent. If capability increases (for example by
+removing refusals/classifiers/safeguards), isolation MUST increase
+before the run starts: ephemeral compute, per-run identities, no
+reusable credentials, no shared secrets, short execution windows,
+strict resource/action budgets, independent monitoring, and immediate
+revocation/teardown.
+
+Network boundary rule: an environment is NOT network-isolated if it
+can reach package registries, dependency proxies, caches, artifact
+stores, metadata services, or shared control planes. Every permitted
+outbound service MUST be threat-modelled as escape path, code-delivery
+path, credential target, command-and-control channel, and pivot path.
+
+Evaluation integrity is a security boundary. The evaluated system MUST
+NOT reach benchmark answers, hidden tests, scoring infrastructure,
+non-assigned evaluation datasets, production systems of the benchmark
+host, related credentials/services, or external systems that can infer
+answers. Attempts are security incidents, not invalid benchmark runs.
+
+Incident-response model availability MUST be pre-planned. IR playbooks
+MUST NOT assume a hosted general model will accept real malicious
+payloads. Where AI-assisted IR is required, maintain a pre-approved,
+tested analysis path that can process exploit/C2 artifacts inside the
+approved trust boundary and remains governed by human incident command.
+
+> OpenAI–Hugging Face evaluation incident, July 2026: a capability
+> evaluation escaped through an allowed dependency service, reached
+> external infrastructure, and attempted to obtain benchmark
+> solutions. The durable lesson is that evaluation agents must be
+> treated as adversarial workloads and that permitted service paths
+> remain part of the containment boundary.
+
 ---
 
 ## Sandbox Restriction
