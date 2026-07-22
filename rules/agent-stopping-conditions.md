@@ -82,6 +82,39 @@ scope: Runtime bounds, timeouts, clean termination, and incident signaling for a
 
 ---
 
+## Lights-out eligibility — what earns a loop the dark
+
+A loop may run fully automated (unattended, no human review)
+ONLY when ALL of the following are true:
+
+(a) Check is cheap: oracle runs at high frequency with
+    negligible cost. Type gates, property tests, lint rules,
+    green/red test suites all qualify.
+(b) Oracle cannot be easily faked. Tests that pass on bad code
+    by coincidence do not qualify. Rubric-based review agents
+    with explicit criteria do.
+(c) Oracle answers immediately. Checks that require human
+    architectural judgment do not qualify.
+(d) Loop is short: 3–10 agent steps maximum. Past 20 steps,
+    context accumulation causes agents to lose the thread
+    regardless of model quality. Short loops hide fewer mistakes.
+(e) Blast radius is bounded. A wrong answer must not break auth,
+    billing, a public API contract, or any system that requires
+    more than one PR to fix.
+(f) "Done" can be proved by a machine, not just the agent's
+    self-assessment.
+
+If any condition is unmet: keep the lights on. Human reads the
+diff before it ships.
+
+Nightly lint/anti-pattern fix loops (Dex's example): eligible.
+Architecture decisions, complex multi-file refactors, auth
+changes, public API changes: never eligible.
+Source: [osmani-software-factories-jul2026]
+        [humanlayer-12-factor-agents-dex]
+
+---
+
 ## Agent–microservices resilience (mandatory for agent-exposed APIs)
 
 **Source:** Vineet Bhatkoti, *AI Agents Expose a Design Gap in Microservices Resilience Architecture* (DZone, 2026) — [`references/ai-agents-microservices-resilience-gap.pdf`](references/ai-agents-microservices-resilience-gap.pdf). Microservices resilience patterns calibrated for bounded human callers do not hold for non-deterministic agent sessions at scale; extend existing mesh/gateway controls with an **agent-awareness layer** — do not replace them.
