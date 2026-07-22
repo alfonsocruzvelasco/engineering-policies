@@ -2009,6 +2009,23 @@ mvn test jacoco:report
 - Coverage must not decrease by > 2% (blocking)
 - GPU tests must pass (non-blocking, informational)
 
+Static analysis is mandatory for AI-generated commits, not
+optional. Empirical basis: 22.7% of AI-introduced code issues
+survive at the latest repository version; 15%+ of commits from
+every major AI coding assistant introduce at least one issue;
+code smells account for 89.3% of AI-introduced issues.
+
+AI tools reduce technical debt in isolated tasks while
+simultaneously accelerating cognitive and intent debt
+accumulation at the codebase level. Static analysis is the
+primary automated check that catches AI-introduced debt
+before it enters the codebase.
+
+Gate: static analysis MUST pass before any AI-generated commit
+is merged. This is not a code review supplement — it is a
+pre-merge hard gate, equivalent to the test suite gate.
+Source: [liu-debt-behind-ai-boom-2026] [storey-triple-debt-2026]
+
 ---
 
 #### Continuous Improvement
