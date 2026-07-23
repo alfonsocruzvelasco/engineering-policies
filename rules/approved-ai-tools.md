@@ -123,6 +123,21 @@ No agent tool may be approved without completing all three:
   do not use while current price-capped policy is active.
   Source: [artificialanalysis-jul2026]
 
+- `Laguna S 2.1 (poolside)`: CANDIDATE (not yet tier-assigned)
+  Params: 118B total / 8B active (MoE), open weights (OpenMDW-1.1).
+  Context: 1M tokens (thinking + no-thinking modes).
+  Access: API only — OpenRouter free tier (256K context) / paid
+  $0.10 input, $0.20 output, $0.01 cache-read per 1M tokens
+  for 1M-context sessions.
+  Local viability: NOT viable on RTX 4070. Smallest quant
+  (Q4_K_M) is ~75.2GB. Minimum viable hardware is DGX Spark
+  (128GB unified memory) as verified 2026-07-23.
+  Benchmarks: Terminal-Bench 2.1 70.2 | DeepSWE v1.1 40.4 |
+  SWE-Bench Multilingual 78.5.
+  Origin: US-based (poolside). §14.6.9 Chinese endpoint ban: N/A.
+  Source: [source-poolside-blog-2026-07-21]
+          [source-huggingface-poolside-laguna-s-2.1-gguf]
+
 - `MiniMax-M3`: PROHIBITED — Chinese-hosted infrastructure (Shanghai).
   Data sovereignty violation. Score 44 open weights.
   Authority: `security-policy.md` §14.6.9
