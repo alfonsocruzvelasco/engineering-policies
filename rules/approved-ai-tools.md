@@ -103,20 +103,17 @@ No agent tool may be approved without completing all three:
 
 **Model status additions (July 2026):**
 
-- `claude-fable-5`: CONDITIONAL
-  Ultra-hard tasks only. Intelligence Index score: 60 (vs Opus 4.8: 56).
-  Currently highest-ranked model. Subscription availability unconfirmed —
-  verify before use. Fallback: `claude-opus-4-8`.
-  Pricing: $10/MTok input · $50/MTok output (Anthropic API)
-  Throughput: ~60–69 TPS · TTFT: ~55s
-  Cost gate: MANDATORY before any Fable 5 session —
-    estimate output tokens × $0.00005 per token.
-    A 100K-token output session costs ~$5 in output alone.
-    Use only when Opus 4.8 has demonstrably failed the task.
-    Document justification in session ADR.
-  Source: [anthropic-fable5-pricing-jul2026]
+- `claude-fable-5`: UNAVAILABLE under active price-cap policy
+  Effective 2026-07-20, access moved to usage-credits-only and is
+  no longer covered by subscription limits.
+  Enforcement mechanism: usage credits are NOT enabled and no payment
+  method is on file. This is the control, not a manual operator rule.
+  Do NOT claim the one-time $100 usage credit (expires 2026-09-17):
+  claiming requires enabling usage credits plus a payment method, which
+  breaks the zero-exposure guarantee.
+  Reassess only if profile/budget policy changes.
+  Source: [source-anthropic-fable-mythos-notice-2026]
            [artificialanalysis-fable5-jul2026]
-  Source: [artificialanalysis-jul2026]
 
 - `gpt-5.6-sol`: APPROVED (reference only, not active in current price-capped tiers)
   Intelligence Index score: 59. Keep available for future tier updates;
@@ -192,7 +189,8 @@ Selection rules (price-capped, active policy):
   Sonnet 5 only if free models demonstrably fail the task
 - Hard tasks: claude-sonnet-5 (verify current price in model-registry.md)
 - Very hard tasks: claude-opus-4-8
-- Ultra-hard tasks: claude-fable-5 (documented justification required)
+- Ultra-hard tasks: no active model assigned while Fable 5 remains
+  usage-credits-only under current price-cap enforcement
 - Subagent/reads: claude-haiku-4-5 or gemini-2.5-flash-lite
 
 STATUS: Price-capped. Do not deviate from these tiers.

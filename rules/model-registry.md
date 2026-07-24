@@ -23,10 +23,12 @@ prices, scores, and availability.
 | Daily (free) | Grok 4.5 | ~44 | $0 Cursor sub | $0 | 80–112 | Cursor subscription |
 | Hard | claude-sonnet-5 | ~43 | $2→$3* | $10→$15* | TBD | platform.claude.com |
 | Very hard | claude-opus-4-8 | 56 | $5 | $25 | ~62 | platform.claude.com |
-| Ultra-hard | claude-fable-5 | 60 | $10 | $50 | 60–69 | platform.claude.com |
+| Ultra-hard | UNASSIGNED (Fable 5 unavailable) | — | — | — | — | approved-ai-tools.md |
 
 * Sonnet 5 steps up 2026-09-01. Budget at $3/$15, not $2/$10.
-  Ultra-hard (Fable 5) requires documented justification before use.
+  Ultra-hard tier is currently unassigned in active policy.
+  Fable 5 moved to usage-credits-only on 2026-07-20 and is unavailable
+  under current price-cap enforcement. See approved-ai-tools.md.
 
 ## TODO — dynamic selection protocol (future state, not active)
 
