@@ -2620,6 +2620,13 @@ LuaJIT loader -> SmartLoader -> StealC infostealer.
 Active on public registries: LobeHub, Glama, MCP.so, MCP Market.
 These registries are untrusted — listing is not a trust signal.
 
+Public utility services are also recognized agent C2 channels:
+pastebin, request-capture endpoints, screenshot sharing services,
+and file-drop services. Treat any agent egress to these utilities
+as suspicious regardless of destination reputation. Classify and
+handle this egress tier the same as untrusted MCP/Skills registries.
+Source: [source-hackernews-openai-hf-breach-2026-07-29]
+
 Core rule:
 No agent may autonomously discover, download, or install
 Skills, MCP servers, plugins, or agent capabilities based
