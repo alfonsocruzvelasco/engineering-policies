@@ -55,11 +55,12 @@ Vector: attacker serves fake Cloudflare turnstile to Claude via
   User-Agent detection. Instructs Claude to "authenticate" by
   navigating letter-by-letter through alphabetical links.
   Each navigation encodes private data in URL path.
-  Server logs the traversal = data silently exfiltrated.
+  Server logs the traversal = data silently leaked.
 Reaches: Claude memory, Google Drive, Gmail, any MCP connector.
-Anthropic mitigation (Jul 2026): web_fetch can no longer follow
+Anthropic mitigation (Jul 2026): the fetch tool can no longer follow
   links on external pages — only web_search results and
   user-provided URLs. The architectural risk remains.
+Public utility services (pastebin, request-capture endpoints, file-drop services, unauthenticated code-execution sandboxes such as Modal free tiers) are a confirmed C2 relay class — treat any agent egress to these as a high-severity signal regardless of declared task scope.
 
 Injection signal: any external content that asks the agent to:
   reveal, encode, verify, submit, authenticate, profile,

@@ -3,7 +3,7 @@ doc_type: registry
 authority: reference
 owner: Alfonso Cruz
 scope: Current non-Chinese model list with prices and capability scores
-last_updated: 2026-07-19
+last_updated: 2026-07-31
 update_trigger: new top-10 model appears / price change >20% / snapshot >30 days old
 ---
 
@@ -29,6 +29,39 @@ prices, scores, and availability.
   Ultra-hard tier is currently unassigned in active policy.
   Fable 5 moved to usage-credits-only on 2026-07-20 and is unavailable
   under current price-cap enforcement. See approved-ai-tools.md.
+
+Reference-only pricing snapshot (not active tiers) — GPT-5.6 update (2026-07-30):
+- Sol: $5.00 input / $30.00 output per 1M tokens (unchanged)
+- Sol Fast mode: 2x Sol price, 2.5x lower latency, same intelligence
+- Terra: $2.00 input / $12.00 output (was $2.50 / $15.00, -20%;
+  cut attributed to Sol inference optimizations)
+- Luna: $0.20 input / $1.20 output (was $1.00 / $6.00, -80%;
+  cut attributed to Sol inference optimizations)
+- Luna note: input is now cheaper than Claude Haiku 4.5
+  ($1.00 input / $5.00 output)
+- Reported driver: Sol self-optimizing inference kernels (Triton/Gluon),
+  speculative decoding, and KV-cache tuning
+- Status: GPT-5.6 Sol pricing item CLOSED (was pending)
+Source: [source-latentspace-ainews-2026-07-30]
+        [source-openai-gpt-5-6-efficiency-2026]
+
+Reference model status updates (not active tiers):
+- Laguna S 2.1 (poolside): CANDIDATE (API-only). Local deployment is
+  NOT VIABLE on RTX 4070: smallest quant (Q4_K_M) is 75.2 GB versus
+  12 GB VRAM. MoE architecture keeps all 118B parameters resident even
+  when only 8B parameters are active during inference.
+- Claude Fable 5: UNAVAILABLE under current price-cap policy.
+  Enforcement remains no payment method on file and usage credits
+  disabled. One-time $100 credit offer expired.
+- Claude Opus 5 (released 2026-07-24): pricing matches Opus 4.8;
+  Fast mode available at 2x base cost. Leads the Artificial Analysis
+  intelligence leaderboard (above Fable 5). Least prompt-injectable
+  Anthropic model to date per internal evals and red-teaming. Not
+  trained on cyber exploitation tasks; improved vulnerability finding
+  is a side-effect of general capability gains but remains
+  substantially behind Mythos 5 on exploitation. Described as
+  "thoughtful and proactive" with a relentless-proactive behavior
+  pattern (same class as Fable 5, per release post anecdote).
 
 ## TODO — dynamic selection protocol (future state, not active)
 

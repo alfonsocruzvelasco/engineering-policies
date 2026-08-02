@@ -115,10 +115,17 @@ No agent tool may be approved without completing all three:
   Source: [source-anthropic-fable-mythos-notice-2026]
            [artificialanalysis-fable5-jul2026]
 
-- `gpt-5.6-sol`: APPROVED (reference only, not active in current price-capped tiers)
-  Intelligence Index score: 59. Keep available for future tier updates;
-  do not use while current price-capped policy is active.
-  Source: [artificialanalysis-jul2026]
+- `gpt-5.6` (OpenAI family): APPROVED (reference only, not active in current price-capped tiers)
+  Sol (Intelligence Index 59): $5.00 input / $30.00 output per 1M tokens
+  (unchanged). Fast mode is 2x price for 2.5x lower latency.
+  Terra: $2.00 input / $12.00 output (was $2.50 / $15.00, -20%).
+  Luna: $0.20 input / $1.20 output (was $1.00 / $6.00, -80%).
+  Reported driver: Sol self-optimized inference kernels
+  (Triton/Gluon), speculative decoding, and KV-cache tuning.
+  Status: GPT-5.6 Sol pricing item CLOSED (was pending).
+  Do not use while current price-capped policy is active.
+  Source: [source-latentspace-ainews-2026-07-30]
+           [source-openai-gpt-5-6-efficiency-2026]
 
 - `Laguna S 2.1 (poolside)`: CANDIDATE (not yet tier-assigned)
   Params: 118B total / 8B active (MoE), open weights (OpenMDW-1.1).

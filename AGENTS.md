@@ -85,3 +85,25 @@ Before proposing actions over browsers, images, or UI, state what **observable r
 9. Any repo running agentic loops must define both layers of the harness explicitly before autonomous execution begins: (1) Skills — what the agent knows about the codebase architecture, conventions, and constraints, loaded as SKILL.md files; (2) PostHooks — automated checks that run after every agent action and verify output without relying on the agent's self-assessment. PostHooks must be reviewed and updated when the agent's capability level changes materially or when a task class is executed autonomously for the first time; a PostHooks layer that predates the current task class is not a valid harness. For Level 3+ agent runs, the pre-execution contract must include: Escalation: who gets involved and under what conditions when the agent is blocked, produces unexpected output, or exceeds scope. Budget: maximum token spend and maximum retry attempts for the task; the agent must stop and escalate if either limit is reached. An agent that cannot be checked by an external automated layer must not run autonomously. The harness, not the model, is what makes autonomous execution trustworthy.
 10. Stateless reducer rule (Factor 12, Horthy 2025): Each agent run MUST be deterministic and replayable given the same context. Agents MUST NOT depend on hidden state, in-memory assumptions, or side effects from a previous run. If a run cannot be replayed from its logged inputs and context, it does not meet lights-out eligibility requirements.
 11. Deferred: multi-agent schema validation. Trigger only when two or more agents in one pipeline read and write shared state (for example: detection, tracking, and fusion agents on one common schema). Single-agent pipelines are not in scope and MUST NOT implement this preemptively. When triggered, define shared invariants as Pydantic models with validators (not full OWL/RDF) before adding agent #2. This is Gate 2 output validation in the same control slot as the PostHooks co-evolution rule, scaled from single-agent output checks to cross-agent state integrity. Source: [source-latent-space-ontologies-so-back-2026-07-30]
+
+## Deterministic validation gates for agent writes
+
+Any agent pipeline that writes LLM output to a persistent store (vector DB, SQL table, file system, cache) must pass through a deterministic validation gate before the write. Probabilistic systems require deterministic boundaries.
+
+Trigger: applies whenever 2+ agents share state through a pipeline — extraction -> storage, generation -> cache, summarization -> index.
+
+Rules:
+
+1. Never use an LLM to validate another LLM's structured output. Two probabilistic models in series produce a confirmation bias loop, not a firewall. The validator will rationalize the extractor's hallucination rather than reject it (sycophancy failure pattern, documented in the wild).
+
+2. Treat LLM output as untrusted user input. Apply the same validation you would to an HTML form POST: Pydantic schema, bounds checks, and source grounding.
+
+3. Source grounding check (mandatory for any field extracted from a document): the extracted value must be verifiable in the raw source text. Example for year extraction — regex all `20\d{2}` patterns in the source; reject the payload if the LLM's extracted year is not present verbatim. A hallucinated value that is plausible but absent from the source must be rejected, not corrected.
+
+4. Reference table cross-validation (for entity fields): fuzzy-match LLM output against a hardcoded or DB-backed reference list. Set a minimum similarity threshold (>=95%). Use an LLM-supplied boolean flag (e.g. `is_external_entity`) to route legitimate out-of-scope entities away from the dead-letter queue rather than false-flagging them.
+
+5. Quarantine by default: nothing from the extraction/generation queue touches the vector DB or primary store directly. Stage all output in an intermediate table (PostgreSQL or equivalent). Only payloads that pass all deterministic gates are promoted to the store.
+
+6. Do not attempt to fix this with prompt engineering. "DO NOT HALLUCINATE", persona prompts, and uncertainty instructions cause overcorrection and increase API costs without solving the structural problem. Replace the validator LLM with code.
+
+Post-mortem reference: fintech RAG pipeline, 2026-07. LLM extractor hallucinated fiscal_year from an illegible PDF scan. LLM-as-judge validator rationalized the hallucination. High-confidence garbage embedded in vector store. Observability green throughout. Resolved by replacing the validator agent with Pydantic grounding + SQL fuzzy match. Result: data poisoning eliminated, API costs -50%.
