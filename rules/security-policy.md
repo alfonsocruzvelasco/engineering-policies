@@ -1492,6 +1492,19 @@ This section complements and extends:
 * Major changes MUST trigger developer retraining notification
 * Policy version MUST be referenced in all violation documentation
 
+**AI-driven vulnerability discovery has broken the traditional CVE rate:**
+As of mid-2026, NVD logged 46,872 CVEs in approximately 7 months — on pace
+to nearly double 2025's full-year total of 49,920. LLM agent harnesses are
+finding bugs faster than vendors can ship fixes. Google is responding by
+moving Chrome to two security releases per week and piloting dynamic patching
+(no browser restart required). CVE-2026-3545 (CVSS 9.6, Chrome Navigation
+sandbox escape, undetected for 13 years) was found by Google's own Gemini
+agent harness.
+
+Operational implication: patch cadence assumptions baked into policy before
+2026 are likely stale. Browser and runtime dependencies in particular should
+be treated as requiring weekly verification, not monthly.
+
 **Change Log:**
 
 | Date       | Version | Change Summary                                        | Author          |

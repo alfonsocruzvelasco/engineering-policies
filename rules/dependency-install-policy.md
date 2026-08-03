@@ -51,6 +51,28 @@ the security boundary, not a convenience feature.
 
 **Also mandatory (npm):** Block lifecycle scripts by default (`ignore-scripts` / §9.4). **Also mandatory:** SCA on dependency changes where the repo uses that stack (`npm audit`, `pip-audit` / `safety`) per [`security-policy.md`](security-policy.md) §9.3 and team CI policy.
 
+### HuggingFace Diffusers — model load is untrusted code execution
+
+`DiffusionPipeline.from_pretrained()` with any Hub repository must be
+treated as arbitrary code execution regardless of the `trust_remote_code`
+flag. Three TOCTOU flaws (CVE-2026-44827, CVE-2026-45804, CVE-2026-44513,
+collectively FaceHugger) allow attacker-controlled repos to bypass
+`trust_remote_code=False` by swapping content between the two non-atomic
+HTTP requests the loader makes, or by using a crafted pipeline filename
+(`None.py`). CVSS scores: 8.8, 7.5, 8.8.
+
+Fixed in diffusers>=0.38.0 (May 2026). Enforce this as a minimum version
+floor in any environment that loads Hub models.
+
+Additional controls:
+- Before calling from_pretrained on a local snapshot, inspect for unexpected
+  .py files under component subdirs (unet/, scheduler/, vae/, etc.) and at
+  the snapshot root.
+- Do not pass custom_pipeline= pointing at a Hub repo different from the
+  primary pretrained_model_name_or_path without reading its pipeline.py first.
+- Only load snapshots from repos that have been explicitly audited or pinned
+  to a known commit hash.
+
 **Cloudflare/VoidZero acquisition — JS build toolchain centralisation risk (June 4 2026):**
 Cloudflare acquired VoidZero (Vite, Rolldown, Oxc, Vitest) on June 4 2026. Vite has 130M weekly downloads. Rolldown and Oxc are now the default build toolchain for Vue, Nuxt, SvelteKit, Astro, React toolchains, and the majority of modern npm packages.
 
