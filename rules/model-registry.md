@@ -62,6 +62,30 @@ Reference model status updates (not active tiers):
   substantially behind Mythos 5 on exploitation. Described as
   "thoughtful and proactive" with a relentless-proactive behavior
   pattern (same class as Fable 5, per release post anecdote).
+- Meta Muse Spark 1.2 / Muse Code (released 2026-08-05):
+  CANDIDATE — UNAVAILABLE under current price-cap policy.
+  Enforcement: no payment method added in the Meta AI developer
+  portal and no usage credits enabled. Same posture as Fable 5.
+  Do not activate until pricing is public, confirmed, and assessed
+  against the price cap.
+  Architecture notes: terminal coding agent (Muse Code) co-trained
+  with its harness (same pattern as Claude Code / Sonnet 4.6);
+  persistent async background agents (session-long, not per-task);
+  append-only local event log (every model call, tool run, approval,
+  and edit recorded, replay-exact and restart-safe after crash);
+  long-horizon case study published at 1,000+ tool calls over 24
+  hours (kernel optimization workflow).
+  Positioning: direct competitor to Claude Code. Meta compares
+  against Opus 5, GPT-5.6 Terra, Gemini 3.6 Flash, and Grok 4.5.
+  Coding-focused update to Muse Spark 1.1 (July 2026).
+  Chinese model ban: not applicable (Meta is a US company).
+  Open source: NO — proprietary API only. "I'll have more to
+  share on that soon" in response to direct OSS question.
+  Local deployment: NOT VIABLE (API only).
+  Reassessment trigger: October 2026 checkpoint (same as
+  Cursor/SpaceXAI). Conditions: (1) pricing confirmed and within
+  price cap, and (2) open-source status resolved (weights
+  released = higher priority).
 
 ## TODO — dynamic selection protocol (future state, not active)
 
