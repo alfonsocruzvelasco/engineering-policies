@@ -534,6 +534,35 @@ Exception: security-exceptions.md EXCEPTION-TOKEN-001.
 
 ---
 
+#### Cloudflare OS
+**Released:** 2026-08-05
+**Status:** APPROVED — price-cap compliant
+**License:** Apache 2.0 (open source, self-hostable)
+**Repository:** https://github.com/cloudflare/cloudflare-os
+
+**Cost breakdown:**
+- Cloudflare OS platform: FREE (self-hosted on own infra or Cloudflare Workers free tier)
+- Cloudflare Workers free tier: sufficient for single-user personal/portfolio use — no cost
+- Cloudflare AI Gateway: free tier available, covers personal use
+- Cloudflare Zero Trust/Access: free up to 50 users — covers solo use
+- AI inference: governed by existing price-cap policy per model. Cloudflare OS adds zero additional inference cost — it routes to whichever provider/model is configured. Apply the same price-cap rules already in force.
+
+**Architecture (three components):**
+1. Agent workspace — browser-based, ephemeral, isolated per session. Grounded in organizational skill files (AGENTS.md-equivalent). Each session only has access to data explicitly introduced into it.
+2. Gatekeeper service — handles deterministic/recurring queries to systems of record without API key management. Scopes data access to the user's existing permissions. Burns zero tokens on stable, repeated queries (contrast with skill-file inference session which re-runs full context each time).
+3. AI Gateway — inference control plane: spend limits by role, DLP filtering, model routing (expensive frontier models for complex tasks; cheaper models for scheduled or deterministic runs). Audit log of all model calls.
+
+**Governance principles validated at scale:**
+- Permission scoping at the MCP/gatekeeper layer, not the model layer. Users never get more access via AI than they have directly.
+- Agent ownership: the creator owns output. Manager inherits on departure. (See agent-ownership rule in AGENTS.md.)
+- Skill files (context layer) matter more than model choice. An inferior model with correct organizational context outperforms a frontier model with none.
+- Inference budget routing: default scheduled/automated runs to the cheapest capable model. Reserve frontier models for tasks where the capability delta is measurable and confirmed.
+
+**Reassessment trigger:** none. Open source — no pricing risk.
+Monitor repository changes for gatekeeper API and MCP portal interface breakage before upgrading a self-hosted instance.
+
+---
+
 #### Codex on Amazon Bedrock (NOT APPROVED — evaluation pending)
 OpenAI coding agent available on Amazon Bedrock since April 28 2026 (limited preview). Accessible via Codex CLI, Codex desktop app, and VS Code extension. Authentication via AWS credentials; inference runs on Bedrock infrastructure.
 
