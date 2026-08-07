@@ -89,6 +89,107 @@ Before proposing actions over browsers, images, or UI, state what **observable r
 13. Human owns agent output — explicit: AI is a tool and toolmaker, not a team member. The human who deploys or runs an agent is responsible for defining quality, testing, and reviewing its output before any downstream action. This applies to scheduled runs, event-triggered agents, and agents shared with other users. Sharing an agent does not transfer the original owner's responsibility for its design — it creates joint responsibility for each run.
 14. Inference control plane (spend + model routing): Not every task justifies frontier model inference. Scheduled or mostly-deterministic agents should be routed to the most efficient model that meets the task requirements, not the most capable one available. Expensive models are for tasks where the capability delta is measurable. Automated/background runs default to the cheapest capable model. One-time human review of a routing decision is cheaper than recurring token burn on a workflow that stabilized weeks ago.
 
+## Agentic design — architecture decision framework
+
+Source: Ng (2024–2026) + Anthropic "Building Effective Agents" (2024).
+Independent synthesis, July 2026.
+
+### Architecture progression
+
+Not a mandatory ladder. Advance only when the current stage's
+failure mode is the measured binding constraint.
+
+- **Loop** — one agent, iterative reflection, all state in context.
+  Breaks when task evidence exceeds the context window or history
+  becomes too expensive to resend each iteration.
+- **Chain** — fixed sequence of specialized transformations. Add
+  programmatic gates between stages: malformed output from stage N
+  must be caught at stage N+1's entrance, not propagated silently
+  forward.
+- **Network** — orchestrator + role-specialized workers. Failure mode:
+  orchestrator context grows with team size. Fix: workers return
+  bounded, typed artifacts — not raw conversation transcripts.
+- **Graph** — shared state in a durable, queryable store. Earns its
+  cost only when the same entity or relationship is queried by more
+  than one agent or across more than one session. A graph queried by
+  nobody is an overengineered loop.
+
+### Five decision rules
+
+1. **Start cheapest.** Reflection loop before multi-agent; multi-agent
+   before graph. Add complexity only when a specific, measured failure
+   demands it.
+2. **Measure before promoting.** Establish a baseline with the current
+   pattern. Measure the failure rate the next pattern is expected to
+   address. If below 5%, the added complexity likely costs more than
+   it fixes.
+3. **Match control to risk.** High-stakes operations (financial,
+   safety-critical) -> predictable patterns (chains, evaluation loops)
+   with explicit gates. Low-stakes tasks -> tolerate planning and
+   multi-agent unpredictability.
+4. **Count tokens, not agents.** Cost is proportional to tokens
+   consumed. A 3-agent system at 20K tokens each equals one agent at
+   60K tokens. Design for token efficiency, not conceptual elegance.
+5. **The graph earns itself.** Graph infrastructure is justified when
+   the same entity or relationship is queried by more than one agent
+   or across more than one session. Otherwise use a state file.
+
+### Seven anti-patterns (mandatory avoidance)
+
+1. **Everything-agent** — one agent with every tool, every role, and a
+   sprawling system prompt. No clear responsibility, no debuggable
+   failure mode. Banned.
+2. **Echo chamber** — multiple agents with identical prompts and
+   identical evidence. For parallelization to add signal, prompts or
+   models must differ in ways that induce different error distributions
+   (e.g., three reviewers with three rubrics: correctness, security,
+   performance — not three identical reviews).
+3. **Infinite loop** — reflection or planning agent without an explicit
+   iteration cap. All loops must have a maximum round count and a
+   stopping criterion defined before the first run.
+4. **Phantom graph** — knowledge graph with an elaborate ontology that
+   no agent queries. Infrastructure cost without value.
+5. **Conversational bottleneck** — orchestrator receiving every
+   worker's full conversation transcript. Workers must return bounded,
+   typed artifacts only.
+6. **Missing baseline** — deploying an agentic system without first
+   measuring zero-shot performance. Without a baseline, agentic
+   overhead cannot be distinguished from agentic cost.
+7. **Premature agent** — building a multi-agent system for a task a
+   single well-prompted call handles, motivated by architectural
+   preference rather than task requirement.
+
+### Per-stage production readiness checklist
+
+**Reflection**
+- Evaluation rubric is explicit, written before the first run, stable.
+- Maximum iteration cap is defined.
+- Every draft, critique, and revision is stored for debugging.
+
+**Tool use**
+- Tool names, argument types, and return types validated by schema.
+- Read and write permissions are separated.
+- Fallback defined for tool failure or rate-limiting.
+
+**Planning**
+- Plans are structured JSON with explicit step dependencies.
+- Total step count is bounded.
+- Successful work from prior steps survives replanning — replan with
+  context of what already worked; do not discard successful steps on
+  partial failure.
+
+**Multi-agent**
+- Every handoff uses a typed artifact schema, not open-ended
+  conversation.
+- Each role is verified to catch a genuinely different error class
+  than existing roles.
+- Orchestrator receives bounded summaries, not transcripts.
+
+**Graph architecture**
+- Every edge traces to a source document (provenance).
+- Overwrites replaced by supersession links, not silent mutation.
+- Entity resolution decisions are inspectable.
+
 ## Deterministic validation gates for agent writes
 
 Any agent pipeline that writes LLM output to a persistent store (vector DB, SQL table, file system, cache) must pass through a deterministic validation gate before the write. Probabilistic systems require deterministic boundaries.
