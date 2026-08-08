@@ -103,6 +103,11 @@ Chinese ban enforcement:
 3. Never rewrite a test assertion to make a failing test pass. If behavior changed and a test fails, report the failure — do not adjust the assertion to match the new output. Test changes require explicit human confirmation before proceeding.
 4. Any diff that modifies existing test assertions requires a separate review pass focused exclusively on those changes. A large number of edited assertions in a single PR is a hard stop — review the test changes before the implementation changes, not after.
 5. Before closing any task, demonstrate the change works: either paste the terminal output of running it, or confirm the automated test covers the changed behavior and would fail if the implementation were reverted. A diff without evidence of execution is incomplete work.
+5a. Before closing any task, verify spec compliance separately from test passage. Tests confirm execution; they do not confirm that the stated requirement was implemented. For every task, explicitly map each requirement from the original spec to the output and confirm presence — not inferred from test names, but from the output itself. A deliverable that passes all tests but omits or misinterprets a stated requirement is a failed deliverable, not a passing one. The agent must produce a one-line per-requirement trace before the task is closed: "Requirement X -> satisfied by Y" or "Requirement X -> NOT satisfied — blocked/escalated." No trace, no close.
+    AV/CV portfolio application: an NMS implementation that passes unit tests but applies the wrong suppression criterion (e.g. IoU threshold applied to the wrong coordinate space, or score-before-suppression vs score-after-suppression swapped) is a failed deliverable. The spec requirement is the ground truth, not the test suite. Write the spec before the code, not after.
+    Reference: Fable 5 one-shot game (August 2026) — all tests passed, visual checks passed, stated requirement ("team of raccoons on heists") was replaced with a single raccoon collecting fish. Undetected until manual spec review.
+    [osmani-agentic-code-quality-2026-08-08]
+    [simonw-raccoon-heist-fable5-2026-08-05]
 6. Do not accumulate reasoning across phases in a single context window. Each phase runs in a fresh session. Phase output is written to a markdown file. The next phase reads that file as its only carry-forward state. A long context is a symptom of a phase boundary that was not enforced.
 7. Significant architectural decisions in portfolio repos must produce an ADR documenting: the options considered, the option chosen, and the reasoning for the choice. ADRs live in docs/adr/ within the repo. An ADR that supersedes a previous one must reference it explicitly. The agent must check existing ADRs before making architectural decisions — not just before writing them.
 8. Before any refactoring task, run the full test suite and record the baseline result. After refactoring, run the same suite. If new tests were added during refactoring, verify they would have failed against the pre-refactoring code. A refactoring task that cannot be bracketed by a before/after test run is not complete.
@@ -157,6 +162,40 @@ failure mode is the measured binding constraint.
 5. **The graph earns itself.** Graph infrastructure is justified when
    the same entity or relationship is queried by more than one agent
    or across more than one session. Otherwise use a state file.
+
+### Harness quality is the primary performance variable
+
+Model selection is a secondary lever. Harness quality — the
+combination of SKILL.md context, PostHooks gates, and constraint
+design — determines output quality more than model capability does.
+
+Benchmark evidence (SWE-bench Pro, August 2026): swapping the
+agent harness on the same model (GLM-5.2) moved pass@1 from 23%
+to 52%. A 26B model in the right harness approached a 744B model
+in the wrong one. Rank correlation of harness rankings across
+models: -0.05 — effectively zero. No harness that works well for
+one model reliably transfers to another.
+
+Practical implications for portfolio work:
+
+1. Time invested in improving SKILL.md files and PostHooks gates
+   has higher expected return than time invested in upgrading to
+   a larger or more expensive model.
+2. When a task produces poor output, diagnose the harness before
+   blaming the model. Check: is the SKILL.md context accurate for
+   the current task class? Are PostHooks catching the right failure
+   modes? Is the spec provided to the agent precise enough to make
+   the requirement unambiguous?
+3. A PostHooks layer that predates the current task class is not a
+   valid harness (existing rule 9). Corollary: a SKILL.md file that
+   was written for a prior task class and not updated is active
+   misinformation — the agent will follow it confidently in the
+   wrong direction. Update SKILL.md before starting a new task
+   class, not after noticing the output is wrong.
+4. 97% of input tokens in multi-turn agentic sessions are repeated
+   conversation prefix. Prompt caching is not optional at scale — it
+   is the difference between an economically viable harness and one
+   that burns budget on repeated context.
 
 ### Seven anti-patterns (mandatory avoidance)
 
@@ -234,4 +273,24 @@ Rules:
 
 6. Do not attempt to fix this with prompt engineering. "DO NOT HALLUCINATE", persona prompts, and uncertainty instructions cause overcorrection and increase API costs without solving the structural problem. Replace the validator LLM with code.
 
+7. LLM-as-judge is nondeterministic for code review. Do not use an agent to review agent-produced code as a merge gate. The same codebase reviewed by the same model with the same prompt produces conflicting verdicts across runs - the gate becomes a coin flip, not a check. Code review gates must be deterministic: compiler errors, failing tests, linter violations, mutation test regressions, coverage thresholds, cyclomatic complexity limits. An agent may assist in writing tests or surfacing candidates for human attention, but it cannot be the gating signal itself. [osmani-agentic-code-quality-2026-08-08]
+
 Post-mortem reference: fintech RAG pipeline, 2026-07. LLM extractor hallucinated fiscal_year from an illegible PDF scan. LLM-as-judge validator rationalized the hallucination. High-confidence garbage embedded in vector store. Observability green throughout. Resolved by replacing the validator agent with Pydantic grounding + SQL fuzzy match. Result: data poisoning eliminated, API costs -50%.
+
+## Constraint scaling decision framework
+
+When the verification system cannot keep pace with agent output volume, exactly three responses are available. They must be considered in order; the third is a last resort and must never happen silently or by default under pressure.
+
+1. Scale the verification system. Add capacity - more parallel test runners, faster linters, additional automated checks. This is the default response.
+
+2. Reduce agent output rate. Throttle the agent's commit cadence so verification can catch up. Slower output at full quality beats faster output at degraded quality.
+
+3. Lower the quality bar. Only permissible when explicitly decided, named, dated, and documented as a temporary exception with a defined expiry. A quality bar that silently erodes under pressure is not a bar - it is drift. Any lowering requires a written entry in the relevant repo's `docs/adr/` explaining what was lowered, why, and when the exception expires.
+
+Back-pressure must exist at three points in the pipeline, not only at CI:
+- Before work begins: `SKILL.md` and `AGENTS.md` scope what the agent is allowed to propose.
+- During work: PostHooks provide immediate feedback the agent can act on before the next action.
+- At the production boundary: deterministic merge gates (tests, linters, type checks) decide whether output crosses into the repo.
+
+A single gate at the CI end is the failure mode, not the design. By the time CI rejects a change, the agent has already consumed the budget for that task.
+[osmani-agentic-code-quality-2026-08-08]
