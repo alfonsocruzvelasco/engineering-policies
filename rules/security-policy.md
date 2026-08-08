@@ -2909,6 +2909,22 @@ via a preinstall hook or main-code dropper.
 
 Mandatory post-compromise rotation checklist (trigger: any
 suspected supply chain compromise on a dev machine):
+- Credential rotation order after supply chain compromise:
+  remove credential-revocation watchers first, then rotate.
+  The Keyv worm installed a token-revocation watcher that
+  used revocation as its execution trigger. Rotating
+  credentials before removing the watcher runs an
+  attacker-supplied local handler.
+  Correct sequence:
+  1. Isolate the affected environment (no network).
+  2. Identify and remove revocation-watcher processes
+     and persistence entries.
+  3. Verify removal.
+  4. Then rotate all exposed tokens, keys, and registry
+     credentials.
+  Reversing steps 2 and 4 hands the attacker a second
+  execution opportunity.
+  [keyv-shai-hulud-npm-worm-2026-08-04]
 - Rotate: AWS/GCP/Azure keys, npm token, GitHub token
 - Rotate: Claude API key, Cursor token, all MCP server credentials
 - Revoke: browser sessions, Bitwarden session, Slack/Discord tokens

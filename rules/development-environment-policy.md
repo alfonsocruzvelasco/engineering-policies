@@ -285,6 +285,53 @@ These create duplicated semantics (“which copy is real?”) and violate:
 6. **IDE metadata is always ignored**
 7. **Tool runtime state lives in `~/dev/ide/`**
 
+### Version control tool: Jujutsu (jj)
+
+Tool: `jj` (Jujutsu)
+Repo: `github.com/jj-vcs/jj`
+Version floor: `>= 0.42.0`
+License: Apache 2.0
+Status: APPROVED — adopted for portfolio repos
+
+Storage backend:
+- Git (production-stable). Commits remain regular Git commits.
+- GitHub, push/pull, and remote workflows are unchanged.
+- Colocated mode (`jj git init --colocate`) allows `jj` and `git`
+  commands interchangeably in the same repo with zero migration cost.
+
+Adoption rule:
+- New portfolio repos: initialize with `jj` from day one.
+- Existing repos: colocate on next active work session.
+- `engineering-policies` repo: colocate on next touch.
+
+Key workflow differences from Git (mandatory awareness):
+- No staging area. Working copy is a commit auto-amended on every file
+  change. No `git add`, no `git stash`, no dirty working-tree errors.
+- Operation log: every operation (commit, rebase, pull, push) is
+  recorded and undoable with `jj undo`, including operations that are
+  not the most recent one. Primary recovery mechanism for bad agentic
+  commit sequences; replaces `git reflog` for this use case.
+- Conflicts are first-class objects stored in commits, not blocking
+  states. A rebase with conflicts succeeds and records the conflict;
+  resolution propagates through descendants automatically.
+- Automatic rebase: modifying any commit rebases all descendants on top
+  of it transparently.
+- Anonymous branches (bookmarks): no need to name every small change.
+
+Agentic workflow relevance:
+- `jj undo` rolls back an entire agent-produced operation sequence
+  cleanly.
+- Auto-snapshot working copy ensures verifiable state between agent
+  actions with no manual staging required.
+- Aligns with execution discipline rule 5 (demonstrate change works
+  before closing task) and rule 1 (verifiable commits only).
+
+Pre-1.0 caveat:
+- On-disk format breaking changes are possible before 1.0.
+- Git backend is the stable path. Do not rely on experimental backends
+  (Mercurial, cloud) for portfolio work.
+- Monitor `CHANGELOG.md` before upgrading across minor versions.
+
 This eliminates:
 
 * duplicate clones

@@ -181,10 +181,30 @@ npm 12 (released Jul 8, 2026) ships with:
 Policy requirement:
 - Minimum npm version: 12. Do not use npm <12 in any new container
   or CI pipeline.
+- npm client version floor: pin npm >=12 in all portfolio repos.
+  npm 12 blocks unapproved dependency lifecycle scripts
+  (preinstall/postinstall) by default. Earlier npm clients execute
+  preinstall scripts on install, which is a confirmed credential
+  exfiltration vector in the Shai-Hulud/Keyv worm (Aug 2026).
 - Run: `npm approve-scripts --allow-scripts-pending` before installing
   in any new project. Commit the resulting allowlist to `package.json`.
 - Existing projects: upgrade npm to 12 and audit current
   allow-scripts list. Remove any entry that cannot be justified.
+- preinstall script policy: any package update that adds a new
+  `preinstall` or `postinstall` script must be audited before that
+  script is allowed to run. A newly introduced lifecycle script in an
+  existing package is a supply chain indicator, not a routine update.
+- Lockfile verification after supply chain incidents: compare lockfiles
+  to a known-good baseline, not current registry tags. During the Keyv
+  worm campaign, attackers restored earlier `latest` tags while
+  malicious versions remained resolvable; tag-only checks can report
+  clean while the lockfile still resolves poisoned versions.
+- SLSA and OIDC provenance caveat: valid attestation confirms the build
+  path, not the safety of source commits entering that build. The
+  poisoned Keyv release carried valid SLSA/OIDC provenance because it
+  passed through a legitimate GitHub Actions release workflow. Treat
+  attestation as necessary but not sufficient.
+  [keyv-shai-hulud-npm-worm-2026-08-04]
 Source: [npm12-jul2026]
 
 ---
