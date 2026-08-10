@@ -14,6 +14,46 @@
 - `openspec/changes/`: deferred specs and OpenSpec change proposals, not authoritative policy until promoted into `rules/`.
 - `openspec/`: OpenSpec change proposals — change management layer above rules/; not a policy directory.
 
+## Knowledge architecture — three-layer rule
+
+Every artifact produced during engineering work belongs to
+exactly one of three layers. Misplacing it creates noise
+for future agents and future-you.
+
+  Repository = system memory.
+    Information required to understand, build, test,
+    maintain, or modify this system. AGENTS.md, SKILL.md,
+    ADRs, architecture docs, code conventions, agent
+    constraints, dependency rules, API contracts.
+    Test: would another developer or coding agent need
+    this to work correctly on this repository?
+
+  Engineering memory = cross-project durable knowledge.
+    Principles, failure modes, architectural patterns,
+    and lessons extracted from projects that are not
+    properties of any single one. Lives outside
+    repositories. Current implementation: not yet adopted
+    (no cross-repository retrieval failure observed as
+    of 2026-08-10). Trigger for adoption: a pattern
+    has appeared in three or more projects and does not
+    belong to any of them.
+    Test: if every current repository disappeared
+    tomorrow, would I still want to retain this?
+
+  AI chat = working memory.
+    Temporary. Ordinary Cursor conversations, debugging
+    transcripts, intermediate plans, task-specific prompts,
+    AI-generated explanations. Discard by default.
+    Do not preserve information merely because producing
+    it required effort. Aggressive deletion is more
+    valuable than aggressive capture.
+
+The one-sentence decision rule:
+  Store what I learned from the project, not what the
+  project itself needs to know.
+
+[obsidian-when-to-use-2026-08-10]
+
 ## skill-dependencies
 
 Before proposing tool or skill sequences, inspect prerequisite and dependency structure between skills (see `rules/references/ai-workflow-agent-skills-reference.md`).

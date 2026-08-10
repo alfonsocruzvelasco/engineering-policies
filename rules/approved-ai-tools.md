@@ -413,6 +413,30 @@ Do not use. Chinese-hosted. §14.6.9.
 - MUST enable privacy mode in settings
 - MUST review `.cursor/` configuration files in Git
 
+Cursor model selection policy:
+- Default: one stable configuration — do not choose from
+  scratch per prompt. Current default as of 2026-08-10:
+  Grok 4.5, Medium effort, Fast OFF, Auto OFF.
+- Escalation is deliberate, not reactive:
+    Medium -> normal implementation, refactors, tests,
+             routine debugging.
+    High   -> difficult architecture, stubborn bugs,
+             ambiguous multi-step work.
+    Fast   -> only when response latency justifies the
+             higher price.
+    Auto   -> only when model choice is explicitly
+             delegated to Cursor.
+- Do not build per-prompt routing rituals. Start with
+  Medium, escalate when the task demonstrably requires it.
+- The specific model name and effort default are subject
+  to the 2026-10-01 Cursor/SpaceXAI reassessment. Update
+  this entry at that checkpoint, not before.
+- Executable per-project defaults belong in .cursor/rules,
+  not here. This file governs the principle; the project
+  config governs the implementation.
+
+[cursor-model-selection-2026-08-10]
+
 **Cost Model:** IDE license + API usage costs
 **Documentation:** https://cursor.sh/docs
 **Support:** Community + Pro support
