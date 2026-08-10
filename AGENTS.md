@@ -148,8 +148,75 @@ Chinese ban enforcement:
     Reference: Fable 5 one-shot game (August 2026) — all tests passed, visual checks passed, stated requirement ("team of raccoons on heists") was replaced with a single raccoon collecting fish. Undetected until manual spec review.
     [osmani-agentic-code-quality-2026-08-08]
     [simonw-raccoon-heist-fable5-2026-08-05]
+5b. Every delegated agent task produces a mandatory
+    per-task delegation log before the task is closed.
+    Format: four lines, no more.
+
+      Requested: what the human asked the agent to do.
+      Produced:  what the agent actually delivered.
+      Verified:  what was checked and how.
+      Uncertain: what remains unverified or incompletely
+                 understood, with explicit risk level.
+
+    The log is the traceability artifact. It is also the
+    input for the next agent run on the same task. An agent
+    task closed without a delegation log is not closed —
+    it is abandoned.
+
+    Cognitive checkpoint before any context switch: before
+    leaving a task (interruption, end of session, switching
+    to a different workstream), externalize:
+      - current state of the work,
+      - decision most recently taken and the evidence for it,
+      - open uncertainties,
+      - next concrete action.
+
+    This is not journaling. It is the minimum state
+    required to resume without full reconstruction. It also
+    serves as the handoff note to the next agent session
+    on this task. Cost: two to three minutes. Recovery
+    value: proportional to task complexity.
+    [resumen-rendimiento-epoca-ia-2026-08-10]
 6. Do not accumulate reasoning across phases in a single context window. Each phase runs in a fresh session. Phase output is written to a markdown file. The next phase reads that file as its only carry-forward state. A long context is a symptom of a phase boundary that was not enforced.
 7. Significant architectural decisions in portfolio repos must produce an ADR documenting: the options considered, the option chosen, and the reasoning for the choice. ADRs live in docs/adr/ within the repo. An ADR that supersedes a previous one must reference it explicitly. The agent must check existing ADRs before making architectural decisions — not just before writing them.
+7a. PRs from agent runs are capped by architectural retention
+    capacity — not by generation capacity and not by
+    line-by-line review capacity. A PR that is individually
+    correct can still erode system coherence if no human
+    holds the global architectural picture. The binding
+    constraint is: how many structural changes can the
+    responsible human absorb without losing the mental model
+    of the system?
+
+    Three mandatory rules follow from this:
+
+    a) Each agent-generated PR must explicitly declare which
+       architectural invariants it assumes and which it
+       modifies — not only what it does functionally. A PR
+       without this declaration is incomplete and must not
+       be merged.
+
+    b) Reserve time periodically — outside individual PR
+       reviews — to explicitly reconstruct the system map:
+       which modules exist, how they relate, which invariants
+       must be maintained. This is not optional when agents
+       are generating PRs at speed. Many locally correct
+       PRs can produce structural divergence that no single
+       PR review reveals.
+
+    c) Designate exactly one human responsible for global
+       architectural coherence. This responsibility is not
+       delegated to an agent, not distributed implicitly
+       across individual PR reviewers, and not inherited by
+       default. It is named. In a solo portfolio repo, that
+       human is you.
+
+    Anti-pattern: "high throughput without architectural
+    retention" — closing many correct PRs individually while
+    losing the mental model of the system as a whole. The
+    bottleneck is not per-PR review capacity; it is
+    accumulated degradation of architectural understanding.
+    [resumen-rendimiento-epoca-ia-2026-08-10]
 8. Before any refactoring task, run the full test suite and record the baseline result. After refactoring, run the same suite. If new tests were added during refactoring, verify they would have failed against the pre-refactoring code. A refactoring task that cannot be bracketed by a before/after test run is not complete.
 9. Any repo running agentic loops must define both layers of the harness explicitly before autonomous execution begins: (1) Skills — what the agent knows about the codebase architecture, conventions, and constraints, loaded as SKILL.md files; (2) PostHooks — automated checks that run after every agent action and verify output without relying on the agent's self-assessment. PostHooks must be reviewed and updated when the agent's capability level changes materially or when a task class is executed autonomously for the first time; a PostHooks layer that predates the current task class is not a valid harness. For Level 3+ agent runs, the pre-execution contract must include: Escalation: who gets involved and under what conditions when the agent is blocked, produces unexpected output, or exceeds scope. Budget: maximum token spend and maximum retry attempts for the task; the agent must stop and escalate if either limit is reached. An agent that cannot be checked by an external automated layer must not run autonomously. The harness, not the model, is what makes autonomous execution trustworthy.
 10. Stateless reducer rule (Factor 12, Horthy 2025): Each agent run MUST be deterministic and replayable given the same context. Agents MUST NOT depend on hidden state, in-memory assumptions, or side effects from a previous run. If a run cannot be replayed from its logged inputs and context, it does not meet lights-out eligibility requirements.
@@ -237,6 +304,39 @@ Practical implications for portfolio work:
    is the difference between an economically viable harness and one
    that burns budget on repeated context.
 
+## Skill maintenance — mandatory undelegated fraction
+
+Expertise degrades if systematically delegated, even for
+tasks already within your capability. Delegation that
+produces correct output without preserving the human's
+ability to produce that output independently is a
+long-term liability, not a productivity gain.
+
+Two mandatory rules:
+
+1. Solve a regular fraction of problems manually, without
+   agent assistance, in your area of specialization.
+   Frequency: at minimum one problem per week per active
+   technical domain in the portfolio. This is not optional
+   when agents handle the majority of implementation. The
+   fraction is small; the discipline is not.
+
+2. When an agent solves something you did not fully
+   understand, reconstruct the solution yourself before
+   integrating it into your permanent working model.
+   Reconstruction means: produce it independently, not
+   annotate the agent's version. An explanation you can
+   read is not the same as a schema you have built.
+
+Corollary for the portfolio sprint: the Socratic method
+applied to your own portfolio problems is not a slow path —
+it is the mechanism by which the portfolio work actually
+builds the capability the target role requires. Correct
+agent output that you cannot explain is a portfolio
+liability at interview. An interviewer will probe the
+reasoning, not the commit log.
+[resumen-rendimiento-epoca-ia-2026-08-10]
+
 ### Seven anti-patterns (mandatory avoidance)
 
 1. **Everything-agent** — one agent with every tool, every role, and a
@@ -315,6 +415,30 @@ Rules:
 
 7. LLM-as-judge is nondeterministic for code review. Do not use an agent to review agent-produced code as a merge gate. The same codebase reviewed by the same model with the same prompt produces conflicting verdicts across runs - the gate becomes a coin flip, not a check. Code review gates must be deterministic: compiler errors, failing tests, linter violations, mutation test regressions, coverage thresholds, cyclomatic complexity limits. An agent may assist in writing tests or surfacing candidates for human attention, but it cannot be the gating signal itself. [osmani-agentic-code-quality-2026-08-08]
 
+8. For any artifact accepted with incomplete comprehension,
+   log the risk explicitly before merging. Required fields:
+
+     What is not fully understood:
+     Risk level: [Low / Medium / High / Critical]
+     Verification performed: what was actually checked.
+     Mitigation: what reduces the risk of the gap
+                 (test coverage, isolation, rollback path).
+
+   High and Critical gaps require resolution before the
+   artifact touches production data, security logic, or
+   shared state. They do not require blocking the merge
+   — they require naming the debt and owning it.
+
+   The plausibility review anti-pattern is the failure
+   mode this rule prevents: accepting because something
+   "seems correct" without reconstructing the assumptions,
+   tests, and limits that would make it verifiably correct.
+   An agent can generate a convincing explanation without
+   that explanation reflecting the actual reasoning that
+   produced the result. The explanation does not substitute
+   for independent verification.
+   [resumen-rendimiento-epoca-ia-2026-08-10]
+
 Post-mortem reference: fintech RAG pipeline, 2026-07. LLM extractor hallucinated fiscal_year from an illegible PDF scan. LLM-as-judge validator rationalized the hallucination. High-confidence garbage embedded in vector store. Observability green throughout. Resolved by replacing the validator agent with Pydantic grounding + SQL fuzzy match. Result: data poisoning eliminated, API costs -50%.
 
 ## Constraint scaling decision framework
@@ -326,6 +450,31 @@ When the verification system cannot keep pace with agent output volume, exactly 
 2. Reduce agent output rate. Throttle the agent's commit cadence so verification can catch up. Slower output at full quality beats faster output at degraded quality.
 
 3. Lower the quality bar. Only permissible when explicitly decided, named, dated, and documented as a temporary exception with a defined expiry. A quality bar that silently erodes under pressure is not a bar - it is drift. Any lowering requires a written entry in the relevant repo's `docs/adr/` explaining what was lowered, why, and when the exception expires.
+
+WIP limit — first-class constraint:
+
+Maintain an explicit maximum number of concurrently
+delegated open tasks. This limit is calibrated to your
+actual review capacity — how many agent outputs you can
+verify with genuine comprehension — not to how many tasks
+the agents can run in parallel.
+
+When sustained volume exceeds review capacity:
+  - the correct response is reducing parallel agents,
+  - not accelerating review,
+  - and never silently widening what counts as "verified."
+
+Accelerating review under sustained overload produces
+the plausibility review anti-pattern: accepting because
+something seems correct without reconstructing assumptions,
+tests, and limits. A plausibility review is not a review —
+it is a guess with a merge button.
+
+The WIP limit is a pull system, not a push system. New
+tasks enter the queue only when a slot opens through
+genuine completion and verification of a prior task —
+not when the agent finishes generating output.
+[resumen-rendimiento-epoca-ia-2026-08-10]
 
 Back-pressure must exist at three points in the pipeline, not only at CI:
 - Before work begins: `SKILL.md` and `AGENTS.md` scope what the agent is allowed to propose.

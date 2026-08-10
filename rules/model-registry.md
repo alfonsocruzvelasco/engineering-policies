@@ -79,13 +79,52 @@ Reference model status updates (not active tiers):
   against Opus 5, GPT-5.6 Terra, Gemini 3.6 Flash, and Grok 4.5.
   Coding-focused update to Muse Spark 1.1 (July 2026).
   Chinese model ban: not applicable (Meta is a US company).
-  Open source: NO — proprietary API only. "I'll have more to
-  share on that soon" in response to direct OSS question.
+  Open source: PENDING — Zuckerberg announced 2026-08-10
+  that Muse Spark 1.2 weights will be released publicly
+  in the coming weeks under an open license. Update this
+  entry when weights drop. On release: reassess local
+  deployment viability (30B Glimmer variant fits 24 GB
+  VRAM at 4-bit; full Spark 1.2 architecture is larger —
+  verify VRAM requirement before changing local
+  deployment status).
   Local deployment: NOT VIABLE (API only).
   Reassessment trigger: October 2026 checkpoint (same as
   Cursor/SpaceXAI). Conditions: (1) pricing confirmed and within
   price cap, and (2) open-source status resolved (weights
   released = higher priority).
+  - Muse Spark 1.2 open weights release (expected
+    2026-08-xx): reassess local deployment viability
+    and open-source status immediately on release,
+    do not wait for the October checkpoint.
+- Meta Muse Glimmer (released 2026-08-10):
+  CANDIDATE — UNAVAILABLE (price-cap policy pending
+  pricing confirmation; no payment method added).
+  License: Apache 2.0 (open weights, commercial use permitted).
+  Architecture:
+  - 30B parameters, distilled from Muse Spark via logit
+    distillation + on-policy SFT + RL across general,
+    reasoning, coding, and agentic domains.
+  - Local/Local/Local/Global attention pattern, 2,048-token
+    sliding window.
+  - ~1.8B ViT-G/14 vision encoder, up to 4,096 visual tokens.
+  - Context: 131,072+ tokens.
+  - Knowledge cutoff: 2026-01-04.
+  - Input: text + image. Output: text. No audio, no video
+    (frames only).
+  - DFlash block-level speculative decoding: 3.1x faster
+    inference.
+  Local deployment — NOT VIABLE on Alfonso's hardware:
+  - Full precision: 55+ GB -> impossible.
+  - 4-bit quantization: ~20 GB VRAM required.
+  - Alfonso's RTX 4070 Mobile: 8 GB VRAM.
+  - Verdict: no quantization level produces acceptable
+    quality within available VRAM. API-only candidate.
+    Same class as Laguna S 2.1 (architecture keeps
+    requirement above hardware ceiling regardless of quant).
+  Chinese model ban: not applicable — Meta is a US company.
+  Reassessment trigger: when API pricing is confirmed and
+  within price cap. Same October 2026 checkpoint as
+  Muse Spark 1.2 and Cursor/SpaceXAI.
 
 ## TODO — dynamic selection protocol (future state, not active)
 
