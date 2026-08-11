@@ -373,6 +373,7 @@ reasoning, not the commit log.
 - Tool names, argument types, and return types validated by schema.
 - Read and write permissions are separated.
 - Fallback defined for tool failure or rate-limiting.
+- Prefer typed Python stubs over raw JSON schemas for tool definitions when the model is capable of code execution. Programmatic tool calling (tools as typed code objects) matches or outperforms native JSON tool calling in 11 of 14 models tested on BFCL v4; the GPT-5.6 family gains 10.6% over JSON baselines. Advantage compounds under context rot and parallel tool fan-out, where JSON schema ambiguity accumulates. [latent-space-ainews-glimmer-2026-08-11]
 
 **Planning**
 - Plans are structured JSON with explicit step dependencies.

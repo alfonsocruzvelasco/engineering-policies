@@ -21,11 +21,19 @@ prices, scores, and availability.
 | Subagent/reads | gemini-2.5-flash-lite | — | $0.03 blended | — | 0.37s TTFT | artificialanalysis.ai |
 | Daily (free) | Codex 5.3 | ~44 | $0 Cursor sub | $0 | — | Cursor subscription |
 | Daily (free) | Grok 4.5 | ~44 | $0 Cursor sub | $0 | 80–112 | Cursor subscription |
-| Hard | claude-sonnet-5 | ~43 | $2→$3* | $10→$15* | TBD | platform.claude.com |
+| Hard | claude-sonnet-5 | ~43 | $2 | $10 | TBD | platform.claude.com |
 | Very hard | claude-opus-4-8 | 56 | $5 | $25 | ~62 | platform.claude.com |
 | Ultra-hard | UNASSIGNED (Fable 5 unavailable) | — | — | — | — | approved-ai-tools.md |
 
-* Sonnet 5 steps up 2026-09-01. Budget at $3/$15, not $2/$10.
+* Pricing: PERMANENT at $2/M input, $10/M output.
+  Confirmed 2026-08-10. Introductory period cancelled —
+  price does not increase on 2026-09-01.
+* OBSOLETE: 2026-08-31 (Sonnet 5 intro pricing ends).
+  Superseded 2026-08-10 — Sonnet 5 pricing made
+  permanent. No price change will occur.
+* OBSOLETE: 2026-09-01 (Sonnet 5 -> $3/$15).
+  Superseded 2026-08-10 — Sonnet 5 pricing made
+  permanent. No price change will occur.
   Ultra-hard tier is currently unassigned in active policy.
   Fable 5 moved to usage-credits-only on 2026-07-20 and is unavailable
   under current price-cap enforcement. See approved-ai-tools.md.
@@ -114,13 +122,24 @@ Reference model status updates (not active tiers):
   - DFlash block-level speculative decoding: 3.1x faster
     inference.
   Local deployment — NOT VIABLE on Alfonso's hardware:
-  - Full precision: 55+ GB -> impossible.
-  - 4-bit quantization: ~20 GB VRAM required.
-  - Alfonso's RTX 4070 Mobile: 8 GB VRAM.
-  - Verdict: no quantization level produces acceptable
-    quality within available VRAM. API-only candidate.
-    Same class as Laguna S 2.1 (architecture keeps
-    requirement above hardware ceiling regardless of quant).
+  - 4-bit quantization: ~18 GB VRAM confirmed (not "under
+    20 GB" as initially estimated).
+  - Reliable agentic performance requires 24 GB VRAM
+    (RTX 3090/4090 class minimum).
+  - Alfonso's laptop GPU is well below this threshold.
+  - Verdict: NOT VIABLE locally. API-only candidate.
+    Same class as Laguna S 2.1.
+  - Deployment ecosystem (for future hardware or remote
+    inference): llama.cpp, Ollama, LM Studio, MLX,
+    vLLM, SGLang, ExecuTorch, torchtitan — weights on
+    HuggingFace (meta-models org).
+  Benchmark position (Artificial Analysis, 2026-08-10):
+  - Intelligence Index: 35.
+  - Comparable peers: Qwen3.6-27B (38), Kimi K2.5 (36).
+  - Strength: tool use — Tau3-Banking benchmark.
+  - Weakness: hallucination and knowledge calibration
+    notably below peers at this size.
+  [latent-space-ainews-glimmer-2026-08-11]
   Chinese model ban: not applicable — Meta is a US company.
   Reassessment trigger: when API pricing is confirmed and
   within price cap. Same October 2026 checkpoint as
