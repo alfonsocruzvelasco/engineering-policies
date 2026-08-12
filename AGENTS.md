@@ -87,6 +87,49 @@ Before proposing actions over browsers, images, or UI, state what **observable r
   - scan/audit before merge.
 
 ## Security Constraints
+## Governing principle: the verifier must be structurally
+independent from the generator
+
+This principle governs every security rule in this file.
+State it once so every future rule derives from it rather
+than appearing as an isolated response to a specific incident.
+
+A quality problem yields to a better model or process.
+A trust problem does not. You can improve the writer
+indefinitely and the blind spot rides along, because the
+thing being verified is the output of the same reasoning
+that produced it. A model asked to check its own work
+grades the story it told itself. This is not a capability
+gap. It is a position. The auditor cannot be the author,
+no matter how capable the author becomes.
+
+This is not a new AI insight. It is the oldest rule in
+safety-critical engineering. Avionics, medical devices,
+and automotive systems have kept the validator structurally
+separate from the builder by regulatory requirement for
+decades, because an unverified line could cost a life.
+Autonomous vehicle perception is that same domain. The
+rule has not changed. The blast radius of a violation has.
+
+Structural corollary: no AI component may serve as the
+primary verifier of its own output or the output of another
+AI component from the same provider or harness. Verification
+must be deterministic (code, schema, test, human review)
+or structurally independent (separate provider, separate
+toolchain, separate reasoning path). The specific rules
+below are instances of this principle. When a new situation
+arises not covered by a specific rule, apply the principle
+directly and derive the rule from it.
+
+Safety-critical precedent for portfolio and interview
+context: AV perception pipelines (detection, tracking,
+fusion) require independent validation of each stage
+output before it propagates downstream. The same principle
+that governs your AGENTS.md governs the perception stack
+you are building. They are not separate concerns.
+[mend-independence-is-the-moat-2026-07-14]
+[mend-ai-agent-security-framework-2026-07-30]
+
 - Never commit secrets, credentials, tokens, or private keys.
 - Treat all AI output as untrusted until reviewed.
 - Use only approved AI tooling per `rules/approved-ai-tools.md`.

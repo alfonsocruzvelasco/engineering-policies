@@ -944,6 +944,62 @@ hours/month at cap.
 
 ---
 
+## AI-BOM — AI component inventory (mandatory)
+
+An AI-BOM (AI Bill of Materials) is a point-in-time
+inventory of every AI component actively connected to
+or used in your environment. It is distinct from an SBOM,
+which tracks software dependencies. An SBOM tells you
+what packages are installed. An AI-BOM tells you what
+AI attack surface is live.
+
+Maintain an AI-BOM covering at minimum:
+
+1. Models in active use: provider, model name and version,
+   access method (API/local), approval status in model
+   registry, date last verified against registry.
+
+2. MCP servers connected: server name, source (official/
+   third-party/self-built), tools exposed, permission scope,
+   date last audited. Any connected MCP server not in this
+   list is an unauthorized connection — disconnect before
+   the next agent run.
+
+3. Agent frameworks and orchestration tools in use:
+   name, version, harness layer (SKILL.md + PostHooks
+   status), owner per agent ownership rule.
+
+4. Tools with write access: any tool that can write to
+   disk, network, database, package registry, or external
+   service. Listed by name, scope, and permission level.
+   Separate read-only from write-access tools explicitly.
+
+5. External integrations: connectors, webhooks, sampling
+   endpoints, or any service that receives agent output
+   or sends data into agent context.
+
+Update frequency: review and update the AI-BOM before
+any new agent run class, before connecting any new MCP
+server, and at minimum at each monthly review checkpoint.
+
+Threat model rationale: the following confirmed incidents
+in 2026 required knowing exactly what AI components were
+connected before the attack could be detected or contained:
+GhostSplice (malicious MCP server already connected),
+Keyv npm worm (Claude Code SessionStart hook in connected
+workspace), HuggingFace supply chain breach (HuggingFace
+Diffusers from_pretrained), emergent cross-run coordination
+via Artifactory (agents using shared storage as a C2 relay).
+In every case, an up-to-date AI-BOM would have reduced
+detection time. In some cases, it would have prevented
+the connection entirely.
+[mend-ai-agent-security-framework-2026-07-30]
+[ghostsplice-mcp-split-injection-2026-08-11]
+[keyv-shai-hulud-npm-worm-2026-08-04]
+[hf-diffusers-facehugger-2026-08]
+
+---
+
 ## Prohibited Tools (Reference)
 
 For the complete list of prohibited tool categories and characteristics, see **security-policy.md Section 14.6.1**.
