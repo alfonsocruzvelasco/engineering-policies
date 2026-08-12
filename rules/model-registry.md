@@ -25,6 +25,55 @@ prices, scores, and availability.
 | Very hard | claude-opus-4-8 | 56 | $5 | $25 | ~62 | platform.claude.com |
 | Ultra-hard | UNASSIGNED (Fable 5 unavailable) | — | — | — | — | approved-ai-tools.md |
 
+- Grok 4.6 (xAI / SpaceXAI)
+  Released: 2026-08-12
+  Status: APPROVED — within price-cap
+  API model string: grok-4.6
+  Supersedes: Grok 4.5 (grok-4.5) — same 1.5T V9 foundation,
+  improved SFT and RL. Not a parameter-count upgrade.
+  Pricing (confirmed 2026-08-12):
+    Standard (below 200K prompt tokens):
+      Input:  $2.00/M
+      Output: $6.00/M
+      Cached: $0.50/M
+    Long-context band (200K+ tokens):
+      Input:  $4.00/M (doubles)
+      Output: $12.00/M (doubles)
+      NOTE: xAI applies the higher rate to ALL tokens in the
+      request once the 200K threshold is crossed — not just
+      the overflow. A 201K-token prompt costs $4/M on all
+      201K tokens, not just the last 1K. Budget accordingly
+      for long-context agent runs.
+    Fast variant: 2x standard price, lower latency.
+  Benchmarks (xAI launch table, 2026-08-12):
+    Intelligence Index (Artificial Analysis): 61
+      — matches GPT-5.6 Sol Max
+    ELO (xAI claim): 1753 — pending LMSYS/AA verification
+    Strength: knowledge work, coding
+    Weakness: GPT-5.6 Sol Max leads DeepSWE and
+      Terminal-Bench by clear margins
+  Access: xAI API, Cursor (all plans), OpenRouter, Vercel,
+    Cloudflare, Grok Build. 2x Cursor usage during
+    launch week promo (ends ~2026-08-19).
+  Context: 500,000 tokens (unchanged from 4.5)
+  Chinese model ban: not applicable — xAI/SpaceXAI is a US
+    company (Elon Musk / SpaceX entity)
+  Local deployment: NOT available — API only
+  Fast variant: available, use only when latency justifies
+    2x price per inference control plane rule (rule 14)
+  Inference control plane note: the 200K long-context
+    pricing cliff is the primary cost risk for this model.
+    Agent runs with large context accumulation (multi-turn,
+    long SKILL.md files, large codebases) should be
+    monitored for prompt size. Prefer context pruning and
+    prompt caching over crossing the 200K threshold on
+    routine runs.
+  Upcoming: Grok 4.7 (2.1T parameters) expected within
+    weeks of 4.6 release. Reassess at that point.
+  Reassessment trigger: Grok 4.7 release; October 2026
+    Cursor/SpaceXAI checkpoint.
+  [grok-4-6-release-2026-08-12]
+
 * Pricing: PERMANENT at $2/M input, $10/M output.
   Confirmed 2026-08-10. Introductory period cancelled —
   price does not increase on 2026-09-01.

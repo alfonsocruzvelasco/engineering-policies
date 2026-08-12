@@ -415,8 +415,14 @@ Do not use. Chinese-hosted. §14.6.9.
 
 Cursor model selection policy:
 - Default: one stable configuration — do not choose from
-  scratch per prompt. Current default as of 2026-08-10:
-  Grok 4.5, Medium effort, Fast OFF, Auto OFF.
+  scratch per prompt. Current default as of 2026-08-12:
+  Grok 4.6, Medium effort, Fast OFF, Auto OFF.
+  Long-context pricing cliff: Grok 4.6 doubles its rate
+  to $4/$12 for any request exceeding 200K tokens, and
+  the higher rate applies to all tokens in that request.
+  Do not use Grok 4.6 at High effort on tasks with large
+  accumulated context without first pruning the prompt
+  below 200K tokens.
 - Escalation is deliberate, not reactive:
     Medium -> normal implementation, refactors, tests,
              routine debugging.
