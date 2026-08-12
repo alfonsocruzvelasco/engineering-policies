@@ -144,6 +144,44 @@ Reference model status updates (not active tiers):
   Reassessment trigger: when API pricing is confirmed and
   within price cap. Same October 2026 checkpoint as
   Muse Spark 1.2 and Cursor/SpaceXAI.
+- NVIDIA Nemotron 3.5 Lightning (released 2026-08-11):
+  CANDIDATE — license review required before approval.
+  License: OpenMDW-1.1 (NOT Apache 2.0 — verify terms before
+  use in any commercial or portfolio-public context).
+  Architecture:
+  - 30B total parameters, 3.6B active (MoE).
+  - 1M token context.
+  - NVFP4 and BF16 weights available on Hugging Face.
+  - Median serving throughput: ~670 tok/s (pre-release
+    endpoint testing, Artificial Analysis).
+  - Intelligence Index: 24 (Artificial Analysis)
+    — comparable to gpt-oss-120b at a fraction of the size.
+  Agentic profile — notable for size class:
+  - GDPval-AA v2 Elo: 824.
+  - Terminal-Bench v2.1: 24%.
+  - Both are major jumps over Nemotron 3 Nano.
+  - Harvey fine-tuned on Legal Agent Bench: 0% -> 8.3% on
+    held-out tasks, beating Opus 4.6 and Nemotron 3 Ultra
+    in that setup while cutting avg output from 90K -> 37K
+    tokens. Validates agentic tool-use profile at this size.
+  Ecosystem support: Together AI, Ollama, Baseten, vLLM,
+  Perplexity API — broad day-one availability.
+  Deployment pattern: positioned as a high-volume execution
+  model paired with a stronger planning model via routing —
+  aligns with inference control plane (rule 14) principle
+  of routing deterministic/agentic runs to the most
+  cost-efficient capable model.
+  Chinese model ban: not applicable — NVIDIA is a US company.
+  Local deployment: viable at BF16 on sufficient VRAM;
+  NVFP4 quant reduces footprint. Alfonso's laptop GPU
+  below threshold for full BF16 — assess on next hardware
+  upgrade or remote inference.
+  Reassessment trigger: October 2026 checkpoint. Conditional
+  on OpenMDW-1.1 license review — do not deploy in any
+  portfolio-public or production context until license terms
+  are verified. If OpenMDW-1.1 is found to be restrictive,
+  downgrade status to UNAVAILABLE.
+  [latent-space-ainews-reasoning-trace-2026-08-12]
 
 ## TODO — dynamic selection protocol (future state, not active)
 
