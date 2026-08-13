@@ -81,6 +81,40 @@ and pasted into the private-context session only after human review.
   Reference: ASSET Research Group, GhostSplice disclosure,
   August 2026. PoC: github.com/asset-group/ghostsplice
   [ghostsplice-mcp-split-injection-2026-08-11]
+- Delegated identity — named threat class (August 2026):
+  An agent that authenticates to an external service using
+  your credentials cannot be cleanly revoked without revoking
+  your own access. Its audit trail is indistinguishable from
+  yours. This is the delegated identity threat class — when
+  an AI teammate signs in to your tools as you, it inherits
+  your permission scope and leaves no audit boundary between
+  its actions and yours.
+  Three mandatory rules:
+  1. Agents must never authenticate with your primary SaaS
+     credentials. Use dedicated service accounts or scoped
+     API tokens issued specifically to the agent, with the
+     minimum permission set the task requires. The agent's
+     credential must be independently revocable without
+     affecting your own access.
+  2. Any agent with delegated credentials must appear in the
+     AI-BOM with the following fields: tool authenticated to,
+     credential scope, date issued, expiry/rotation date,
+     and the specific task class that justifies the access.
+     An agent with credentials not in the AI-BOM is an
+     unauthorized access path, not an operational agent.
+  3. Audit trail isolation: before delegating credentials to
+     any agent, confirm the target service produces
+     per-credential or per-token audit logs. If the service
+     cannot separate your actions from the agent's actions in
+     its audit log, the delegation is not permissible for any
+     workflow that may require later accountability.
+  Reference: Grok @Bot early beta (August 2026) and W&B
+  agent demo (agent leaked SSN/card data while another
+  blocked injection and redacted secrets before model
+  ingestion). The Turing Post framing: "if an agent uses
+  your SaaS credentials directly, revocation and auditing
+  become muddy."
+  [latent-space-ainews-grok46-2026-08-13]
 - private GitHub/Gmail/Drive/Slack connector + external URL
   summarization
 - cross-session memory plugin + browser/web-fetch task

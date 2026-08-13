@@ -45,13 +45,18 @@ prices, scores, and availability.
       201K tokens, not just the last 1K. Budget accordingly
       for long-context agent runs.
     Fast variant: 2x standard price, lower latency.
-  Benchmarks (xAI launch table, 2026-08-12):
-    Intelligence Index (Artificial Analysis): 61
-      — matches GPT-5.6 Sol Max
-    ELO (xAI claim): 1753 — pending LMSYS/AA verification
-    Strength: knowledge work, coding
-    Weakness: GPT-5.6 Sol Max leads DeepSWE and
-      Terminal-Bench by clear margins
+  Benchmarks (confirmed, Artificial Analysis, 2026-08-12):
+    Intelligence Index: 61 — matches GPT-5.6 Sol Max
+    Terminal-Bench v2.1: 88.4% — strong; comparable to
+      frontier peers, not lagging
+    GDPval-AA v2 Elo: 1753 (confirmed)
+    AA-Briefcase: competitive agentic knowledge-work
+      performance at materially lower cost than frontier
+      peers (AA evaluation, 2026-08-12)
+    Strength: knowledge work, coding, long-running agents
+    ELO (xAI claim): 1753 — LMSYS/AA community verification
+      pending
+  [latent-space-ainews-grok46-2026-08-13]
   Access: xAI API, Cursor (all plans), OpenRouter, Vercel,
     Cloudflare, Grok Build. 2x Cursor usage during
     launch week promo (ends ~2026-08-19).
@@ -73,6 +78,26 @@ prices, scores, and availability.
   Reassessment trigger: Grok 4.7 release; October 2026
     Cursor/SpaceXAI checkpoint.
   [grok-4-6-release-2026-08-12]
+- Grok @Bot (xAI / SpaceXAI)
+  Released: 2026-08-11 (early beta)
+  Status: CANDIDATE — price-cap assessment pending;
+    no credentials delegated until delegated identity policy
+    (above) is satisfied
+  Powered by: Grok 4.6
+  Category: AI teammate / agent platform — signs in to
+    external tools using delegated credentials, executes
+    tasks, returns finished work. Not a coding agent;
+    a knowledge-work and tool-use agent.
+  AI-BOM requirement: any active Grok @Bot session must
+    appear in the AI-BOM with credential scope and tool
+    access listed. A session without an AI-BOM entry is
+    a policy violation.
+  Delegated identity policy applies: mandatory scoped
+    credentials, independent revocation, audit trail
+    isolation before activation. See agent-egress policy.
+  Reassessment trigger: October 2026 checkpoint. Monitor
+    pricing and beta-to-GA transition.
+  [latent-space-ainews-grok46-2026-08-13]
 
 * Pricing: PERMANENT at $2/M input, $10/M output.
   Confirmed 2026-08-10. Introductory period cancelled —
@@ -221,16 +246,37 @@ Reference model status updates (not active tiers):
   of routing deterministic/agentic runs to the most
   cost-efficient capable model.
   Chinese model ban: not applicable — NVIDIA is a US company.
-  Local deployment: viable at BF16 on sufficient VRAM;
-  NVFP4 quant reduces footprint. Alfonso's laptop GPU
-  below threshold for full BF16 — assess on next hardware
-  upgrade or remote inference.
+  Local deployment update (2026-08-13):
+    2-bit quantization (Unsloth): ~22 GB VRAM, confirmed
+      to sustain long tool-use sessions
+    Alfonso's laptop GPU: still below 22 GB threshold —
+      NOT VIABLE locally on current hardware
+    Gap is narrowing: reassess on next hardware upgrade or
+      when running on a 24 GB VRAM machine (RTX 3090/4090
+      class). At 2-bit quality is significantly degraded —
+      evaluate task fit before deploying at this quantization.
+  [latent-space-ainews-grok46-2026-08-13]
   Reassessment trigger: October 2026 checkpoint. Conditional
   on OpenMDW-1.1 license review — do not deploy in any
   portfolio-public or production context until license terms
   are verified. If OpenMDW-1.1 is found to be restrictive,
   downgrade status to UNAVAILABLE.
   [latent-space-ainews-reasoning-trace-2026-08-12]
+- Microsoft MAI-Thinking-1
+  Released: 2026-08-12
+  Status: CANDIDATE — access restricted (Microsoft Foundry
+    only, no public API pricing confirmed)
+  Architecture: reasoning model, built from scratch at
+    Microsoft (not a fine-tune of an existing frontier model)
+  Access: Microsoft Azure Foundry; not publicly available
+  Chinese model ban: not applicable — Microsoft is a US
+    company
+  Positioning: applied reasoning model with explicit focus
+    on tool use — Microsoft team is soliciting tool-use
+    feedback at launch, signaling this is the target use
+    case rather than benchmark competition
+  Reassessment trigger: when public API pricing is confirmed.
+  [latent-space-ainews-grok46-2026-08-13]
 
 ## TODO — dynamic selection protocol (future state, not active)
 
