@@ -3,7 +3,7 @@ doc_type: registry
 authority: reference
 owner: Alfonso Cruz
 scope: Current non-Chinese model list with prices and capability scores
-last_updated: 2026-07-31
+last_updated: 2026-08-14
 update_trigger: new top-10 model appears / price change >20% / snapshot >30 days old
 ---
 
@@ -20,10 +20,15 @@ prices, scores, and availability.
 | Subagent/reads | claude-haiku-4-5 | — | — | — | — | approved-ai-tools.md |
 | Subagent/reads | gemini-2.5-flash-lite | — | $0.03 blended | — | 0.37s TTFT | artificialanalysis.ai |
 | Daily (free) | Codex 5.3 | ~44 | $0 Cursor sub | $0 | — | Cursor subscription |
-| Daily (free) | Grok 4.5 | ~44 | $0 Cursor sub | $0 | 80–112 | Cursor subscription |
+| Historical (superseded) | Grok 4.5 | ~44 | $0 Cursor sub | $0 | 80–112 | Cursor subscription |
 | Hard | claude-sonnet-5 | ~43 | $2 | $10 | TBD | platform.claude.com |
 | Very hard | claude-opus-4-8 | 56 | $5 | $25 | ~62 | platform.claude.com |
 | Ultra-hard | UNASSIGNED (Fable 5 unavailable) | — | — | — | — | approved-ai-tools.md |
+
+Grok 4.5:
+Status: SUPERSEDED by Grok 4.6 (2026-08-12).
+Retained for historical reference only. Do not
+route new tasks to Grok 4.5.
 
 - Grok 4.6 (xAI / SpaceXAI)
   Released: 2026-08-12

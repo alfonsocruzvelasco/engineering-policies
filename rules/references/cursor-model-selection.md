@@ -8,7 +8,7 @@ Avoid wasting time in Cursor's model/effort picker while keeping control over co
 
 Use this as the normal configuration:
 
-> **Grok 4.5 + Medium effort + Fast OFF + Auto OFF**
+> **Grok 4.6 + Medium effort + Fast OFF + Auto OFF**
 
 This should handle ordinary coding work without making model selection a decision every time.
 
@@ -113,8 +113,8 @@ This is an operational Cursor preference, not an Obsidian knowledge-management s
 
 ## Sources
 
-Checked 2026-08-10:
+Checked 2026-08-14:
 
 - Cursor Models & Pricing: https://cursor.com/docs/models-and-pricing
 - Cursor Keyboard Shortcuts: https://cursor.com/docs/reference/keyboard-shortcuts
-- Cursor — Introducing Grok 4.5: https://cursor.com/blog/grok-4-5
+- Cursor Blog — Introducing Grok 4.6: https://cursor.com/blog/grok-4-6

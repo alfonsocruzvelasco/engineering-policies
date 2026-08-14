@@ -154,7 +154,7 @@ you are building. They are not separate concerns.
 Use these in order based on task class and cost policy:
 
 1. **Codex 5.3** (Cursor subscription): default for daily coding, edits, and repo maintenance with zero incremental token cost under current setup.
-2. **Grok 4.5** (Cursor subscription): default alternative for daily tasks where higher throughput and lower latency matter.
+2. **Grok 4.6** (Cursor subscription): default alternative for daily tasks where higher throughput and lower latency matter.
 3. **claude-haiku-4-5**: first choice for subagent read/search/summarize tasks where speed and low cost are preferred over deep reasoning.
 4. **gemini-2.5-flash-lite**: secondary subagent read/search option when Haiku quota is constrained or latency is the primary constraint.
 5. **claude-sonnet-5**: hard-task escalation path (architecture, complex refactors, higher-stakes reasoning) when free-tier models are insufficient.

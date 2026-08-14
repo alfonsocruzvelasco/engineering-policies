@@ -164,7 +164,7 @@ No agent tool may be approved without completing all three:
   is constrained.
   Source: [artificialanalysis-jul2026]
 
-- `grok-4.5`: APPROVED (Cursor subscription, token-free)
+- `grok-4.6`: APPROVED (Cursor subscription, token-free)
   Available in Cursor on all plans post-acquisition.
   Use case: daily tasks, same tier as Codex 5.3.
   Pricing: $2/MTok input · $6/MTok output (xAI API)
@@ -191,8 +191,8 @@ Current model list with prices: see rules/model-registry.md
 (updated monthly — check last_updated date before any hard+ task).
 
 Selection rules (price-capped, active policy):
-- Trivial/Easy tasks: Codex 5.3 or Grok 4.5 (Cursor sub, free)
-- Medium tasks: Codex 5.3 or Grok 4.5 (free first); escalate to
+- Trivial/Easy tasks: Codex 5.3 or Grok 4.6 (Cursor sub, free)
+- Medium tasks: Codex 5.3 or Grok 4.6 (free first); escalate to
   Sonnet 5 only if free models demonstrably fail the task
 - Hard tasks: claude-sonnet-5 (verify current price in model-registry.md)
 - Very hard tasks: claude-opus-4-8
@@ -414,6 +414,11 @@ Do not use. Chinese-hosted. §14.6.9.
 - MUST review `.cursor/` configuration files in Git
 
 Cursor model selection policy:
+Codex model selection: see rules/model-selection-codex.md
+for the full possibility space with all constraints applied.
+Default backend: Grok 4.6. Registry gaps listed in that
+file must be resolved before the October 2026 checkpoint.
+[codex-model-selection-2026-08-14]
 - Default: one stable configuration — do not choose from
   scratch per prompt. Current default as of 2026-08-12:
   Grok 4.6, Medium effort, Fast OFF, Auto OFF.
