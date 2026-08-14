@@ -1492,21 +1492,24 @@ Agents are not uniform. Different operational contexts require different governa
 Models use adaptive thinking — reasoning depth self-calibrates
 within the effort ceiling. Do not over-provision.
 
-Default model is Codex 5.3 (Cursor subscription, no token cost).
-Claude models (Sonnet 5, Opus 4.8) are reserved for hard and very hard tasks respectively.
+Default model is Codex 5.3 or Grok 4.6 (Cursor subscription, no extra token cost).
+SPEND FREEZE (active): do not auto-escalate to Claude models.
+Claude models (Sonnet 5, Opus 4.8) stay reserved for hard and
+very hard tasks, but agent-initiated use is frozen until the
+owner lifts the freeze in `rules/approved-ai-tools.md`.
 Do not use Claude models for routine edits, file reads, or grep tasks.
-- Chat, queries, drafts: Codex 5.3 / default
-- Routine code, refactoring: Codex 5.3 / default
-- Complex CV/ML, hard debugging: Sonnet 5 / high
-- Deep reasoning, novel problems: Opus 4.8 / xhigh
-- Long async multi-agent: Opus 4.8 / ultracode
-  (monitor Agent SDK spend — exhausts $20/month cap fast)
-- Absolute quality ceiling: Opus 4.8 / max
-  (one-off only, never as session default)
+- Chat, queries, drafts: Codex 5.3 / Grok 4.6
+- Routine code, refactoring: Codex 5.3 / Grok 4.6
+- Complex CV/ML, hard debugging: stay on Cursor subscription
+  models unless the human explicitly names Sonnet 5
+- Deep reasoning, novel problems: frozen (Opus 4.8) until lift
+- Long async multi-agent: frozen (Opus 4.8 / ultracode) until lift
+- Absolute quality ceiling: frozen until lift
 
-Spend discipline: run `npx ccusage@latest daily` after
-any Opus 4.8 / xhigh or ultracode session.
-Selection authority: `rules/model-registry.md` (active price-capped tiers).
+Spend discipline: do not enable extra billing when the Agent
+SDK credit is exhausted. Selection authority:
+`rules/model-registry.md` (active price-capped tiers) and
+`rules/approved-ai-tools.md` (SPEND FREEZE).
 
 ### Key Capabilities
 

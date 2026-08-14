@@ -26,7 +26,33 @@ if rg -n "^# Docker/Podman/Kubernetes/Kafka$" "rules/web-policies.md" >/dev/null
   fail=1
 fi
 
-# 4) approved-ai-tools stale review dates are warning-only.
+# 4) Spend freeze integrity. Active freeze forbids extra billed
+# spend until the owner records SPEND FREEZE LIFTED.
+freeze_file="rules/approved-ai-tools.md"
+if rg -q "SPEND FREEZE LIFTED" "${freeze_file}" \
+  && ! rg -q "SPEND FREEZE \(active\)" "${freeze_file}"; then
+  echo "[policy-consistency] INFO: spend freeze lifted in ${freeze_file}"
+elif rg -q "SPEND FREEZE \(active\)" "${freeze_file}"; then
+  if ! rg -q "pay-as-you-go extra usage billing disabled" "${freeze_file}"; then
+    echo "[policy-consistency] ERROR: PAYG-disabled control missing from ${freeze_file} while spend freeze is active." >&2
+    fail=1
+  fi
+  for pointer in \
+    "AGENTS.md" \
+    "rules/model-registry.md" \
+    "rules/ai-workflow-policy.md"
+  do
+    if ! rg -q "spend freeze|SPEND FREEZE" "${pointer}"; then
+      echo "[policy-consistency] ERROR: ${pointer} missing spend-freeze pointer while freeze is active." >&2
+      fail=1
+    fi
+  done
+else
+  echo "[policy-consistency] ERROR: ${freeze_file} must contain SPEND FREEZE (active) or SPEND FREEZE LIFTED." >&2
+  fail=1
+fi
+
+# 5) approved-ai-tools stale review dates are warning-only.
 python3 - <<'PY'
 import re
 from datetime import date

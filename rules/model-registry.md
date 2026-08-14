@@ -15,14 +15,20 @@ prices, scores, and availability.
 
 ## Current price-capped tiers (active policy)
 
+spend-freeze: active (2026-08-14). Paid/API rows below are
+frozen for new agent-initiated sessions. See
+approved-ai-tools.md SPEND FREEZE. Agents cannot lift this
+freeze.
+
 | Tier | Model | Intelligence | In $/MTok | Out $/MTok | TPS | Source |
 |------|-------|-------------|-----------|------------|-----|--------|
-| Subagent/reads | claude-haiku-4-5 | — | — | — | — | approved-ai-tools.md |
-| Subagent/reads | gemini-2.5-flash-lite | — | $0.03 blended | — | 0.37s TTFT | artificialanalysis.ai |
-| Daily (free) | Codex 5.3 | ~44 | $0 Cursor sub | $0 | — | Cursor subscription |
+| Subagent/reads | claude-haiku-4-5 | — | — | — | — | approved-ai-tools.md (frozen) |
+| Subagent/reads | gemini-2.5-flash-lite | — | $0.03 blended | — | 0.37s TTFT | artificialanalysis.ai (frozen) |
+| Daily (free, freeze-allowed) | Codex 5.3 | ~44 | $0 Cursor sub | $0 | — | Cursor subscription |
+| Daily (free, freeze-allowed) | Grok 4.6 | ~44 | $0 Cursor sub | $0 | 80–112 | Cursor subscription |
 | Historical (superseded) | Grok 4.5 | ~44 | $0 Cursor sub | $0 | 80–112 | Cursor subscription |
-| Hard | claude-sonnet-5 | ~43 | $2 | $10 | TBD | platform.claude.com |
-| Very hard | claude-opus-4-8 | 56 | $5 | $25 | ~62 | platform.claude.com |
+| Hard (frozen) | claude-sonnet-5 | ~43 | $2 | $10 | TBD | platform.claude.com |
+| Very hard (frozen) | claude-opus-4-8 | 56 | $5 | $25 | ~62 | platform.claude.com |
 | Ultra-hard | UNASSIGNED (Fable 5 unavailable) | — | — | — | — | approved-ai-tools.md |
 
 Grok 4.5:
@@ -291,7 +297,7 @@ When ready to activate dynamic model selection:
 - Update daily-navigation.md SESSION START accordingly
 
 Do not activate until explicitly decided. Current policy is
-price-capped tiers above. No deviation.
+price-capped tiers above plus SPEND FREEZE. No deviation.
 
 ## PROHIBITED models (Chinese origin — API endpoint ban)
 

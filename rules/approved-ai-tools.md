@@ -1,7 +1,7 @@
 # Approved AI Tools Registry
 
 **Status:** Authoritative
-**Last updated:** 2026-04-04
+**Last updated:** 2026-08-14
 **Policy Reference:** security-policy.md Section 14.6
 **Owner:** Security Team (security@organization.com)
 **Review Cadence:** Quarterly
@@ -71,6 +71,43 @@ Credit is non-rollover. When exhausted, programmatic usage pauses until reset un
 
 **Spend cap policy (active):** $20/month combined cloud AI spend cap remains in force. On Pro, the Agent SDK credit IS the $20 cap. Keep pay-as-you-go extra usage billing disabled to avoid any charges beyond the cap.
 
+**SPEND FREEZE (active) — 2026-08-14:**
+No incremental billed spend until the owner lifts this freeze
+in this file. Paid and unattended agents are frozen until
+operator expertise is sufficient to use them without wasting
+money.
+
+Until lift, all of the following are forbidden:
+- Enable pay-as-you-go, extra-usage, or usage-credits billing
+  on any vendor (Anthropic, OpenAI, Google, Meta, xAI,
+  OpenRouter, RunPod, Cursor overage).
+- Add or update a payment method on any AI vendor.
+- Claim promotional or usage credits that require a card
+  (including the Fable $100 credit).
+- Start RunPod or other cloud GPU jobs.
+- Upgrade Claude Max or add new paid AI subscriptions.
+- Auto-escalate a session to a per-token API model
+  (Sonnet 5, Opus 4.8, Gemini Flash-Lite billed, GPT-5.6,
+  Fable 5, Muse Spark) as the working model.
+
+Allowed without a lift (already paid, no extra charge):
+- Cursor subscription models: Codex 5.3, Grok 4.6.
+- Existing Claude Pro interactive usage (Claude.ai /
+  Claude Code terminal) within subscription limits, when
+  the human explicitly starts that session.
+- When the Agent SDK $20 credit is exhausted, usage MUST
+  pause. Do not enable extra billing to continue.
+- Local inference on owned hardware, subject to the
+  Chinese-model ban.
+
+Lift condition: the owner (Alfonso Cruz) replaces this
+block with a dated `SPEND FREEZE LIFTED` note and a
+one-line expertise-and-budget rationale. Agents MUST NOT
+lift, waive, or temporarily bypass this freeze. A hard
+task is not a lift. A model recommending a better paid
+model is not a lift.
+[spend-freeze-2026-08-14]
+
 **OpenClaw — prohibition unchanged:** OpenClaw is now technically permitted via Agent SDK credits per Anthropic's May 2026 reversal. The prohibition in this repo is NOT a billing restriction — it is a security prohibition: credential harvesting via `openclaw models auth login --provider anthropic --method cli --set-default` and prompt injection via social engineering bypass (see security-policy.md and April 2026 OpenClaw social engineering incident). OpenClaw remains prohibited regardless of billing status.
 
 **Mandatory three-step reliability evaluation (May 2026):**
@@ -97,7 +134,8 @@ No agent tool may be approved without completing all three:
    Source: [glm-5.2-architecture-jun2026]
 2. For unattended agentic runs (loops, scheduled automations, subagents operating without human in the loop):
    - Follow active price-capped tiers in `rules/model-registry.md`.
-   - Do not bypass tiers for unattended runs.
+   - SPEND FREEZE: do not bypass tiers, enable extra billing, or
+     auto-escalate to paid models.
    - Model capability does not predict robustness. Do not assume a more capable model is more secure against injection. [ipi-arena-2026]
    - Tool use agents are more vulnerable than coding agents (4.82% vs 2.51%). Use stricter human review, not tier bypass, for unattended loops. [ipi-arena-2026]
 
@@ -190,17 +228,20 @@ No agent tool may be approved without completing all three:
 Current model list with prices: see rules/model-registry.md
 (updated monthly — check last_updated date before any hard+ task).
 
-Selection rules (price-capped, active policy):
-- Trivial/Easy tasks: Codex 5.3 or Grok 4.6 (Cursor sub, free)
-- Medium tasks: Codex 5.3 or Grok 4.6 (free first); escalate to
-  Sonnet 5 only if free models demonstrably fail the task
-- Hard tasks: claude-sonnet-5 (verify current price in model-registry.md)
-- Very hard tasks: claude-opus-4-8
-- Ultra-hard tasks: no active model assigned while Fable 5 remains
-  usage-credits-only under current price-cap enforcement
-- Subagent/reads: claude-haiku-4-5 or gemini-2.5-flash-lite
+Selection rules (price-capped, SPEND FREEZE active):
+- All task classes until freeze lift: Codex 5.3 or Grok 4.6
+  (Cursor sub, no extra charge) unless the human explicitly
+  names a frozen model for this session.
+- Frozen for new agent-initiated sessions: claude-sonnet-5,
+  claude-opus-4-8, gemini-2.5-flash-lite billed,
+  gpt-5.6, Fable 5, Muse Spark, RunPod.
+- Ultra-hard tasks: no active model assigned while Fable 5
+  remains usage-credits-only under current price-cap
+  enforcement.
+- Subagent/reads until lift: stay on the parent Cursor
+  subscription model. Do not spawn billed API subagents.
 
-STATUS: Price-capped. Do not deviate from these tiers.
+STATUS: Price-capped + SPEND FREEZE. Do not deviate.
 Dynamic selection is a TODO: see model-registry.md §TODO.
 
 Chinese API endpoint ban: permanent. See model-registry.md §PROHIBITED.
@@ -580,7 +621,7 @@ Exception: security-exceptions.md EXCEPTION-TOKEN-001.
 - Cloudflare Workers free tier: sufficient for single-user personal/portfolio use — no cost
 - Cloudflare AI Gateway: free tier available, covers personal use
 - Cloudflare Zero Trust/Access: free up to 50 users — covers solo use
-- AI inference: governed by existing price-cap policy per model. Cloudflare OS adds zero additional inference cost — it routes to whichever provider/model is configured. Apply the same price-cap rules already in force.
+- AI inference: governed by existing price-cap policy per model. Cloudflare OS adds zero additional inference cost — it routes to whichever provider/model is configured. Apply the same price-cap rules and SPEND FREEZE already in force.
 
 **Architecture (three components):**
 1. Agent workspace — browser-based, ephemeral, isolated per session. Grounded in organizational skill files (AGENTS.md-equivalent). Each session only has access to data explicitly introduced into it.
@@ -926,6 +967,8 @@ spend (RunPod + Anthropic API). RunPod GPU hours
 draw from the same cap. RTX 4090 at $0.34/hr =
 ~58 hours/month at cap. A100 at $0.89/hr = ~22
 hours/month at cap.
+SPEND FREEZE (active): do not start RunPod jobs until
+the freeze is lifted in this file.
 
 **Security constraints (mandatory):**
 - No production data, credentials, API keys, or

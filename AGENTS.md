@@ -151,19 +151,26 @@ you are building. They are not separate concerns.
 
 ## Available agents (ordered by best use case)
 
+SPEND FREEZE (active, 2026-08-14): do not enable extra
+billing, add a payment method, claim usage credits, or
+auto-escalate to paid/premium models. Stay on Codex 5.3 or
+Grok 4.6 unless the human explicitly names a frozen model
+for this session. Agents cannot lift this freeze. Authority:
+`rules/approved-ai-tools.md`.
+
 Use these in order based on task class and cost policy:
 
 1. **Codex 5.3** (Cursor subscription): default for daily coding, edits, and repo maintenance with zero incremental token cost under current setup.
 2. **Grok 4.6** (Cursor subscription): default alternative for daily tasks where higher throughput and lower latency matter.
-3. **claude-haiku-4-5**: first choice for subagent read/search/summarize tasks where speed and low cost are preferred over deep reasoning.
-4. **gemini-2.5-flash-lite**: secondary subagent read/search option when Haiku quota is constrained or latency is the primary constraint.
-5. **claude-sonnet-5**: hard-task escalation path (architecture, complex refactors, higher-stakes reasoning) when free-tier models are insufficient.
-6. **claude-opus-4-8**: very-hard-task path for maximum rigor where Sonnet-level capability is not enough.
-7. **Cloudflare OS** (platform): approved orchestration layer for browser-based agent workspace, gatekeeper-mediated deterministic queries, and AI Gateway routing under the same model price-cap rules.
+3. **claude-haiku-4-5**: FROZEN for agent-initiated sessions under the spend freeze. Human-explicit Claude Pro interactive use only.
+4. **gemini-2.5-flash-lite**: FROZEN (token-billed) until spend freeze lift.
+5. **claude-sonnet-5**: FROZEN for agent-initiated escalation until spend freeze lift.
+6. **claude-opus-4-8**: FROZEN for agent-initiated escalation until spend freeze lift.
+7. **Cloudflare OS** (platform): approved orchestration layer for browser-based agent workspace, gatekeeper-mediated deterministic queries, and AI Gateway routing under the same model price-cap rules and spend freeze.
 
 Routing rules:
-- Default automated/background runs to the cheapest capable option.
-- Escalate to higher-cost models only when the capability delta is measurable and required by the task.
+- Default automated/background runs to Codex 5.3 or Grok 4.6.
+- Do not escalate to higher-cost models. A hard task is not a freeze lift.
 - Follow the active tier authority in `rules/model-registry.md` and `rules/approved-ai-tools.md`.
 
 Chinese ban enforcement:
@@ -173,6 +180,7 @@ Chinese ban enforcement:
 
 ## Prohibited Patterns
 - Do not weaken or bypass mandatory controls in policy files.
+- Do not lift, waive, or temporarily bypass the spend freeze.
 - Do not introduce contradictory guidance across policy documents.
 - Do not remove cross-references without replacing them with valid targets.
 - Do not add production credentials, datasets, or heavy artifacts to this repository.
