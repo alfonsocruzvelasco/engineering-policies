@@ -264,6 +264,29 @@ Chinese ban enforcement:
     [resumen-rendimiento-epoca-ia-2026-08-10]
 8. Before any refactoring task, run the full test suite and record the baseline result. After refactoring, run the same suite. If new tests were added during refactoring, verify they would have failed against the pre-refactoring code. A refactoring task that cannot be bracketed by a before/after test run is not complete.
 9. Any repo running agentic loops must define both layers of the harness explicitly before autonomous execution begins: (1) Skills — what the agent knows about the codebase architecture, conventions, and constraints, loaded as SKILL.md files; (2) PostHooks — automated checks that run after every agent action and verify output without relying on the agent's self-assessment. PostHooks must be reviewed and updated when the agent's capability level changes materially or when a task class is executed autonomously for the first time; a PostHooks layer that predates the current task class is not a valid harness. For Level 3+ agent runs, the pre-execution contract must include: Escalation: who gets involved and under what conditions when the agent is blocked, produces unexpected output, or exceeds scope. Budget: maximum token spend and maximum retry attempts for the task; the agent must stop and escalate if either limit is reached. An agent that cannot be checked by an external automated layer must not run autonomously. The harness, not the model, is what makes autonomous execution trustworthy.
+9a. The /goal evaluator is not a quality gate. The
+    built-in Claude Code /goal evaluator checks the
+    conversation transcript for hard rules you specified
+    — tests passed, score threshold, metric value — and
+    nothing else. It does not assess content correctness,
+    architectural soundness, security properties, or
+    whether the output meets your judgment criteria. It
+    is a hard-rule gate, not a quality gate.
+
+    Consequence: PostHooks must not be removed, skipped,
+    or weakened on the assumption that /goal's evaluator
+    covers content quality. It does not. The external
+    automated verification layer (PostHooks) remains
+    mandatory regardless of whether /goal is running.
+    A loop that exits cleanly via /goal has only
+    demonstrated that it met its hard stopping rules —
+    not that its output is correct.
+
+    Corollary: stopping conditions passed to /goal must
+    be deterministic and machine-checkable: "all local
+    tests pass and coverage >= 80%" not "the code looks
+    clean." The evaluator cannot assess the latter.
+    [osmani-practical-loop-engineering-2026-08-14]
 10. Stateless reducer rule (Factor 12, Horthy 2025): Each agent run MUST be deterministic and replayable given the same context. Agents MUST NOT depend on hidden state, in-memory assumptions, or side effects from a previous run. If a run cannot be replayed from its logged inputs and context, it does not meet lights-out eligibility requirements.
 11. Deferred: multi-agent schema validation. Trigger only when two or more agents in one pipeline read and write shared state (for example: detection, tracking, and fusion agents on one common schema). Single-agent pipelines are not in scope and MUST NOT implement this preemptively. When triggered, define shared invariants as Pydantic models with validators (not full OWL/RDF) before adding agent #2. This is Gate 2 output validation in the same control slot as the PostHooks co-evolution rule, scaled from single-agent output checks to cross-agent state integrity. Source: [source-latent-space-ontologies-so-back-2026-07-30]
 12. Agent ownership provenance: Every deployed agent has exactly one owner — the person who created it. If that person becomes unavailable (leaves, extended absence, role change), ownership transfers immediately to their direct manager. The new owner inherits full responsibility for the agent's output, behavior, and shutdown. No agent may exist without a named owner in the session log or config header. An ownerless agent is a policy violation, not an edge case. Rationale: validated at production scale by Cloudflare OS (~4,000 employees, August 2026). Manager inherits agent responsibility the same way they inherit other workflows.
@@ -392,9 +415,27 @@ reasoning, not the commit log.
    models must differ in ways that induce different error distributions
    (e.g., three reviewers with three rubrics: correctness, security,
    performance — not three identical reviews).
-3. **Infinite loop** — reflection or planning agent without an explicit
-   iteration cap. All loops must have a maximum round count and a
-   stopping criterion defined before the first run.
+3. **Infinite loop / stall** — a reflection or planning
+   agent without an explicit iteration cap, or one that
+   repeats the same command across consecutive turns with
+   no measurable change in outcome. Two failure modes,
+   one rule:
+
+   a) All loops must have a maximum iteration cap defined
+      before the first run. Reaching the cap without
+      meeting the stopping condition is an escalation
+      signal, not a retry signal.
+
+   b) Loop stall detection: if the same command is
+      attempted two or more consecutive turns with no
+      measurable change in result, stop immediately —
+      do not wait for the cap. A stalled loop wastes
+      budget on identical failures and will not self-
+      correct without external intervention. Stop,
+      diagnose the failure, change the approach, then
+      resume. The stall is the signal; the cap is the
+      last resort.
+   [osmani-practical-loop-engineering-2026-08-14]
 4. **Phantom graph** — knowledge graph with an elaborate ontology that
    no agent queries. Infrastructure cost without value.
 5. **Conversational bottleneck** — orchestrator receiving every
