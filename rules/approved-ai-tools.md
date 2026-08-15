@@ -639,6 +639,53 @@ Monitor repository changes for gatekeeper API and MCP portal interface breakage 
 
 ---
 
+#### Flue 2 (CANDIDATE — evaluation pending)
+**Status:** CANDIDATE — not APPROVED
+**License:** Apache-2.0 (open source, self-hosted)
+**Repository:** https://github.com/withastro/flue
+**Docs:** https://www.flueframework.com
+
+Headless TypeScript agent harness from the Astro team
+(Cloudflare-owned since January 2026). React-style Agent
+Hooks API, built on Pi (open-source minimal harness).
+Runtime-agnostic: Node.js, Cloudflare Workers, GitHub
+Actions. Not a billed API or model.
+
+**Layer classification:** Agent system layer (harness /
+orchestration) — not a model. Complements approved
+platforms; does not replace Cursor, Claude Code, or
+Cloudflare OS.
+
+**Price-cap / spend freeze:** No conflict. Apache-2.0,
+self-hosted, zero marginal cost to adopt the framework.
+Not a billed dependency. Model inference invoked through
+Flue remains under the existing price-cap and SPEND FREEZE
+in this file.
+
+**Candidacy vs Vercel eve:** Tracked because runtime/host
+portability has no vendor lock-in, versus eve's
+Vercel-optimized but Vercel-coupled model. Alignment:
+Cloudflare OS is already an approved platform in this
+policy set (`AGENTS.md` Available agents).
+
+**Not approved because:**
+- Pre-1.0 history: source material dated Flue at
+  1.0.0-beta; Flue 2 is a breaking rewrite and the API is
+  still moving. Vendor "first stable" does not mean
+  approved here.
+- HN launch thread: no tests in `packages/` (evaluate the
+  current tree before any adopt decision).
+- Mandatory three-step reliability evaluation in this
+  file not completed. Evaluate-before-adopt, not adopt-now.
+
+**Cross-reference:** Harness/hooks discussion in
+[`agent-orchestration.md`](references/agent-orchestration.md).
+That reference is supporting material only — not approval.
+
+**Reference:** https://github.com/withastro/flue
+
+---
+
 #### Codex on Amazon Bedrock (NOT APPROVED — evaluation pending)
 OpenAI coding agent available on Amazon Bedrock since April 28 2026 (limited preview). Accessible via Codex CLI, Codex desktop app, and VS Code extension. Authentication via AWS credentials; inference runs on Bedrock infrastructure.
 
