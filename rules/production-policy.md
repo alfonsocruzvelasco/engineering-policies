@@ -8,7 +8,7 @@ scope: CV/ML production engineering standards; sections 1, 2, and 8 are authorit
 # Production Engineering Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-03-29
+**Last updated:** 2026-08-16
 **Purpose:** Daily reference for CV/ML engineering, data systems, and tooling standards
 
 > *Inline `Last updated` footers under individual sections are subordinate revision markers. The file-level date above is the summary stamp for the document as a whole.*
@@ -239,8 +239,9 @@ git init
 git branch -M main
 
 # 3. Create Python virtual environment
-python3 -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
+#    Location and pyenv interpreter: development-environment-policy.md
+uv venv ~/dev/venvs/myproject --python "$(pyenv which python)"
+source ~/dev/venvs/myproject/bin/activate
 
 # 4. Create pyproject.toml
 cat > pyproject.toml << 'EOF'
@@ -251,25 +252,23 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "myproject"
 version = "0.1.0"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = []
 
 [project.optional-dependencies]
 dev = [
     "pytest>=7.0",
     "pytest-cov>=4.0",
-    "black>=23.0",
-    "ruff>=0.1.0",
+    "ruff>=0.14.0",
     "mypy>=1.0",
 ]
-
-[tool.black]
-line-length = 100
-target-version = ['py310']
 
 [tool.ruff]
 line-length = 100
 select = ["E", "F", "I", "N", "W"]
+
+[tool.ruff.format]
+quote-style = "double"
 
 [tool.mypy]
 strict = true
@@ -283,7 +282,7 @@ addopts = ["--strict-markers", "--cov=src", "--cov-report=term-missing"]
 EOF
 
 # 5. Install in development mode
-pip install -e ".[dev]"
+uv pip install -e ".[dev]"
 
 # 6. Create basic .gitignore
 cat > .gitignore << 'EOF'
@@ -306,7 +305,7 @@ cat > README.md << 'EOF'
 
 ## Installation
 \`\`\`bash
-pip install -e ".[dev]"
+uv pip install -e ".[dev]"
 \`\`\`
 
 ## Running Tests
@@ -1781,7 +1780,7 @@ It distinguishes:
    - If it is not enforced by tooling (formatter/linter/hooks/CI), it is not a rule.
 
 2. **Formatters are the source of truth**
-   - Python: **Black**
+   - Python: **Ruff** (`ruff format`)
    - JS/TS/HTML/CSS/YAML/Markdown/JSON: **Prettier**
    - C/C++/CUDA: **clang-format**
    - Java: **google-java-format** (or IntelliJ “Google Style”)
@@ -1812,13 +1811,21 @@ It distinguishes:
 
 ### 2.1 System-level tools (required)
 Install (as applicable):
-- `git`
-- `pre-commit`
+- `git` (CLI is the source of truth for critical Git operations)
+- GitHub CLI (`gh`), authenticated to github.com over **HTTPS**
+- `pre-commit` (install with **uv**, not `pip install --user`; 4.6.2 is valid)
 - Python toolchain manager (your policy: **pyenv**)
+- `uv` for Python package and tool installs
 - Node.js (for JS/TS projects)
 - Java JDK (for IntelliJ/Spring/Maven)
 - clang toolchain (for CLion/C++/CUDA)
 - Docker (if used in the project)
+
+Git workstation defaults:
+- Default branch: `main`
+- Git identity configured (`user.name` / `user.email`)
+- `gh auth status` succeeds against github.com over HTTPS
+- Do not treat IDE Git UIs as authoritative for rebase, conflict handling, or destructive operations
 
 ### 2.2 IDE machine setup (required)
 
@@ -1837,7 +1844,7 @@ Enable:
   - ✅ Optimize imports
 
 PyCharm:
-- must format with Black using the **project interpreter** (venv)
+- must format with **Ruff** using the **project interpreter** (venv)
 - show whitespace enabled (recommended)
 
 IntelliJ IDEA:
@@ -2258,8 +2265,9 @@ repos:
 54. **Installation and usage (developer workstation):**
 
 ```bash
-# once per machine
-python -m pip install --user pre-commit
+# once per machine (Fedora/Linux): uv, not pip --user
+uv tool install pre-commit
+# verified valid: pre-commit 4.6.2
 
 # once per repo
 pre-commit install
@@ -2308,10 +2316,8 @@ pre-commit run --all-files
 69. **Python on Windows**
 
     * Prefer the official Python install that provides the `py` launcher.
-    * Recommended invocations:
-
-      * `py -m pip install pre-commit`
-      * `py -m pre_commit run --all-files`
+    * If `uv` is available, use `uv tool install pre-commit`.
+    * Otherwise: `py -m pip install pre-commit`
     * If using `pipx`, ensure `pipx` binaries are on `PATH`.
 
 70. **CRLF/LF policy (non-negotiable)**
@@ -2658,7 +2664,7 @@ git clean -fd   # removes untracked files/dirs
 **Initial setup (per machine)**
 
 ```bash
-python -m pip install --user pre-commit
+uv tool install pre-commit
 ```
 
 **Enable hooks (per repo, mandatory)**
@@ -2978,8 +2984,9 @@ Enforced by `.editorconfig`.
 ### 6.2 Python
 Standard:
 - PEP 8
-- Black formatting
+- Ruff formatting (`ruff format`)
 - Ruff linting
+- mypy for strict type checking
 - type hints encouraged
 
 For **Python projects**:
@@ -3066,11 +3073,9 @@ Recommended baseline:
 - indentation = 2 for web formats
 
 ### 9.2 PyCharm formatting enforcement
-- Actions on Save: Reformat, Optimize imports, Run Black
-- If “Run Black disabled”, install Black in the project interpreter:
-  ```bash
-  python -m pip install black
-  ```
+- Actions on Save: Reformat, Optimize imports, Ruff format/lint
+- Configure Ruff as the Python formatter from the project interpreter.
+  Do not install or enable Black as the canonical formatter.
 
 ### 9.3 IntelliJ
 - enable google-java-format

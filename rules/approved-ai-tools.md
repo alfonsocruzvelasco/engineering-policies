@@ -1,7 +1,7 @@
 # Approved AI Tools Registry
 
 **Status:** Authoritative
-**Last updated:** 2026-08-14
+**Last updated:** 2026-08-16
 **Policy Reference:** security-policy.md Section 14.6
 **Owner:** Security Team (security@organization.com)
 **Review Cadence:** Quarterly
@@ -868,7 +868,7 @@ Reference: rules/references/ — reve-2-plan-render-architecture.md
 **Hardware baseline (do not run outside this envelope without a recorded exception):**
 - GPU: NVIDIA RTX 4070, 12GB VRAM, CUDA 12.9
 - CPU: AMD Ryzen 9 7900X, 64GB RAM
-- OS: Fedora Linux 41, Python 3.11
+- OS: Fedora Linux 43, Python 3.11
 
 ### Local model constraints — RTX 4070 (12GB VRAM hard limit)
 

@@ -547,7 +547,7 @@ pre-commit run --all-files
 | Component | Version | Notes |
 |-----------|---------|-------|
 | Python    | 3.11+   | Required for local automation and script compatibility |
-| pre-commit | 3.x+   | Enforced via `.pre-commit-config.yaml` hooks |
+| pre-commit | 4.6+   | Enforced via `.pre-commit-config.yaml` hooks. 4.6.2 is valid. |
 | Bash      | 5.x+    | Required for policy scripts in `rules/system/scripts/` |
 
 ## Key Links

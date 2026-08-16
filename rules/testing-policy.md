@@ -1,7 +1,7 @@
 # Testing Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-03-31
+**Last updated:** 2026-08-16
 **Purpose:** Language-specific testing standards for CV/ML engineering with strict artifact isolation
 
 ---
@@ -279,8 +279,8 @@ def test_current_spec_reflects_implementation():
 cd ~/dev/repos/github.com/alfonsocruzvelasco/<project>
 source ~/dev/venvs/<project>/bin/activate
 
-# Install dev dependencies
-pip install pytest pytest-cov pytest-xdist hypothesis --break-system-packages
+# Install dev dependencies with uv (not pip --break-system-packages)
+uv pip install pytest pytest-cov pytest-xdist hypothesis
 
 # Run tests
 pytest tests/unit/ -v --cov=src --cov-report=term-missing

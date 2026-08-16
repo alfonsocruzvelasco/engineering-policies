@@ -8,7 +8,7 @@ scope: AI-assisted development workflows (core workflow, prompt engineering, ses
 # AI Workflow Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-04-10
+**Last updated:** 2026-08-16
 
 > *Inline `Last updated` footers under individual sections are subordinate revision markers. The file-level date above is the summary stamp for the document as a whole.*
 
@@ -744,7 +744,7 @@ Headless mode is the planning complement to test-driven development. It enforces
    - **Behavioral rationale:** Agents respect instructions and will explore/test more when given more requirements. Unnecessary requirements increase exploration without benefit, making tasks harder and more expensive.
 
 6. **When to skip CLAUDE.md entirely:**
-   - Standard Python/ML/CV workflows (pytest, black, mypy)
+   - Standard Python/ML/CV workflows (pytest, ruff, mypy)
    - Standard Git workflows
    - Standard CI/CD patterns
    - **Rationale:** Agents already know standard tooling. The 4% improvement applies primarily to non-standard requirements.
@@ -846,7 +846,7 @@ Context files are classified by **load frequency**, not importance:
      - name: format-code
        trigger: PostToolUse
        async: true
-       command: black --check .
+       command: ruff format --check .
      - name: run-tests
        trigger: PostToolUse
        async: false

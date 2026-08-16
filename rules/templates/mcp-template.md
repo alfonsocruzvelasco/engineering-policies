@@ -715,7 +715,7 @@ DATA_PROFILE:  # For CV tasks only
   label_quality: <e.g., "Expert verified" or "Noisy crowd-sourced">
 
 ENVIRONMENT:
-  os: Fedora Workstation 41
+  os: Fedora Workstation 43
   gpu: NVIDIA RTX 4070 (CUDA compute only)
   python: pyenv-managed
   venv_path: ~/dev/venvs/<project>/
@@ -1844,7 +1844,7 @@ Before considering any task "done", I verify:
 
 ### Code Quality
 - [ ] Passes `ruff check .` with zero errors
-- [ ] Formatted with `black`
+- [ ] Formatted with `ruff format`
 - [ ] Type hints on public APIs
 - [ ] No hardcoded paths or magic numbers
 - [ ] Proper error handling

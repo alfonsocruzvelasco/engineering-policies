@@ -1,4 +1,4 @@
-# Notes — RAID1 pairing + `/workspace` policy (Fedora 41)
+# Notes — RAID1 pairing + `/workspace` policy (Fedora 43)
 
 > **[REFERENCE — pull on demand]**
 > This policy applies to domains not in active daily use.

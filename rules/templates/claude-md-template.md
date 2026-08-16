@@ -84,7 +84,7 @@ Total: ~30 lines
 ## When to Skip CLAUDE.md Entirely
 
 **For standard tooling (recommended for learning projects):**
-- Standard Python/ML/CV workflows (pytest, black, mypy)
+- Standard Python/ML/CV workflows (pytest, ruff, mypy)
 - Standard Git workflows
 - Standard CI/CD patterns
 

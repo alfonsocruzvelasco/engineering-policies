@@ -456,7 +456,7 @@ last_updated: 2026-03-11
 
 1. **PyTorch-specific**: All implementations use PyTorch, not TensorFlow/JAX
 2. **Computer Vision focus**: Not optimized for NLP, RL, or other domains
-3. **Linux/Fedora bias**: Paths and commands assume Fedora Workstation 41
+3. **Linux/Fedora bias**: Paths and commands assume Fedora Workstation 43
 4. **ImageNet preprocessing**: Defaults assume ImageNet-pretrained models
 5. **English only**: All documentation and error messages in English
 

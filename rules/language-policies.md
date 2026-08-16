@@ -1,7 +1,7 @@
 # Language Policies
 
 **Status:** Authoritative
-**Last updated:** 2026-03-24
+**Last updated:** 2026-08-16
 **Purpose:** Language-specific engineering standards for Python, TypeScript/Node.js, Java, C/C++, Rust, and CUDA
 
 ---
@@ -50,12 +50,14 @@ It applies equally to local development, CI, and production builds.
 
 14. **Create venv with the intended interpreter** (explicitly):
 
-    * `python -m venv .venv` where `python` is already the correct version, or
-    * `py -3.11 -m venv .venv` (Windows), or
-    * `$(pyenv which python) -m venv .venv`.
-15. **Immediately upgrade packaging tooling** inside the venv after creation (teams standardize this in bootstrap scripts):
-
-    * `pip`, `setuptools`, `wheel` (or only `pip` if your tooling policy dictates).
+    * `uv venv ~/dev/venvs/<project> --python "$(pyenv which python)"` (canonical), or
+    * `$(pyenv which python) -m venv ~/dev/venvs/<project>`
+    * Windows: `py -3.11 -m venv <venv-path>` if uv is unavailable.
+    Location is defined by `development-environment-policy.md`. Do not create repo-local `.venv/`.
+15. **Install project dependencies with `uv`** after the environment exists
+    (`uv pip install -e ".[dev]"` or `uv sync`). Do not bootstrap
+    workstation-level Python tools with `pip install --user` or
+    `--break-system-packages`. **pyenv** remains the Python version manager.
 16. **Never rely on “global site-packages”** (`--system-site-packages`) except for tightly controlled enterprise edge cases.
 
 ## 5) Dependency management and locking
@@ -81,7 +83,7 @@ It applies equally to local development, CI, and production builds.
 
 25. **Bootstrap is scripted.** Provide `make setup`, `./scripts/bootstrap`, or similar. New devs should not “guess” commands.
 26. **No manual `pip install` in day-to-day work** unless followed by updating the declared dependencies + lock.
-27. **Editable installs for local packages** are the default for app repos (`pip install -e .`), so imports reflect current code.
+27. **Editable installs for local packages** are the default for app repos (`uv pip install -e .`), so imports reflect current code.
 28. **Install is idempotent.** Running setup twice should not break or drift.
 
 ## 7) Activation and command execution
@@ -100,7 +102,7 @@ It applies equally to local development, CI, and production builds.
 
     * `pyproject.toml` (or equivalent)
     * lock file (if your workflow uses one)
-    * tool config (ruff/black/pytest/mypy, etc.)
+    * tool config (ruff/pytest/mypy, etc.)
     * bootstrap script / Makefile targets
 33. **Must not commit**:
 
@@ -129,8 +131,8 @@ It applies equally to local development, CI, and production builds.
 
 44. **IDE must point to the project interpreter** (the venv Python). This is non-negotiable for consistent analysis.
 45. **Pre-commit hooks run inside the venv context** (or via tool runners like `uv run`).
-46. **Single formatting/linting stack** across the team (avoid “some use black, others yapf”).
-47. **Tests must run the same way locally and in CI**, via a single command (`make test`, `pytest`, etc.), executed in the env.
+46. **Single formatting/linting stack:** Ruff is the canonical formatter (`ruff format`) and linter. Do not use Black as the project formatter.
+47. **mypy is the canonical strict type checker.** Pyright may be installed locally; it is not authoritative unless a repo policy explicitly says otherwise. Tests must run the same way locally and in CI, via a single command (`make test`, `pytest`, etc.), executed in the env.
 
 ## 12) CI/CD rules
 

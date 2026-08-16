@@ -127,7 +127,7 @@ Recommended starting domains:
 
 **Examples (Execution domain):**
 1. **Tests pass:** All pytest tests green → `pytest tests/`
-2. **Linting clean:** No flake8 errors → `flake8 src/`
+2. **Linting clean:** No ruff errors → `ruff check src/`
 3. **Diff reviewed:** Human approved changes → Manual review required
 4. **CLAUDE.md updated:** Learnings captured → Check file updated
 
@@ -375,7 +375,7 @@ Recommended starting domains:
 1. **Python coding:** Implement features per spec
 2. **Pytest writing:** Create tests for validation
 3. **Git operations:** Create branches, generate diffs
-4. **Linting compliance:** Follow flake8, black, mypy
+4. **Linting compliance:** Follow ruff, mypy
 
 ### Skills NOT legitimate:
 - Security policy definition (→ governance)
@@ -398,7 +398,7 @@ Recommended starting domains:
 
 ### Before work is "done":
 1. **Tests pass:** All pytest tests green → `pytest tests/`
-2. **Linting clean:** No errors → `flake8 src/ && black --check src/ && mypy src/`
+2. **Linting clean:** No errors → `ruff check src/ && ruff format --check src/ && mypy src/`
 3. **Diff reviewed:** Human approved changes → Manual review required
 4. **CLAUDE.md updated:** Patterns/mistakes captured → Check timestamp
 5. **Task marked complete:** Status updated in tasks.json
@@ -500,7 +500,7 @@ Recommended starting domains:
 
 ### Required skills:
 1. **Security scanning:** Identify vulnerabilities via bandit, safety
-2. **Static analysis:** Run mypy, flake8, pylint
+2. **Static analysis:** Run mypy, ruff
 3. **Policy validation:** Check against documented rules
 4. **Coverage analysis:** Verify pytest coverage requirements
 
@@ -525,7 +525,7 @@ Recommended starting domains:
 ### Before approval:
 1. **Security scan:** No critical findings → `bandit -r src/ && safety check`
 2. **Type checks:** Zero mypy errors → `mypy src/`
-3. **Linting:** Clean flake8 output → `flake8 src/`
+3. **Linting:** Clean ruff output → `ruff check src/`
 4. **Tests:** All passing, >80% coverage → `pytest --cov=src tests/`
 5. **Manual review:** Human inspected critical changes
 
