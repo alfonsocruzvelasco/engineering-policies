@@ -4,7 +4,8 @@
 > Do not read policies. Find the rule. Apply it. Move on.
 
 ## Session Start
-Model tier (price-capped): check rules/model-registry.md
+Model tier (price-capped + spend freeze): check rules/model-registry.md
+and rules/approved-ai-tools.md SPEND FREEZE before any paid model.
 last_updated date before any hard+ task. If >30 days old,
 run the snapshot update procedure first.
 start a focused execution session → rules/ai-workflow-policy.md → §Session Lifecycle

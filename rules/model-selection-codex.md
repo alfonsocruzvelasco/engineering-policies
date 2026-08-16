@@ -16,6 +16,10 @@ sources: [chat]
   pricing.
 - Price cap: no usage credits enabled, no new payment
   methods. Effective ceiling ~$5/M input.
+- SPEND FREEZE (active, 2026-08-14): do not configure or
+  escalate to billed Codex backends. Stay on Cursor
+  subscription Grok 4.6 / Codex 5.3 until the freeze is
+  lifted in approved-ai-tools.md. Agents cannot lift it.
 - License review: non-Apache 2.0 models require review
   before portfolio-public or production use.
 - Data policy: free tiers that train on your data are
@@ -110,6 +114,10 @@ Same principle as cursor-model-selection: stable default,
 do not choose per prompt, escalate deliberately.
 
 ## Escalation rules
+
+SPEND FREEZE (active): the mappings below are the
+possibility space after freeze lift. Until then, do not
+configure billed backends. Stay on Grok 4.6 (Cursor sub).
 
 Mechanical completions, reformatting, boilerplate:
   → GPT-5.6 Luna ($0.20/$1.20) or Mistral Codestral
