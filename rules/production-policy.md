@@ -8,7 +8,7 @@ scope: CV/ML production engineering standards; sections 1, 2, and 8 are authorit
 # Production Engineering Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-08-16
+**Last updated:** 2026-08-19
 **Purpose:** Daily reference for CV/ML engineering, data systems, and tooling standards
 
 > *Inline `Last updated` footers under individual sections are subordinate revision markers. The file-level date above is the summary stamp for the document as a whole.*
@@ -1795,11 +1795,37 @@ It distinguishes:
 
 4. **Pre-commit is mandatory**
    - Every repo must have `.pre-commit-config.yaml`.
-   - Every developer must run:
+   - Git-only repositories may use:
      ```bash
      pre-commit install
      ```
+     so Git commits invoke hooks automatically.
+   - Jujutsu (`jj`) repositories: `jj commit` does **not** execute Git
+     pre-commit hooks. `pre-commit install` does not change that.
+     There is no “current bookmark”; `jj commit` does not advance `main`.
+     `jj git push` pushes bookmarks/tags, not anonymous revisions, so
+     `jj commit` followed by plain `jj git push` may push nothing.
+     `main` is protected; PRs are required. Do not move or push `main`
+     for normal work.
+     One-time after colocating an existing Git repository:
+     `jj bookmark track main --remote=origin`.
+     For a normal change intended to land on `main` via PR:
+     ```bash
+     jj new main
+     # make changes, then:
+     pre-commit run --all-files
+     # then required repository-specific gates
+     jj commit -m "<message>"
+     jj bookmark create <type>/<short-desc> --revision @-
+     jj git push --bookmark <type>/<short-desc> --remote origin
+     # then open a PR to main
+     ```
+     After `jj commit`, `@` is the new empty working-copy commit and
+     `@-` is the commit just finalized. If an existing feature bookmark
+     is being updated: `jj bookmark move <bookmark> --to @-` then
+     `jj git push --bookmark <bookmark> --remote origin`.
    - Pre-commit must be run before push/PR updates.
+   - CI must run the same checks or a strict superset.
 
 5. **Terminal is the source of truth**
    - IDE UIs are allowed for convenience.
@@ -2213,6 +2239,19 @@ For any PR/change that affects runtime behavior, model outputs, or infrastructur
 
     * `.pre-commit-config.yaml` is committed at repo root.
     * Running hooks locally is required before pushing.
+    * Git-only repositories MAY run `pre-commit install` so Git commits invoke hooks.
+    * Jujutsu repositories MUST run `pre-commit run --all-files` (and required
+      repository-specific gates) before finalizing. For a normal change
+      intended to land on `main` via PR: `jj new main`, then after
+      `jj commit -m "<message>"` create a short-lived bookmark on `@-`
+      (`jj bookmark create <type>/<short-desc> --revision @-`) and
+      `jj git push --bookmark <type>/<short-desc> --remote origin`.
+      Open a PR to `main`. Do not `jj bookmark move main` or push `main`
+      for normal work. If updating an existing feature bookmark:
+      `jj bookmark move <bookmark> --to @-` then
+      `jj git push --bookmark <bookmark> --remote origin`.
+      `jj commit` does not execute Git pre-commit hooks; `pre-commit install`
+      does not change that.
 
 52. **Hooks must be deterministic** and aligned with CI:
 
@@ -2680,11 +2719,13 @@ pre-commit install
 pre-commit run --all-files
 ```
 
-- Only staged files (fast path):
+- Only staged files (fast path; **Git-only** — uses the staging area):
 
 ```bash
 pre-commit run
 ```
+
+Jujutsu repos have no staging area and MUST use `pre-commit run --all-files`.
 
 **If a hook modifies files**
 1) Inspect diffs.

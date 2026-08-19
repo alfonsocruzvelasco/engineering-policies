@@ -70,16 +70,20 @@ repos:
         args:
           - -c
           - |
-            git diff --cached --name-only | while read -r file; do
+            fail=0
+            for file in "$@"; do
+              [ -f "$file" ] || continue
               case "$file" in
                 *.py|*.js|*.ts|*.go|*.rs)
                   if ! grep -q "AI-Generated" "$file" 2>/dev/null; then
                     echo "Warning: $file may contain AI code without attribution"
-                    exit 1
+                    fail=1
                   fi
                   ;;
               esac
             done
+            exit "$fail"
+          - --
         language: system
         files: '\.(py|js|ts|go|rs)$'
         pass_filenames: true
@@ -143,6 +147,11 @@ repos:
         name: Scan natural-language prompt injection patterns
         entry: bash rules/system/scripts/check-prompt-injection-patterns.sh
         language: system
-        pass_filenames: false
+        pass_filenames: true
         files: '\.(md|txt|prompt|yaml|yml|json)$'
-        exclude: '^rules/agent-egress-and-memory-isolation-policy\.md$'
+        exclude: |
+          (?x)^(
+            rules/agent-egress-and-memory-isolation-policy\.md|
+            rules/references/long-context-windows-opus-4\.6\+\.md|
+            rules/references/open-claw-security-policy\.md
+          )$

@@ -69,9 +69,9 @@ Before modifying agent workflows (prompts, skills, hooks, or orchestration), sta
 Before proposing actions over browsers, images, or UI, state what **observable representation** the agent actually gets (e.g. screenshot, a11y tree, HTML snapshot, API fields)—not assumed free-text page content alone (see `rules/references/rodney-notes.md`).
 
 ## Build and Test Commands
-- Install hooks: `pre-commit install`
-- Full checks: `pre-commit run --all-files`
+- Full checks (mandatory before finalize/push): `pre-commit run --all-files`
 - Policy guardrail check only: `rules/system/scripts/ai-prohibited-tools-check.sh --strict`
+- Git-only hook install: `pre-commit install` (does not run on `jj commit`)
 
 ## Coding Standards
 - Preserve existing document style and section hierarchy.

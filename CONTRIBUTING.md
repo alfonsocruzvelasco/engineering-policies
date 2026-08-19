@@ -4,13 +4,16 @@
 This repository is authoritative policy infrastructure. Changes must be deliberate, reviewable, and internally consistent.
 
 ## Contribution Workflow
-1. Create a scoped branch for one policy change set.
+1. Create a scoped change set for one policy change.
+   - Git: a scoped branch.
+   - Jujutsu: `jj new main`, then after `jj commit` create a short-lived
+     bookmark on `@-` (`<type>/<short-desc>`). Do not move or push `main`.
 2. Update the minimum set of files required to keep policy links and authority model coherent.
 3. Run:
-   - `pre-commit install` (first time only)
-   - `pre-commit run --all-files`
+   - `pre-commit run --all-files` (mandatory before finalize/push)
+   - `pre-commit install` is Git-only and does not run on `jj commit`
 4. If behavior or governance changed, update `CHANGELOG.md`.
-5. Open a PR with:
+5. Open a PR to `main` with:
    - problem statement,
    - policy rationale,
    - verification output.

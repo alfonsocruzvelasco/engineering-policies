@@ -305,6 +305,15 @@ Adoption rule:
 - Existing repos: colocate on next active work session.
 - `engineering-policies` repo: colocate on next touch.
 
+One-time repo setup after colocating an existing Git repository:
+
+```text
+jj bookmark track main --remote=origin
+```
+
+This preserves explicit tracking of `origin/main`. There is no “current
+bookmark”; bookmarks do not advance automatically.
+
 Key workflow differences from Git (mandatory awareness):
 - No staging area. Working copy is a commit auto-amended on every file
   change. No `git add`, no `git stash`, no dirty working-tree errors.
@@ -318,6 +327,38 @@ Key workflow differences from Git (mandatory awareness):
 - Automatic rebase: modifying any commit rebases all descendants on top
   of it transparently.
 - Anonymous branches (bookmarks): no need to name every small change.
+
+Validation gate (mandatory for Jujutsu repos):
+- There is no “current bookmark”. `jj commit` does **not** advance `main`.
+- `jj git push` pushes bookmarks/tags, not arbitrary anonymous revisions.
+  Plain `jj git push` after `jj commit` may push nothing.
+- `main` is protected. Direct pushes to `main` are forbidden. PRs are
+  required. Do not `jj bookmark move main` or
+  `jj git push --bookmark main` as part of normal feature or policy work.
+- `jj commit` does **not** execute Git pre-commit hooks.
+- `pre-commit install` does **not** cause hooks to run automatically
+  on `jj commit`. Git-only repositories may still use `pre-commit install`.
+- The `pre-commit` framework remains mandatory. Do not replace it with a
+  third-party Jujutsu hook framework.
+- For a normal change intended to land on `main` via PR:
+  1. `jj new main`
+  2. Make and validate changes (`pre-commit run --all-files` and required
+     repository-specific gates).
+  3. `jj commit -m "<message>"`
+  4. `jj bookmark create <type>/<short-desc> --revision @-`
+  5. `jj git push --bookmark <type>/<short-desc> --remote origin`
+  6. Open a PR to `main`.
+  After `jj commit`, `@` is the new empty working-copy commit and `@-`
+  is the commit just finalized. The short-lived bookmark is created on
+  `@-`. `main` itself is never moved locally as part of normal feature
+  or policy work merely to publish the change.
+- If an existing feature bookmark is being updated:
+  `jj bookmark move <bookmark> --to @-`
+  then `jj git push --bookmark <bookmark> --remote origin`.
+- CI must run the same checks or a strict superset.
+- Hook logic must operate on filenames supplied by pre-commit or on
+  repository content. Hooks must not depend on `.jj/` or the Git
+  staging index unless a hook is explicitly Git-only.
 
 Agentic workflow relevance:
 - `jj undo` rolls back an entire agent-produced operation sequence

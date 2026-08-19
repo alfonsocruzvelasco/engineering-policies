@@ -23,6 +23,8 @@ and this project follows Semantic Versioning guidance in `rules/versioning-and-r
 - Added `rules/references/local-model-runtime-status.md` documenting locally validated Ollama/llama.cpp models, paths, VRAM behavior, and practical usage recommendations (with security posture note).
 
 ### Changed
+- Made `pre-commit` enforcement Jujutsu-compatible: hooks consume filenames supplied by pre-commit instead of the Git staging index; `jj commit` does not run Git hooks, so `pre-commit run --all-files` is the mandatory explicit gate (`development-environment-policy.md`, `production-policy.md`, `security-policy.md`, 2026-08-19).
+- Corrected the Jujutsu publish workflow to match protected `main` and PR-only merges: short-lived bookmarks on `@-`, never `jj bookmark move main` for normal work (`development-environment-policy.md`, `production-policy.md`, `CONTRIBUTING.md`, 2026-08-19).
 - Added a narrowly scoped Python learning-sandbox `.venv` exception at `~/learning-repos/python/<sandbox-name>/.venv/`; canonical project venvs remain `~/dev/venvs/<project-name>/` (`development-environment-policy.md`, `language-policies.md`, `learning-library-governance.md`, 2026-08-19).
 - Updated `rules/security-policy.md` with mandatory automated injection evaluation gate (PI-5.2) and verification-gate enforcement under Section 20.
 - Updated `rules/ai-workflow-policy.md` with ChatGPT model hardening control CT-15 (mandatory injection-evaluation loop and critical-failure stop rule).

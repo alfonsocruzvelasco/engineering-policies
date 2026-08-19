@@ -524,9 +524,10 @@ never the other way around.
 ## Quickstart
 
 ```bash
-# From repo root
-pre-commit install
+# From repo root (mandatory before finalize/push)
 pre-commit run --all-files
+
+# Git-only: `pre-commit install` does not run hooks on `jj commit`
 ```
 
 ## Environment
