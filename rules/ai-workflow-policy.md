@@ -8,7 +8,7 @@ scope: AI-assisted development workflows (core workflow, prompt engineering, ses
 # AI Workflow Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-08-16
+**Last updated:** 2026-08-19
 
 > *Inline `Last updated` footers under individual sections are subordinate revision markers. The file-level date above is the summary stamp for the document as a whole.*
 
@@ -1492,7 +1492,11 @@ Agents are not uniform. Different operational contexts require different governa
 Models use adaptive thinking — reasoning depth self-calibrates
 within the effort ceiling. Do not over-provision.
 
-Default model is Codex 5.3 or Grok 4.6 (Cursor subscription, no extra token cost).
+Default model is Codex 5.3 or Grok 4.6 within included/prepaid
+Cursor plan usage (freeze-allowed while On-Demand Usage remains
+Disabled). Grok 4.6 currently draws from Cursor's included
+Cursor Models pool; Codex 5.3 remains freeze-allowed on the
+current plan without an asserted $0 or Cursor Models-pool claim.
 SPEND FREEZE (active): do not auto-escalate to Claude models.
 Claude models (Sonnet 5, Opus 4.8) stay reserved for hard and
 very hard tasks, but agent-initiated use is frozen until the
@@ -1500,14 +1504,16 @@ owner lifts the freeze in `rules/approved-ai-tools.md`.
 Do not use Claude models for routine edits, file reads, or grep tasks.
 - Chat, queries, drafts: Codex 5.3 / Grok 4.6
 - Routine code, refactoring: Codex 5.3 / Grok 4.6
-- Complex CV/ML, hard debugging: stay on Cursor subscription
+- Complex CV/ML, hard debugging: stay on freeze-allowed Cursor
   models unless the human explicitly names Sonnet 5
 - Deep reasoning, novel problems: frozen (Opus 4.8) until lift
 - Long async multi-agent: frozen (Opus 4.8 / ultracode) until lift
 - Absolute quality ceiling: frozen until lift
 
 Spend discipline: do not enable extra billing when the Agent
-SDK credit is exhausted. Selection authority:
+SDK credit is exhausted. Cursor On-Demand Usage MUST remain
+Disabled; included-usage exhaustion is a stop, not a lift.
+Selection authority:
 `rules/model-registry.md` (active price-capped tiers) and
 `rules/approved-ai-tools.md` (SPEND FREEZE).
 

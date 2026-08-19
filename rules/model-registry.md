@@ -3,7 +3,7 @@ doc_type: registry
 authority: reference
 owner: Alfonso Cruz
 scope: Current non-Chinese model list with prices and capability scores
-last_updated: 2026-08-14
+last_updated: 2026-08-19
 update_trigger: new top-10 model appears / price change >20% / snapshot >30 days old
 ---
 
@@ -17,16 +17,22 @@ prices, scores, and availability.
 
 spend-freeze: active (2026-08-14). Paid/API rows below are
 frozen for new agent-initiated sessions. See
-approved-ai-tools.md SPEND FREEZE. Agents cannot lift this
-freeze.
+approved-ai-tools.md SPEND FREEZE (authority). Agents cannot
+lift this freeze. Cursor On-Demand Usage MUST remain
+Disabled. Included-usage rows consume prepaid/included
+Cursor plan usage; they are freeze-allowed only while that
+control stays Disabled. List rates in model notes are vendor
+accounting references, not authorization to incur additional
+billed spend. A pricing, routing, quota, model-pool, or Auto
+change is not a freeze lift.
 
 | Tier | Model | Intelligence | In $/MTok | Out $/MTok | TPS | Source |
 |------|-------|-------------|-----------|------------|-----|--------|
 | Subagent/reads | claude-haiku-4-5 | — | — | — | — | approved-ai-tools.md (frozen) |
 | Subagent/reads | gemini-2.5-flash-lite | — | $0.03 blended | — | 0.37s TTFT | artificialanalysis.ai (frozen) |
-| Daily (free, freeze-allowed) | Codex 5.3 | ~44 | $0 Cursor sub | $0 | — | Cursor subscription |
-| Daily (free, freeze-allowed) | Grok 4.6 | ~44 | $0 Cursor sub | $0 | 80–112 | Cursor subscription |
-| Historical (superseded) | Grok 4.5 | ~44 | $0 Cursor sub | $0 | 80–112 | Cursor subscription |
+| Daily (included-usage, freeze-allowed) | Codex 5.3 | ~44 | — | — | — | Cursor plan usage; pool membership and $0 price not asserted |
+| Daily (included-usage, freeze-allowed) | Grok 4.6 | ~44 | — | — | 80–112 | Cursor Models pool; included usage; rates in notes |
+| Historical (superseded) | Grok 4.5 | ~44 | — | — | 80–112 | historical Cursor Models pool; included usage |
 | Hard (frozen) | claude-sonnet-5 | ~43 | $2 | $10 | TBD | platform.claude.com |
 | Very hard (frozen) | claude-opus-4-8 | 56 | $5 | $25 | ~62 | platform.claude.com |
 | Ultra-hard | UNASSIGNED (Fable 5 unavailable) | — | — | — | — | approved-ai-tools.md |
@@ -71,7 +77,15 @@ route new tasks to Grok 4.5.
   Access: xAI API, Cursor (all plans), OpenRouter, Vercel,
     Cloudflare, Grok Build. 2x Cursor usage during
     launch week promo (ends ~2026-08-19).
-  Context: 500,000 tokens (unchanged from 4.5)
+  Cursor billing: currently draws from Cursor's included
+    Cursor Models pool. Freeze-allowed while On-Demand
+    Usage remains Disabled. Not permanently free. The
+    xAI list rates above are external model/API reference
+    data. They do not define Cursor account authorization
+    and do not authorize additional billed spend under the
+    active SPEND FREEZE.
+  Cursor context: 256K tokens (official Cursor documentation,
+    checked 2026-08-19).
   Chinese model ban: not applicable — xAI/SpaceXAI is a US
     company (Elon Musk / SpaceX entity)
   Local deployment: NOT available — API only
