@@ -22,11 +22,17 @@ They are **not** project workspaces.
 
 The moment any work requires one or more of the following, it must be moved to a proper project repository under `~/dev/repos/...`:
 
-* Dependency management (pyproject.toml, package.json, requirements.txt, etc.)
+* Dependency management as real, maintained project engineering (pyproject.toml, package.json, requirements.txt, etc.)
 * Long-term development or maintenance
-* CI/CD, Docker, or environment configuration
+* CI/CD, Docker, or environment configuration as real project work
 * Structured datasets or experiment tracking
 * Portfolio relevance
+
+The presence of a disposable per-sandbox `.venv/` at `~/learning-repos/python/<sandbox-name>/.venv/` does **not** by itself trigger graduation. That environment is a learning artifact, not project environment engineering.
+
+If dependency-management files themselves are the subject of a learning exercise, they may exist only for that exercise. They must not turn the learning sandbox into long-term project work.
+
+If a learning sandbox graduates into real, maintained, portfolio, or production work, delete and recreate the environment under `~/dev/venvs/<project-name>/` and move the work to the appropriate `~/dev/repos/...` repository.
 
 Learning repos are **temporary staging grounds**, not development homes.
 
@@ -49,7 +55,12 @@ This prevents passive accumulation and enforces deliberate learning progression.
 Learning repositories must still follow core hygiene rules:
 
 * Lowercase kebab-case naming
-* No virtual environments inside
+* No virtual environments inside, except the narrowly scoped Python learning sandbox exception:
+  a self-contained sandbox at `~/learning-repos/python/<sandbox-name>/` may contain exactly one disposable `.venv/`
+  * Git-ignored; never a source of truth; no secrets; no `--system-site-packages`
+  * Never reused by another sandbox
+  * A shared `~/learning-repos/python/.venv` is prohibited
+  * Canonical location for real projects remains `~/dev/venvs/<project-name>/`
 * No large datasets
 * No long-running branches or feature development
 

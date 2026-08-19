@@ -1,7 +1,7 @@
 # Development Environment Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-05-16
+**Last updated:** 2026-08-19
 
 ---
 
@@ -62,6 +62,7 @@ Those are governed by:
     - [Allowed contents](#allowed-contents)
     - [Default rule](#default-rule)
     - [Temporary exception: training repos](#temporary-exception-training-repos)
+    - [Narrow exception: Python learning sandbox virtual environments](#narrow-exception-python-learning-sandbox-virtual-environments)
   - [Repository Isolation Rules](#repository-isolation-rules)
     - [What IS allowed inside repos](#what-is-allowed-inside-repos)
     - [What is NEVER allowed inside repos](#what-is-never-allowed-inside-repos)
@@ -367,6 +368,44 @@ If any repo becomes “real work”, it must be moved to:
 
 > `~/dev/repos/github.com/...`
 
+### Narrow exception: Python learning sandbox virtual environments
+
+Production, portfolio, application, library, and normal development
+repositories continue using:
+
+> `~/dev/venvs/<project-name>/`
+
+Repository-local `.venv/` remains prohibited in those repositories.
+
+The **only** allowed repository-local `.venv` is a self-contained
+Python learning sandbox directly under:
+
+> `~/learning-repos/python/<sandbox-name>/.venv/`
+
+Rules for this exception:
+
+* Environment creation and isolation are part of the learning sandbox.
+  The `.venv/` exists for that reason, not as a project source of truth.
+* Each sandbox gets its own `.venv`. Never reuse one sandbox’s
+  environment in another.
+* The environment is disposable. Delete and recreate freely.
+* It must be ignored by Git.
+* It must not contain secrets.
+* It must not use `--system-site-packages`.
+* A shared or “mega-venv” at `~/learning-repos/python/.venv` is
+  **prohibited**.
+
+If the learning sandbox graduates into real, maintained, portfolio, or
+production work:
+
+1. Delete the sandbox `.venv`.
+2. Recreate the environment under `~/dev/venvs/<project-name>/`.
+3. Move the work to the appropriate `~/dev/repos/...` repository.
+
+This exception does not weaken isolation for any other repository class.
+See `language-policies.md` (Python §2) and
+`system/learning-library-governance.md`.
+
 ---
 
 ## Repository Isolation Rules
@@ -389,7 +428,9 @@ This is the core isolation model.
 * model checkpoints
 * local run artifacts
 * IDE runtime state
-* virtual environments
+* virtual environments — except the Python learning-sandbox `.venv/`
+  at `~/learning-repos/python/<sandbox-name>/.venv/` defined in
+  [Narrow exception: Python learning sandbox virtual environments](#narrow-exception-python-learning-sandbox-virtual-environments)
 
 These must live in:
 
@@ -397,8 +438,13 @@ These must live in:
 * `~/datasets/` or `~/dev/data/`
 * `~/dev/models/`
 * `~/dev/devruns/`
-* `~/dev/venvs/`
+* `~/dev/venvs/` (canonical for production, portfolio, application,
+  library, and normal development repositories)
 * `~/dev/ide/`
+
+Do not place a `.venv/` inside any production, portfolio, application,
+library, or normal development repository. A shared
+`~/learning-repos/python/.venv` is prohibited.
 
 ---
 
@@ -522,6 +568,8 @@ Memorize:
 
 * **Repos** → `~/dev/repos`
 * **Envs + tooling state** → `~/dev`
+* **Python project venvs** → `~/dev/venvs/<project-name>/`
+* **Python learning sandbox venv (only exception)** → `~/learning-repos/python/<sandbox-name>/.venv/`
 * **Learning scratch** → `~/learning-repos`
 * **Build output** → `~/dev/build`
 * **Runs** → `~/dev/devruns`

@@ -23,6 +23,7 @@ and this project follows Semantic Versioning guidance in `rules/versioning-and-r
 - Added `rules/references/local-model-runtime-status.md` documenting locally validated Ollama/llama.cpp models, paths, VRAM behavior, and practical usage recommendations (with security posture note).
 
 ### Changed
+- Added a narrowly scoped Python learning-sandbox `.venv` exception at `~/learning-repos/python/<sandbox-name>/.venv/`; canonical project venvs remain `~/dev/venvs/<project-name>/` (`development-environment-policy.md`, `language-policies.md`, `learning-library-governance.md`, 2026-08-19).
 - Updated `rules/security-policy.md` with mandatory automated injection evaluation gate (PI-5.2) and verification-gate enforcement under Section 20.
 - Updated `rules/ai-workflow-policy.md` with ChatGPT model hardening control CT-15 (mandatory injection-evaluation loop and critical-failure stop rule).
 - Updated `rules/system/concept-index.md` with authority mappings for prompt-injection evaluation harness controls.
