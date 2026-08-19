@@ -1,7 +1,7 @@
 # Language Policies
 
 **Status:** Authoritative
-**Last updated:** 2026-08-16
+**Last updated:** 2026-08-19
 **Purpose:** Language-specific engineering standards for Python, TypeScript/Node.js, Java, C/C++, Rust, and CUDA
 
 ---
@@ -12,12 +12,13 @@
 
 This section governs **Python application and library repositories** using virtual environments (`venv`) and modern dependency tooling.
 It applies equally to local development, CI, and production builds.
+The Python learning sandbox exception in rule 9 is the only repository-local `.venv` carve-out; it does not change location rules for application, library, or other project repositories.
 
 ## 1) Core principles
 
 1. **Reproducibility over convenience.** Anyone must be able to recreate the exact environment from source control, not from a copied folder.
 2. **Environments are disposable.** A venv is a build artifact; delete/recreate is normal.
-3. **One project, one environment.** No shared “mega-venv” across unrelated repos.
+3. **One project, one environment.** No shared “mega-venv” across unrelated repos or learning sandboxes.
 4. **Pin what matters.** Lock dependencies for deterministic installs in CI and production.
 5. **Keep secrets out.** No credentials inside venv configs, activation scripts, or `.env` files committed to Git.
 
@@ -26,12 +27,18 @@ It applies equally to local development, CI, and production builds.
 6. **Do not commit the venv.** Always ignore it in Git (`.venv/`, `venv/`, `.python-version` may be committed if you use pyenv; the interpreter itself never is).
 7. **Virtual environment location is defined by `development-environment-policy.md`.**
 8. In this environment:
-   * Each project has exactly one venv.
-   * All venvs live under:
+   * **One project, one environment.** Each project has exactly one venv.
+   * Canonical location for production, portfolio, application, library, and normal development repositories:
      `~/dev/venvs/<project-name>/`
-   * Virtual environments are **never** created inside repositories.
+   * Repository-local `.venv/` remains **prohibited** everywhere except the Python learning sandbox path in rule 9.
 
-9. Repository-local `.venv/` directories are not used in this system.
+9. **Python learning sandbox exception (narrow):** A self-contained Python learning sandbox directly under `~/learning-repos/python/<sandbox-name>/` may contain exactly one `.venv/`. This is the only repository-local `.venv` exception.
+   * The environment is local because environment creation and isolation are part of the learning sandbox.
+   * It is disposable and never a source of truth.
+   * It must be ignored by Git, must not contain secrets, must not use `--system-site-packages`, and must never be reused by another sandbox.
+   * A shared `~/learning-repos/python/.venv` is prohibited.
+   * If the sandbox graduates into real, maintained, portfolio, or production work, delete and recreate the environment under `~/dev/venvs/<project-name>/` and move the work to `~/dev/repos/...`.
+   * See `development-environment-policy.md` and `system/learning-library-governance.md`.
 
 ## 3) Python version discipline
 
@@ -50,15 +57,16 @@ It applies equally to local development, CI, and production builds.
 
 14. **Create venv with the intended interpreter** (explicitly):
 
-    * `uv venv ~/dev/venvs/<project> --python "$(pyenv which python)"` (canonical), or
+    * `uv venv ~/dev/venvs/<project> --python "$(pyenv which python)"` (canonical for real projects), or
     * `$(pyenv which python) -m venv ~/dev/venvs/<project>`
     * Windows: `py -3.11 -m venv <venv-path>` if uv is unavailable.
-    Location is defined by `development-environment-policy.md`. Do not create repo-local `.venv/`.
+    * Learning sandbox only: `uv venv ~/learning-repos/python/<sandbox-name>/.venv --python "$(pyenv which python)"`
+    Location is defined by `development-environment-policy.md`. Do not create repo-local `.venv/` except at `~/learning-repos/python/<sandbox-name>/.venv/` (rule 9).
 15. **Install project dependencies with `uv`** after the environment exists
     (`uv pip install -e ".[dev]"` or `uv sync`). Do not bootstrap
     workstation-level Python tools with `pip install --user` or
     `--break-system-packages`. **pyenv** remains the Python version manager.
-16. **Never rely on “global site-packages”** (`--system-site-packages`) except for tightly controlled enterprise edge cases.
+16. **Never rely on “global site-packages”** (`--system-site-packages`) except for tightly controlled enterprise edge cases. Python learning sandbox `.venv` directories must never use `--system-site-packages`.
 
 ## 5) Dependency management and locking
 
