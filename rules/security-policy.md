@@ -8,7 +8,7 @@ scope: Security controls for secrets, IAM, infrastructure access, API/tool-use s
 # Security Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-06-01
+**Last updated:** 2026-08-19
 
 **Scope:** This policy defines how **credentials, secrets, dependencies, identity and access controls, APIs, and AI-assisted engineering risks** are handled. It applies to all environments (local, CI, staging, production) and all repositories, with special emphasis on ML/CV engineering security.
 
@@ -1348,10 +1348,12 @@ Self-hosted or community-hosted AI model deployments that lack enterprise securi
    * VPN and proxy bypass attempts MUST be logged and alerted
 
 2. **Pre-Commit Hooks:**
-   * Git pre-commit hooks MUST scan for indicators of prohibited tool usage:
+   * The `pre-commit` framework MUST scan for indicators of prohibited tool usage:
      * Code comments referencing prohibited tool names
      * URLs or API endpoints of prohibited services
      * Credential patterns suggesting prohibited tool access
+   * Git-only repositories MAY use `pre-commit install` so Git commits invoke the same hooks.
+   * Jujutsu repositories: `jj commit` does not execute Git pre-commit hooks. Run `pre-commit run --all-files` explicitly before finalize/push. CI remains the enforcement backstop.
 
 3. **CI/CD Gates:**
    * CI pipelines MUST scan commit history for prohibited tool indicators
@@ -3384,7 +3386,7 @@ This section integrates with:
 - English-first architecture (Section 2)
 
 **`production-policy.md`:**
-- Pre-commit hooks (these are Git hooks, distinct from AI agent hooks)
+- Pre-commit framework hooks (distinct from AI agent hooks; Git `pre-commit install` is Git-only and does not run on `jj commit`)
 - CI/CD enforcement (Section on automation)
 
 **Priority:** Hooks security rules take precedence over convenience. If a hook violates these rules, it must be disabled or redesigned.

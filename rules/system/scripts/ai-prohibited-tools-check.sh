@@ -10,7 +10,8 @@
 # from security-policy.md
 #
 # Integration Points:
-# - Pre-commit hook: Scan staged files before commit
+# - Pre-commit framework: full-repo scan via `pre-commit run --all-files`
+#   (`pre-commit install` is Git-only; it does not run on `jj commit`)
 # - CI/CD pipeline: Scan full repository on PR
 # - Security audit: Manual periodic scans
 #
@@ -108,9 +109,9 @@ EXIT CODES:
     2    Error in execution
 
 INTEGRATION:
-    Pre-commit hook:    .git/hooks/pre-commit
-    CI/CD pipeline:     .github/workflows/security-scan.yml
-    Git hook:           .pre-commit-config.yaml
+    Pre-commit:         .pre-commit-config.yaml (`pre-commit run --all-files`)
+    CI/CD pipeline:     same script, full repository scan
+    Git-only install:   `pre-commit install` (does not run on `jj commit`)
 EOF
 }
 
@@ -292,29 +293,6 @@ generate_report() {
         echo ""
         return 0
     fi
-}
-
-scan_staged_files() {
-    log_info "Scanning staged files (pre-commit mode)..."
-
-    if ! git rev-parse --git-dir > /dev/null 2>&1; then
-        log_warning "Not a Git repository, skipping staged file scan"
-        return 0
-    fi
-
-    local staged_files
-    staged_files=$(git diff --cached --name-only --diff-filter=ACM 2>/dev/null || true)
-
-    if [[ -z "$staged_files" ]]; then
-        log_info "No staged files to scan"
-        return 0
-    fi
-
-    while IFS= read -r file; do
-        if [[ -f "$file" ]]; then
-            scan_file "$file"
-        fi
-    done <<< "$staged_files"
 }
 
 validate_file_extensions() {
