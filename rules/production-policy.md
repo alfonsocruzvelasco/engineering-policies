@@ -8,7 +8,7 @@ scope: CV/ML production engineering standards; sections 1, 2, and 8 are authorit
 # Production Engineering Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-08-19
+**Last updated:** 2026-08-20
 **Purpose:** Daily reference for CV/ML engineering, data systems, and tooling standards
 
 > *Inline `Last updated` footers under individual sections are subordinate revision markers. The file-level date above is the summary stamp for the document as a whole.*
@@ -3015,12 +3015,21 @@ pre-commit run --all-files
 
 ### 6.1 Universal conventions
 - LF line endings
-- UTF-8
+- UTF-8 (see text encoding boundary rule below)
 - final newline
 - no trailing whitespace
 - consistent indentation per language
 
 Enforced by `.editorconfig`.
+
+**Text encoding boundary rule:**
+- UTF-8 MUST be the default for new text at repository, storage, process, API, and network boundaries unless an external protocol, file format, OS API, or legacy system explicitly requires another encoding.
+- At an external text boundary, the encoding MUST be explicit or defined by the external contract. Code MUST NOT depend on an implicit machine, locale, or platform default when interpreting external bytes.
+- Decode external bytes once at the input boundary. Operate on the language/runtime's text abstraction internally. Encode once at the output boundary.
+
+Applies where relevant to files, network payloads/protocols, subprocess stdin/stdout, databases, message queues, external datasets, and legacy-system interfaces. This rule applies to text; binary images, tensors, model files, and arbitrary byte streams are not text.
+
+Language-specific file I/O and PostgreSQL encoding rules remain in `naming-policy.md` §8.
 
 ### 6.2 Python
 Standard:

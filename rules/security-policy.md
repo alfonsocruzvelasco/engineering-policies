@@ -681,6 +681,20 @@ See Section 19.6 (Supply Chain Prompt Injection Defense) for detailed scanning p
 
 **Reference:** [Amazon Q Incident (July 2025)](https://www.techradar.com/pro/hacker-adds-potentially-catastrophic-prompt-to-amazons-ai-coding-service-to-prove-a-point)
 
+### 9.7) Unicode source and configuration integrity
+
+Unicode is allowed in legitimate user-facing strings, documentation, internationalized content, and data.
+
+Production source code, executable configuration, identifiers, filenames, and configuration keys SHOULD remain ASCII where practical and MUST be reviewed when unexpected Unicode appears. Identifier and filename conventions: `naming-policy.md`.
+
+Bidirectional formatting/isolate controls, zero-width or other invisible control characters, homoglyph/confusable identifier tricks, look-alike names, and mixed-script identifiers MUST NOT be introduced into production source or configuration in a way that can conceal or misrepresent executable meaning.
+
+Legitimate exceptions (Unicode-processing tests, internationalization fixtures, user-data fixtures, protocol-required content) are allowed only when the Unicode is intentional, visible in review context where practical, and scoped to the data/test purpose.
+
+Do NOT normalize or rewrite arbitrary source or data automatically as a security response. Exact-byte protocols, signatures, forensic inputs, and test fixtures may require byte preservation.
+
+Editor/tooling hygiene for zero-width and non-breaking-space injection remains in `production-policy.md` §5.15 and §5.19.4. This subsection is the threat model; those sections remain the editor controls.
+
 ---
 
 ## 10) Cloud security baseline (common cloud technologies)
