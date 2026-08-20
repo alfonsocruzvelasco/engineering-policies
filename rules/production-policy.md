@@ -333,7 +333,7 @@ import json
 from pathlib import Path
 from typing import List, Dict, Any
 from dataclasses import dataclass, asdict
-from datetime import datetime
+from datetime import UTC, datetime
 
 @dataclass
 class SampleReference:
@@ -355,7 +355,7 @@ class DatasetSnapshot:
         self.version = version
         self.description = description
         self.samples: List[SampleReference] = []
-        self.created_at = datetime.now().isoformat()
+        self.created_at = datetime.now(UTC).isoformat()
 
     def add_sample(self, sample: SampleReference) -> None:
         """Add sample to snapshot."""
@@ -1552,13 +1552,68 @@ Key principle:
 
     * no “everything is TEXT/VARCHAR” schemas.
 16. Booleans are booleans, not integers or strings.
-17. Timestamps include timezone policy (defined and documented).
+17. Timestamps include timezone policy (defined and documented; see Temporal and time-zone semantics below).
 18. Constraints are first-class:
 
     * `NOT NULL`
     * `UNIQUE`
     * `CHECK`
 19. Do not encode business rules only in triggers unless formally justified and documented.
+
+#### Temporal and time-zone semantics
+
+Code, schemas, APIs, and tests MUST distinguish these semantic types and MUST NOT silently interchange them:
+
+* **Instant** — a unique point on the global timeline (row creation, API request time, ML run start/end, event ingestion, frame capture, log timestamp).
+* **Civil / local date-time** — a wall-clock date and time whose meaning depends on a named timezone (for example, “run every day at 09:00 Europe/Madrid”).
+* **Date** — a calendar date without a time-of-day.
+* **Local time** — a clock time that does not independently identify an instant.
+* **Duration / interval** — an elapsed amount of time, not a timestamp.
+
+Durable invariant: `instant ≠ local civil time ≠ date ≠ duration`.
+
+**Instants**
+
+* Persisted or transmitted values representing a real instant MUST be timezone-aware and unambiguous.
+* UTC MUST be the canonical interchange and operational representation for machine-generated instants unless an external contract explicitly requires another representation.
+* Services MUST NOT derive the meaning of persisted or event timestamps from the host machine's local timezone.
+* Database and application sessions used for ordinary instant-oriented processing SHOULD operate in UTC so reads, logs, diagnostics, and comparisons do not silently depend on workstation or server locale.
+
+**PostgreSQL**
+
+* Use `TIMESTAMPTZ` / `TIMESTAMP WITH TIME ZONE` for real instants.
+* Do NOT use `TIMESTAMP WITHOUT TIME ZONE` for values that represent real global instants.
+* Do not rely on the PostgreSQL session `TimeZone` to define stored business meaning.
+* `TIMESTAMPTZ` represents an instant. It does NOT preserve the originating IANA timezone name as business data. If the originating or declared timezone itself matters, store it separately.
+
+```sql
+created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+```
+
+is appropriate for “When did this row get created?” That column alone is NOT sufficient for “Run this job every day at 09:00 Europe/Madrid.”
+
+**Civil-time scheduling**
+
+When wall-clock intent matters, preserve that intent explicitly. A schedule may require `scheduled_date`, `scheduled_local_time`, and `time_zone` (for example `time_zone = 'Europe/Madrid'`), or equivalent domain-appropriate fields. A materialized next execution may additionally use `next_run_at TIMESTAMPTZ`.
+
+* An IANA timezone such as `Europe/Madrid` represents civil-time rules. It is an example of a named zone, not a global application default.
+* A numeric offset such as `+01:00` or `+02:00` is NOT a substitute for an IANA timezone when future civil-time behavior matters.
+* Abbreviations such as `CET`, `CEST`, `EST`, and similar MUST NOT be used as durable timezone identifiers in application or domain data.
+* Recurring local schedules MUST be recalculated using the named timezone rules rather than converting once to a fixed UTC offset.
+
+**API and log representation**
+
+Machine-oriented APIs, events, manifests, and logs representing instants MUST use an unambiguous timestamp containing an explicit offset. Prefer UTC RFC 3339 form for machine-generated event timestamps:
+
+```text
+2026-08-20T11:45:23.417Z
+```
+
+Do NOT use ambiguous instant representations such as `2026-08-20 13:45:23` when the value is intended to represent a unique instant.
+
+**Explicit exceptions**
+
+Do not force UTC onto values whose semantics are intentionally local, such as birthdays, business calendar dates, opening hours, wall-clock recurring schedules, and local appointment times. Those values need their actual domain semantics rather than a fake UTC conversion.
 
 ### 2.5 Foreign Keys and Constraints
 
@@ -1581,6 +1636,7 @@ Key principle:
 27. Date logic is explicit:
 
     * no reliance on engine default timezones.
+    * instant, civil/local date-time, date, local time, and duration are not interchangeable (see Temporal and time-zone semantics above).
 
 ### 2.6 Indexes and Performance
 
@@ -1649,6 +1705,7 @@ Key principle:
 54. Use native types:
 
     * `UUID`, `JSONB`, `ARRAY`, `ENUM` (with discipline).
+    * `TIMESTAMPTZ` / `TIMESTAMP WITH TIME ZONE` for real instants (see Temporal and time-zone semantics).
 55. CTEs (`WITH`) are used for clarity, not assumed to be free (materialization is understood).
 56. Indexes types are chosen deliberately:
 

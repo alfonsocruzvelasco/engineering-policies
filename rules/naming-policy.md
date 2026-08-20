@@ -219,7 +219,8 @@ lidar_freq_hz = 10       # hertz
 | hertz | `_hz` | `camera_hz` |
 | bytes | `_bytes` | `buffer_size_bytes` |
 | megabytes | `_mb` | `vram_budget_mb` |
-| timestamp (unix) | `_at` or `_ts` | `captured_at`, `frame_ts` |
+| timeline instant | `_at` | `created_at`, `captured_at` |
+| unix epoch | `_ts` | `frame_ts` |
 
 ---
 
@@ -408,11 +409,18 @@ ID, experimentID, RunName, tMap50, bIsBest
 |------|---------|
 | Primary key is always `id` | `id BIGSERIAL PRIMARY KEY` |
 | Foreign keys follow `<table_singular>_id` | `experiment_id`, `run_id` |
-| Timestamps end in `_at` | `created_at`, `started_at`, `deleted_at` |
+| Instant timestamps end in `_at` | `created_at`, `started_at`, `deleted_at` |
+| Civil-time fields stay distinct | `scheduled_date`, `scheduled_local_time`, `time_zone` |
 | Booleans start with `is_` or `has_` | `is_best`, `has_converged` |
 | Units encoded in column name | `inference_time_ms`, `peak_vram_mb` |
 | JSON blobs end in `_json` or `_data` | `config_json`, `metadata_json` |
 | Never abbreviate unless domain-standard | `map_50` ✓, `iou_thr` ✗ → `iou_threshold` |
+
+An `_at` field or column denotes a **real timeline instant**. Persisted `_at` values MUST use timezone-aware instant semantics; PostgreSQL `_at` columns SHOULD normally be `TIMESTAMPTZ`. An `_at` field MUST NOT silently mean local wall-clock time.
+
+For unresolved wall-clock schedules, keep civil-time identity explicit (`scheduled_date`, `scheduled_local_time`, `time_zone`). Use `time_zone` for an IANA timezone identifier (for example `'Europe/Madrid'`). Avoid `scheduled_at` when the value is an unresolved local wall-clock schedule rather than a concrete instant.
+
+Authoritative instant vs civil-time types: `production-policy.md` (Temporal and time-zone semantics).
 
 ### 4.3 Indexes — Descriptive, Not Auto-Named
 
@@ -523,7 +531,7 @@ class TrainingRun(Base):
 - ORM class name = singular of the table name (`Experiment` ↔ `experiments`)
 - Column names in ORM match column names in DDL exactly
 - Foreign key attributes follow `<entity>_id` pattern, matching the column name
-- All timestamps are timezone-aware (`DateTime(timezone=True)`)
+- All timestamps are timezone-aware (`DateTime(timezone=True)`); `_at` mapped columns represent instants, not local wall-clock time. See `production-policy.md` (Temporal and time-zone semantics).
 
 ---
 
