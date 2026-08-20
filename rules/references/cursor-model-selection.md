@@ -67,13 +67,48 @@ The principle is:
 
 > **Start with one stable default. Escalate deliberately. Do not choose from scratch for every prompt.**
 
+## Financial guardrail
+
+Authority: `rules/approved-ai-tools.md` SPEND FREEZE. This
+section does not create a second spend policy.
+
+- Included-usage accounting is not incremental billing.
+  Grok 4.6 currently draws from Cursor's included Cursor
+  Models pool and consumes included/prepaid plan usage
+  according to Cursor's current accounting. That is not
+  permanently free.
+- Auto OFF is not the hard billing cap. It keeps routing
+  and included-usage consumption predictable.
+- On-Demand Usage Disabled is the fail-closed billing
+  control. Fixed and Unlimited on-demand modes are
+  prohibited during the freeze. If included usage is
+  exhausted, stop/throttle/wait for reset. Never enable
+  paid overage to finish a task.
+- Cursor Cloud Agents are FROZEN. They currently bill at
+  selected-model API pricing with a separate spend-limit
+  surface and require an explicit owner freeze lift.
+- The account-owner Cursor notice states that, effective
+  2026-08-24, Auto pricing/accounting will depend on the
+  model each request is routed to. That future vendor
+  change is not a freeze lift.
+  Under this policy, Auto remains OFF unless the owner
+  explicitly chooses otherwise.
+
+Sources: Cursor Models & Pricing; Cursor Cloud Agents
+billing documentation; account-owner Cursor email announcing
+the 2026-08-24 Auto pricing change.
+
 ## Why not Auto by default?
 
 Auto reduces selection friction by giving Cursor control over model choice. That is useful when I do not care which model handles the task.
 
 But if I want predictable model choice, reasoning effort, and cost, **Auto solves the UX problem by removing the granularity I wanted to preserve**.
 
-Cursor currently charges Auto Balance and Auto Intelligence according to the model actually used.
+The account-owner Cursor notice states that, effective
+2026-08-24, Auto pricing/accounting will depend on the model
+each request is routed to. This future vendor change does not
+lift the SPEND FREEZE and does not make Auto the policy
+default.
 
 ## Fast mode
 
@@ -113,8 +148,10 @@ This is an operational Cursor preference, not an Obsidian knowledge-management s
 
 ## Sources
 
-Checked 2026-08-14:
+Checked 2026-08-19:
 
 - Cursor Models & Pricing: https://cursor.com/docs/models-and-pricing
+- Cursor Cloud Agents billing documentation
 - Cursor Keyboard Shortcuts: https://cursor.com/docs/reference/keyboard-shortcuts
 - Cursor Blog — Introducing Grok 4.6: https://cursor.com/blog/grok-4-6
+- Account-owner Cursor email announcing the 2026-08-24 Auto pricing change

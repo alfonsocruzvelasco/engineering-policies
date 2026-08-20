@@ -17,9 +17,13 @@ sources: [chat]
 - Price cap: no usage credits enabled, no new payment
   methods. Effective ceiling ~$5/M input.
 - SPEND FREEZE (active, 2026-08-14): do not configure or
-  escalate to billed Codex backends. Stay on Cursor
-  subscription Grok 4.6 / Codex 5.3 until the freeze is
-  lifted in approved-ai-tools.md. Agents cannot lift it.
+  escalate to billed Codex backends. Stay on freeze-allowed
+  Cursor Grok 4.6 / Codex 5.3 until the freeze is lifted in
+  approved-ai-tools.md. Agents cannot lift it. Cursor
+  On-Demand Usage MUST remain Disabled. Auto OFF is routing
+  control, not the billing cap. Codex 5.3 is freeze-allowed
+  on the current Cursor plan; do not assert Cursor Models
+  pool membership or a $0 price.
 - License review: non-Apache 2.0 models require review
   before portfolio-public or production use.
 - Data policy: free tiers that train on your data are
@@ -79,8 +83,6 @@ Claude Sonnet 5 (Anthropic): $2.00/$10.00
 Grok 4.6 (SpaceXAI): $2.00/$6.00
   — Default for Codex. 88.4% Terminal-Bench v2.1.
     Kernel optimization training. In registry.
-    Long-context cliff at 200K (rate doubles on all
-    tokens in the request once threshold is crossed).
 
 Muse Spark 1.2 (Meta): $1.25/$4.25
   — Standard tier. Open weights pending. In registry
@@ -117,7 +119,9 @@ do not choose per prompt, escalate deliberately.
 
 SPEND FREEZE (active): the mappings below are the
 possibility space after freeze lift. Until then, do not
-configure billed backends. Stay on Grok 4.6 (Cursor sub).
+configure billed backends. Stay on Grok 4.6 (included
+Cursor Models pool, freeze-allowed while On-Demand Usage
+remains Disabled).
 
 Mechanical completions, reformatting, boilerplate:
   → GPT-5.6 Luna ($0.20/$1.20) or Mistral Codestral
@@ -137,12 +141,24 @@ Hard architecture with no clear path:
 
 ## Long-context pricing cliff
 
-Grok 4.6 and Gemini Pro models double their rate once a
-single request exceeds 200K tokens. The higher rate
-applies to ALL tokens in that request, not just the
-overflow. Keep Codex sessions pruned below 200K tokens
-on these models. GPT-5.6 Luna and Mistral models do not
-have the same cliff structure.
+Current Cursor Grok 4.6 pricing distinguishes Standard and
+Fast usage. Fast is more expensive. Do not assert that
+Grok 4.6 doubles its rate once a request exceeds 200K
+tokens: current official Cursor documentation (checked
+2026-08-19) does not document that as Cursor Grok 4.6
+pricing.
+
+Any external/API long-context pricing rule must be
+re-verified from current provider documentation before
+paid API use. SPEND FREEZE: no billed backend may be
+configured or used while the freeze is active.
+
+Gemini 3.1 Pro in this file is already listed with 200K+
+pricing that doubles (source: Google Gemini pricing,
+verified 2026-08-14). If that model is used after freeze
+lift, keep Codex sessions pruned below 200K tokens on it.
+GPT-5.6 Luna and Mistral models do not have the same
+cliff structure.
 
 ## Chinese model ban — for reference
 

@@ -1,7 +1,7 @@
 # Approved AI Tools Registry
 
 **Status:** Authoritative
-**Last updated:** 2026-08-16
+**Last updated:** 2026-08-19
 **Policy Reference:** security-policy.md Section 14.6
 **Owner:** Security Team (security@organization.com)
 **Review Cadence:** Quarterly
@@ -89,9 +89,71 @@ Until lift, all of the following are forbidden:
 - Auto-escalate a session to a per-token API model
   (Sonnet 5, Opus 4.8, Gemini Flash-Lite billed, GPT-5.6,
   Fable 5, Muse Spark) as the working model.
+- Enable Cursor On-Demand Usage / Monthly Limit, or switch
+  Cursor to Fixed or Unlimited on-demand modes.
+- Upgrade the Cursor plan, purchase additional Cursor usage,
+  or otherwise pay to continue after included usage is
+  exhausted.
+- Start or use Cursor Cloud Agent runs, configure or raise
+  their separate spend limit, or treat Cloud Agent
+  selected-model API billing as freeze-allowed.
 
-Allowed without a lift (already paid, no extra charge):
-- Cursor subscription models: Codex 5.3, Grok 4.6.
+Cursor hard billing guardrail (authoritative):
+- On-Demand Usage / Monthly Limit MUST remain Disabled.
+  This is the fail-closed billing control. Auto OFF is not
+  the hard billing cap.
+- Fixed and Unlimited on-demand modes are prohibited during
+  the freeze.
+- If included Cursor usage is exhausted, stop, throttle, or
+  wait for reset. Never enable paid overage automatically
+  or to finish a hard task.
+- A pricing, routing, quota, model-pool, or Auto change
+  never implicitly authorizes additional spending. Vendor
+  pricing changes never constitute a freeze lift.
+
+Model selection is separate from billing enforcement:
+- Under this policy, Auto MUST remain OFF unless the owner
+  explicitly chooses otherwise (predictable routing and
+  included-usage consumption).
+- Fast MUST remain OFF unless explicitly justified.
+- Auto OFF is NOT the hard billing cap.
+- Hard billing control: On-Demand Usage = Disabled.
+- Included-usage accounting is not incremental billing.
+  Freeze-allowed Cursor work consumes included/prepaid
+  plan usage according to Cursor's current accounting.
+
+Cursor Auto pricing change (operational note):
+- Effective 2026-08-24, Auto pricing/accounting depends on
+  the routed model.
+- This does not alter the hard spend invariant.
+- Under this policy, Auto MUST remain OFF anyway unless
+  the owner explicitly chooses otherwise.
+- Vendor pricing changes never constitute a freeze lift.
+  Source: account-owner Cursor email announcing the
+  2026-08-24 Auto pricing change.
+
+Cursor Cloud Agents: FROZEN during SPEND FREEZE.
+Cursor currently bills Cloud Agents at selected-model API
+pricing and gives them a separate spend-limit surface.
+Using them requires a future explicit owner authorization
+under the existing freeze-lift process in this file.
+Source: Cursor Cloud Agents billing documentation.
+
+Allowed without a lift (within included/prepaid plan usage,
+only while On-Demand Usage remains Disabled):
+- Cursor Grok 4.6: this policy's normal fixed-model default. Currently
+  draws from Cursor's included Cursor Models pool. Consumes
+  included usage according to Cursor's current accounting.
+  Freeze-allowed while On-Demand Usage remains Disabled.
+  Not permanently free. xAI API list rates in this file and
+  in `rules/model-registry.md` are external API reference
+  data, not Cursor subscription/account billing rules.
+- Cursor Codex 5.3: freeze-allowed for daily coding when
+  already available on the current Cursor plan. Do not
+  claim it is in Cursor's Cursor Models pool, and do not
+  assert a $0 Cursor-sub price, unless current official
+  Cursor documentation states that. Do not invent a current
+  price.
 - Existing Claude Pro interactive usage (Claude.ai /
   Claude Code terminal) within subscription limits, when
   the human explicitly starts that session.
@@ -105,8 +167,20 @@ block with a dated `SPEND FREEZE LIFTED` note and a
 one-line expertise-and-budget rationale. Agents MUST NOT
 lift, waive, or temporarily bypass this freeze. A hard
 task is not a lift. A model recommending a better paid
-model is not a lift.
+model is not a lift. A Cursor pricing, routing, quota,
+model-pool, or Auto change is not a lift.
 [spend-freeze-2026-08-14]
+[cursor-ondemand-guardrail-2026-08-19]
+Sources:
+- Cursor Models & Pricing:
+  https://cursor.com/docs/models-and-pricing
+- Cursor Cloud Agents:
+  https://cursor.com/docs/cloud-agent
+- Cursor staff documentation of On-Demand Monthly Limit
+  modes (Fixed / Unlimited / Disabled):
+  https://forum.cursor.com/t/cant-adjust-enabled-overage-amount/162521
+- Account-owner Cursor email: Auto pricing change effective
+  2026-08-24.
 
 **OpenClaw — prohibition unchanged:** OpenClaw is now technically permitted via Agent SDK credits per Anthropic's May 2026 reversal. The prohibition in this repo is NOT a billing restriction — it is a security prohibition: credential harvesting via `openclaw models auth login --provider anthropic --method cli --set-default` and prompt injection via social engineering bypass (see security-policy.md and April 2026 OpenClaw social engineering incident). OpenClaw remains prohibited regardless of billing status.
 
@@ -202,12 +276,20 @@ No agent tool may be approved without completing all three:
   is constrained.
   Source: [artificialanalysis-jul2026]
 
-- `grok-4.6`: APPROVED (Cursor subscription, token-free)
+- `grok-4.6`: APPROVED (Cursor included-usage, freeze-allowed)
   Available in Cursor on all plans post-acquisition.
-  Use case: daily tasks, same tier as Codex 5.3.
-  Pricing: $2/MTok input · $6/MTok output (xAI API)
-  Throughput: 80–112 TPS · Context: 500K tokens
-  In Cursor subscription: token-free — no API cost.
+  Use case: daily tasks, same freeze-allowed class as
+  Codex 5.3. This policy's normal Cursor fixed-model default.
+  Throughput: 80–112 TPS. Cursor-documented context: 256K
+  tokens.
+  xAI API list rates (external API reference data, not
+  Cursor subscription/account billing rules): $2/MTok
+  input · $6/MTok output.
+  In Cursor: currently draws from the included Cursor
+  Models pool and consumes included/prepaid plan usage
+  according to Cursor's current accounting. Freeze-allowed
+  while On-Demand Usage remains Disabled. Not permanently
+  free.
   Fastest model in this stack. Prefer for time-sensitive
   daily tasks where throughput matters.
   Injection ASR: not yet benchmarked — treat as high-risk for unattended
@@ -230,16 +312,19 @@ Current model list with prices: see rules/model-registry.md
 
 Selection rules (price-capped, SPEND FREEZE active):
 - All task classes until freeze lift: Codex 5.3 or Grok 4.6
-  (Cursor sub, no extra charge) unless the human explicitly
-  names a frozen model for this session.
+  within included/prepaid Cursor plan usage, freeze-allowed
+  while On-Demand Usage remains Disabled, unless the human
+  explicitly names a frozen model for this session.
 - Frozen for new agent-initiated sessions: claude-sonnet-5,
   claude-opus-4-8, gemini-2.5-flash-lite billed,
-  gpt-5.6, Fable 5, Muse Spark, RunPod.
+  gpt-5.6, Fable 5, Muse Spark, RunPod, Cursor Cloud Agents.
 - Ultra-hard tasks: no active model assigned while Fable 5
   remains usage-credits-only under current price-cap
   enforcement.
 - Subagent/reads until lift: stay on the parent Cursor
-  subscription model. Do not spawn billed API subagents.
+  freeze-allowed model. Do not spawn billed API subagents.
+  Do not enable On-Demand Usage if included usage is
+  exhausted.
 
 STATUS: Price-capped + SPEND FREEZE. Do not deviate.
 Dynamic selection is a TODO: see model-registry.md §TODO.
@@ -461,23 +546,29 @@ Default backend: Grok 4.6. Registry gaps listed in that
 file must be resolved before the October 2026 checkpoint.
 [codex-model-selection-2026-08-14]
 - Default: one stable configuration — do not choose from
-  scratch per prompt. Current default as of 2026-08-12:
+  scratch per prompt. Current policy configuration:
   Grok 4.6, Medium effort, Fast OFF, Auto OFF.
-  Long-context pricing cliff: Grok 4.6 doubles its rate
-  to $4/$12 for any request exceeding 200K tokens, and
-  the higher rate applies to all tokens in that request.
-  Do not use Grok 4.6 at High effort on tasks with large
-  accumulated context without first pruning the prompt
-  below 200K tokens.
+  Billing enforcement is separate: Auto OFF is routing
+  control, not the hard spend cap. The hard billing
+  control is On-Demand Usage = Disabled (SPEND FREEZE
+  above).
+  Current Cursor pricing distinguishes Standard and Fast
+  on-demand usage. Fast currently has higher token rates
+  than Standard. These vendor rates affect included-usage
+  consumption and potential on-demand pricing, but they
+  never authorize incremental spend during SPEND FREEZE.
+  Fast remains OFF under this policy unless explicitly
+  justified. On-Demand Usage remains Disabled regardless.
 - Escalation is deliberate, not reactive:
     Medium -> normal implementation, refactors, tests,
              routine debugging.
     High   -> difficult architecture, stubborn bugs,
              ambiguous multi-step work.
     Fast   -> only when response latency justifies the
-             higher price.
+             higher price. Fast remains OFF by default.
     Auto   -> only when model choice is explicitly
-             delegated to Cursor.
+             delegated to Cursor. Auto remains OFF by
+             default. Auto OFF is not the billing cap.
 - Do not build per-prompt routing rituals. Start with
   Medium, escalate when the task demonstrably requires it.
 - The specific model name and effort default are subject

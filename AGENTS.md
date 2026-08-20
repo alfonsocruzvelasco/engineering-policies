@@ -158,10 +158,33 @@ Grok 4.6 unless the human explicitly names a frozen model
 for this session. Agents cannot lift this freeze. Authority:
 `rules/approved-ai-tools.md`.
 
+Cursor billing (mirrors the freeze; does not create a
+second spend policy):
+- On-Demand Usage / Monthly Limit MUST remain Disabled.
+  Fixed and Unlimited on-demand modes are prohibited.
+- If included Cursor usage is exhausted, stop/throttle/wait
+  for reset. Never enable paid overage to finish a task.
+- Auto OFF and Fast OFF remain the operational defaults.
+  Auto OFF is routing control, not the hard billing cap.
+- Cursor Cloud Agents are FROZEN until an explicit owner
+  freeze lift in `rules/approved-ai-tools.md`.
+- A pricing, routing, quota, model-pool, or Auto change
+  never implicitly authorizes additional spending.
+
 Use these in order based on task class and cost policy:
 
-1. **Codex 5.3** (Cursor subscription): default for daily coding, edits, and repo maintenance with zero incremental token cost under current setup.
-2. **Grok 4.6** (Cursor subscription): default alternative for daily tasks where higher throughput and lower latency matter.
+1. **Codex 5.3** (Cursor plan, freeze-allowed while
+   On-Demand Usage remains Disabled): default for daily
+   coding, edits, and repo maintenance within
+   included/prepaid Cursor plan usage. Do not treat as a
+   confirmed Cursor Models pool member or as $0 usage.
+2. **Grok 4.6** (Cursor included Cursor Models pool):
+   default alternative for daily tasks where higher
+   throughput and lower latency matter. Freeze-allowed
+   while On-Demand Usage remains Disabled. Consumes
+   included usage according to Cursor's current accounting.
+   Not permanently free. This policy's normal Cursor fixed-model default
+   (Medium, Fast OFF, Auto OFF).
 3. **claude-haiku-4-5**: FROZEN for agent-initiated sessions under the spend freeze. Human-explicit Claude Pro interactive use only.
 4. **gemini-2.5-flash-lite**: FROZEN (token-billed) until spend freeze lift.
 5. **claude-sonnet-5**: FROZEN for agent-initiated escalation until spend freeze lift.

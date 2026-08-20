@@ -9,7 +9,7 @@ scope: AI agent memory, private context, connectors, web fetch,
 # Agent Egress and Memory Isolation Policy
 
 Status: Authoritative
-Last updated: 2026-07-15
+Last updated: 2026-08-20
 Source: Memory Heist attack class [memory-heist-ayush-paul-jul2026]
 
 ## Core rule
@@ -35,6 +35,29 @@ If both are needed, split into two sessions:
 
 The output of the untrusted-web session may be manually summarized
 and pasted into the private-context session only after human review.
+
+## Agent test and evaluation network isolation
+
+Tool-using or code-executing agent tests, evaluations, sandboxes,
+and training workloads MUST NOT have unrestricted access to real
+external or internal systems merely because the task is described
+as simulated.
+
+Hard controls (mandatory):
+
+- General Internet egress MUST be denied by default.
+- Access to internal and production networks MUST be denied by default.
+- Required external destinations MUST be explicitly allowlisted.
+- Simulated targets MUST use reserved or non-routable identifiers,
+  or an equivalently isolated test environment.
+- A fictional or test hostname or target MUST NOT be allowed to
+  resolve to or interact with a real third-party system.
+- Any network access granted for a legitimate evaluation MUST be
+  the minimum scope required for that evaluation.
+
+Source: 2026-08 agent evaluation egress incident (simulated
+targets reached real systems). Durable invariant: fail-closed
+network isolation and explicit egress authorization.
 
 ## Forbidden combinations
 
