@@ -8,7 +8,7 @@ scope: Security controls for secrets, IAM, infrastructure access, API/tool-use s
 # Security Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-08-19
+**Last updated:** 2026-08-20
 
 **Scope:** This policy defines how **credentials, secrets, dependencies, identity and access controls, APIs, and AI-assisted engineering risks** are handled. It applies to all environments (local, CI, staging, production) and all repositories, with special emphasis on ML/CV engineering security.
 
@@ -368,6 +368,33 @@ the payload is attacker-controlled via a public write endpoint (e.g. Sentry DSN)
 **Source:** [agentjacking-tenet-security-jun2026]
 **CVE/reference:** https://tenetsecurity.ai/blog/agentjacking-coding-agents-with-fake-sentry-errors/
 **Affected tools:** Claude Code, Cursor. **Exploitation rate:** 85% in controlled test.
+
+**MCP server inventory and remote trust boundary:**
+Every MCP server used by an AI tool or agent MUST be explicitly
+inventoried and allowlisted before use.
+
+The inventory/approval MUST identify at minimum:
+- local vs remote
+- server, operator, and origin
+- transport or connection mechanism
+- granted authorization/credential scope
+
+Remote MCP servers MUST be treated as mutable external trust
+boundaries. Prior approval of a remote MCP server does NOT make
+its future behavior, tool definitions, returned data, prompts,
+resources, or implementation implicitly trusted.
+
+MCP credentials MUST NOT become broader ambient credentials merely
+because the MCP server is approved.
+
+Existing controls continue to apply: prompt-injection defenses
+(Section 19), least privilege (Section 4), secrets management
+(Sections 2–3), explicit authorization scope, HITL for
+sensitive/destructive actions (Section 19.6.3), and supply-chain
+review (Section 9).
+
+Source: 2026-08 MCP enterprise exposure reporting. Durable
+invariant: inventory plus mutable remote trust boundary.
 
 **Incident Reference:** [Amazon Q Incident (July 2025)](https://www.techradar.com/pro/hacker-adds-potentially-catastrophic-prompt-to-amazons-ai-coding-service-to-prove-a-point) - malicious prompt instructed AI to use filesystem and AWS CLI privileges to wipe systems and delete cloud resources. This incident demonstrates the critical need for mandatory HITL authorization for all destructive operations.
 
