@@ -1,7 +1,7 @@
 # Language Policies
 
 **Status:** Authoritative
-**Last updated:** 2026-08-19
+**Last updated:** 2026-08-20
 **Purpose:** Language-specific engineering standards for Python, TypeScript/Node.js, Java, C/C++, Rust, and CUDA
 
 ---
@@ -141,6 +141,34 @@ The Python learning sandbox exception in rule 9 is the only repository-local `.v
 45. **Pre-commit hooks run inside the venv context** (or via tool runners like `uv run`).
 46. **Single formatting/linting stack:** Ruff is the canonical formatter (`ruff format`) and linter. Do not use Black as the project formatter.
 47. **mypy is the canonical strict type checker.** Pyright may be installed locally; it is not authoritative unless a repo policy explicitly says otherwise. Tests must run the same way locally and in CI, via a single command (`make test`, `pytest`, etc.), executed in the env.
+
+## 11.1) Datetime and time-zone discipline
+
+Python code MUST distinguish **instant**, **civil/local date-time**, **date**, **local time**, and **duration**. These types MUST NOT be silently interchanged. Authoritative database, API, and logging semantics: `production-policy.md` (Temporal and time-zone semantics).
+
+* A Python `datetime` representing a real instant MUST be timezone-aware.
+* Do not create persisted or event instants with `datetime.now()` or `datetime.utcnow()`. Prefer:
+
+```python
+from datetime import UTC, datetime
+
+now = datetime.now(UTC)
+```
+
+* Use the standard library `zoneinfo.ZoneInfo` for IANA timezone conversion and local civil-time rules. Do not add a third-party timezone dependency. Do not use `pytz`. Do not introduce `dateutil` solely for timezone handling. Do not implement DST offset tables by hand.
+
+```python
+from zoneinfo import ZoneInfo
+
+madrid = ZoneInfo("Europe/Madrid")  # IANA example, not an application default
+local_time = now.astimezone(madrid)
+```
+
+* `Europe/Madrid` is an example of an IANA identifier, not a hardcoded application default.
+* Do not assume a named zone has a permanent UTC offset (for example, `Europe/Madrid` is not permanently UTC+1 or UTC+2).
+* Naive datetimes are allowed only when the domain intentionally represents a timezone-less civil value and that semantic choice is explicit.
+* A naive datetime MUST NOT cross a persistence, API, or event boundary when it is supposed to represent an instant.
+* Parsing external timestamp strings MUST reject or explicitly resolve ambiguity rather than silently attaching the machine's local timezone.
 
 ## 12) CI/CD rules
 

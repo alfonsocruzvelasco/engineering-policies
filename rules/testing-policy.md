@@ -1,7 +1,7 @@
 # Testing Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-08-16
+**Last updated:** 2026-08-20
 **Purpose:** Language-specific testing standards for CV/ML engineering with strict artifact isolation
 
 ---
@@ -264,6 +264,25 @@ def test_current_spec_reflects_implementation():
 
     assert set(actual_routes) == set(spec_routes)
 ```
+
+---
+
+#### 7.2.6 Temporal and time-zone tests
+
+Temporal tests MUST NOT pass only because the developer machine happens to be configured for one local timezone. The suite is proportional to the feature: do not mandate DST tests for code whose domain is purely UTC instants and never performs local scheduling. Authoritative types: `production-policy.md` (Temporal and time-zone semantics).
+
+**When a feature uses instants:**
+- Test timezone-aware UTC creation and parsing.
+- Test serialization with an explicit offset (prefer UTC RFC 3339, for example `2026-08-20T11:45:23.417Z`).
+- Test equivalent instants represented by different offsets where relevant.
+- Test database and API round-trips without assuming the workstation timezone.
+
+**When a feature uses named local timezones or schedules:**
+- Test at least one real IANA timezone (for example `Europe/Madrid`).
+- Test DST behavior when the supported zone observes DST.
+- Test the spring-forward gap, when a local wall time may not exist.
+- Test the autumn fallback/fold, when a local wall time may occur twice.
+- Ensure ambiguous or nonexistent civil times are resolved by an explicit domain rule rather than accidentally.
 
 ---
 
@@ -1954,6 +1973,7 @@ mvn test jacoco:report
 6. **Mock everything** (use real dependencies for unit tests when simple)
 7. **Ignore flaky tests** (fix or delete immediately)
 8. **Write tests after the fact** (test-first or test-concurrent, never test-never)
+9. **Depend on the developer machine timezone** (temporal tests must not pass only because the workstation is in one zone)
 
 ---
 

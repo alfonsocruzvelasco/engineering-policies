@@ -2043,6 +2043,8 @@ AI agents MUST NOT have permissions to execute destructive operations without ex
 **Implementation Example:**
 ```python
 # Example: Destructive operation gate
+from datetime import UTC, datetime
+
 def execute_destructive_operation(operation, target):
     """Require explicit human approval for destructive operations."""
     if is_destructive(operation):
@@ -2050,7 +2052,7 @@ def execute_destructive_operation(operation, target):
             operation=operation,
             target=target,
             requester=get_current_user(),
-            timestamp=datetime.now()
+            timestamp=datetime.now(UTC)
         )
         if not verify_approval_signature(approval_token):
             raise SecurityError("Destructive operation requires human approval")
@@ -2060,7 +2062,7 @@ def execute_destructive_operation(operation, target):
         operation=operation,
         target=target,
         approver=approval_token.user,
-        timestamp=datetime.now()
+        timestamp=datetime.now(UTC)
     )
 
     return execute_operation(operation, target)
