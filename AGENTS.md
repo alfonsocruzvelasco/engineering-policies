@@ -196,6 +196,19 @@ Routing rules:
 - Do not escalate to higher-cost models. A hard task is not a freeze lift.
 - Follow the active tier authority in `rules/model-registry.md` and `rules/approved-ai-tools.md`.
 
+Claude included subscription quota is scarce even when
+consuming it creates no incremental bill. Use Claude only
+when its marginal value justifies that quota. For
+human-explicit Claude sessions: lowest adequate
+model/effort, bounded context, and no unnecessary
+parallel/forked agents. Routine mechanical work remains on
+approved Cursor-subscription or deterministic local
+tooling. Exhausting Claude quota does not authorize extra
+billing or API fallback. Authority:
+`rules/approved-ai-tools.md` and
+`rules/ai-workflow-policy.md` (Claude Code quota
+discipline).
+
 Chinese ban enforcement:
 - Chinese-origin API endpoints and prohibited model families remain banned with no bypass in standard workflows.
 - Prohibited set includes GLM/Zhipu (Z[.]ai and api[.]z[.]ai), MiniMax, DeepSeek, and Kimi endpoints per `rules/model-registry.md` and `rules/security-policy.md` §14.6.9.

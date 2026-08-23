@@ -1,7 +1,7 @@
 # Approved AI Tools Registry
 
 **Status:** Authoritative
-**Last updated:** 2026-08-19
+**Last updated:** 2026-08-23
 **Policy Reference:** security-policy.md Section 14.6
 **Owner:** Security Team (security@organization.com)
 **Review Cadence:** Quarterly
@@ -181,6 +181,45 @@ Sources:
   https://forum.cursor.com/t/cant-adjust-enabled-overage-amount/162521
 - Account-owner Cursor email: Auto pricing change effective
   2026-08-24.
+
+**Claude subscription quota conservation:**
+Included Claude subscription usage is not incremental billed
+spend, but it is a scarce resource. SPEND FREEZE remains the
+financial fail-closed control. Quota conservation is a
+separate operational optimization.
+
+- Do not describe included subscription usage as free.
+  Preferred terms: included subscription quota, or no
+  incremental charge.
+- Existing human-explicit Claude Pro interactive usage
+  (Claude.ai / Claude Code) remains allowed within included
+  subscription quota.
+- Claude Code / Claude.ai subscription usage MUST NOT
+  automatically fall back to API, usage credits, extra
+  usage, or pay-as-you-go when the included allowance is
+  exhausted.
+- When included Claude usage is exhausted: wait for reset,
+  or switch to an already-approved no-incremental-cost
+  tool/model. Exhaustion is not a SPEND FREEZE lift and
+  does not change the lift conditions above.
+- Reserve Claude for tasks whose expected marginal value
+  justifies consuming the shared Claude allowance.
+- Routine repository reads, grep/search, mechanical edits,
+  formatting, straightforward refactors, and ordinary
+  maintenance SHOULD use approved Cursor-subscription
+  models or deterministic local tools instead.
+- Claude Code `/usage` is the preferred operational view of
+  the current included subscription-plan usage/quota state
+  when available. `ccusage` remains supplementary telemetry
+  for token/cost visibility. `ccusage` MUST NOT be treated
+  as authoritative Anthropic subscription quota accounting.
+  Do not claim a deterministic mapping between ccusage
+  token/dollar estimates and Anthropic's included
+  subscription quota. `/usage` -> subscription-plan
+  usage/quota state; `ccusage` -> supplementary usage
+  telemetry.
+- Workflow detail: `ai-workflow-policy.md` (Claude Code
+  quota discipline).
 
 **OpenClaw — prohibition unchanged:** OpenClaw is now technically permitted via Agent SDK credits per Anthropic's May 2026 reversal. The prohibition in this repo is NOT a billing restriction — it is a security prohibition: credential harvesting via `openclaw models auth login --provider anthropic --method cli --set-default` and prompt injection via social engineering bypass (see security-policy.md and April 2026 OpenClaw social engineering incident). OpenClaw remains prohibited regardless of billing status.
 
@@ -666,8 +705,13 @@ Usage constraints:
   this does not affect the OpenClaw prohibition,
   which covers use of OpenClaw, not tools that
   read its log format
-- Use ccusage as visibility telemetry only; pricing authority remains
-  the active tiers in `rules/model-registry.md`
+- Use ccusage as supplementary usage telemetry only; pricing
+  authority remains the active tiers in `rules/model-registry.md`
+- Claude Code `/usage` is the preferred operational view of
+  included subscription-plan usage/quota state when available
+- ccusage dollar/token estimates MUST NOT be treated as
+  Anthropic's included subscription quota accounting, and
+  MUST NOT be mapped deterministically onto that quota
 - Built on Vite toolchain (now under Cloudflare/VoidZero stewardship since June 4 2026). Re-pin to a verified version after any upstream Rolldown or Oxc release. See dependency-install-policy.md supply chain centralisation section.
 
 ---

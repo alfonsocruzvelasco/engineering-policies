@@ -8,7 +8,7 @@ scope: AI-assisted development workflows (core workflow, prompt engineering, ses
 # AI Workflow Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-08-19
+**Last updated:** 2026-08-23
 
 > *Inline `Last updated` footers under individual sections are subordinate revision markers. The file-level date above is the summary stamp for the document as a whole.*
 
@@ -26,6 +26,7 @@ scope: AI-assisted development workflows (core workflow, prompt engineering, ses
 - [Core Security Position](#core-security-position)
 - [Daily Workflow](#daily-workflow)
 - [Token Conservation](#token-conservation)
+- [Claude Code quota discipline](#claude-code-quota-discipline)
 - [Context Rot Prevention](#context-rot-prevention)
 - [Wave-Based Execution](#wave-based-execution-multi-agent)
 - [Agent session traceability](#agent-session-traceability-mandatory)
@@ -326,8 +327,15 @@ ${SANDBOX_ROOT:-~/dev/repos/github.com/${GH_USER:-alfonsocruzvelasco}/sandbox-cl
 ## Token Conservation
 
 #### Built-in (zero install, apply immediately)
-- MAX_THINKING_TOKENS=8000 globally. /effort none for file edits.
-  /effort high only for genuine reasoning tasks.
+- Effort is the normal operational control. Current Claude
+  Code effort levels are low/medium/high/xhigh/max
+  (model-dependent); auto resets to the model default.
+  `/effort none` is not supported. Use `/effort low` for
+  simple, well-scoped inspection or file tasks when Claude
+  is used. Use medium or higher only when task complexity
+  justifies it. High/max must not be pre-emptive defaults.
+  Do not globally force low effort. Use the lowest adequate
+  effort (see Claude Code quota discipline).
 - Manual /compact at 60–70% context window with preservation hints:
     /compact Keep: [active task], [open decision], [last written file], [error in flight]
   Never wait for auto-compaction (~93% threshold, costs 100–200K tokens per fire).
@@ -359,7 +367,6 @@ ${SANDBOX_ROOT:-~/dev/repos/github.com/${GH_USER:-alfonsocruzvelasco}/sandbox-cl
   Source: [lost-in-middle-stanford-2023] [tokenminning-tds-jul2026]
 - Context gauge in ~/.claude/settings.json:
     {
-      "env": { "MAX_THINKING_TOKENS": "8000" },
       "statusLine": {
         "type": "command",
         "command": "echo \"ctx $(jq -r '.context_window.remaining_percentage // 100' < $CLAUDE_STATUS_INPUT)%\""
@@ -408,6 +415,108 @@ Source: [computingforgeeks-apr2026] [squeezr-github]
 - Use one fixed prompt and one fixed target repository for trend consistency.
 - If token savings regress by >15% from the last verified baseline, review:
   `/compact` discipline, routing profile, and active tool stack order.
+
+### Claude Code quota discipline
+
+Authority for the spend/quota split: `approved-ai-tools.md`.
+Included Claude subscription quota is scarce even when it
+creates no incremental charge. SPEND FREEZE remains the
+financial fail-closed control. This subsection optimizes
+Claude Code consumption; it does not lift the freeze,
+authorize extra billing, or weaken validation.
+
+**A. Task scoping.** Before a substantial Claude Code task,
+prefer one bounded request that states the objective,
+relevant file/scope boundaries, acceptance criteria, and
+important constraints. Avoid vague repository-wide requests
+when a narrower task is known. Supply known constraints up
+front instead of opening unnecessary clarification loops.
+
+**B. Model discipline.** Within a human-explicit Claude Code
+session, use the least quota-intensive approved model that
+can do the task. Prefer the normal Claude workhorse for
+implementation. Reserve the highest-capability approved
+Claude model for genuinely difficult planning, architecture,
+diagnosis, or reasoning. When a stronger model is used only
+to form the plan, return to the workhorse for mechanical
+execution where current Claude Code model controls support
+that workflow. Escalate for an observed quality/reasoning
+need, not for task size or convenience. Do not invent model
+aliases beyond those already validated in
+`approved-ai-tools.md` / `model-registry.md`.
+
+**C. Effort discipline.** Use the lowest effort level that
+reliably solves the task. Routine inspection/triage SHOULD
+use low effort when Claude is used at all. Normal
+implementation SHOULD NOT automatically use maximum effort.
+High / maximum effort requires either an observed failure at
+the lower appropriate level, or a clearly difficult
+reasoning requirement. Do not pre-emptively maximize effort.
+
+**D. Context discipline.** Treat context as a quota-consuming
+resource. Use targeted search/read operations rather than
+broad repeated repository scans. Do not reread large files
+already sufficiently represented in the active context. At a
+genuine task boundary, start a fresh context when prior
+history is no longer useful. For a long continuing task,
+compact before carrying large irrelevant history
+indefinitely (`/compact` remains the verified milestone
+command in Token Conservation above). Inspect context
+consumption when a session becomes large or before
+escalating model/effort. Use `/usage` when checking the
+current Claude subscription usage/quota state. Do not run
+`/usage` after every prompt; use it at meaningful
+checkpoints such as before a substantial task, when usage
+appears unexpectedly high, or before model/effort
+escalation. Keep side questions out of the durable main
+context when Claude Code provides an appropriate ephemeral
+mechanism. Do not run compact, `/usage`, or
+context-inspection commands after every turn; they are
+milestone tools, not ritual steps.
+
+**E. Subagent / parallelism discipline.** Do not spawn agents
+merely because parallelism is available.
+`parallelism != free throughput`, and
+`subagent != automatically wasteful`. Agent teams, broad
+parallel workers, batch fan-out, and forked full-context
+agents SHOULD be avoided under quota-conservation mode
+unless the human explicitly requests them or the task has a
+concrete reason that outweighs the extra model executions.
+A single isolated subagent MAY be useful for a bounded,
+self-contained operation whose verbose output would
+otherwise pollute the parent context. Prefer deterministic
+local tools over a model subagent for simple grep, listing,
+formatting, or other mechanical operations. Do not create
+multiple agents to independently solve the same problem
+unless comparison itself is the stated objective. Do not
+configure subagents with unnecessarily high-capability
+models or high effort. Do not use proactive delegation as a
+default for routine work.
+
+**F. Tool / skill context discipline.** Enable or invoke only
+the tools, MCP servers, connectors, and skills needed for
+the current task. Do not invoke a large skill merely because
+it exists. The Claude API documentation skill is only
+relevant to Anthropic API/SDK development; do not invoke it
+for ordinary coding. Prefer on-demand loading over
+preloading large optional context. This rule does not add
+or remove MCP servers or settings.
+
+**G. Tool-output discipline.** Prefer quiet/targeted
+deterministic commands when possible. Do not inject
+thousands of irrelevant log or test lines into model
+context. On success, concise validation evidence is
+sufficient. On failure, capture the relevant failing output
+required for diagnosis. Preserve full evidence externally
+when another policy requires it. Quota optimization must
+not weaken auditability or validation.
+
+**H. Quality boundary.** Quota conservation MUST NOT justify
+skipping required tests, weakening validation, bypassing
+security controls, omitting required review, reducing
+correctness requirements, or silently changing acceptance
+criteria. Optimize model/context consumption, not
+engineering evidence.
 
 ---
 
