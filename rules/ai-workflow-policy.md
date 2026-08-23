@@ -336,14 +336,18 @@ ${SANDBOX_ROOT:-~/dev/repos/github.com/${GH_USER:-alfonsocruzvelasco}/sandbox-cl
   justifies it. High/max must not be pre-emptive defaults.
   Do not globally force low effort. Use the lowest adequate
   effort (see Claude Code quota discipline).
-- Manual /compact at 60–70% context window with preservation hints:
+- Context reset vs compaction: prefer `/clear` for unrelated
+  or new work; use `/compact` on a continuing task when
+  accumulated context has become materially large, stale, or
+  noisy enough that carrying it forward is inefficient.
+  `/context` and `/usage` may inform the decision.
+  `/compact` processes/summarizes existing history; it is
+  not a zero-cost cleanup. Do not compact ritualistically.
+  Do not carry substantial irrelevant context merely because
+  automatic compaction exists. Authoritative rule: Claude
+  Code quota discipline.
+  Optional preservation hints when compacting:
     /compact Keep: [active task], [open decision], [last written file], [error in flight]
-  Never wait for auto-compaction (~93% threshold, costs 100–200K tokens per fire).
-  Compact trigger rules:
-  - Interactive sessions: use percentage thresholds (60-70% window).
-  - Long-running agent loops: compact at 32,000 tokens (hard count), not percentage-based.
-    Percentage thresholds are for interactive sessions; agent loops need an earlier,
-    deterministic trigger.
   Use this compaction prompt structure:
     ## Objective
     [What are we trying to accomplish?]
@@ -459,20 +463,57 @@ broad repeated repository scans. Do not reread large files
 already sufficiently represented in the active context. At a
 genuine task boundary, start a fresh context when prior
 history is no longer useful. For a long continuing task,
-compact before carrying large irrelevant history
-indefinitely (`/compact` remains the verified milestone
-command in Token Conservation above). Inspect context
+use `/compact` when accumulated context has become
+materially large, stale, or noisy. Inspect context
 consumption when a session becomes large or before
 escalating model/effort. Use `/usage` when checking the
 current Claude subscription usage/quota state. Do not run
 `/usage` after every prompt; use it at meaningful
 checkpoints such as before a substantial task, when usage
-appears unexpectedly high, or before model/effort
-escalation. Keep side questions out of the durable main
-context when Claude Code provides an appropriate ephemeral
-mechanism. Do not run compact, `/usage`, or
+appears unexpectedly high, before model/effort escalation,
+or during diagnosis of an unexpectedly expensive session.
+`/usage` plan bars are the preferred operational view of
+the current Claude subscription allowance. The `/usage`
+attribution/breakdown is diagnostic, not exact cross-device
+accounting. Attribution to skills, subagents, plugins, MCP
+servers, long-context behavior, or cache misses MAY identify
+likely quota consumers; treat that breakdown as
+approximate/local evidence that may omit usage from other
+machines or Claude surfaces. Do not infer an exact
+Anthropic quota formula from percentages, token counts, or
+ccusage estimates. Keep side questions out of the durable
+main context when Claude Code provides an appropriate
+ephemeral mechanism. Do not run compact, `/usage`, or
 context-inspection commands after every turn; they are
 milestone tools, not ritual steps.
+
+`/clear` is triggered by semantic task/context boundaries,
+not by an arbitrary number of turns. Prefer `/clear` when
+starting an unrelated task, prior conversation history is
+no longer useful, or continuing would mostly carry
+irrelevant material. Do not clear merely because N turns
+have elapsed. Do not clear important unresolved task
+context merely to satisfy a quota heuristic. The same
+continuing task SHOULD use `/compact` when useful history
+must survive and accumulated context has become materially
+large, stale, or noisy. `/context` and `/usage` may inform
+the decision. Do not compact merely because a session is
+old or ritualistically. `/compact` must process/summarize
+existing history and is not a zero-cost cleanup. Starting
+fresh with `/clear` avoids carrying irrelevant conversation
+history into later requests.
+
+A long-lived Claude Code session can consume substantial
+quota even for a small new prompt because prior
+conversation/tool context may be processed again. After a
+substantial break, do not automatically continue a large
+old context merely because it exists. If continuity is
+genuinely needed, use Claude Code's supported
+summary/resume mechanism when available; otherwise start
+fresh. If `/usage` reports long-context or cache-miss
+behavior as a material contributor, reduce or reset context
+before continuing. Do not encode vendor cache lifetime as a
+permanent policy invariant.
 
 **E. Subagent / parallelism discipline.** Do not spawn agents
 merely because parallelism is available.
@@ -517,6 +558,37 @@ security controls, omitting required review, reducing
 correctness requirements, or silently changing acceptance
 criteria. Optimize model/context consumption, not
 engineering evidence.
+
+**I. Background / idle quota consumers.** Claude Code
+mechanisms that generate model turns while the human is not
+actively prompting still consume quota. Depending on
+enabled features, this can include scheduled Claude tasks,
+cross-session message delivery, background goal/check-in
+behavior, active agent-team teammates, and other automated
+model turns. Do not leave quota-consuming Claude background
+work active merely for convenience. Scheduled/background
+Claude activity requires a concrete current need and must
+remain compatible with the existing SPEND FREEZE and
+unattended-agent restrictions. Shut down or finish agent
+teammates when their assigned work is complete. Do not keep
+idle teammates alive "just in case." Do not enable agent
+teams merely for throughput. This rule does not add
+configuration variables or change Claude settings.
+
+**J. Unexpected quota-spike diagnostic.** When Claude
+subscription quota appears to disappear materially faster
+than expected, do not immediately assume the allowance
+changed. First collect evidence from the current session:
+`claude --version`, `/usage`, active model, active effort,
+whether the session has a large or old context, whether
+`/usage` flags long context or cache misses, active or
+recent subagents or agent teammates, and relevant
+skills/plugins/MCP attribution when shown. Then reduce the
+evidenced source of consumption. Do not add a monitoring
+daemon or script, automatically modify settings, encode a
+temporary Claude Code regression as permanent policy, or
+claim Anthropic changed limits without evidence. Sequence:
+observe, identify the quota consumer, correct behavior.
 
 ---
 
@@ -727,7 +799,8 @@ The filesystem provides continuity across context windows. Apply this pattern to
    - Use Task Tool for tracking multi-step work
    - Mark subtasks complete only after verification (tests pass, diff reviewed)
    - Update CLAUDE.md immediately if mistakes are discovered during task execution
-   - Use `/compact` manually at 60–70% context usage (don't wait for auto-compact)
+   - Apply `/clear` vs `/compact` from Claude Code quota discipline.
+     Do not wait for automatic compaction.
 
 5. **Vanilla Claude Code for small tasks:**
    - For single-file edits or trivial changes, use vanilla Claude Code (no task tool)
@@ -3239,10 +3312,10 @@ This section previously contained ~1,000 lines of detailed production patterns, 
 
 **Key daily rules (kept inline):**
 - Use `.cursor/rules/` for static context (20-50% token reduction)
-- `/clear` every 5-7 turns or when switching tasks
+- `/clear` at semantic task/context boundaries, not after a fixed number of turns (see Claude Code quota discipline)
 - Let the agent find context — don't over-tag files
 - Plan Mode before complex tasks (~50% token reduction)
-- Start new conversations when switching tasks or after ~10k tokens accumulated
+- Start a new conversation or `/clear` when switching to unrelated work; do not reset merely because a turn or token count elapsed
 - Use worktree parallelization for concurrent tasks
 
 ---
