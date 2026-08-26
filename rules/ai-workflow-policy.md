@@ -3770,6 +3770,16 @@ Evaluate agent runs on a multi-dimensional reliability surface, not single-run p
 
 **When to measure:** For any task type that will be repeated (CI agents, automated reviews, skill-based workflows), collect at least 10 runs and compute the reliability surface before committing to a workflow design.
 
+#### Model–harness coupling invariant
+
+Agent performance MUST NOT be attributed to the model alone when execution depends materially on the harness. For agentic evaluation, treat the evaluated system as a model–harness configuration: model, harness/tooling, prompts/instructions, effort/reasoning configuration, and relevant runtime controls. Record what is needed to reproduce or interpret results, not every insignificant implementation detail.
+
+Evaluation records for meaningful comparisons SHOULD preserve enough context to identify the evaluated pair/system (as applicable): model and relevant model version, harness/coding-agent product and relevant version, important tool availability, material prompt/instruction/scaffold settings, effort/reasoning setting, and material mode/context controls. A score like `Model X = 82` is insufficient when harness configuration materially contributed; use `Model X + Harness Y/config Z = 82` when that distinction matters.
+
+If a harness compensation (prompt rule, retry loop, tool wrapper, workaround, or orchestration step) is introduced to address an observed model failure mode, document the failure evidence and keep the compensation as narrow as practical. A workaround for model A is not automatically a universal agent requirement. Re-evaluate model-specific compensations when the model changes materially, a major model version is adopted, harness/tooling changes materially, or the targeted failure mode is no longer reproducible. Remove or simplify compensations that no longer show value to avoid accumulating obsolete orchestration.
+
+Prefer the simplest harness that still provides required correctness, control, and evidence. Do not add orchestration only to inflate benchmark scores; additional complexity needs a concrete reason (for example, fixing a reproducible failure, enforcing a deterministic boundary, improving reproducibility, enabling required tooling, or measurable reliability gains). This simplification rule does not apply to externally enforced controls: permissions, identity controls, security boundaries, approval gates, spend controls, deterministic validation, and audit requirements remain mandatory.
+
 **Reference:** See `stochastic-scheduling-ai-coding-agents.pdf` §4 and §9 for the complete evaluation scaffold and executable metric code.
 
 ### Metrics Collection
