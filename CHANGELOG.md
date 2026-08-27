@@ -23,6 +23,7 @@ and this project follows Semantic Versioning guidance in `rules/versioning-and-r
 - Added `rules/references/local-model-runtime-status.md` documenting locally validated Ollama/llama.cpp models, paths, VRAM behavior, and practical usage recommendations (with security posture note).
 
 ### Changed
+- External contributions now require compliance with the upstream project's current AI/LLM contribution policy; upstream restrictions override the normal internal AI workflow, while third-party project indexes remain discovery aids rather than sources of permission (`ai-workflow-policy.md`) (2026-08-27).
 - Agent evaluation now treats run-to-run variance according to task type: exploratory coverage tasks may use pooled independent runs while still reporting per-run consistency, precision, and triage cost; deterministic tasks must not hide poor reliability behind pooled pass@k results (`ai-workflow-policy.md`) (2026-08-27).
 - Agent evaluations now treat performance as a property of the model-harness configuration rather than the model alone; model-specific harness compensations require evidence and re-evaluation after material model/harness changes so obsolete orchestration does not accumulate (`ai-workflow-policy.md`) (2026-08-26).
 - Claude quota conservation now distinguishes fresh-context clearing from continuity-preserving compaction, uses `/usage` diagnostics for long-context/cache/feature attribution, limits unnecessary background quota consumers, and defines evidence-first diagnosis for unexpected usage (`ai-workflow-policy.md`) (2026-08-23).
