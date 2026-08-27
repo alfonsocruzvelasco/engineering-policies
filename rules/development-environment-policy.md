@@ -525,6 +525,11 @@ Set OLLAMA_HOST=127.0.0.1 in your shell profile or systemd unit.
 Verify after every restart: ss -tlnp | grep 11434
 Expected output: 127.0.0.1:11434
 Any other binding is a NadMesh-class exposure.
+Loopback binding is mandatory but is not an authentication or
+authorization mechanism by itself. For browser-reachable or
+state-changing local HTTP APIs, do not rely solely on 127.0.0.1 for
+trust; use proportionate Host/Origin validation and/or authentication
+controls where the service supports security-relevant operations.
 Source: [nadmesh-botnet-jul2026]
 
 ### Spec-Driven Development Artifacts

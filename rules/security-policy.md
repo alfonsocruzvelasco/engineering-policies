@@ -1659,6 +1659,28 @@ This section covers injection risks across SQL, shell, template engines, and int
 * Model metadata (JSON, YAML) must be validated and sanitized
 * Configuration files must not execute arbitrary code
 
+### Executable configuration and metadata trust boundary
+
+Configuration or metadata is NOT automatically passive data merely
+because it is stored in notebooks, project/workspace files, manifests,
+templates, agent bundles, MCP configuration, model/tool metadata, or
+equivalent imported artifacts.
+
+If the artifact can launch subprocesses, start/register MCP servers,
+invoke tools, execute code, load plugins/extensions, access/expose
+credentials, alter agent/model behavior in a security-relevant way, or
+cause equivalent side effects, treat it as executable untrusted input.
+
+For untrusted or externally obtained artifacts:
+* Opening/importing/parsing the artifact MUST NOT by itself authorize
+  hidden execution or external tool activation.
+* Side-effecting configuration SHOULD be constrained by explicit
+  allowlists/schemas.
+* Unknown executable fields SHOULD fail closed.
+* Trust/activation SHOULD be explicit before side effects.
+* Secrets MUST NOT be exposed merely because artifact configuration
+  requests them.
+
 ---
 
 ## 16) API security best practices
@@ -1686,6 +1708,16 @@ This section covers injection risks across SQL, shell, template engines, and int
 * TLS required; no plaintext for protected APIs.
 * CORS is explicitly configured; never "allow all" by default.
 * Error messages must not leak sensitive implementation details.
+* Loopback-only binding (`127.0.0.1`, `::1`, `localhost`) reduces
+  reachability but does NOT authenticate or authorize callers.
+* Local HTTP endpoints with security-relevant or state-changing
+  operations MUST NOT rely solely on loopback binding for trust.
+  Apply proportionate controls such as authentication/authorization,
+  Host validation, Origin validation, anti-CSRF protections where
+  browser semantics apply, explicit allowed hosts/origins, and
+  rejection of unexpected browser-originated/cross-origin requests.
+* Browser-origin threats (including DNS rebinding class attacks) are a
+  reason loopback binding alone is insufficient for sensitive local APIs.
 
 ### Operational controls
 
