@@ -3780,6 +3780,18 @@ If a harness compensation (prompt rule, retry loop, tool wrapper, workaround, or
 
 Prefer the simplest harness that still provides required correctness, control, and evidence. Do not add orchestration only to inflate benchmark scores; additional complexity needs a concrete reason (for example, fixing a reproducible failure, enforcing a deterministic boundary, improving reproducibility, enabling required tooling, or measurable reliability gains). This simplification rule does not apply to externally enforced controls: permissions, identity controls, security boundaries, approval gates, spend controls, deterministic validation, and audit requirements remain mandatory.
 
+#### Task-dependent variance and pooled coverage
+
+Run-to-run variance is not universally good or bad. Evaluate it according to task type: exploratory coverage tasks and deterministic/reproducibility-sensitive tasks have different success criteria.
+
+For exploratory/search/coverage objectives (for example vulnerability discovery, bug hunting, hypothesis generation, broad failure-mode discovery, or adversarial test-case discovery), independent repeated runs MAY intentionally exploit variance to find distinct valid results. In these cases, pooled distinct valid findings across runs MAY be reported, but pooled coverage MUST NOT replace per-run reliability reporting.
+
+When repeated exploratory runs are material, report proportionate evidence such as per-run quality/consistency, pooled distinct valid coverage/recall, precision or false-positive burden, genuinely new valid findings contributed by additional runs, and downstream review/triage cost. Additional runs are not free recall: more pooled findings do not automatically produce a better production workflow if execution and triage cost exceed marginal value. Apply existing stopping and cost-budgeting guidance before adding runs.
+
+For deterministic or reproducibility-sensitive tasks (for example structured transformations, policy enforcement, schema-constrained outputs, infrastructure operations, release/approval gates, or fixed-contract generation), variance remains a reliability defect. Do not use pooled pass@k-style results to hide poor per-run reliability. Repeated retries are not a substitute for a system that is expected to work reliably on a single run.
+
+When repeated runs are used, keep reporting clear enough to distinguish "works reliably in one run" from "finds more distinct valid results across several runs." These are different capabilities and MUST NOT be collapsed into one score. This interpretation remains governed by the model–harness coupling invariant above; repeated-run results are properties of the evaluated model–harness configuration, not the model in isolation.
+
 **Reference:** See `stochastic-scheduling-ai-coding-agents.pdf` §4 and §9 for the complete evaluation scaffold and executable metric code.
 
 ### Metrics Collection
