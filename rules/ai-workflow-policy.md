@@ -1801,6 +1801,49 @@ maintainer trust and violates the verification-first
 principle. The human submitter answers for every line
 regardless of origin.
 
+### External/upstream contribution AI-compliance
+
+For contributions intended for external/upstream repositories,
+the upstream project's current contribution rules concerning
+AI/LLM-assisted work are authoritative for that submission.
+Check the project's own sources as applicable (for example
+`CONTRIBUTING.md`, `AGENTS.md`, AI-policy files, repository
+documentation, code of conduct, issue/PR templates, and
+explicit maintainer guidance).
+
+If upstream prohibits AI-generated or AI-assisted
+contributions, that prohibition overrides this repository's
+normal internal AI workflow for work submitted there.
+Internal approval of AI tooling and internal Assisted-by
+attribution do not imply permission to use AI on every
+upstream contribution.
+
+Upstream policies may vary (full prohibition, partial
+restriction, disclosure/provenance requirements, human
+authorship/understanding requirements, or project-specific
+review conditions). Follow the actual upstream rule rather
+than reducing everything to allowed/banned.
+
+Absence from a third-party index/list is not evidence that
+AI-assisted upstream contributions are allowed. Third-party
+indexes are discovery aids only; they are not sources of
+permission. If upstream AI rules are genuinely ambiguous and
+the proposed contribution materially depends on AI
+assistance, obtain clarification or avoid AI assistance for
+the submitted contribution rather than assuming permission.
+
+Where upstream permits AI assistance, existing validation and
+human responsibility requirements still apply. The contributor
+must understand and defend the change, satisfy upstream
+disclosure/provenance requirements, and apply this policy's
+Assisted-by requirements unless they conflict with upstream
+submission format or policy.
+
+This external-compliance rule does not create a blanket
+internal AI ban. Internal repositories continue to follow the
+approved-tool, validation, attribution, security, and spend
+policies already in force.
+
 ---
 
 ## MCP (Model Context Protocol)
