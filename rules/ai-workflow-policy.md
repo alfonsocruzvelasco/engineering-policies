@@ -919,11 +919,18 @@ Headless mode is the planning complement to test-driven development. It enforces
    - Common mistakes that apply to all projects (agents already know these)
    - RAG setup instructions (not needed for standard tooling; if building RAG systems, see [RAG vs RERAG Technical Reference](references/rag-vs-rerag-technical-reference.md) for architectural guidance)
 
-5. **Size limit (CRITICAL):**
-   - **Learning projects: <50 lines** (prefer skipping entirely for standard tooling)
-   - **Production projects: <150 lines** (only if complex non-standard requirements exist)
-   - **Rationale:** Research shows comprehensive context files reduce performance and increase costs. Minimal files with only non-standard requirements provide the 4% improvement benefit.
-   - **Behavioral rationale:** Agents respect instructions and will explore/test more when given more requirements. Unnecessary requirements increase exploration without benefit, making tasks harder and more expensive.
+5. **Size discipline (CRITICAL):**
+   - Keep `CLAUDE.md` as short as practical and strictly task-relevant.
+   - Prefer omitting `CLAUDE.md` entirely when workflows are standard and no
+     non-standard constraints exist.
+   - Treat line-count heuristics in templates/references as non-normative aids,
+     not universal hard thresholds.
+   - **Rationale:** Research shows comprehensive context files reduce
+     performance and increase costs. Minimal files with only non-standard
+     requirements provide the measured improvement benefit.
+   - **Behavioral rationale:** Agents respect instructions and will explore/test
+     more when given more requirements. Unnecessary requirements increase
+     exploration without benefit, making tasks harder and more expensive.
 
 6. **When to skip CLAUDE.md entirely:**
    - Standard Python/ML/CV workflows (pytest, ruff, mypy)
@@ -933,7 +940,51 @@ Headless mode is the planning complement to test-driven development. It enforces
 
 **See:** `templates/claude-md-template.md` for minimal template structure (v3.0).
 
-**See also:** `templates/agents-md-template.md` for the canonical AGENTS.md template (non-discoverable tooling, hard constraints, security landmines, agent selection, verification gates — under 150 lines). Based on Gloaguen et al. and Osmani guidance above; see `references/stop-using-agent-md.pdf` for the full argument.
+**See also:** `templates/agents-md-template.md` for the canonical AGENTS.md
+template (non-discoverable tooling, hard constraints, security landmines,
+agent selection, verification gates). Based on Gloaguen et al. and Osmani
+guidance above; see `references/stop-using-agent-md.pdf` for the full argument.
+
+#### Agent configuration lifecycle
+
+Agent-facing configuration is maintained operational state, not timeless truth.
+This includes `AGENTS.md`, `CLAUDE.md`, skills, hooks, MCP configuration,
+agent memories, reusable prompt/instruction files, and equivalent
+agent-facing configuration. Once useful does not mean permanently required.
+
+Re-evaluate relevant configuration when assumptions may have changed, including
+material model changes, major model version adoption, material harness/tooling
+changes, significant repository architecture/workflow changes, duplicated or
+conflicting or stale instructions, unexpected behavior suggesting configuration
+drift, or cases where deterministic tooling/harness controls now provide the
+same behavior. This is a proportionate trigger, not a full audit after every
+minor release.
+
+Each material configuration element should have a current reason to exist.
+Retain it when it still provides demonstrated project-specific knowledge,
+correctness, security, reproducibility, workflow reliability, cost/context
+efficiency, or necessary tool behavior. Prefer simplification, consolidation,
+or removal when it duplicates authoritative policy, is obsolete, creates
+ambiguity/conflict, or adds context cost without measurable value.
+
+Agent context is not a documentation archive. Prefer short binding
+instructions, pointers to authoritative sources, progressive/on-demand loading,
+and deterministic enforcement for machine-checkable requirements.
+
+When a requirement must hold reliably and can be enforced deterministically,
+prefer external controls where practical (tests, linters, schemas, hooks,
+permissions, CI checks, policy scripts, typed/tool contracts, or equivalent).
+Critical prose instruction is not an enforcement boundary. Do not mechanically
+automate every judgment-based rule, and do not weaken human review or external
+control boundaries.
+
+Before deleting a material configuration rule that appears redundant, verify it
+does not still encode project-specific knowledge unavailable elsewhere, a
+security boundary, an approval requirement, a spend/control constraint, a
+compatibility requirement, or a workaround for a still-reproducible failure.
+Do not remove controls merely because a newer model appears more capable. See
+the model-harness coupling invariant and external control boundaries in this
+policy.
 
 ### Tiered Context Architecture (HOT / WARM / COLD)
 
