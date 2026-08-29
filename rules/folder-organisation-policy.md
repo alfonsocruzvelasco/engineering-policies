@@ -474,6 +474,8 @@ db/
 │   ├── runs.sql            # DDL for training runs
 │   ├── detections.sql      # DDL for inference results
 │   └── feature_store.sql   # DDL for feature vectors (if applicable)
+├── diagrams/               # Optional ERD/diagram-as-code artifacts
+│   └── schema.dbml
 ├── seeds/                  # Test/development seed data
 │   └── test_experiments.sql
 └── README.md               # Connection policy, migration runbook
@@ -485,6 +487,42 @@ db/
 - No application secrets in `db/` — connection strings live in `.env` only
 - Seeds are for development and testing only — never run against production
 - `db/README.md` must document: where the database lives, how to run migrations, rollback procedure
+
+### 11.1 ERD and database-diagram artifacts (optional)
+
+ERDs and database diagrams are documentation/design artifacts. They are
+derived representations of the authoritative schema, not an independent
+schema authority.
+
+Preserve this direction:
+- Authoritative DDL/migrations -> diagram representation -> visualization tool
+- Never reverse authority (visualization tool -> production schema authority)
+- `db/schema/*.sql` remains authoritative; ORM models remain non-authoritative
+  where this policy defines them as such.
+
+ERD tooling is optional and should be introduced only when it materially improves
+schema design, architecture review, onboarding, communication, migration
+reasoning, or documentation. Small/simple schemas may not need a separate ERD.
+
+When a durable diagram is useful, prefer textual, version-controllable
+diagram-as-code formats where practical (DBML is one acceptable example).
+Tools such as dbdiagram may be used to render/edit these artifacts, but no
+single vendor or SaaS is canonical or required infrastructure. Keep durable
+diagram source in the repository; generated images are derived artifacts.
+Vendor web UI state must not be the only durable copy.
+
+If both schema and diagram artifacts exist, they must not knowingly
+contradict each other. The authoritative schema wins on conflict. Diagram
+changes that represent schema changes must be accompanied by the actual
+authoritative DDL/migration change where applicable. Diagram drift is a
+documentation defect, not a schema-authority change.
+
+For externally hosted diagram services, do not upload confidential schema
+structure, sensitive internal names, credentials, connection strings,
+production data, real customer/user records, or sensitive sample values
+without explicit authorization. Credentials and production data must never be
+embedded in diagram artifacts. Any diagram-service token is a normal secret
+and must follow existing secret-management policy (`security-policy.md`).
 
 **Directory naming for database-related code inside `src/`:**
 
