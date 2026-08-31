@@ -986,6 +986,34 @@ Do not remove controls merely because a newer model appears more capable. See
 the model-harness coupling invariant and external control boundaries in this
 policy.
 
+#### Behavioral fences and progressive enforcement
+
+A behavioral fence is a policy, permission, approval requirement, workflow
+gate, spend constraint, role boundary, stopping condition, scope restriction,
+or equivalent control that defines what an agent is permitted to do.
+
+Behavioral fence does not equal security boundary. Fences govern expected
+behavior; they do not replace technical containment.
+
+Use progressive enforcement when evidence justifies it:
+observed failure or near miss -> documented guidance/clarification ->
+explicit policy/control for recurring or material cases -> deterministic
+enforcement where practical and reliable.
+
+Apply this proportionately. A single harmless mistake does not justify new
+infrastructure by default. Repeated violations are evidence that prose alone
+may be insufficient. High-impact or security-critical failures may justify
+immediate stronger enforcement without waiting for recurrence.
+
+Machine-checkable requirements should migrate toward deterministic enforcement
+when practical; judgment-based requirements should remain human/policy
+decisions when automation would be brittle or misleading.
+
+Avoid rule-system accretion: do not create a permanent rule for every isolated
+mistake. Prefer durable general invariants, consolidate overlapping rulings,
+and simplify or remove obsolete controls through the existing lifecycle rule.
+Once strengthened does not mean permanently justified.
+
 ### Tiered Context Architecture (HOT / WARM / COLD)
 
 **Source:** Vasilopoulos (arXiv:2602.20478, Feb 2026) — three-tier codified context infrastructure validated across 283 sessions on a 108K-line system. See `references/codified-context-infrastructure-for-ai-agents-in-a-complex-codebase.pdf`.

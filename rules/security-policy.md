@@ -332,6 +332,26 @@ Research shows LLM agents can be manipulated into executing harmful tool actions
 **Principle: Capability ≠ Permission**
 Just because an agent *can* call an API or tool does not mean it *should*.
 
+**Fence vs containment boundary (mandatory):**
+Behavioral fences (permissions, approvals, allowlists, scope restrictions,
+workflow gates, spend constraints, and role boundaries) govern permitted
+behavior. They are not equivalent to containment boundaries.
+
+Containment and least privilege exist because agents can misunderstand
+instructions, make incorrect decisions, be influenced by untrusted input,
+exceed intended scope, or fail despite apparently correct reasoning.
+
+Expected compliance does not equal enforced isolation. Where failure impact is
+material and practical containment exists, retain proportionate controls such
+as sandboxing, process/container isolation, scoped credentials, filesystem and
+network restrictions, least privilege, and capability restrictions.
+
+Model capability improvement does not deprecate containment by itself. Do not
+remove containment controls merely because a model appears more capable,
+reliable, aligned, or instruction-following. Changes to these controls require
+normal evidence-based lifecycle review and effective replacement controls where
+applicable.
+
 **Hard Controls:**
 * Tool access must be explicitly allowlisted
 * Each tool call must be logged and auditable
