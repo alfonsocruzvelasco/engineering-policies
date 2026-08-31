@@ -2715,6 +2715,8 @@ main branch protections:
 
 **Core rule:** Think first, write first, fail first — AI intervention before genuine effort is disallowed. Four severity levels govern permitted AI help: (1) conceptual orientation, (2) diagnostic questioning, (3) single hint, (4) post-mortem review. The Oral-Exam Rule applies: if you can't explain it from scratch, AI was used too early.
 
+For learning, portfolio, debugging, reasoning, and skill-building tasks, delegation should follow: attempt/hypothesis -> prediction -> agent assistance -> evidence review -> independent reconstruction. Apply this proportionately; trivial mechanical tasks do not require a formal hypothesis.
+
 **Full protocol:** See `references/ai-workflow-agent-skills-reference.md` for the complete learning protocol, Socratic examiner persona, portfolio framing, and enforcement policy.
 
 ---
