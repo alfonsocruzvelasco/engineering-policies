@@ -88,7 +88,7 @@ Until lift, all of the following are forbidden:
 - Upgrade Claude Max or add new paid AI subscriptions.
 - Auto-escalate a session to a per-token API model
   (Sonnet 5, Opus 4.8, Gemini Flash-Lite billed, GPT-5.6,
-  Fable 5, Muse Spark) as the working model.
+  Fable 5/Fable 5.1/Mythos 5.1, Muse Spark) as the working model.
 - Enable Cursor On-Demand Usage / Monthly Limit, or switch
   Cursor to Fixed or Unlimited on-demand modes.
 - Upgrade the Cursor plan, purchase additional Cursor usage,
@@ -266,6 +266,16 @@ No agent tool may be approved without completing all three:
   Source: [source-anthropic-fable-mythos-notice-2026]
            [artificialanalysis-fable5-jul2026]
 
+- `claude-fable-5-1` and `claude-mythos-5-1`: UNAVAILABLE for
+  agent-initiated use under active SPEND FREEZE.
+  Availability on Anthropic platforms does not authorize use under this
+  policy. Do not enable usage credits/pay-as-you-go or add payment methods.
+  Where plans list Fable access, treat it as quota/credits-governed capacity,
+  not as a free entitlement.
+  Source: https://platform.claude.com/docs/en/models/fable-5-1/overview
+           https://platform.claude.com/docs/en/models/mythos-5-1/overview
+           https://www.anthropic.com/pricing
+
 - `gpt-5.6` (OpenAI family): APPROVED (reference only, not active in current price-capped tiers)
   Sol (Intelligence Index 59): $5.00 input / $30.00 output per 1M tokens
   (unchanged). Fast mode is 2x price for 2.5x lower latency.
@@ -356,10 +366,10 @@ Selection rules (price-capped, SPEND FREEZE active):
   explicitly names a frozen model for this session.
 - Frozen for new agent-initiated sessions: claude-sonnet-5,
   claude-opus-4-8, gemini-2.5-flash-lite billed,
-  gpt-5.6, Fable 5, Muse Spark, RunPod, Cursor Cloud Agents.
-- Ultra-hard tasks: no active model assigned while Fable 5
-  remains usage-credits-only under current price-cap
-  enforcement.
+  gpt-5.6, Fable 5/Fable 5.1/Mythos 5.1, Muse Spark, RunPod, Cursor Cloud Agents.
+- Ultra-hard tasks: no active model assigned while Fable/Mythos
+  remain outside freeze-allowed usage paths under current
+  price-cap enforcement.
 - Subagent/reads until lift: stay on the parent Cursor
   freeze-allowed model. Do not spawn billed API subagents.
   Do not enable On-Demand Usage if included usage is

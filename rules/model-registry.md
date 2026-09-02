@@ -3,7 +3,7 @@ doc_type: registry
 authority: reference
 owner: Alfonso Cruz
 scope: Current non-Chinese model list with prices and capability scores
-last_updated: 2026-08-19
+last_updated: 2026-09-02
 update_trigger: new top-10 model appears / price change >20% / snapshot >30 days old
 ---
 
@@ -35,7 +35,7 @@ change is not a freeze lift.
 | Historical (superseded) | Grok 4.5 | ~44 | — | — | 80–112 | historical Cursor Models pool; included usage |
 | Hard (frozen) | claude-sonnet-5 | ~43 | $2 | $10 | TBD | platform.claude.com |
 | Very hard (frozen) | claude-opus-4-8 | 56 | $5 | $25 | ~62 | platform.claude.com |
-| Ultra-hard | UNASSIGNED (Fable 5 unavailable) | — | — | — | — | approved-ai-tools.md |
+| Ultra-hard | UNASSIGNED (Fable 5.1/Mythos 5.1 frozen) | — | — | — | — | approved-ai-tools.md |
 
 Grok 4.5:
 Status: SUPERSEDED by Grok 4.6 (2026-08-12).
@@ -134,8 +134,9 @@ route new tasks to Grok 4.5.
   Superseded 2026-08-10 — Sonnet 5 pricing made
   permanent. No price change will occur.
   Ultra-hard tier is currently unassigned in active policy.
-  Fable 5 moved to usage-credits-only on 2026-07-20 and is unavailable
-  under current price-cap enforcement. See approved-ai-tools.md.
+  Fable/Mythos 5.1 listing or availability does not change authorization.
+  Under SPEND FREEZE, availability != authorization and listed model !=
+  freeze-allowed usage.
 
 Reference-only pricing snapshot (not active tiers) — GPT-5.6 update (2026-07-30):
 - Sol: $5.00 input / $30.00 output per 1M tokens (unchanged)
@@ -157,9 +158,56 @@ Reference model status updates (not active tiers):
   NOT VIABLE on RTX 4070: smallest quant (Q4_K_M) is 75.2 GB versus
   12 GB VRAM. MoE architecture keeps all 118B parameters resident even
   when only 8B parameters are active during inference.
+- Claude Fable 5.1 (`claude-fable-5-1`): AVAILABLE from Anthropic on
+  Claude API and partner platforms (AWS Bedrock, Claude Platform on AWS,
+  Google Cloud, Microsoft Foundry); release date 2026-09-01.
+  Provider/model identity: Anthropic Claude model family (same underlying
+  model as Mythos 5.1 with different safeguard posture).
+  API pricing (verified 2026-09-02):
+    Input: $10/MTok
+    Output: $50/MTok
+    Cache write (5m): $12.50/MTok
+    Cache write (1h): $20/MTok
+    Cache read: $0.25/MTok (0.025x base input; 75% lower than Fable 5).
+  Availability on Anthropic plans:
+    Pro/Max/Team/Enterprise listing exists, but plan usage may involve
+    usage credits and/or API-rate billing depending on plan path and quota
+    state. Do not treat product listing as no-cost entitlement.
+  SPEND FREEZE status: UNAVAILABLE for agent-initiated use in this repo.
+  Rationale: active freeze forbids enabling usage credits/pay-as-you-go or
+  additional billed spend.
+  Routing/safeguard caveat: refusal fallback may route certain requests to
+  Opus 4.8 or Opus 5; fallback/reroute behavior can affect measured
+  workload cost/performance attribution.
+  Task-cost caveat (descriptive, not normative): lower token/cache price
+  does not guarantee lower completed-task cost; output token volume,
+  retries, effort, fallback routing, and harness behavior can dominate.
+  Source (verified 2026-09-02):
+  https://platform.claude.com/docs/en/models/fable-5-1/overview
+  https://platform.claude.com/docs/en/models/fable-5-1/whats-new-fable-5-1
+  https://docs.anthropic.com/en/release-notes/api
+  https://www.anthropic.com/pricing
+  Secondary corroboration:
+  https://www.latent.space/p/ainews-claude-fablemythos-51-new
+- Claude Mythos 5.1 (`claude-mythos-5-1`): ACTIVE but invite-only.
+  Relationship to Fable 5.1: same model/specs/pricing, different safeguard
+  access profile. Offered via Project Glasswing trusted access programs for
+  vetted organizations; currently limited to a set of US organizations.
+  API pricing (verified 2026-09-02): same as Fable 5.1
+    Input: $10/MTok
+    Output: $50/MTok
+    Cache write (5m): $12.50/MTok
+    Cache write (1h): $20/MTok
+    Cache read: $0.25/MTok
+  SPEND FREEZE status: UNAVAILABLE for agent-initiated use in this repo
+  (paid/invite-only path; no freeze lift).
+  Source (verified 2026-09-02):
+  https://platform.claude.com/docs/en/models/mythos-5-1/overview
+  https://www.anthropic.com/claude-fable-and-mythos-5-1
+  https://docs.anthropic.com/en/release-notes/api
 - Claude Fable 5: UNAVAILABLE under current price-cap policy.
   Enforcement remains no payment method on file and usage credits
-  disabled. One-time $100 credit offer expired.
+  disabled. Superseded by Fable 5.1 for current metadata and availability.
 - Claude Opus 5 (released 2026-07-24): pricing matches Opus 4.8;
   Fast mode available at 2x base cost. Leads the Artificial Analysis
   intelligence leaderboard (above Fable 5). Least prompt-injectable
