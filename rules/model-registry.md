@@ -217,40 +217,44 @@ Reference model status updates (not active tiers):
   substantially behind Mythos 5 on exploitation. Described as
   "thoughtful and proactive" with a relentless-proactive behavior
   pattern (same class as Fable 5, per release post anecdote).
-- Meta Muse Spark 1.2 / Muse Code (released 2026-08-05):
+- Meta Muse Spark 1.3 / Muse Code (released 2026-09-02):
   CANDIDATE — UNAVAILABLE under current price-cap policy.
-  Enforcement: no payment method added in the Meta AI developer
-  portal and no usage credits enabled. Same posture as Fable 5.
-  Do not activate until pricing is public, confirmed, and assessed
-  against the price cap.
-  Architecture notes: terminal coding agent (Muse Code) co-trained
-  with its harness (same pattern as Claude Code / Sonnet 4.6);
-  persistent async background agents (session-long, not per-task);
-  append-only local event log (every model call, tool run, approval,
-  and edit recorded, replay-exact and restart-safe after crash);
-  long-horizon case study published at 1,000+ tool calls over 24
-  hours (kernel optimization workflow).
-  Positioning: direct competitor to Claude Code. Meta compares
-  against Opus 5, GPT-5.6 Terra, Gemini 3.6 Flash, and Grok 4.5.
-  Coding-focused update to Muse Spark 1.1 (July 2026).
+  Canonical model IDs (Meta Model API):
+  - Standard: `muse-spark-1.3`
+  - Contributor: `muse-spark-1.3-contributor`
+  Context window: 1,048,576 tokens (Meta models docs).
+  Availability: rolling out in Muse Code and Meta Model API.
+  Max reasoning: NOT generally available yet; Meta states it is
+  coming after additional safety testing.
+  Open weights: announced on roadmap; NOT released yet.
+  API pricing (verified 2026-09-03):
+    Standard:
+      Cached input: $0.15/MTok
+      Input: $1.25/MTok
+      Output: $4.25/MTok
+    Contributor:
+      Cached input: $0.002/MTok
+      Input: $0.10/MTok
+      Output: $0.20/MTok
+  Contributor governance caveat (material): discounted Contributor
+  tier permits Meta to use prompts/completions to train future models.
+  Cheaper Contributor pricing != equivalent governance profile.
+  Efficiency/capability notes (vendor-reported): compared with Spark
+  1.2, Meta reports ~20% fewer tool calls and ~25% fewer tokens in
+  internal comparisons; model is positioned as improved on agentic and
+  coding tasks.
+  SPEND FREEZE status: UNAVAILABLE for active use in this repo. Model
+  availability != authorization; billed Standard/API and Contributor
+  paths remain frozen until freeze lift.
   Chinese model ban: not applicable (Meta is a US company).
-  Open source: PENDING — Zuckerberg announced 2026-08-10
-  that Muse Spark 1.2 weights will be released publicly
-  in the coming weeks under an open license. Update this
-  entry when weights drop. On release: reassess local
-  deployment viability (30B Glimmer variant fits 24 GB
-  VRAM at 4-bit; full Spark 1.2 architecture is larger —
-  verify VRAM requirement before changing local
-  deployment status).
-  Local deployment: NOT VIABLE (API only).
-  Reassessment trigger: October 2026 checkpoint (same as
-  Cursor/SpaceXAI). Conditions: (1) pricing confirmed and within
-  price cap, and (2) open-source status resolved (weights
-  released = higher priority).
-  - Muse Spark 1.2 open weights release (expected
-    2026-08-xx): reassess local deployment viability
-    and open-source status immediately on release,
-    do not wait for the October checkpoint.
+  Local deployment: NOT VIABLE (API only) until/if Spark open weights
+  are released.
+  Source (verified 2026-09-03):
+  https://research.meta.ai/blog/introducing-muse-spark-1-3
+  https://dev.meta.ai/docs/models.md?project_id=1661600634933790&team_id=2096920474558192
+  https://dev.meta.ai/docs/pricing-rate-limits?project_id=1661600634933790&team_id=2096920474558192
+  Secondary corroboration:
+  https://www.latent.space/p/ainews-muse-spark-13-matches-gpt
 - Meta Muse Glimmer (released 2026-08-10):
   CANDIDATE — UNAVAILABLE (price-cap policy pending
   pricing confirmation; no payment method added).
