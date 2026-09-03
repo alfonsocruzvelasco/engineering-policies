@@ -276,6 +276,14 @@ No agent tool may be approved without completing all three:
            https://platform.claude.com/docs/en/models/mythos-5-1/overview
            https://www.anthropic.com/pricing
 
+- `muse-spark-1.3` and `muse-spark-1.3-contributor`: UNAVAILABLE for
+  agent-initiated use under active SPEND FREEZE (billed API usage).
+  `muse-spark-1.3-contributor` is additionally PROHIBITED for
+  portfolio/private/repository code where prompts/completions may be
+  used by Meta to train future models.
+  Source: https://research.meta.ai/blog/introducing-muse-spark-1-3
+           https://dev.meta.ai/docs/pricing-rate-limits?project_id=1661600634933790&team_id=2096920474558192
+
 - `gpt-5.6` (OpenAI family): APPROVED (reference only, not active in current price-capped tiers)
   Sol (Intelligence Index 59): $5.00 input / $30.00 output per 1M tokens
   (unchanged). Fast mode is 2x price for 2.5x lower latency.

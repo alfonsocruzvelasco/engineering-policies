@@ -195,6 +195,13 @@ Routing rules:
 - Default automated/background runs to Codex 5.3 or Grok 4.6.
 - Do not escalate to higher-cost models. A hard task is not a freeze lift.
 - Follow the active tier authority in `rules/model-registry.md` and `rules/approved-ai-tools.md`.
+- Muse Spark operational mirror: Muse Spark 1.3 supersedes 1.2 in
+  registry metadata. Standard/API usage remains frozen under SPEND
+  FREEZE. Muse Spark 1.3 Contributor remains prohibited for
+  portfolio/private/repository code because prompts/completions may be
+  used for Meta training. Max reasoning remains unreleased pending
+  safety testing; open weights are announced but not released. Pricing
+  and benchmarks remain authoritative in `rules/model-registry.md`.
 
 Claude included subscription quota is scarce even when
 consuming it creates no incremental bill. Use Claude only
