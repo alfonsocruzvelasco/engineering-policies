@@ -202,6 +202,17 @@ Routing rules:
   used for Meta training. Max reasoning remains unreleased pending
   safety testing; open weights are announced but not released. Pricing
   and benchmarks remain authoritative in `rules/model-registry.md`.
+- GPT-6 Astra operational mirror: GPT-6 Astra (`gpt-6-astra`) is the
+  current OpenAI frontier model with Critical cybersecurity capability
+  classification under OpenAI's Preparedness Framework. Included
+  ChatGPT subscription usage may be freeze-compatible only when already
+  covered by existing plan allowances, but API, extra-usage, usage-credit,
+  or other separately billed Astra usage remains frozen under SPEND
+  FREEZE unless explicitly lifted. Model listing/availability does not
+  authorize paid agent execution. Keep containment, least privilege,
+  HITL, network restrictions, and independent verification unchanged.
+  Pricing/limits/availability details remain authoritative in
+  `rules/model-registry.md`.
 
 Claude included subscription quota is scarce even when
 consuming it creates no incremental bill. Use Claude only

@@ -87,7 +87,7 @@ Until lift, all of the following are forbidden:
 - Start RunPod or other cloud GPU jobs.
 - Upgrade Claude Max or add new paid AI subscriptions.
 - Auto-escalate a session to a per-token API model
-  (Sonnet 5, Opus 4.8, Gemini Flash-Lite billed, GPT-5.6,
+  (Sonnet 5, Opus 4.8, Gemini Flash-Lite billed, GPT-5.6, GPT-6 Astra,
   Fable 5/Fable 5.1/Mythos 5.1, Muse Spark) as the working model.
 - Enable Cursor On-Demand Usage / Monthly Limit, or switch
   Cursor to Fixed or Unlimited on-demand modes.
@@ -157,6 +157,10 @@ only while On-Demand Usage remains Disabled):
 - Existing Claude Pro interactive usage (Claude.ai /
   Claude Code terminal) within subscription limits, when
   the human explicitly starts that session.
+- Existing ChatGPT interactive usage within already-included
+  subscription allowances may be used when human-explicit.
+  Included usage does not authorize API billing, extra usage,
+  usage credits, or paid harness execution.
 - When the Agent SDK $20 credit is exhausted, usage MUST
   pause. Do not enable extra billing to continue.
 - Local inference on owned hardware, subject to the
@@ -296,6 +300,25 @@ No agent tool may be approved without completing all three:
   Source: [source-latentspace-ainews-2026-07-30]
            [source-openai-gpt-5-6-efficiency-2026]
 
+- `gpt-6-astra`: UNAVAILABLE for agent-initiated use under
+  active SPEND FREEZE wherever usage is separately billed
+  (API, extra usage, usage credits, pay-as-you-go, or
+  third-party billed harness paths).
+  OpenAI plan availability does not authorize billed use.
+  Included human-explicit interactive usage may be allowed
+  only within already-paid subscription allowances.
+  Long-context pricing note: >272K input tokens reprices the
+  full request (2x input/cache, 1.5x output), so list rates
+  are not total-task-cost guarantees.
+  Cyber capability note: OpenAI classifies Astra at Critical
+  cybersecurity capability; this increases control rigor and
+  does not grant authorization for autonomous cyber operations.
+  Source: https://openai.com/index/gpt-6-astra/
+           https://openai.com/index/path-to-astra/
+           https://openai.com/index/safety-overview-gpt-6-astra/
+           https://developers.openai.com/api/docs/models/gpt-6-astra.md
+           https://developers.openai.com/api/docs/pricing.md
+
 - `Laguna S 2.1 (poolside)`: CANDIDATE (not yet tier-assigned)
   Params: 118B total / 8B active (MoE), open weights (OpenMDW-1.1).
   Context: 1M tokens (thinking + no-thinking modes).
@@ -374,7 +397,7 @@ Selection rules (price-capped, SPEND FREEZE active):
   explicitly names a frozen model for this session.
 - Frozen for new agent-initiated sessions: claude-sonnet-5,
   claude-opus-4-8, gemini-2.5-flash-lite billed,
-  gpt-5.6, Fable 5/Fable 5.1/Mythos 5.1, Muse Spark, RunPod, Cursor Cloud Agents.
+  gpt-5.6, gpt-6-astra, Fable 5/Fable 5.1/Mythos 5.1, Muse Spark, RunPod, Cursor Cloud Agents.
 - Ultra-hard tasks: no active model assigned while Fable/Mythos
   remain outside freeze-allowed usage paths under current
   price-cap enforcement.
