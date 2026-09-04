@@ -1492,6 +1492,27 @@ cargo tarpaulin --fail-under 80
 - Nightly or on-demand (too slow for PR gating)
 - Track success rate over time (trending)
 
+#### 7.5.4 Agent-led exploratory QA completion criteria
+
+For non-trivial agent-led exploratory or QA campaigns, completion MUST be
+defined against an explicit intended test surface (for example: coverage plan,
+checklist, acceptance matrix, or equivalent artifact), not only by whichever
+paths the agent happened to exercise.
+
+Testing records SHOULD distinguish, where relevant:
+- passed;
+- failed;
+- partially tested;
+- not tested;
+- blocked;
+- cases requiring human, hardware, privileged environment, or other
+  environment-specific verification.
+
+"No bugs found," successful exploratory execution, or a set of passing tests
+is not sufficient evidence that the intended test surface was covered.
+Apply this proportionately: trivial, bounded changes do not require formal
+campaign artifacts when the test surface is already explicit and small.
+
 ---
 
 ### 7.6 Test Data Management
