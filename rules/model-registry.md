@@ -3,7 +3,7 @@ doc_type: registry
 authority: reference
 owner: Alfonso Cruz
 scope: Current non-Chinese model list with prices and capability scores
-last_updated: 2026-09-02
+last_updated: 2026-09-04
 update_trigger: new top-10 model appears / price change >20% / snapshot >30 days old
 ---
 
@@ -35,7 +35,7 @@ change is not a freeze lift.
 | Historical (superseded) | Grok 4.5 | ~44 | — | — | 80–112 | historical Cursor Models pool; included usage |
 | Hard (frozen) | claude-sonnet-5 | ~43 | $2 | $10 | TBD | platform.claude.com |
 | Very hard (frozen) | claude-opus-4-8 | 56 | $5 | $25 | ~62 | platform.claude.com |
-| Ultra-hard | UNASSIGNED (Fable 5.1/Mythos 5.1 frozen) | — | — | — | — | approved-ai-tools.md |
+| Ultra-hard | UNASSIGNED (Fable 5.1/Mythos 5.1/GPT-6 Astra frozen) | — | — | — | — | approved-ai-tools.md |
 
 Grok 4.5:
 Status: SUPERSEDED by Grok 4.6 (2026-08-12).
@@ -138,20 +138,67 @@ route new tasks to Grok 4.5.
   Under SPEND FREEZE, availability != authorization and listed model !=
   freeze-allowed usage.
 
-Reference-only pricing snapshot (not active tiers) — GPT-5.6 update (2026-07-30):
-- Sol: $5.00 input / $30.00 output per 1M tokens (unchanged)
-- Sol Fast mode: 2x Sol price, 2.5x lower latency, same intelligence
-- Terra: $2.00 input / $12.00 output (was $2.50 / $15.00, -20%;
-  cut attributed to Sol inference optimizations)
-- Luna: $0.20 input / $1.20 output (was $1.00 / $6.00, -80%;
-  cut attributed to Sol inference optimizations)
-- Luna note: input is now cheaper than Claude Haiku 4.5
-  ($1.00 input / $5.00 output)
-- Reported driver: Sol self-optimizing inference kernels (Triton/Gluon),
-  speculative decoding, and KV-cache tuning
-- Status: GPT-5.6 Sol pricing item CLOSED (was pending)
-Source: [source-latentspace-ainews-2026-07-30]
-        [source-openai-gpt-5-6-efficiency-2026]
+OpenAI frontier model status update — GPT-6 Astra (verified 2026-09-04):
+- Model ID: `gpt-6-astra`
+  Provider: OpenAI
+  Position: current OpenAI frontier flagship for complex reasoning/coding.
+  Supersedes status context: newer frontier generation than GPT-5.6 Sol/Terra/Luna.
+  (GPT-5.6 entries retained below as useful reference-only pricing context.)
+- Limits and capabilities:
+  Context window: 1,050,000 tokens
+  Maximum input: 922,000 tokens
+  Maximum output: 128,000 tokens
+  Reasoning effort: `low`, `medium`, `high`, `xhigh`, `max`
+  (`none` not supported for Astra).
+- Standard API pricing:
+  Input: $10/MTok
+  Cached input: $1/MTok
+  Cache writes: $12.50/MTok
+  Output: $50/MTok
+  Long-context repricing rule: prompts with >272K input tokens are billed
+  at 2x input/cache rates and 1.5x output rate for the full request
+  (not only overflow tokens).
+- Availability distinctions:
+  ChatGPT plans: rolling out to Plus/Pro/Business/Enterprise.
+  API: available as `gpt-6-astra` (OpenAI API; also documented with AWS/Bedrock path).
+  Usage model note: OpenAI states subscription allowances include Astra use,
+  while additional usage credits are also purchasable.
+  Operational distinction remains mandatory: ChatGPT availability != API
+  availability != third-party harness availability != billing authorization.
+- SPEND FREEZE status for this repository:
+  UNAVAILABLE for agent-initiated billed use. API, extra usage, usage credits,
+  and other separately billed paths remain frozen until explicit freeze lift.
+- Cybersecurity capability classification (OpenAI Preparedness):
+  Critical threshold reached; OpenAI states Astra can find previously unknown
+  flaws and develop exploit paths across well-protected systems with the right
+  tools/access and without step-by-step human guidance.
+  Capability classification raises risk tier; it does not grant permission.
+- Task-cost caveat (descriptive, not normative):
+  nominal token price does not guarantee lower completed-task cost; output
+  volume, retries, reasoning mode, long-context repricing, and harness
+  behavior can dominate total cost.
+Source (primary, verified 2026-09-04):
+https://openai.com/index/gpt-6-astra/
+https://openai.com/index/safety-overview-gpt-6-astra/
+https://openai.com/index/path-to-astra/
+https://developers.openai.com/api/docs/models/gpt-6-astra.md
+https://developers.openai.com/api/docs/pricing.md
+https://developers.openai.com/api/docs/guides/latest-model.md
+Secondary context only:
+https://www.latent.space/p/ainews-gpt-6-astra-openais-biggest
+https://www.latent.space/p/astra
+https://garymarcus.substack.com/p/hot-take-on-gpt-6-astra
+
+Reference-only pricing snapshot (not active tiers) — GPT-5.6 family (retained context):
+- Sol: $4.00 input / $20.00 output per 1M tokens
+- Terra: $2.00 input / $12.00 output
+- Luna: $0.20 input / $1.20 output
+- Family long-context repricing: >272K input tokens -> 2x input and 1.5x output
+  for the full request.
+- Status: retained for comparison/history; superseded as OpenAI frontier by Astra.
+Source: https://developers.openai.com/api/docs/models/gpt-5.6-sol.md
+        https://developers.openai.com/api/docs/models/gpt-5.6-terra.md
+        https://developers.openai.com/api/docs/models/gpt-5.6-luna.md
 
 Reference model status updates (not active tiers):
 - Laguna S 2.1 (poolside): CANDIDATE (API-only). Local deployment is
