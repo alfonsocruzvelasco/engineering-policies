@@ -986,6 +986,21 @@ Do not remove controls merely because a newer model appears more capable. See
 the model-harness coupling invariant and external control boundaries in this
 policy.
 
+#### Hook portability and enforcement equivalence
+
+A normalized, generated, or cross-tool hook definition MUST NOT be assumed to
+preserve enforcement semantics across targets.
+
+When a hook is relied on as a security, authorization, validation, or stopping
+boundary, verify target-native behavior before trusting it as an enforcement
+control, including trigger timing, available event/tool inputs,
+matcher/filter semantics, blocking capability, failure/exit behavior, and
+fail-open or fail-closed behavior.
+
+Unsupported, weakened, ignored, or degraded hook semantics MUST NOT silently
+convert an enforcement control into advisory telemetry. Syntactic portability
+does not imply semantic portability or enforcement equivalence.
+
 #### Behavioral fences and progressive enforcement
 
 A behavioral fence is a policy, permission, approval requirement, workflow
