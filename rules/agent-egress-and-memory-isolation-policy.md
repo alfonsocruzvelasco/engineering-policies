@@ -59,6 +59,24 @@ Source: 2026-08 agent evaluation egress incident (simulated
 targets reached real systems). Durable invariant: fail-closed
 network isolation and explicit egress authorization.
 
+## Effect-based read-only and external-state boundaries
+
+"Read-only" access MUST be defined by permitted effects, not by
+HTTP verb, API verb, UI label, or tool category. A path that can
+create, modify, delete, publish, enqueue, trigger, or otherwise
+persist external state is write-capable in practice and MUST be
+treated as such.
+
+An egress/proxy/routing restriction is not an enforcement boundary if
+the agent can alter, disable, bypass, tunnel around, or replace the
+mechanism enforcing it. High-risk restrictions MUST be enforced
+outside the agent-controlled environment where practical.
+
+Agents MUST NOT create or use unapproved external persistence, relay,
+coordination, dead-drop, message-board, or memory channels to
+circumvent orchestration, session, memory, or egress boundaries.
+Public writable resources are not approved state channels by default.
+
 ## Forbidden combinations
 
 - memory enabled + web fetch/search enabled
