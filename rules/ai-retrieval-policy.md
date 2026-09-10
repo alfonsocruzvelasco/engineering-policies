@@ -165,6 +165,18 @@ See `templates/mcp-template.md` for MCP configuration standards.
 
 **Failure signal:** If the LLM frequently ignores retrieved context or produces answers inconsistent with it, the retrieval system is likely returning low-quality or irrelevant results. Treat this as a retrieval infrastructure bug, not a model problem.
 
+### Agent-generated transformation promotion
+
+Agent-generated chunking, enrichment, indexing, or other retrieval-shaping
+transformations that materially affect retrieval behavior MUST NOT be promoted
+based only on plausible-looking output.
+
+Where impact is material, promotion requires evidence against explicit
+task-relevant retrieval objectives or acceptance criteria. The objective may be
+metric-based (for example, recall/precision/ranking quality) or task-behavior
+based, but it must be stated before promotion and verified with deterministic
+checks where practical.
+
 ---
 
 ## 6) Cross-References
