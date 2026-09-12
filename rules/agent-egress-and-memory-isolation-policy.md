@@ -206,3 +206,12 @@ Memory plugins allowed only when:
   material are loaded
 - session is human-supervised
 - tool-call log is reviewable
+
+When durable/persistent agent memory is used, it MUST be treated as maintained
+state, not append-only history. Memory retention and updates must be
+proportionate to task risk and SHOULD account for relevance, provenance,
+staleness, contradictions, superseded information, and retirement/deletion
+rules. More remembered context is not automatically better context.
+
+Where an authoritative external source exists, that source remains the
+authority; memory maintenance must not silently rewrite authoritative truth.
