@@ -3919,6 +3919,22 @@ If a harness compensation (prompt rule, retry loop, tool wrapper, workaround, or
 
 Prefer the simplest harness that still provides required correctness, control, and evidence. Do not add orchestration only to inflate benchmark scores; additional complexity needs a concrete reason (for example, fixing a reproducible failure, enforcing a deterministic boundary, improving reproducibility, enabling required tooling, or measurable reliability gains). This simplification rule does not apply to externally enforced controls: permissions, identity controls, security boundaries, approval gates, spend controls, deterministic validation, and audit requirements remain mandatory.
 
+#### External evaluation independence claims
+
+External or third-party performance of an evaluation does not, by itself,
+establish independent assurance.
+
+When an external evaluation is used as independent evidence for a material
+release, governance, safety, security, or compliance decision, its evidentiary
+weight MUST consider material operating conditions: evaluator conflicts or
+dependency relationships, sufficiency of system/information/resource/time access,
+analytic and editorial autonomy, and material restrictions on scope, methods,
+results, publication, or disclosure.
+
+If the evaluated party materially constrains or controls those conditions, the
+result MUST be represented as constrained external evidence, not as fully
+independent assurance.
+
 #### Task-dependent variance and pooled coverage
 
 Run-to-run variance is not universally good or bad. Evaluate it according to task type: exploratory coverage tasks and deterministic/reproducibility-sensitive tasks have different success criteria.
