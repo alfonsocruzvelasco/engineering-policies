@@ -4203,6 +4203,27 @@ If both are clear        → code
 
 **Reference:** [grill-me](https://github.com/mattpocock/skills/tree/main/grill-me) (Pocock).
 
+### Brownfield contract discovery and capture
+
+For brownfield or legacy systems, repository-visible state is not assumed to be
+the complete system contract. Agents MUST NOT treat the absence of an explicit
+code, test, schema, or documented constraint as evidence that no constraint
+exists when change risk is material.
+
+Where impact is material, discover relevant constraints from authoritative
+evidence such as operational behavior, migration history, data characteristics,
+interfaces, runbooks, production incidents, and compatibility requirements.
+
+When previously implicit constraints are discovered and are material to
+correctness, compatibility, reliability, security, or operations, capture them
+in a durable form where practical (for example: regression test, acceptance
+criterion, schema/data constraint, executable validation, runbook, or concise
+authoritative documentation).
+
+Discovered behavior is not automatically canonical. Potentially obsolete,
+accidental, or insecure behavior MUST be explicitly evaluated before being
+preserved as a requirement.
+
 **OpenSpec is the default protocol for ML/CV engineering** because:
 - ML/CV work is high-risk for AI drift (pipelines are multi-stage and stateful)
 - Data invariants matter more than code elegance
