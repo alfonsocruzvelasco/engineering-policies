@@ -3935,6 +3935,20 @@ If the evaluated party materially constrains or controls those conditions, the
 result MUST be represented as constrained external evidence, not as fully
 independent assurance.
 
+#### Confidence and proxy-reference limits
+
+Model-emitted confidence/probability values MUST NOT be treated as calibrated
+decision evidence solely because they are numeric outputs.
+
+When confidence thresholds control material autonomous action, abstention,
+escalation, or human-review routing, the threshold behavior MUST be supported
+by task-relevant empirical evidence proportionate to decision risk and rechecked
+when conditions change materially.
+
+Agreement with model-generated reference labels, model consensus, or any
+evaluation that assumes harness correctness establishes performance relative to
+those references/assumptions, not independent ground-truth correctness.
+
 #### Task-dependent variance and pooled coverage
 
 Run-to-run variance is not universally good or bad. Evaluate it according to task type: exploratory coverage tasks and deterministic/reproducibility-sensitive tasks have different success criteria.
