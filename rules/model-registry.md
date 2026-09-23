@@ -3,7 +3,7 @@ doc_type: registry
 authority: reference
 owner: Alfonso Cruz
 scope: Current non-Chinese model list with prices and capability scores
-last_updated: 2026-09-04
+last_updated: 2026-09-23
 update_trigger: new top-10 model appears / price change >20% / snapshot >30 days old
 ---
 
@@ -30,12 +30,23 @@ change is not a freeze lift.
 |------|-------|-------------|-----------|------------|-----|--------|
 | Subagent/reads | claude-haiku-4-5 | — | — | — | — | approved-ai-tools.md (frozen) |
 | Subagent/reads | gemini-2.5-flash-lite | — | $0.03 blended | — | 0.37s TTFT | artificialanalysis.ai (frozen) |
-| Daily (included-usage, freeze-allowed) | Codex 5.3 | ~44 | — | — | — | Cursor plan usage; pool membership and $0 price not asserted |
-| Daily (included-usage, freeze-allowed) | Grok 4.6 | ~44 | — | — | 80–112 | Cursor Models pool; included usage; rates in notes |
+| Daily (included-usage, freeze-allowed) | GPT-5.3 Codex (Cursor) | — | — | — | — | Current stable Cursor default (Medium); Other Models pool; included usage only; On-Demand disabled |
+| Daily (included-usage, freeze-allowed) | Grok 4.7 | — | — | — | — | Cursor Models pool; deliberate alternative for demanding/long-running work; included usage only |
+| Daily (included-usage, freeze-allowed) | Grok 4.6 | ~44 | — | — | 80–112 | Cursor Models pool compatibility fallback; included usage only |
+| Daily (included-usage, freeze-allowed) | GPT-6 Luna (Codex CLI, ChatGPT auth) | — | — | — | — | Included Codex allowance only; API/PAYG frozen |
+| General (included-usage, freeze-allowed) | GPT-6 Sol (Codex CLI, ChatGPT auth) | — | — | — | — | Included Codex allowance only; API/PAYG frozen |
+| Hardest (included-usage, freeze-allowed) | GPT-6 Astra (Codex CLI, ChatGPT auth) | — | — | — | — | Included Codex allowance only; API/PAYG frozen |
+| Hardest (included-usage, freeze-allowed) | claude-opus-5-5 (Claude Code, Claude Pro auth) | — | — | — | — | Human-explicit Claude Pro included allowance; no API key fallback |
 | Historical (superseded) | Grok 4.5 | ~44 | — | — | 80–112 | historical Cursor Models pool; included usage |
 | Hard (frozen) | claude-sonnet-5 | ~43 | $2 | $10 | TBD | platform.claude.com |
-| Very hard (frozen) | claude-opus-4-8 | 56 | $5 | $25 | ~62 | platform.claude.com |
-| Ultra-hard | UNASSIGNED (Fable 5.1/Mythos 5.1/GPT-6 Astra frozen) | — | — | — | — | approved-ai-tools.md |
+| Very hard (historical reference) | claude-opus-4-8 | 56 | $5 | $25 | ~62 | platform.claude.com |
+| Ultra-hard | UNASSIGNED (Fable 5.1/Mythos 5.1 paid paths remain frozen) | — | — | — | — | approved-ai-tools.md |
+
+Cursor pool boundary note (verified 2026-09-23):
+- Grok 4.7 and Grok 4.6 are listed in Cursor's included Cursor Models pool.
+- Claude Opus 5.5 in Cursor is listed in the Other Models pool and
+  consumes that pool/rate surface; included Cursor Models pool status
+  does not apply.
 
 Grok 4.5:
 Status: SUPERSEDED by Grok 4.6 (2026-08-12).
@@ -98,10 +109,11 @@ route new tasks to Grok 4.5.
     monitored for prompt size. Prefer context pruning and
     prompt caching over crossing the 200K threshold on
     routine runs.
-  Upcoming: Grok 4.7 (2.1T parameters) expected within
-    weeks of 4.6 release. Reassess at that point.
-  Reassessment trigger: Grok 4.7 release; October 2026
-    Cursor/SpaceXAI checkpoint.
+  Current status update (2026-09-23): Grok 4.7 is now
+    available in Cursor's Cursor Models pool and supersedes
+    Grok 4.6 as preferred default for hard/long-running Cursor work.
+    Keep Grok 4.6 as compatibility fallback.
+  Reassessment trigger: next Cursor model-pool/pricing change.
   [grok-4-6-release-2026-08-12]
 - Grok @Bot (xAI / SpaceXAI)
   Released: 2026-08-11 (early beta)
@@ -138,7 +150,12 @@ route new tasks to Grok 4.5.
   Under SPEND FREEZE, availability != authorization and listed model !=
   freeze-allowed usage.
 
-OpenAI frontier model status update — GPT-6 Astra (verified 2026-09-04):
+OpenAI Codex family status update — GPT-6 Luna/Sol/Astra (verified 2026-09-23):
+- Codex included family (ChatGPT-authenticated Codex use):
+  GPT-6 Luna, GPT-6 Sol, GPT-6 Astra.
+  Operational ladder for no-incremental-cost harness use:
+  Luna (routine/mechanical), Sol (general/demanding), Astra (hardest).
+  Included usage allowance is distinct from API billing.
 - Model ID: `gpt-6-astra`
   Provider: OpenAI
   Position: current OpenAI frontier flagship for complex reasoning/coding.
@@ -159,7 +176,8 @@ OpenAI frontier model status update — GPT-6 Astra (verified 2026-09-04):
   at 2x input/cache rates and 1.5x output rate for the full request
   (not only overflow tokens).
 - Availability distinctions:
-  ChatGPT plans: rolling out to Plus/Pro/Business/Enterprise.
+  ChatGPT plans: documented with Codex-family availability in ChatGPT Work/Codex
+  surfaces (Plus/Pro/Business/Enterprise path guidance varies by plan and quota).
   API: available as `gpt-6-astra` (OpenAI API; also documented with AWS/Bedrock path).
   Usage model note: OpenAI states subscription allowances include Astra use,
   while additional usage credits are also purchasable.
@@ -177,13 +195,15 @@ OpenAI frontier model status update — GPT-6 Astra (verified 2026-09-04):
   nominal token price does not guarantee lower completed-task cost; output
   volume, retries, reasoning mode, long-context repricing, and harness
   behavior can dominate total cost.
-Source (primary, verified 2026-09-04):
+Source (primary, verified 2026-09-23):
 https://openai.com/index/gpt-6-astra/
 https://openai.com/index/safety-overview-gpt-6-astra/
 https://openai.com/index/path-to-astra/
 https://developers.openai.com/api/docs/models/gpt-6-astra.md
 https://developers.openai.com/api/docs/pricing.md
 https://developers.openai.com/api/docs/guides/latest-model.md
+https://developers.openai.com/api/docs/changelog
+https://help.openai.com/en/articles/20001275/
 Secondary context only:
 https://www.latent.space/p/ainews-gpt-6-astra-openais-biggest
 https://www.latent.space/p/astra

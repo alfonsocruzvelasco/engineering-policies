@@ -7,6 +7,8 @@ and this project follows Semantic Versioning guidance in `rules/versioning-and-r
 
 ## [Unreleased]
 
+- 2026-09-23: Refreshed active no-extra-cost model/harness guidance: GPT-5.3 Codex Medium remains the stable Cursor default; Grok 4.7 is deliberate Cursor escalation with Grok 4.6 fallback; GPT-6 Luna/Sol/Astra use the separate ChatGPT-authenticated Codex CLI allowance; Claude Opus 5.5 uses human-explicit Claude Code/Pro allowance; Composer 2.5 remains prohibited; SPEND FREEZE unchanged.
+
 ### Added
 - Added GPT-Red-style prompt-injection hardening framework: authoritative spec `rules/security/injection-eval-spec.md`, versioned corpus under `security-evals/attack-corpus/`, baseline thresholds in `security-evals/baselines/injection-baseline.json`, and automation runner `security-evals/run_injection_evals.py`; wired static validation into `.pre-commit-config.yaml` as `prompt-injection-evals-static` (2026-07-18).
 - Resolved policy consistency blockers: unified exception logging references to `rules/security-exceptions.md`, clarified README AI-tool guidance (approved-tools + Cursor sandbox scope), and clarified `security-policy.md` sandbox directory table as Cursor-specific while preserving repo-local controls for other approved agents (2026-06-08).

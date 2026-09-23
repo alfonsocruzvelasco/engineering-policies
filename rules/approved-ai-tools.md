@@ -1,7 +1,7 @@
 # Approved AI Tools Registry
 
 **Status:** Authoritative
-**Last updated:** 2026-08-23
+**Last updated:** 2026-09-23
 **Policy Reference:** security-policy.md Section 14.6
 **Owner:** Security Team (security@organization.com)
 **Review Cadence:** Quarterly
@@ -87,7 +87,7 @@ Until lift, all of the following are forbidden:
 - Start RunPod or other cloud GPU jobs.
 - Upgrade Claude Max or add new paid AI subscriptions.
 - Auto-escalate a session to a per-token API model
-  (Sonnet 5, Opus 4.8, Gemini Flash-Lite billed, GPT-5.6, GPT-6 Astra,
+  (Sonnet 5, Opus 5.5 API path, Gemini Flash-Lite billed, GPT-6 API path,
   Fable 5/Fable 5.1/Mythos 5.1, Muse Spark) as the working model.
 - Enable Cursor On-Demand Usage / Monthly Limit, or switch
   Cursor to Fixed or Unlimited on-demand modes.
@@ -141,22 +141,21 @@ Source: Cursor Cloud Agents billing documentation.
 
 Allowed without a lift (within included/prepaid plan usage,
 only while On-Demand Usage remains Disabled):
-- Cursor Grok 4.6: this policy's normal fixed-model default. Currently
-  draws from Cursor's included Cursor Models pool. Consumes
-  included usage according to Cursor's current accounting.
-  Freeze-allowed while On-Demand Usage remains Disabled.
-  Not permanently free. xAI API list rates in this file and
-  in `rules/model-registry.md` are external API reference
-  data, not Cursor subscription/account billing rules.
-- Cursor Codex 5.3: freeze-allowed for daily coding when
-  already available on the current Cursor plan. Do not
-  claim it is in Cursor's Cursor Models pool, and do not
-  assert a $0 Cursor-sub price, unless current official
-  Cursor documentation states that. Do not invent a current
-  price.
-- Existing Claude Pro interactive usage (Claude.ai /
-  Claude Code terminal) within subscription limits, when
-  the human explicitly starts that session.
+- Cursor GPT-5.3 Codex (Other Models pool): current stable
+  Cursor default at Medium effort. Freeze-allowed while
+  On-Demand Usage remains Disabled. Consumes included plan
+  allowance and is not permanently free.
+- Cursor Models pool usage: Grok 4.7 and Grok 4.6
+  (compatibility fallback) are freeze-allowed while On-Demand
+  Usage remains Disabled. They consume included usage according
+  to Cursor's current accounting and are not permanently free.
+- Codex CLI with ChatGPT authentication: GPT-6 Luna/Sol/Astra
+  may be used only within already-included ChatGPT/Codex plan
+  allowance. Do not configure OpenAI API key billing fallback.
+- Claude Code or Claude.ai with Claude subscription auth:
+  human-explicit usage within existing Claude Pro included
+  allowance remains allowed. Prefer this harness for Opus 5.5
+  no-incremental-cost usage.
 - Existing ChatGPT interactive usage within already-included
   subscription allowances may be used when human-explicit.
   Included usage does not authorize API billing, extra usage,
@@ -300,13 +299,11 @@ No agent tool may be approved without completing all three:
   Source: [source-latentspace-ainews-2026-07-30]
            [source-openai-gpt-5-6-efficiency-2026]
 
-- `gpt-6-astra`: UNAVAILABLE for agent-initiated use under
-  active SPEND FREEZE wherever usage is separately billed
-  (API, extra usage, usage credits, pay-as-you-go, or
-  third-party billed harness paths).
-  OpenAI plan availability does not authorize billed use.
-  Included human-explicit interactive usage may be allowed
-  only within already-paid subscription allowances.
+- `gpt-6-astra`: APPROVED for no-incremental-cost use only via
+  included ChatGPT/Codex allowance (human-explicit or approved
+  local Codex workflow). API, extra usage, usage credits,
+  pay-as-you-go, and third-party billed harness paths remain
+  UNAVAILABLE under active SPEND FREEZE.
   Long-context pricing note: >272K input tokens reprices the
   full request (2x input/cache, 1.5x output), so list rates
   are not total-task-cost guarantees.
@@ -344,11 +341,11 @@ No agent tool may be approved without completing all three:
   Source: [artificialanalysis-jul2026]
 
 - `Cursor Composer 2.5`: PROHIBITED
-  Reason: weights derived from Kimi K2.5 base model (MoonshotAI,
-  China). Chinese-origin weights violate §14.6.9 by intent even
-  if endpoint is US-hosted. Do not use as default or fallback model.
+  Reason: built on Moonshot's Kimi K2.5 base checkpoint.
+  Chinese-origin weights violate §14.6.9 by intent even if
+  the endpoint is US-hosted. Do not use as default or fallback model.
   Authority: `security-policy.md` §14.6.9
-  Source: [spacexai-cursor-grok45-jul2026]
+  Source: https://cursor.com/blog/composer-2-5
 
 - `gemini-2.5-flash-lite`: APPROVED (subagent/researcher pattern only)
   Lowest latency (0.34s). Use as Haiku alternative for Read/Grep/Glob
@@ -356,10 +353,10 @@ No agent tool may be approved without completing all three:
   is constrained.
   Source: [artificialanalysis-jul2026]
 
-- `grok-4.6`: APPROVED (Cursor included-usage, freeze-allowed)
+- `grok-4.6`: APPROVED (Cursor included-usage, freeze-allowed fallback)
   Available in Cursor on all plans post-acquisition.
-  Use case: daily tasks, same freeze-allowed class as
-  Codex 5.3. This policy's normal Cursor fixed-model default.
+  Use case: compatibility fallback when Grok 4.7 is unavailable
+  or unsuitable for a specific task.
   Throughput: 80–112 TPS. Cursor-documented context: 256K
   tokens.
   xAI API list rates (external API reference data, not
@@ -385,19 +382,28 @@ No agent tool may be approved without completing all three:
   Most token-efficient option: direct API, full prompt caching,
   explicit context control. Preferred for portfolio repo work
   regardless of Cursor status.
-  Model strings: `claude-sonnet-5` (hard), `claude-opus-4-8` (very hard)
+  Current model string for hardest no-extra-cost Claude path:
+  `claude-opus-5-5` (human-explicit Claude Pro included allowance,
+  no `ANTHROPIC_API_KEY` billing fallback in this workflow).
 
 Current model list with prices: see rules/model-registry.md
 (updated monthly — check last_updated date before any hard+ task).
 
 Selection rules (price-capped, SPEND FREEZE active):
-- All task classes until freeze lift: Codex 5.3 or Grok 4.6
-  within included/prepaid Cursor plan usage, freeze-allowed
-  while On-Demand Usage remains Disabled, unless the human
-  explicitly names a frozen model for this session.
-- Frozen for new agent-initiated sessions: claude-sonnet-5,
-  claude-opus-4-8, gemini-2.5-flash-lite billed,
-  gpt-5.6, gpt-6-astra, Fable 5/Fable 5.1/Mythos 5.1, Muse Spark, RunPod, Cursor Cloud Agents.
+- Default stable configuration in Cursor: GPT-5.3 Codex, Medium effort,
+  Fast OFF, Auto OFF. Grok 4.7 is deliberate escalation for
+  demanding/long-running work; Grok 4.6 is the compatibility fallback.
+  Keep On-Demand Usage Disabled.
+- Codex included ladder (no API billing fallback): GPT-6 Luna
+  (routine/mechanical), GPT-6 Sol (general/demanding), GPT-6 Astra
+  (hardest/capability ceiling when justified).
+- Claude hardest no-incremental-cost path: human-explicit Claude Code
+  on existing Claude Pro allowance with `claude-opus-5-5`; stop when
+  included allowance is exhausted.
+- Frozen for new agent-initiated billed sessions: claude-sonnet-5,
+  claude-opus-5-5 API path, gemini-2.5-flash-lite billed,
+  gpt-6 API paid paths, Fable 5/Fable 5.1/Mythos 5.1, Muse Spark,
+  RunPod, Cursor Cloud Agents.
 - Ultra-hard tasks: no active model assigned while Fable/Mythos
   remain outside freeze-allowed usage paths under current
   price-cap enforcement.
@@ -622,12 +628,13 @@ Do not use. Chinese-hosted. §14.6.9.
 Cursor model selection policy:
 Codex model selection: see rules/model-selection-codex.md
 for the full possibility space with all constraints applied.
-Default backend: Grok 4.6. Registry gaps listed in that
+Default Cursor backend: GPT-5.3 Codex Medium. Grok 4.7 is deliberate hard-task escalation; Grok 4.6 is compatibility fallback.
+Registry gaps listed in that
 file must be resolved before the October 2026 checkpoint.
 [codex-model-selection-2026-08-14]
 - Default: one stable configuration — do not choose from
   scratch per prompt. Current policy configuration:
-  Grok 4.6, Medium effort, Fast OFF, Auto OFF.
+  GPT-5.3 Codex, Medium effort, Fast OFF, Auto OFF.
   Billing enforcement is separate: Auto OFF is routing
   control, not the hard spend cap. The hard billing
   control is On-Demand Usage = Disabled (SPEND FREEZE
@@ -669,7 +676,7 @@ file must be resolved before the October 2026 checkpoint.
 ### Category: CLI Tools and Agents
 
 #### Claude Code (Anthropic)
-**Tier:** CLI tool with approved API
+**Tier:** CLI tool with subscription or approved API paths
 **Approval Date:** 2026-02-01
 **Approved By:** CISO, VP Engineering
 **Next Review:** 2026-05-01
@@ -683,19 +690,21 @@ file must be resolved before the October 2026 checkpoint.
 
 **Security Features:**
 - ✅ Sandboxed execution environment
-- ✅ Uses Anthropic Claude API (enterprise tier)
+- ✅ Supports Claude subscription authentication for included allowance
+- ✅ Supports Anthropic API integration where separately authorized
 - ✅ Local-first with controlled API calls
 - ✅ Audit logging of all commands
 - ✅ No automatic code execution without approval
 
 **Access Control:**
-- API key authentication
-- User-level API keys
+- Claude subscription authentication (preferred for no-extra-cost harness use)
+- API key authentication (only when separately authorized; frozen for this repo)
 - Command logging
 - Execution approval gates
 
 **Restrictions:**
-- MUST use enterprise-tier API keys
+- For this repository under SPEND FREEZE: use Claude subscription authentication for interactive Claude Code use; do not configure `ANTHROPIC_API_KEY` for no-extra-cost workflow.
+- API-key billing, usage credits, and pay-as-you-go continuation remain frozen unless owner explicitly lifts freeze in this file.
 - MUST review all generated code before execution
 - MUST NOT run on production systems
 - MUST sanitize all prompts and context
@@ -715,7 +724,7 @@ any tool from these sources to the allowlist.
 - **Current minimum version floor:** *Verify against Anthropic security advisories before encoding; do not rely on unverified disclosure version numbers (e.g. `>= 2.0.65`) until confirmed.*
 - **Version floor review cadence:** On **any** Anthropic security advisory affecting Claude Code, revisit and update this subsection **within 7 days** (same obligation as `security-policy.md` §14.6.8 and Section 19 PI-7.1). **Do not** defer the floor check until the annual `approved-ai-tools.md` recertification date in the table below — that schedule is for the full registry, not for emergency version floors.
 
-**Cost Model:** API usage costs (Anthropic Claude pricing)
+**Cost Model:** Claude subscription included allowance (preferred in this repo) or API usage costs when separately authorized
 **Documentation:** https://docs.anthropic.com/claude-code
 **Support:** Anthropic support portal
 

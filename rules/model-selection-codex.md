@@ -18,12 +18,11 @@ sources: [chat]
   methods. Effective ceiling ~$5/M input.
 - SPEND FREEZE (active, 2026-08-14): do not configure or
   escalate to billed Codex backends. Stay on freeze-allowed
-  Cursor Grok 4.6 / Codex 5.3 until the freeze is lifted in
+  Cursor Grok 4.7 (or Grok 4.6 fallback) / Codex GPT-6 family
+  included allowance until the freeze is lifted in
   approved-ai-tools.md. Agents cannot lift it. Cursor
   On-Demand Usage MUST remain Disabled. Auto OFF is routing
-  control, not the billing cap. Codex 5.3 is freeze-allowed
-  on the current Cursor plan; do not assert Cursor Models
-  pool membership or a $0 price.
+  control, not the billing cap.
 - License review: non-Apache 2.0 models require review
   before portfolio-public or production use.
 - Data policy: free tiers that train on your data are
@@ -80,9 +79,11 @@ GPT-5.6 Terra (OpenAI): $2.00/$12.00
 Claude Sonnet 5 (Anthropic): $2.00/$10.00
   — Permanent pricing. Strong coding. In registry.
 
-Grok 4.6 (SpaceXAI): $2.00/$6.00
-  — Default for Codex. 88.4% Terminal-Bench v2.1.
-    Kernel optimization training. In registry.
+Grok 4.7 (SpaceXAI/Cursor Models pool): included usage path
+  — Preferred default for Cursor hard/demanding work.
+
+Grok 4.6 (SpaceXAI/Cursor Models pool): included usage path
+  — Compatibility fallback.
 
 Muse Spark 1.2 (Meta): $1.25/$4.25
   — Standard tier. Open weights pending. In registry
@@ -90,12 +91,11 @@ Muse Spark 1.2 (Meta): $1.25/$4.25
 
 ### Tier 3 — Premium (near price cap)
 
-Claude Opus 5 (Anthropic): same as Opus 4.8
-  — Reserve for hard architecture decisions only.
+Claude Opus 5.5 (Anthropic): frontier Claude option.
+  Use through human-explicit Claude Pro allowance in Claude Code.
 
-GPT-5.6 Sol (OpenAI): $5.00/$30.00
-  — At price cap ceiling. Not for routine use.
-    In handover, not yet in registry.
+GPT-6 Sol / GPT-6 Astra (OpenAI via Codex included allowance):
+  — General/hardest Codex options in current active harness.
 
 ### Excluded — data sharing
 
@@ -111,33 +111,38 @@ MAI-Thinking-1: Foundry only, not publicly available.
 
 ## Default
 
-Grok 4.6 — standard effort.
-Same principle as cursor-model-selection: stable default,
-do not choose per prompt, escalate deliberately.
+GPT-5.3 Codex Medium in Cursor is the stable day-to-day default.
+
+Grok 4.7 is a deliberate Cursor escalation for demanding,
+long-running, multi-file, CUDA/kernel, or stubborn debugging work.
+Grok 4.6 remains the Cursor compatibility fallback.
+
+Codex CLI is a separate included-allowance harness using
+ChatGPT authentication and the GPT-6 Luna/Sol/Astra family.
+
+Same principle as `cursor-model-selection.md`: keep one stable default,
+escalate deliberately, and do not choose from scratch for every prompt.
 
 ## Escalation rules
 
-SPEND FREEZE (active): the mappings below are the
-possibility space after freeze lift. Until then, do not
-configure billed backends. Stay on Grok 4.6 (included
-Cursor Models pool, freeze-allowed while On-Demand Usage
-remains Disabled).
+SPEND FREEZE remains active. Do not configure billed backends,
+PAYG, extra usage, API fallback, or Cursor On-Demand Usage.
 
-Mechanical completions, reformatting, boilerplate:
-  → GPT-5.6 Luna ($0.20/$1.20) or Mistral Codestral
-    ($0.30/$0.90)
+Routine/mechanical Cursor work:
+  → GPT-5.3 Codex Medium
 
-CUDA kernels, long multi-file agent tasks:
-  → Grok 4.6 (default)
+Routine/mechanical Codex CLI work:
+  → GPT-6 Luna
 
-Agentic code review with structured critique:
-  → Mistral Codestral or Devstral 2
+CUDA kernels, demanding long multi-file agent tasks:
+  → Grok 4.7; Grok 4.6 compatibility fallback
 
-Ambiguous architecture, multi-step reasoning:
-  → Grok 4.6 High or Claude Sonnet 5
+Ambiguous architecture or stubborn debugging:
+  → Grok 4.7 High or GPT-6 Sol
 
-Hard architecture with no clear path:
-  → Claude Opus 5 (at price cap — justify the spend)
+Hardest work / capability ceiling:
+  → GPT-6 Astra or Claude Opus 5.5 via human-explicit Claude Code
+    within existing Claude Pro included allowance
 
 ## Long-context pricing cliff
 
@@ -169,28 +174,19 @@ is real. The ban is unconditional.
 
 ## Registry gaps — action required
 
-The following models are confirmed viable, non-Chinese,
-within price cap, and missing from model-registry.md.
-Add them at next registry update:
-
-1. GPT-5.6 Luna ($0.20/$1.20) — in handover, not written
-2. GPT-5.6 Terra ($2/$12) — in handover, not written
-3. GPT-5.6 Sol ($5/$30) — in handover, not written
-4. Gemini 3.6 Flash ($1.50/$7.50) — not in registry
-5. Gemini 3.1 Pro ($2/$12) — not in registry
-6. Gemini 2.5 Flash-Lite ($0.10/$0.40) — not in registry
-7. Mistral Codestral ($0.30/$0.90) — not in registry
-8. Mistral Large 3 ($0.50/$1.50) — not in registry
-9. Devstral 2 ($0.40/$2.00) — not in registry
-10. Devstral Small 2 ($0.10/$0.30) — not in registry
+Review this file against `rules/model-registry.md` on each
+registry refresh. Do not treat this file as billing
+authorization.
 
 ## Sources
 
-Verified 2026-08-14:
+Verified 2026-09-23:
 - xAI Grok: https://x.ai/api
 - OpenAI: https://platform.openai.com/docs/pricing
 - Google Gemini: https://ai.google.dev/pricing
 - Mistral: https://mistral.ai/pricing
 - Anthropic: https://www.anthropic.com/pricing
-- GPT-5.6 pricing: engineering-policies handover 2026-08-14
+- OpenAI changelog: https://developers.openai.com/api/docs/changelog
+- OpenAI help (Codex/ChatGPT allowance context): https://help.openai.com/en/articles/20001275/
+- Anthropic Claude Code model configuration: https://support.claude.com/en/articles/11940350-claude-code-model-configuration
 [codex-model-selection-2026-08-14]

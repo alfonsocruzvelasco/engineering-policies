@@ -8,7 +8,10 @@ Avoid wasting time in Cursor's model/effort picker while keeping control over co
 
 Use this as the normal configuration:
 
-> **Grok 4.6 + Medium effort + Fast OFF + Auto OFF**
+> **GPT-5.3 Codex + Medium effort + Fast OFF + Auto OFF**
+>
+> Update (2026-09-23): stable default is **GPT-5.3 Codex + Medium effort + Fast OFF + Auto OFF**.
+> Keep Grok 4.6 as compatibility fallback.
 
 This should handle ordinary coding work without making model selection a decision every time.
 
@@ -21,44 +24,51 @@ Only change the default when the task justifies it:
 - **Fast** → only when latency matters enough to justify the higher price.
 - **Auto** → only when I explicitly prefer Cursor to choose for me.
 
-## Task routing — when to use Grok 4.6 vs switch away
+## Task routing — when to stay on GPT-5.3 Codex vs switch to Grok 4.7
 
-### Use Grok 4.6 (stay on default)
+### Switch to Grok 4.7 when the task earns it
 
-- **CUDA kernel work** — xAI trained Grok 4.6 explicitly
+- **CUDA kernel work** — use Grok 4.7 first; if behavior regresses or
+  compatibility issues appear, fall back to Grok 4.6, which was trained explicitly
   on kernel optimization. Use it for CUDA implementations,
   kernel debugging, memory hierarchy reasoning, and
   performance tuning. This is a confirmed training edge,
   not a marketing claim.
 
-- **Long agent tasks with multi-file scope** — Terminal-Bench
-  v2.1: 88.4%. Use Grok 4.6 for implementations that require
+- **Long agent tasks with multi-file scope** — use Grok 4.7 for
+  long-running multi-file sessions. Keep Grok 4.6 as a tested fallback
+  when routing needs compatibility with prior workflows.
+  Use this class for implementations that require
   holding architectural context across multiple files
   simultaneously, or for agent sessions that run many
   sequential tool calls without losing the thread.
 
 - **Stubborn bugs after Medium has already failed** — escalate
-  to Grok 4.6 High only after Medium on the current model
+  to Grok 4.7 High only after Medium on the current model
   has demonstrably failed, not preemptively. The failure must
   be observed, not anticipated.
 
-### Switch to a lighter model (Ctrl + /)
+### Return to GPT-5.3 Codex after escalation
 
-- **Mechanical follow-up** — after Grok completes the hard
-  part of a task, switch for reformatting, renaming, moving
-  code, or applying a pattern Grok already demonstrated.
+After switching to Grok 4.7 for a hard task, return to the
+stable GPT-5.3 Codex Medium default when the harder model is
+no longer needed.
 
-- **Documentation generation** — for code you have already
-  written, reviewed, and understood. No architectural
-  reasoning required; a cheaper model is sufficient.
+- **Mechanical follow-up** — use GPT-5.3 Codex Medium for
+  reformatting, renaming, moving code, or applying a pattern
+  already established during the harder part of the task.
 
-- **Quick one-shot lookups** — single-turn questions that
-  do not require multi-step reasoning or tool use. Syntax
-  checks, format questions, simple references.
+- **Documentation generation** — use GPT-5.3 Codex Medium for
+  code already written, reviewed, and understood when no
+  additional architectural reasoning is required.
+
+- **Quick one-shot lookups** — stay on GPT-5.3 Codex Medium
+  for syntax checks, format questions, simple references, and
+  other single-turn work that does not justify escalation.
 
 ### Rule
 
-Grok 4.6 credits spent on mechanical work are credits
+Grok 4.7 credits spent on mechanical work are credits
 unavailable for kernel and architectural work. Route
 deliberately. The session budget is fixed; the allocation
 is yours to control.
@@ -73,10 +83,10 @@ Authority: `rules/approved-ai-tools.md` SPEND FREEZE. This
 section does not create a second spend policy.
 
 - Included-usage accounting is not incremental billing.
-  Grok 4.6 currently draws from Cursor's included Cursor
-  Models pool and consumes included/prepaid plan usage
-  according to Cursor's current accounting. That is not
-  permanently free.
+  GPT-5.3 Codex uses Cursor's Other Models included-usage pool.
+  Grok 4.7 and Grok 4.6 use Cursor's Cursor Models included-usage
+  pool. All consume included/prepaid plan allowance according
+  to Cursor's current accounting; none is permanently free.
 - Auto OFF is not the hard billing cap. It keeps routing
   and included-usage consumption predictable.
 - On-Demand Usage Disabled is the fail-closed billing
@@ -114,7 +124,7 @@ default.
 
 Keep **Fast OFF** by default.
 
-For Grok 4.5, Cursor currently lists the Fast variant at a substantially higher token price than the standard variant. Use it when response latency is genuinely valuable, not as the everyday setting.
+For Grok-class Cursor models, Fast is typically priced higher than standard mode. Use it when response latency is genuinely valuable, not as the everyday setting.
 
 ## Switching without fighting the picker
 
@@ -148,10 +158,11 @@ This is an operational Cursor preference, not an Obsidian knowledge-management s
 
 ## Sources
 
-Checked 2026-08-19:
+Checked 2026-09-23:
 
-- Cursor Models & Pricing: https://cursor.com/docs/models-and-pricing
 - Cursor Cloud Agents billing documentation
 - Cursor Keyboard Shortcuts: https://cursor.com/docs/reference/keyboard-shortcuts
-- Cursor Blog — Introducing Grok 4.6: https://cursor.com/blog/grok-4-6
+- Cursor docs — Grok 4.7: https://cursor.com/docs/models/grok-4-7
+- Cursor Models & Pricing: https://cursor.com/docs/models-and-pricing
+- Cursor docs — Claude Opus 5.5 (Other Models pool): https://prod.cursor.com/docs/models/claude-opus-5-5
 - Account-owner Cursor email announcing the 2026-08-24 Auto pricing change
