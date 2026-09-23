@@ -1768,23 +1768,26 @@ Agents are not uniform. Different operational contexts require different governa
 Models use adaptive thinking — reasoning depth self-calibrates
 within the effort ceiling. Do not over-provision.
 
-Default model is Codex 5.3 or Grok 4.6 within included/prepaid
-Cursor plan usage (freeze-allowed while On-Demand Usage remains
-Disabled). Grok 4.6 currently draws from Cursor's included
-Cursor Models pool; Codex 5.3 remains freeze-allowed on the
-current plan without an asserted $0 or Cursor Models-pool claim.
-SPEND FREEZE (active): do not auto-escalate to Claude models.
-Claude models (Sonnet 5, Opus 4.8) stay reserved for hard and
-very hard tasks, but agent-initiated use is frozen until the
-owner lifts the freeze in `rules/approved-ai-tools.md`.
-Do not use Claude models for routine edits, file reads, or grep tasks.
-- Chat, queries, drafts: Codex 5.3 / Grok 4.6
-- Routine code, refactoring: Codex 5.3 / Grok 4.6
-- Complex CV/ML, hard debugging: stay on freeze-allowed Cursor
-  models unless the human explicitly names Sonnet 5
-- Deep reasoning, novel problems: frozen (Opus 4.8) until lift
-- Long async multi-agent: frozen (Opus 4.8 / ultracode) until lift
-- Absolute quality ceiling: frozen until lift
+Default Cursor model is GPT-5.3 Codex Medium within the
+included/prepaid Cursor Other Models allowance (freeze-allowed while
+On-Demand Usage remains Disabled). Grok 4.7 is a deliberate escalation
+for demanding, long-running, multi-file, CUDA/kernel, or stubborn
+debugging work; Grok 4.6 remains the compatibility fallback.
+
+Codex CLI is a separate included-allowance harness under the active
+freeze and uses ChatGPT authentication with GPT-6 Luna/Sol/Astra.
+Do not configure OpenAI API billing fallback.
+
+Claude hardest-task use remains human-explicit via Claude Code
+(`claude-opus-5-5`) within the existing Claude Pro included allowance.
+Do not configure `ANTHROPIC_API_KEY` for this no-extra-cost workflow.
+Do not use Claude for routine edits, file reads, or grep tasks.
+
+- Chat, queries, drafts: GPT-5.3 Codex Medium in Cursor
+- Routine code, refactoring: GPT-5.3 Codex Medium in Cursor or GPT-6 Luna via Codex CLI
+- Demanding coding/debugging: Grok 4.7 or GPT-6 Sol
+- Hardest tasks/capability ceiling: GPT-6 Astra or Claude Opus 5.5
+  (human-explicit, included allowance only)
 
 Spend discipline: do not enable extra billing when the Agent
 SDK credit is exhausted. Cursor On-Demand Usage MUST remain

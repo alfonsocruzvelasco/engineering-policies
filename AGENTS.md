@@ -153,9 +153,10 @@ you are building. They are not separate concerns.
 
 SPEND FREEZE (active, 2026-08-14): do not enable extra
 billing, add a payment method, claim usage credits, or
-auto-escalate to paid/premium models. Stay on Codex 5.3 or
-Grok 4.6 unless the human explicitly names a frozen model
-for this session. Agents cannot lift this freeze. Authority:
+auto-escalate to paid/premium models. Stay on no-incremental-cost
+included usage only (Cursor Models pool, ChatGPT/Codex included
+allowance, Claude Pro included allowance) unless the human explicitly
+names a frozen model for this session. Agents cannot lift this freeze. Authority:
 `rules/approved-ai-tools.md`.
 
 Cursor billing (mirrors the freeze; does not create a
@@ -173,26 +174,31 @@ second spend policy):
 
 Use these in order based on task class and cost policy:
 
-1. **Codex 5.3** (Cursor plan, freeze-allowed while
-   On-Demand Usage remains Disabled): default for daily
-   coding, edits, and repo maintenance within
-   included/prepaid Cursor plan usage. Do not treat as a
-   confirmed Cursor Models pool member or as $0 usage.
-2. **Grok 4.6** (Cursor included Cursor Models pool):
-   default alternative for daily tasks where higher
-   throughput and lower latency matter. Freeze-allowed
-   while On-Demand Usage remains Disabled. Consumes
-   included usage according to Cursor's current accounting.
-   Not permanently free. This policy's normal Cursor fixed-model default
-   (Medium, Fast OFF, Auto OFF).
-3. **claude-haiku-4-5**: FROZEN for agent-initiated sessions under the spend freeze. Human-explicit Claude Pro interactive use only.
-4. **gemini-2.5-flash-lite**: FROZEN (token-billed) until spend freeze lift.
-5. **claude-sonnet-5**: FROZEN for agent-initiated escalation until spend freeze lift.
-6. **claude-opus-4-8**: FROZEN for agent-initiated escalation until spend freeze lift.
+1. **GPT-5.3 Codex Medium** (Cursor Other Models pool):
+ stable Cursor default for ordinary coding, edits, refactors,
+ tests, debugging, and repository maintenance.
+ Freeze-allowed while On-Demand Usage remains Disabled.
+ Included usage only; not permanently free.
+2. **Grok 4.7** (Cursor included Cursor Models pool):
+ deliberate escalation for demanding, long-running, multi-file,
+ CUDA/kernel, or stubborn debugging work when the default has
+ demonstrated insufficient capability.
+3. **Grok 4.6** (Cursor included Cursor Models pool):
+ compatibility fallback if Grok 4.7 is unavailable or unsuitable.
+4. **GPT-6 family via Codex CLI (ChatGPT auth, included allowance)**:
+ `gpt-6-luna` for routine/mechanical tasks, `gpt-6-sol`
+ for general demanding coding, `gpt-6-astra` for hardest
+ tasks. This is a separate harness from Cursor. Do not configure
+ OpenAI API billing fallback.
+5. **Claude Opus 5.5 via Claude Code (human-explicit, Claude Pro included allowance)**:
+ model ID `claude-opus-5-5`; use Claude subscription auth,
+ do not set `ANTHROPIC_API_KEY` for this workflow.
+6. **claude-haiku-4-5 / gemini-2.5-flash-lite / claude-sonnet-5**:
+ FROZEN for agent-initiated escalation under spend freeze.
 7. **Cloudflare OS** (platform): approved orchestration layer for browser-based agent workspace, gatekeeper-mediated deterministic queries, and AI Gateway routing under the same model price-cap rules and spend freeze.
 
 Routing rules:
-- Default automated/background runs to Codex 5.3 or Grok 4.6.
+- Default Cursor work uses GPT-5.3 Codex Medium. Escalate deliberately to Grok 4.7 for demanding/long-running work; use Grok 4.6 as compatibility fallback.
 - Do not escalate to higher-cost models. A hard task is not a freeze lift.
 - Follow the active tier authority in `rules/model-registry.md` and `rules/approved-ai-tools.md`.
 - Muse Spark operational mirror: Muse Spark 1.3 supersedes 1.2 in
@@ -202,17 +208,15 @@ Routing rules:
   used for Meta training. Max reasoning remains unreleased pending
   safety testing; open weights are announced but not released. Pricing
   and benchmarks remain authoritative in `rules/model-registry.md`.
-- GPT-6 Astra operational mirror: GPT-6 Astra (`gpt-6-astra`) is the
-  current OpenAI frontier model with Critical cybersecurity capability
-  classification under OpenAI's Preparedness Framework. Included
-  ChatGPT subscription usage may be freeze-compatible only when already
-  covered by existing plan allowances, but API, extra-usage, usage-credit,
-  or other separately billed Astra usage remains frozen under SPEND
-  FREEZE unless explicitly lifted. Model listing/availability does not
-  authorize paid agent execution. Keep containment, least privilege,
-  HITL, network restrictions, and independent verification unchanged.
-  Pricing/limits/availability details remain authoritative in
-  `rules/model-registry.md`.
+- GPT-6 operational mirror: GPT-6 Luna/Sol/Astra are current Codex
+  family options. Included ChatGPT/Codex subscription usage may be
+  freeze-compatible only when covered by plan allowance, but API,
+  extra-usage, usage-credit, or other separately billed paths remain
+  frozen under SPEND FREEZE unless explicitly lifted. Model
+  listing/availability does not authorize paid agent execution.
+  Keep containment, least privilege, HITL, network restrictions,
+  and independent verification unchanged. Pricing/limits/availability
+  details remain authoritative in `rules/model-registry.md`.
 
 Claude included subscription quota is scarce even when
 consuming it creates no incremental bill. Use Claude only
