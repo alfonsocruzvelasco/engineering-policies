@@ -771,6 +771,18 @@ Install: isolated venv, core profile only.
 
 **claude-code-router (musistudio): APPROVED. MIT. Model routing.**
 
+**Jev toolchain (TypeSafe): UNAVAILABLE (access-blocked; not operational).**
+Local tooling state: `jev-router@0.3.0` is already installed globally and
+`jev-codex` is on PATH. Tooling installation is not the blocker.
+Current blocker: live Jev use requires TypeSafe account login/API-key access,
+which is not currently available in this environment.
+Operational rule: do not route production work through Jev while access is
+blocked. Do not attempt signup/login/key creation, paid credits/PAYG, API
+billing fallback, new subscription/payment-method changes, or any credential
+workaround under active SPEND FREEZE.
+Reference-only future evaluation example:
+https://github.com/taupirho/jev-test (do not vendor/copy/integrate).
+
 **caveman (JuliusBrussee): APPROVED. MIT. Output compression skill, ultra mode.**
 
 **ooples/token-optimizer-mcp: APPROVED. MIT. Caching MCP for repeat reads.**
