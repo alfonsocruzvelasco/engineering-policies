@@ -1745,6 +1745,20 @@ def test_resize_performance(benchmark):
 - Store baseline results in repo (`benchmarks/baseline.json`)
 - Fail if new code is >10% slower than baseline
 
+When reduced, sampled, cached, adaptive, fixed-subset, or otherwise
+partial benchmark runs are used for release decisions, regression
+detection, quality claims, model/prompt/tool comparisons, or
+automation decisions, treat them as proxy evidence for full-benchmark
+results, not equivalent ground truth. Their decision-use fidelity MUST
+be validated empirically for the relevant system and intended decision,
+with an explicit acceptance criterion. Revalidate after material changes
+to models, prompts, tools, or execution infrastructure, and after
+sustained outcome shifts. Periodically rerun the full benchmark and
+measure proxy error against it. The statistically strongest method is
+not automatically the required production method; a simpler method is
+acceptable when measured fidelity is sufficient for the intended
+decision and operational fit is better.
+
 ---
 
 #### 7.9.2 Load Testing

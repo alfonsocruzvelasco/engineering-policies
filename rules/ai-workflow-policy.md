@@ -678,6 +678,14 @@ categories without external verification:
 - API call arguments: validate tool call outputs at the harness layer
   before execution. Do not assume the model generated correct
   parameters, endpoint names, or argument types.
+  Resolution requirement: before downstream authorization/gating is
+  consulted, resolve each emitted tool call against the authoritative
+  closed-world tool registry and the target tool's declared argument
+  schema. Unknown tools, undeclared/missing arguments, and invalid
+  argument types/ranges MUST fail closed at this resolution step.
+  In multi-provider tool systems (for example MCP), resolve and enforce
+  the qualified tool identity (for example `(server, tool)` or
+  equivalent unambiguous identity), not a flattened name alone.
 - Logical constraint satisfaction: add an assertion or test that
   verifies the constraint is actually satisfied, independent of the
   model's reasoning trace.
