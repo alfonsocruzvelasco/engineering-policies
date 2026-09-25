@@ -7,6 +7,8 @@ and this project follows Semantic Versioning guidance in `rules/versioning-and-r
 
 ## [Unreleased]
 
+- 2026-09-25: Added fail-closed closed-world tool resolution before gating, including qualified multi-provider tool identity, and required empirical validation/revalidation of partial evaluation suites as proxies for full evaluation.
+
 - 2026-09-23: Refreshed active no-extra-cost model/harness guidance: GPT-5.3 Codex Medium remains the stable Cursor default; Grok 4.7 is deliberate Cursor escalation with Grok 4.6 fallback; GPT-6 Luna/Sol/Astra use the separate ChatGPT-authenticated Codex CLI allowance; Claude Opus 5.5 uses human-explicit Claude Code/Pro allowance; Composer 2.5 remains prohibited; SPEND FREEZE unchanged.
 
 ### Added
