@@ -7,6 +7,7 @@ and this project follows Semantic Versioning guidance in `rules/versioning-and-r
 
 ## [Unreleased]
 
+- 2026-09-27: Required deliberate/reproducible authorization-mode selection for governed agent workflows so vendor-default changes cannot silently alter permission boundaries, while clarifying that automated authorization does not satisfy explicit human-approval requirements.
 - 2026-09-27: Refreshed Claude Dynamic Workflows policy for current GA availability, separated workflow/effort controls from permission semantics, and retained scope, validation, and spend-freeze constraints based on operational risk.
 - 2026-09-27: Distinguished Claude Cloud sessions from Remote Control by execution, control, persistence, network, credential, and data-flow boundaries, with surface-specific restrictions and Remote Control safeguards.
 - 2026-09-25: Added fail-closed closed-world tool resolution before gating, including qualified multi-provider tool identity, and required empirical validation/revalidation of partial evaluation suites as proxies for full evaluation.
