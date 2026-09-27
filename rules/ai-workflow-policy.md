@@ -1173,6 +1173,38 @@ Context files are classified by **load frequency**, not importance:
 
 **Rule:** Never auto-skip security prompts. Use explicit permissions for safe operations.
 
+### Authorization Mode Drift Control
+
+For agent workflows governed by this repository, the effective
+permission/authorization mode
+MUST be deliberate and reproducible.
+
+- Where supported, explicitly select or pin the intended
+  permission/authorization mode.
+- Do not rely on an unpinned vendor default as a stable authorization
+  contract.
+- Default or configuration changes (including tool updates, plan rollouts,
+  managed-workspace defaults, or setting drift) MUST NOT silently change the
+  workflow's effective authorization boundary.
+- If hard pinning is unavailable, establish/verify the effective
+  authorization mode before execution governed by this repository whenever
+  mode materially affects allowed actions.
+
+Keep control planes distinct:
+- model selection is not authorization;
+- reasoning/effort is not authorization;
+- workflow/orchestration mode is not authorization;
+- permission/authorization mode governs allowed actions.
+
+Automated authorization (classifier/policy-engine/agent-mediated approval)
+MAY be used for bounded workflows when explicitly approved, including as
+defense in depth. It MUST NOT be represented as satisfying a requirement
+that explicitly requires human approval.
+
+If effective authorization posture cannot be established with adequate
+confidence, use the more restrictive compatible mode or stop for review
+(fail-closed).
+
 ### Verification Feedback Loops
 
 **Always build ways for Claude to verify its work** — this significantly improves output quality:
