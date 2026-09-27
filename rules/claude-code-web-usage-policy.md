@@ -2,26 +2,31 @@
 doc_type: policy
 authority: authoritative
 owner: Alfonso Cruz
-scope: Claude Code Web (browser / cloud coding agent) — role, allow/deny contexts, security model, workflow
+scope: Claude Cloud sessions and Remote Control — execution, control, data-flow, and security boundaries
 ---
 
-# Claude Code Web — Usage Policy
+# Claude Code Cloud Sessions / Remote Control — Usage Policy
 
 **Status:** Authoritative
-**Last updated:** 2026-04-02
+**Last updated:** 2026-09-27
 
-**Relationship to other policies:** This product is **not** the same security posture as **local** Claude Code (CLI). It is subject to [`security-policy.md`](security-policy.md) §14 (external AI) and must align with [`approved-ai-tools.md`](approved-ai-tools.md) where applicable. **Stricter wins.**
+**Relationship to other policies:** These surfaces are **not** the same security posture as standalone local Claude Code (CLI). They are subject to [`security-policy.md`](security-policy.md) §14 (external AI) and must align with [`approved-ai-tools.md`](approved-ai-tools.md) where applicable. **Stricter wins.**
 
 ---
 
 ## 1. What it is
 
-**Claude Code Web** = cloud-based coding agent that:
+This policy governs Claude Cloud sessions and Remote Control, whose
+execution, control, persistence, and data-flow boundaries differ.
 
-- Runs in the browser
-- Executes in a **remote** sandbox
-- Is **asynchronous** (can run while you are away)
-- Integrates with GitHub (and similar)
+- **Cloud sessions** (`claude.ai/code`, `claude --cloud`):
+  execution on Anthropic-managed cloud infrastructure (or designated
+  org/self-hosted cloud environment where configured).
+- **Remote Control** (`/remote-control`):
+  remote/mobile control surface attached to a session executing on your
+  local machine.
+- **Shared warning:** a remote interface does not imply remote execution,
+  and local execution does not imply local-only data handling.
 
 ---
 
@@ -35,7 +40,8 @@ Use as:
 - Async execution engine
 - Experimentation environment
 
-**Mental model:** Local Claude Code = control + precision. Claude Code Web = delegation + convenience.
+**Mental model:** classify risk by execution surface dimensions, not a
+single "local vs remote" label.
 
 ---
 
@@ -62,7 +68,11 @@ Use as:
 
 ---
 
-## 4. When not to use (forbidden)
+## 4. Surface-specific use restrictions
+
+### 4.1 Cloud sessions (forbidden contexts)
+
+For cloud sessions (`claude.ai/code`, `claude --cloud`), do not use for:
 
 - **ML/CV core projects** (production pipelines, proprietary models, sensitive data paths)
 - Anything involving:
@@ -75,12 +85,26 @@ Use as:
 
 If in doubt, **do not connect the repo or paste context** — use local tooling or air-gapped flows instead.
 
+### 4.2 Remote Control (additional constraints)
+
+Remote Control keeps execution/filesystem on your local machine, but the
+control channel and active transcript/tool activity pass through Anthropic
+and are stored under Anthropic's data policy while connected.
+
+Therefore:
+
+- Remote Control does **not** make a forbidden local task permissible.
+- The underlying local Claude Code task must already be allowed by
+  repository/security/tool policy.
+- Local execution still does **not** imply local-only confidentiality or
+  persistence.
+
 **Claude Code Routines (research preview, April 2026):**
 Scheduled, API-triggered, and webhook-triggered automations
 that run on Anthropic cloud infrastructure — configured
 once (prompt + repo + connectors) and executed without
 local machine involvement. Subject to the same restrictions
-as Claude Code Web: forbidden for ML/CV core workloads,
+as Cloud sessions: forbidden for ML/CV core workloads,
 secrets, credentials, datasets, and infra configs.
 Rationale: remote execution = loss of control; audit trail
 behaviour under routine scheduling is not yet documented.
@@ -155,34 +179,79 @@ Rationale: ChatGPhish (May 2026, unpatched) demonstrated that untrusted page con
 
 ## 5. Security model
 
-**Assumption:** Remote execution = **loss of full control**.
+Cloud sessions and Remote Control have different runtime boundaries and
+must be evaluated separately.
 
-Implications:
+### 5.1 Cloud sessions security posture
 
-- Code and context **leave** the local machine
-- Execution environment is **not** fully transparent to you
-- Vendor logs, retention, and subprocess behavior apply — treat as **potential exposure**
+- Execution/filesystem is remote (Anthropic-managed cloud or configured
+  cloud environment).
+- Local-machine control over runtime is reduced relative to local CLI use.
+- Code/context required by the task can be present in the remote environment.
+- Environment network and credential controls are those enforced by the
+  active cloud environment and platform policy.
+
+### 5.2 Remote Control security posture
+
+- Execution and filesystem access stay on the machine running Claude Code.
+- The control channel transits Anthropic over TLS.
+- While connected, messages/responses/tool activity transcript are stored
+  on Anthropic servers under applicable data-usage policy.
+- Therefore local execution does **not** imply local-only confidentiality
+  or persistence.
 
 Align with [`security-policy.md`](security-policy.md) §14 data-sharing rules before any use.
+
+### 5.3 Execution-surface classification (mandatory)
+
+Before use, classify the session on all six dimensions:
+
+1. execution/filesystem location;
+2. inference and data-egress destination;
+3. transcript/session persistence;
+4. network reach;
+5. credential location/exposure;
+6. control/interaction surface.
+
+Do not infer trust from a single label ("web", "remote", or "local").
+
+### 5.4 Remote Control operational safeguards (governed use)
+
+- For `claude remote-control` server mode, enable sandboxing unless an
+  explicitly reviewed exception requires otherwise.
+- Do not run concurrent write-capable sessions against the same working
+  tree; use worktree isolation (`--spawn worktree`) or equivalent.
+- Do not enable automatic Remote Control startup merely for convenience;
+  enable it only when intentionally required.
+- Use Trusted Devices or equivalent stronger remote-device authentication
+  where available and appropriate for material repository access.
+- Remote Control must not bypass underlying repository/tool permissions,
+  spend controls, secret handling, or data-handling policy.
 
 ---
 
 ## 6. Workflow
 
 1. **Define** the task clearly (scope, success criteria, files in/out).
-2. **Delegate** to Claude Code Web on an **allowed** repository only.
-3. **Wait** for async completion; do not treat partial logs as proof of correctness.
-4. **Review** output **locally** — never trust blindly; validate changes; read diffs line-by-line.
-5. **Integrate** manually only after verification (tests, security review per repo policy).
+2. **Classify** the intended surface (Cloud session vs Remote Control) on
+   the six dimensions in Section 5.3.
+3. **Cloud sessions:** delegate only when Cloud-session allow/deny rules
+   in Section 4.1 permit it.
+4. **Remote Control:** start only from a locally permitted Claude Code
+   workflow and apply Section 5.4 safeguards.
+5. **Review** output before integration — never trust blindly; validate
+   changes and read diffs line-by-line.
+6. **Integrate** manually only after verification (tests, security review
+   per repo policy).
 
 ---
 
 ## 7. Key rules
 
-- Never treat cloud agent output as **source of truth**
+- Never treat agent output from either surface as **source of truth**
 - Always review before merge or deploy
-- Never expose sensitive data, secrets, or proprietary datasets
-- Use only for **bounded** tasks on **low-risk** repos
+- Never expose sensitive data, secrets, or proprietary datasets contrary to the applicable data-handling policy
+- Cloud sessions are limited to **bounded** tasks on **low-risk** repositories; Remote Control is limited to workflows already permitted for local Claude Code plus the safeguards in Section 5.4
 
 ---
 
