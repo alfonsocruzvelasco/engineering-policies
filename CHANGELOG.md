@@ -7,6 +7,7 @@ and this project follows Semantic Versioning guidance in `rules/versioning-and-r
 
 ## [Unreleased]
 
+- 2026-09-28: Replaced universal line-by-line AI-change review language with risk- and evidence-calibrated review depth, while preserving human accountability for integration decisions and explicit honesty about review coverage.
 - 2026-09-27: Added secondary-model governance so advisor/reviewer/subagent model use inherits workflow model/spend/data controls; explicitly extended the existing Fable spend-freeze restriction to advisor/inherited secondary-model paths; clarified that same-system advisor output is not independent assurance by default; and required explicit version binding when version-specific policy cannot rely on floating aliases.
 - 2026-09-27: Required deliberate/reproducible authorization-mode selection for governed agent workflows so vendor-default changes cannot silently alter permission boundaries, while clarifying that automated authorization does not satisfy explicit human-approval requirements.
 - 2026-09-27: Refreshed Claude Dynamic Workflows policy for current GA availability, separated workflow/effort controls from permission semantics, and retained scope, validation, and spend-freeze constraints based on operational risk.
