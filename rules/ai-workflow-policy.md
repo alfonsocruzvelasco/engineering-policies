@@ -1205,6 +1205,35 @@ If effective authorization posture cannot be established with adequate
 confidence, use the more restrictive compatible mode or stop for review
 (fail-closed).
 
+### Secondary-Model Inheritance Control
+
+Adding an advisor, critic, reviewer, verifier, judge, subagent, or other
+secondary model MUST NOT create a policy bypass.
+
+Secondary-model use inherits all applicable workflow constraints, including
+approved provider/harness, approved model or family, model-version
+restrictions where relevant, spend/billing constraints, data-egress and
+confidentiality limits, credential/secret handling rules, provenance/
+attribution, logging/traceability, and authorization boundaries.
+
+If a secondary model would not be permitted to receive materially equivalent
+context directly in the same workflow, using it as an advisor/reviewer does
+not make that permissible.
+
+Persisted or inherited secondary-model configuration (including subagent
+inheritance) MUST remain policy-compliant in every execution context where it
+becomes active; inheritance does not authorize a prohibited model/billing path
+or context exposure.
+
+When approval, reproducibility, evidence, safety treatment, or spend treatment
+is version-specific, a floating alias MUST NOT silently satisfy a pinned-model
+requirement. Use an explicit model identifier or other policy-controlled
+binding when exact version identity matters.
+
+A same-provider/same-system secondary model is additional model evidence, not
+automatic independent assurance. Apply the existing independence criteria in
+this policy's "External evaluation independence claims" section.
+
 ### Verification Feedback Loops
 
 **Always build ways for Claude to verify its work** — this significantly improves output quality:
