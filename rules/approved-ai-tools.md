@@ -273,9 +273,14 @@ No agent tool may be approved without completing all three:
   agent-initiated use under active SPEND FREEZE.
   Availability on Anthropic platforms does not authorize use under this
   policy. Do not enable usage credits/pay-as-you-go or add payment methods.
+  This includes main-model and advisor/secondary-model paths (including
+  inherited advisor configuration). Do not accept usage-credit consent prompts
+  to activate Fable under the active freeze.
   Where plans list Fable access, treat it as quota/credits-governed capacity,
   not as a free entitlement.
   Source: https://platform.claude.com/docs/en/models/fable-5-1/overview
+          https://support.claude.com/en/articles/15424964-claude-fable-models-on-your-plan
+          https://code.claude.com/docs/en/advisor
            https://platform.claude.com/docs/en/models/mythos-5-1/overview
            https://www.anthropic.com/pricing
 
