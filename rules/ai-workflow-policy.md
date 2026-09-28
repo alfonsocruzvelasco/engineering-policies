@@ -2512,6 +2512,39 @@ This discipline prevents time waste and maintains code quality.
 
 **Core principle:** Reviewing AI-generated code requires different techniques than traditional code review. The volume and plausibility of AI code necessitates verification-first workflows.
 
+### Review Depth Calibration (Mandatory)
+
+Every AI-generated change MUST be reviewed before integration.
+Human line-by-line reading is not universally mandatory.
+
+Review depth MUST scale with change risk and available evidence, including:
+- blast radius and reversibility;
+- sensitivity, novelty, and trust-boundary impact;
+- privilege/authorization changes;
+- data/schema/migration impact;
+- infrastructure/deployment impact;
+- security implications;
+- strength and independence of available validation evidence.
+
+High-risk or high-impact changes require careful human diff review
+(for example: security/authentication/authorization logic, credential or
+secret handling, infrastructure/IAM/network policy, destructive
+operations, migrations/data transformations, deployment/release controls,
+or broad trust-boundary changes).
+
+For bounded low-risk changes, deterministic validation, tests, static
+analysis, policy checks, targeted automated review, and targeted human
+inspection MAY be sufficient where repository policy permits.
+
+The human approving integration remains accountable and MUST retain enough
+understanding to explain what changed, what it can affect, what evidence
+supports integration, and what material risks remain.
+
+When full human line-by-line inspection is intentionally omitted, review
+records MUST NOT imply that it occurred. Where material, distinguish what
+was manually inspected, automatically validated, model-reviewed, and
+accepted without full manual inspection under applicable low-risk policy.
+
 ### 1. Start with Functional Checks
 
 **Always run automated tests and static analysis tools first.**

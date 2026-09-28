@@ -243,8 +243,11 @@ Do not infer trust from a single label ("web", "remote", or "local").
    in Section 4.1 permit it.
 4. **Remote Control:** start only from a locally permitted Claude Code
    workflow and apply Section 5.4 safeguards.
-5. **Review** output before integration — never trust blindly; validate
-   changes and read diffs line-by-line.
+5. **Review** output before integration — never trust blindly; apply the
+   risk-calibrated review requirements in
+   [`ai-workflow-policy.md`](ai-workflow-policy.md). High-risk changes
+   require careful human diff review; bounded low-risk changes may use
+   permitted deterministic/automated evidence plus targeted human inspection.
 6. **Integrate** manually only after verification (tests, security review
    per repo policy).
 
