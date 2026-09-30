@@ -81,6 +81,8 @@ scope: Security controls for secrets, IAM, infrastructure access, API/tool-use s
 4. **Defense in depth.** Multiple controls (identity, network, runtime, logging, scanning).
 5. **Security is a release gate.** CI enforcement applies to all code, including AI-assisted code.
 6. **Data privacy by design.** ML/CV systems must protect training data, model artifacts, and inference inputs/outputs.
+7. **Auditability is an architectural requirement for security-sensitive systems.** Unnecessary complexity in security-critical paths increases verification surface and must be avoided.
+8. **Prefer narrow integration seams for extensions.** Where practical, integrate through explicit constrained interfaces instead of modifying stable security-critical core logic directly.
 
 ---
 
