@@ -2054,6 +2054,23 @@ MCP servers in Cursor provide structured access to tools (Databases, Git, APIs, 
 
 **Security:** MCP servers must be restricted to necessary directories/files. Never allow full system access.
 
+### Agent-Facing Tools as Behavioral Contracts
+
+Agent-facing tool definitions are behavioral interfaces for agent consumers,
+not merely transport schemas.
+
+Where deterministic encapsulation reduces unnecessary model reasoning, tools
+SHOULD expose task-level intentions rather than requiring models to reconstruct
+low-level application or service protocols.
+
+Changes to tool names, semantics, schemas, defaults, return structures, side
+effects, or error behavior that can affect agent consumers SHOULD be treated as
+compatibility-relevant interface changes and reviewed/evaluated accordingly.
+
+Prefer explicit composable capabilities over capabilities encoded only through
+hidden prompt conventions. Generic APIs remain acceptable when they are the
+better interface for the task and risk profile.
+
 ## Claude Code Skills Management
 
 Skills enforce structure, token budgets, and progressive disclosure for Claude agent skills. All `SKILL.md` files must pass `skills-lint`, CI/CD must fail on budget violations, and skills must use the three-level progressive disclosure model (frontmatter → body → linked files).
