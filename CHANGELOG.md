@@ -7,6 +7,7 @@ and this project follows Semantic Versioning guidance in `rules/versioning-and-r
 
 ## [Unreleased]
 
+- 2026-10-01: Added a risk-based agent-data-contract invariant requiring material agent-facing data interfaces to expose interpretation metadata (for example schema, provenance/source, ownership, semantics, freshness/version, and applicable access policy) when ambiguity can affect behavior or correctness.
 - 2026-10-01: Added a tool-interface governance invariant treating agent-facing tools as behavioral contracts, with compatibility-aware review of behavior changes and task-level deterministic encapsulation where useful.
 - 2026-09-30: Added a security-architecture invariant that security-sensitive paths must minimize verification surface and prefer explicit narrow integration seams over direct stable-core modifications where practical.
 - 2026-09-28: Replaced universal line-by-line AI-change review language with risk- and evidence-calibrated review depth, while preserving human accountability for integration decisions and explicit honesty about review coverage.
