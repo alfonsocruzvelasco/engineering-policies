@@ -2071,6 +2071,21 @@ Prefer explicit composable capabilities over capabilities encoded only through
 hidden prompt conventions. Generic APIs remain acceptable when they are the
 better interface for the task and risk profile.
 
+### Agent-Accessible Data as Interpretation Contracts
+
+Where agent behavior materially depends on supplied data, the data interface
+SHOULD expose the metadata required for correct interpretation.
+
+Apply this requirement proportionately to risk and correctness impact. Where
+ambiguity can materially change behavior, make explicit as needed: schema,
+provenance/source, ownership, semantic meaning, freshness/version, and
+applicable access policy.
+
+Models SHOULD NOT be expected to infer missing business semantics, freshness,
+or access-rights meaning from field names, surrounding prose, or prompt
+conventions when those semantics can be represented explicitly and
+deterministically at the data/interface boundary.
+
 ## Claude Code Skills Management
 
 Skills enforce structure, token budgets, and progressive disclosure for Claude agent skills. All `SKILL.md` files must pass `skills-lint`, CI/CD must fail on budget violations, and skills must use the three-level progressive disclosure model (frontmatter → body → linked files).
