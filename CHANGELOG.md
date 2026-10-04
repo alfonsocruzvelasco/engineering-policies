@@ -7,6 +7,7 @@ and this project follows Semantic Versioning guidance in `rules/versioning-and-r
 
 ## [Unreleased]
 
+- 2026-10-04: Added a training/serving feature-consistency invariant requiring material offline/online feature-computation differences to be explicit and testable, and clarified that feature stores are solution-driven rather than mandatory.
 - 2026-10-01: Added a risk-based agent-data-contract invariant requiring material agent-facing data interfaces to expose interpretation metadata (for example schema, provenance/source, ownership, semantics, freshness/version, and applicable access policy) when ambiguity can affect behavior or correctness.
 - 2026-10-01: Added a tool-interface governance invariant treating agent-facing tools as behavioral contracts, with compatibility-aware review of behavior changes and task-level deterministic encapsulation where useful.
 - 2026-09-30: Added a security-architecture invariant that security-sensitive paths must minimize verification surface and prefer explicit narrow integration seams over direct stable-core modifications where practical.
