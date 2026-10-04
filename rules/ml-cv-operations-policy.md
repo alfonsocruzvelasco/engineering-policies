@@ -180,6 +180,21 @@ This section covers ML/CV-specific operations that complement the comprehensive 
 - Low-latency serving (< 10ms)
 - Used for: Real-time inference, user-facing applications
 
+#### Training/Serving Feature-Consistency Invariant
+
+Where differences between training-time and serving-time feature computation
+can materially affect model correctness, that consistency SHOULD be explicit
+and testable to prevent silent train-serving skew.
+
+Depending on risk and architecture, controls may include reproducibly
+equivalent feature computation, transformation/version lineage, offline/online
+parity checks, schema/semantic compatibility checks, and explicit freshness
+expectations where feature age affects behavior.
+
+A feature store is not inherently required. Adopt a feature store or similar
+platform only when it solves demonstrated consistency, reuse, freshness,
+governance, or serving-latency problems.
+
 #### Feature Validation & Quality Checks
 
 **Feature validation:**
