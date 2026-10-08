@@ -28,7 +28,7 @@ change is not a freeze lift.
 
 | Tier | Model | Intelligence | In $/MTok | Out $/MTok | TPS | Source |
 |------|-------|-------------|-----------|------------|-----|--------|
-| Subagent/reads | claude-haiku-4-5 | — | — | — | — | approved-ai-tools.md (frozen) |
+| Subagent/reads | claude-haiku-5-5 (Claude Code, Claude Pro auth) | — | — | — | — | Human-explicit Claude Pro included allowance only; no API key fallback |
 | Subagent/reads | gemini-2.5-flash-lite | — | $0.03 blended | — | 0.37s TTFT | artificialanalysis.ai (frozen) |
 | Daily (included-usage, freeze-allowed) | GPT-5.3 Codex (Cursor) | — | — | — | — | Current stable Cursor default (Medium); Other Models pool; included usage only; On-Demand disabled |
 | Daily (included-usage, freeze-allowed) | Grok 4.7 | — | — | — | — | Cursor Models pool; deliberate alternative for demanding/long-running work; included usage only |

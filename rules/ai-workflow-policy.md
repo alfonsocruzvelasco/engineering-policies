@@ -1770,7 +1770,7 @@ flowchart TD
 
     Q3 -->|NO| Q4{Speed Priority?}
 
-    Q4 -->|YES| Haiku[Use Haiku 4.5]
+    Q4 -->|YES| Haiku[Use Haiku 5.5]
     Haiku --> HaikuDetails[Fast responses<br/>Low-complexity tasks<br/>Routine operations]
 
     Q4 -->|NO| Default[Use Opus 4.6<br/>Default for high-quality work]
@@ -1793,7 +1793,7 @@ flowchart TD
 | **GPT-5.2 Codex** | Procedural execution | Mechanical transformation | N/A |
 | **Gemini 3 Pro** | Creative/exploratory work, scientific research | Open-ended problem solving, literature synthesis | N/A |
 | **Composer 1** | Creative work, scientific research | Multi-modal capabilities, research workflows | N/A |
-| **Haiku 4.5** | Speed-critical tasks | Fast responses | N/A |
+| **Haiku 5.5** | Speed-critical tasks | Fast responses | N/A |
 | **qwen3-coder (local)** | Routine coding, refactors | Local execution, zero API cost | N/A |
 
 ### Common Task → Model Mappings
@@ -1809,7 +1809,7 @@ flowchart TD
 | "Write unit tests for X" | GPT-5.3 Codex or qwen3-coder | Procedural, routine |
 | "Design new feature architecture" | claude-opus-4-8 | Architecture decision |
 | "Debug complex logic error" | claude-sonnet-5 | Hard task reasoning |
-| "Format code, fix linting" | Haiku 4.5 or qwen3-coder | Speed, routine |
+| "Format code, fix linting" | Haiku 5.5 or qwen3-coder | Speed, routine |
 | "Review scientific literature on X" | Gemini 3 Pro | Scientific research, synthesis |
 | "Generate research hypotheses" | Gemini 3 Pro | Exploratory, creative |
 | "Analyze experimental results" | Gemini 3 Pro or claude-opus-4-8 | Research workflow, reasoning |
