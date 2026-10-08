@@ -190,12 +190,17 @@ Use these in order based on task class and cost policy:
  for general demanding coding, `gpt-6-astra` for hardest
  tasks. This is a separate harness from Cursor. Do not configure
  OpenAI API billing fallback.
-5. **Claude Opus 5.5 via Claude Code (human-explicit, Claude Pro included allowance)**:
+5. **Claude Haiku 5.5 via Claude Code (human-explicit, Claude Pro included allowance)**:
+ model ID `claude-haiku-5-5`; use Claude subscription auth,
+ do not set `ANTHROPIC_API_KEY` for this workflow. Use for
+ bounded/routine/latency-sensitive tasks where capability is sufficient.
+6. **Claude Opus 5.5 via Claude Code (human-explicit, Claude Pro included allowance)**:
  model ID `claude-opus-5-5`; use Claude subscription auth,
- do not set `ANTHROPIC_API_KEY` for this workflow.
-6. **claude-haiku-4-5 / gemini-2.5-flash-lite / claude-sonnet-5**:
+ do not set `ANTHROPIC_API_KEY` for this workflow. Human-explicit
+ escalation for hardest/capability-sensitive tasks.
+7. **gemini-2.5-flash-lite / claude-sonnet-5**:
  FROZEN for agent-initiated escalation under spend freeze.
-7. **Cloudflare OS** (platform): approved orchestration layer for browser-based agent workspace, gatekeeper-mediated deterministic queries, and AI Gateway routing under the same model price-cap rules and spend freeze.
+8. **Cloudflare OS** (platform): approved orchestration layer for browser-based agent workspace, gatekeeper-mediated deterministic queries, and AI Gateway routing under the same model price-cap rules and spend freeze.
 
 Routing rules:
 - Default Cursor work uses GPT-5.3 Codex Medium. Escalate deliberately to Grok 4.7 for demanding/long-running work; use Grok 4.6 as compatibility fallback.

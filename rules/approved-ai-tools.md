@@ -387,9 +387,13 @@ No agent tool may be approved without completing all three:
   Most token-efficient option: direct API, full prompt caching,
   explicit context control. Preferred for portfolio repo work
   regardless of Cursor status.
-  Current model string for hardest no-extra-cost Claude path:
+  Current model strings for no-extra-cost Claude paths:
+  `claude-haiku-5-5` (human-explicit Claude Pro included allowance,
+  fast/routine/bounded tasks where capability is sufficient, no
+  `ANTHROPIC_API_KEY` billing fallback in this workflow).
   `claude-opus-5-5` (human-explicit Claude Pro included allowance,
-  no `ANTHROPIC_API_KEY` billing fallback in this workflow).
+  hardest/capability-sensitive tasks, no `ANTHROPIC_API_KEY`
+  billing fallback in this workflow).
 
 Current model list with prices: see rules/model-registry.md
 (updated monthly — check last_updated date before any hard+ task).
@@ -402,6 +406,10 @@ Selection rules (price-capped, SPEND FREEZE active):
 - Codex included ladder (no API billing fallback): GPT-6 Luna
   (routine/mechanical), GPT-6 Sol (general/demanding), GPT-6 Astra
   (hardest/capability ceiling when justified).
+- Claude routine/fast no-incremental-cost path: human-explicit Claude
+  Code on existing Claude Pro allowance with `claude-haiku-5-5` for
+  bounded, repetitive, latency-sensitive, or subagent-style work where
+  capability is sufficient.
 - Claude hardest no-incremental-cost path: human-explicit Claude Code
   on existing Claude Pro allowance with `claude-opus-5-5`; stop when
   included allowance is exhausted.

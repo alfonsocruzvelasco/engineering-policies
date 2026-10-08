@@ -103,7 +103,7 @@ See `../references/ai-workflow-prompt-patterns-reference.md` (Hypothesis Stress 
 | Policy / architecture / constraint enforcement | Opus 4.6 |
 | Procedural execution, refactors, SOPs | GPT-5.3 Codex |
 | Creative / exploratory / research | Gemini 3 Pro |
-| Speed / low-complexity | Haiku 4.5 |
+| Speed / low-complexity | Haiku 5.5 |
 | Default | Opus 4.6 |
 
 **Hivemind warning:** Switching models does NOT guarantee diverse outputs for open-ended tasks. Inter-model similarity is 71–82% with verbatim phrase overlaps across model families (Jiang et al., NeurIPS 2025). When diversity matters, vary the prompt structure or constraints, not just the model. See `../references/ai-workflow-prompt-patterns-reference.md` (Diversity Collapse Awareness).
