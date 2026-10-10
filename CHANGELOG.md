@@ -7,6 +7,7 @@ and this project follows Semantic Versioning guidance in `rules/versioning-and-r
 
 ## [Unreleased]
 
+- 2026-10-09: Strengthened decision-model and model-routing governance: calibrated confidence and split-safe threshold selection, abstain-capable bounded schemas, fallback-on-routed-subset evaluation, deterministic provider allowlist enforcement, routing/failover traceability, and explicit separation of routing selection from authorization controls.
 - 2026-10-08: Added Claude Haiku 5.5 (`claude-haiku-5-5`) to the Claude Code tool belt as the fast/routine bounded-work option under existing subscription-only spend-freeze constraints, while preserving Opus 5.5 as human-explicit hardest-task escalation.
 - 2026-10-04: Added a training/serving feature-consistency invariant requiring material offline/online feature-computation differences to be explicit and testable, and clarified that feature stores are solution-driven rather than mandatory.
 - 2026-10-01: Added a risk-based agent-data-contract invariant requiring material agent-facing data interfaces to expose interpretation metadata (for example schema, provenance/source, ownership, semantics, freshness/version, and applicable access policy) when ambiguity can affect behavior or correctness.

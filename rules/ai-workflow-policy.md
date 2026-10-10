@@ -4052,6 +4052,8 @@ Agent performance MUST NOT be attributed to the model alone when execution depen
 
 Evaluation records for meaningful comparisons SHOULD preserve enough context to identify the evaluated pair/system (as applicable): model and relevant model version, harness/coding-agent product and relevant version, important tool availability, material prompt/instruction/scaffold settings, effort/reasoning setting, and material mode/context controls. A score like `Model X = 82` is insufficient when harness configuration materially contributed; use `Model X + Harness Y/config Z = 82` when that distinction matters.
 
+For consequential decision-model or model-routed workflows, evaluation records MUST additionally identify the exact provider, model, model version, prompt/instruction plus decision schema, candidate set, thresholds, fallback policy/path, routing-policy version, and dataset identity/version (including which split selected thresholds versus final evaluation).
+
 If a harness compensation (prompt rule, retry loop, tool wrapper, workaround, or orchestration step) is introduced to address an observed model failure mode, document the failure evidence and keep the compensation as narrow as practical. A workaround for model A is not automatically a universal agent requirement. Re-evaluate model-specific compensations when the model changes materially, a major model version is adopted, harness/tooling changes materially, or the targeted failure mode is no longer reproducible. Remove or simplify compensations that no longer show value to avoid accumulating obsolete orchestration.
 
 Prefer the simplest harness that still provides required correctness, control, and evidence. Do not add orchestration only to inflate benchmark scores; additional complexity needs a concrete reason (for example, fixing a reproducible failure, enforcing a deterministic boundary, improving reproducibility, enabling required tooling, or measurable reliability gains). This simplification rule does not apply to externally enforced controls: permissions, identity controls, security boundaries, approval gates, spend controls, deterministic validation, and audit requirements remain mandatory.
@@ -4077,14 +4079,78 @@ independent assurance.
 Model-emitted confidence/probability values MUST NOT be treated as calibrated
 decision evidence solely because they are numeric outputs.
 
+Schema-valid, type-valid, or constrained-choice output MUST NOT be treated as
+evidence that the decision is correct. Where both matter, evaluation SHOULD
+distinguish structural/output validity from semantic/task correctness.
+
 When confidence thresholds control material autonomous action, abstention,
 escalation, or human-review routing, the threshold behavior MUST be supported
 by task-relevant empirical evidence proportionate to decision risk and rechecked
 when conditions change materially.
 
+Confidence MUST NOT be treated as proof that the supplied input contained
+sufficient evidence to answer the decision. Where required facts, records, or
+policy context are missing, raising a confidence threshold is not an adequate
+substitute for retrieving missing evidence, deterministic validation, user
+clarification, or human review.
+
+Decision-model confidence MUST be calibrated and validated on representative
+held-out data from the actual deployment task. Vendor-provided or benchmark
+calibration MUST NOT be assumed to transfer without local validation.
+
+If a decision model exposes multiple uncertainty signals (for example
+per-option probabilities and a separate confidence score), the exact signal
+used for routing, automation, or escalation MUST be evaluated/calibrated on the
+deployment task. Different uncertainty signals from the same model MUST NOT be
+assumed to be interchangeable without evidence.
+
+Confidence thresholds MUST be selected on validation data that is separate from
+the final evaluation dataset used to report outcomes.
+
 Agreement with model-generated reference labels, model consensus, or any
 evaluation that assumes harness correctness establishes performance relative to
 those references/assumptions, not independent ground-truth correctness.
+
+#### Decision-model and routing governance (consequential flows)
+
+Use the smallest adequate mechanism for each decision path:
+deterministic code -> classifier -> bounded decision model ->
+generative/reasoning model -> human/external evidence.
+
+Bounded decision schemas SHOULD include an explicit abstain/other/escalate
+outcome whenever real inputs can fall outside the enumerated candidate set.
+
+Fallback design is task-specific. A stronger general-purpose model MUST NOT be
+assumed to be the best fallback. Evaluate fallback behavior on the subset of
+cases actually routed to fallback. In some workflows, the correct fallback is
+deterministic validation, retrieval of missing evidence, user clarification, or
+human review rather than another model.
+
+For consequential actions, explicit pre-action validation SHOULD be used when
+grounding, completeness, or policy conditions can be checked cheaply.
+
+Probabilistic decision models MUST NOT replace deterministic authorization
+controls. Selection policy and authorization policy MUST remain separate: a
+router MUST select only among providers/models already permitted by the
+deterministic authorization/compliance boundary.
+
+Production decision models SHOULD be version-pinned where practical.
+
+Automatic routing and failover MUST NOT bypass provider, privacy, residency,
+contractual, or organizational allowlists. Provider allowlists MUST be
+enforced deterministically for hard compliance constraints.
+
+Routing quality SHOULD be evaluated against fixed-model baselines on the actual
+task distribution. Failover behavior SHOULD be evaluated separately because
+fallback traffic may have a different difficulty distribution.
+
+Routing-policy changes SHOULD be versioned and treated as production behavior
+changes.
+
+For consequential requests, traces MUST record the actual provider/model that
+served the request, model version, routing-policy version, and fallback path.
+Cost attribution SHOULD follow the provider/model path that actually served the
+request, including fallback chains.
 
 #### Task-dependent variance and pooled coverage
 
