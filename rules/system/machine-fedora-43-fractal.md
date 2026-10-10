@@ -9,7 +9,7 @@ scope: Recorded machine state for Fedora_43-Fractal (not normative policy)
 
 **Purpose:** Factual snapshot of the primary development workstation. For install conventions (e.g. AppImages), see `rules/development-environment-policy.md`.
 
-**Last updated:** 2026-08-16
+**Last updated:** 2026-10-10
 
 ---
 
