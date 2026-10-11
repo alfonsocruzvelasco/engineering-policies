@@ -4129,6 +4129,18 @@ human review rather than another model.
 For consequential actions, explicit pre-action validation SHOULD be used when
 grounding, completeness, or policy conditions can be checked cheaply.
 
+For consequential agent/tool actions, a requested, proposed, dispatched, or
+apparently completed action MUST NOT be treated as evidence that the intended
+external state change occurred.
+
+When authoritative or materially better post-action evidence is reasonably
+available, subsequent decisions and success/completion judgments SHOULD use the
+observed/measured resulting state rather than intended action, command
+acknowledgement, or self-reported completion.
+
+A model-generated completion/success signal SHOULD trigger outcome assessment
+where verification is material; it SHOULD NOT automatically establish success.
+
 Probabilistic decision models MUST NOT replace deterministic authorization
 controls. Selection policy and authorization policy MUST remain separate: a
 router MUST select only among providers/models already permitted by the
