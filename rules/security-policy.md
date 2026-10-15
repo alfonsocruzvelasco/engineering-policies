@@ -434,6 +434,17 @@ invariant: inventory plus mutable remote trust boundary.
 
 Enterprise deployments require a runtime trust layer with pre-execution policy enforcement, real-time visibility, device posture gating, and tamper-evident audit. Without a trust layer, default to compensating controls: strict MCP/tool allowlists, sandboxed execution, mandatory HITL, tamper-proof logs.
 
+When monitoring, telemetry, detection, or response mechanisms are relied upon
+as controls for consequential agent behavior, they SHOULD be evaluated as
+security-critical control surfaces, including coverage, integrity,
+evasion/bypass resistance, detection effectiveness, and response effectiveness.
+Their mere presence MUST NOT be treated as evidence that the control is
+effective.
+
+Where the monitored agent or execution path could influence the monitoring
+channel, evaluation SHOULD test whether relevant telemetry can be suppressed,
+corrupted, evaded, or bypassed.
+
 **Full details:** See `references/security-enterprise-controls-reference.md`.
 
 ---
