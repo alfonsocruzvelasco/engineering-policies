@@ -4098,6 +4098,12 @@ Decision-model confidence MUST be calibrated and validated on representative
 held-out data from the actual deployment task. Vendor-provided or benchmark
 calibration MUST NOT be assumed to transfer without local validation.
 
+Multimodal decision paths SHOULD be evaluated on representative inputs for
+their actual modality/configuration. Reliability, calibration, thresholds, or
+other evaluation conclusions MUST NOT be assumed to transfer from text-only
+paths, or between materially different modalities, without supporting
+task-specific evidence.
+
 If a decision model exposes multiple uncertainty signals (for example
 per-option probabilities and a separate confidence score), the exact signal
 used for routing, automation, or escalation MUST be evaluated/calibrated on the
