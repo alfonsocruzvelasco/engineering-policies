@@ -7,6 +7,7 @@ and this project follows Semantic Versioning guidance in `rules/versioning-and-r
 
 ## [Unreleased]
 
+- 2026-10-15: Added a security-control invariant requiring monitoring and telemetry relied upon for consequential agent behavior to be evaluated for effectiveness, integrity, and resistance to suppression, corruption, evasion, or bypass.
 - 2026-10-11: Added a consequential agent/tool execution invariant distinguishing requested, dispatched, or self-reported completion from verified external state, and requiring post-action outcome evidence when material.
 - 2026-10-09: Strengthened decision-model and model-routing governance: calibrated confidence and split-safe threshold selection, abstain-capable bounded schemas, fallback-on-routed-subset evaluation, deterministic provider allowlist enforcement, routing/failover traceability, and explicit separation of routing selection from authorization controls.
 - 2026-10-08: Added Claude Haiku 5.5 (`claude-haiku-5-5`) to the Claude Code tool belt as the fast/routine bounded-work option under existing subscription-only spend-freeze constraints, while preserving Opus 5.5 as human-explicit hardest-task escalation.
