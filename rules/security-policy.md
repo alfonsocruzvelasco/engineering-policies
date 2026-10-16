@@ -527,6 +527,13 @@ Configure agent runtimes to deny read access to files containing secrets, regard
 
 For agent runtimes that claim “no network access” (sandbox mode), security must assume that **egress isolation can fail in unexpected ways** (e.g., outbound DNS enabling command-and-control or exfiltration).
 
+Sandbox security claims SHOULD be supported by explicit security evaluation,
+including representative attempts to cross containment boundaries or obtain
+prohibited authority, rather than inferred solely from the nominal isolation
+mechanism. Evaluate attempts proportionately to risk and architecture (for
+example boundary violations, credential access, egress-policy bypass, privilege
+escalation, or host/control-plane access).
+
 **Hard controls (mandatory):**
 
 * Treat any outbound DNS ability as a security-relevant capability; if “no network” is required, enforce **deny-by-default** for outbound DNS and all other egress paths.

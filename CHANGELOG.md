@@ -7,6 +7,7 @@ and this project follows Semantic Versioning guidance in `rules/versioning-and-r
 
 ## [Unreleased]
 
+- 2026-10-16: Added a sandbox-security evaluation invariant requiring representative containment and authority-violation attempts rather than inferring security solely from the isolation mechanism.
 - 2026-10-16: Added a long-running orchestration invariant distinguishing blocked workers from healthy progress and requiring actionable blocking-state visibility for unattended supervision.
 - 2026-10-15: Added a multimodal decision-evaluation invariant requiring modality-specific representative evaluation and prohibiting unsupported transfer of reliability, calibration, or threshold conclusions across materially different modalities.
 - 2026-10-15: Added a security-control invariant requiring monitoring and telemetry relied upon for consequential agent behavior to be evaluated for effectiveness, integrity, and resistance to suppression, corruption, evasion, or bypass.
