@@ -2234,6 +2234,7 @@ When AI introduces **agents** (multi-step tool-using workflows) and **artifacts*
 - **Long-horizon tasks (≥ 10 steps) REQUIRE plan memory with intent-anchored retrieval.** Without plan-memory reuse, agents re-synthesize from scratch and accumulate errors (+7.87pp from plan-memory in IntentCUA).
 - **Planning MUST be intent-anchored, not step-anchored.** Intent groups (IG) and subgroups (SG) keep retrieval semantically coherent when context changes; step-level plans drift.
 - **Critic agent is mandatory for agentic stability, not optional.** Critic provides `{success, retryable, blocked}` gate after each plan unit; without it, local errors cascade into global re-planning.
+- **Long-running orchestration MUST treat blocked as distinct from healthy progress.** Long-running agent orchestration SHOULD distinguish active execution from materially blocked states when lack of progress may require intervention. Lack of progress MUST NOT be treated as continued healthy execution by default when a worker is blocked awaiting permission/approval, clarification, or external input/dependency. For unattended workflows, workers SHOULD expose sufficient execution state and blocking reason for the supervising orchestrator to select an explicit recovery, escalation, wait, or stopping action.
 - **Skill hints MUST be parameterized schemas, not copy-pasted traces.** Runtime-filled typed arguments (e.g. `<url>`, `<query>`) preserve reusable structure and prevent overfitting to specific past inputs.
 
 **See also:**
