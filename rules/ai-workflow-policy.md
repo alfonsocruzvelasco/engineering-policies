@@ -2847,7 +2847,7 @@ In the AI/agent era, human line-by-line code review becomes less effective as th
 
 ```yaml
 main branch protections:
-  - require pull request reviews: 1+ approvals
+  - require pull request reviews: enabled; minimum human approval counts and review-freshness requirements are governed by `rules/production-policy.md` §5.6.1
   - require status checks to pass:
     - tests (pytest)
     - linting (ruff)

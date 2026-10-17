@@ -2166,7 +2166,7 @@ Purpose: prevent "high-velocity wrong code" and ensure AI-generated changes are 
 
 1. **Protected branches are mandatory.** `main` (and `release/*` where applicable) MUST be protected.
 2. **PR-only merges.** Direct pushes to protected branches are forbidden.
-3. **Human approvals required.** Every PR requires at least **2 approvals**.
+3. **Human approvals required.** Every protected-branch PR requires at least **2 human approvals**, regardless of authorship or generation method.
 4. **CODEOWNERS enforced.** Changes in owned paths require Code Owner approval.
 5. **No self-approval of last push.** The last pusher to the PR branch MUST NOT be eligible to satisfy the approval requirement.
 6. **No merge with unresolved conversations.** All review threads must be resolved.
@@ -2189,7 +2189,7 @@ Purpose: prevent "high-velocity wrong code" and ensure AI-generated changes are 
 This policy MUST be enforced by GitHub **Rulesets** (preferred) or Branch Protection Rules:
 
 - Require PR before merge
-- Minimum **2 approvals**
+- Minimum **2 human approvals**
 - Dismiss stale approvals
 - Require approval of most recent reviewable push
 - Require Code Owner reviews
