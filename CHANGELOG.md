@@ -7,6 +7,7 @@ and this project follows Semantic Versioning guidance in `rules/versioning-and-r
 
 ## [Unreleased]
 
+- 2026-10-18: Strengthened performance-validation policy to require replacement invariants to be identified and independently validated when optimizations remove or weaken correctness mechanisms.
 - 2026-10-17: Consolidated human code-review approval governance by making the protected-branch two-human-approval floor authorship-neutral and removing a conflicting independent approval-count minimum from the AI workflow policy.
 - 2026-10-16: Added an orchestration recovery invariant requiring execution failures to be classified sufficiently to route recovery to the failed layer instead of retrying or restarting workflows indiscriminately.
 - 2026-10-16: Strengthened performance benchmarking policy to require realistic production-relevant baselines and prevent speedup claims from relying solely on weaker or stale reference implementations.
