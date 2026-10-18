@@ -4124,6 +4124,7 @@ those references/assumptions, not independent ground-truth correctness.
 Use the smallest adequate mechanism for each decision path:
 deterministic code -> classifier -> bounded decision model ->
 generative/reasoning model -> human/external evidence.
+When the valid decision space is known, decision outputs SHOULD be constrained to an explicit candidate set rather than generated as unrestricted output.
 
 Bounded decision schemas SHOULD include an explicit abstain/other/escalate
 outcome whenever real inputs can fall outside the enumerated candidate set.
