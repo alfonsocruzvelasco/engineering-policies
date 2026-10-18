@@ -1745,6 +1745,7 @@ def test_resize_performance(benchmark):
 - Store baseline results in repo (`benchmarks/baseline.json`)
 - Fail if new code is >10% slower than baseline
 - Performance baselines MUST be realistic for the stated production objective. Reported speedups MUST NOT rely solely on a weaker or stale reference implementation when a stronger practical baseline is available and applicable to the target deployment.
+When a performance optimization removes or weakens synchronization, memory ordering, ownership, lifetime management, or another correctness mechanism, the replacement invariant MUST be identified and validated independently of benchmark results.
 
 When reduced, sampled, cached, adaptive, fixed-subset, or otherwise
 partial benchmark runs are used for release decisions, regression
