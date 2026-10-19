@@ -33,6 +33,7 @@ change is not a freeze lift.
 | Daily (included-usage, freeze-allowed) | GPT-5.3 Codex (Cursor) | — | — | — | — | Current stable Cursor default (Medium); Other Models pool; included usage only; On-Demand disabled |
 | Daily (included-usage, freeze-allowed) | Grok 4.7 | — | — | — | — | Cursor Models pool; deliberate alternative for demanding/long-running work; included usage only |
 | Daily (included-usage, freeze-allowed) | Grok 4.6 | ~44 | — | — | 80–112 | Cursor Models pool compatibility fallback; included usage only |
+| Hardest (included-usage, conditional legacy-only freeze-allowed) | Gemini 4 Argon (Cursor) | — | — | — | — | Cursor third-party model: legacy plans draw from Other Models pool; The X Subscription uses prepaid credit (frozen). Use only while included legacy allowance remains; no On-Demand/PAYG fallback |
 | Daily (included-usage, freeze-allowed) | GPT-6 Luna (Codex CLI, ChatGPT auth) | — | — | — | — | Included Codex allowance only; API/PAYG frozen |
 | General (included-usage, freeze-allowed) | GPT-6 Sol (Codex CLI, ChatGPT auth) | — | — | — | — | Included Codex allowance only; API/PAYG frozen |
 | Hardest (included-usage, freeze-allowed) | GPT-6 Astra (Codex CLI, ChatGPT auth) | — | — | — | — | Included Codex allowance only; API/PAYG frozen |
@@ -42,8 +43,11 @@ change is not a freeze lift.
 | Very hard (historical reference) | claude-opus-4-8 | 56 | $5 | $25 | ~62 | platform.claude.com |
 | Ultra-hard | UNASSIGNED (Fable 5.1/Mythos 5.1 paid paths remain frozen) | — | — | — | — | approved-ai-tools.md |
 
-Cursor pool boundary note (verified 2026-09-23):
+Cursor pool boundary note (verified 2026-10-19):
 - Grok 4.7 and Grok 4.6 are listed in Cursor's included Cursor Models pool.
+- Gemini 4 Argon in Cursor is a third-party model; on legacy Cursor plans
+  it draws from the Other Models pool, while on The X Subscription it is
+  prepaid-credit third-party usage.
 - Claude Opus 5.5 in Cursor is listed in the Other Models pool and
   consumes that pool/rate surface; included Cursor Models pool status
   does not apply.

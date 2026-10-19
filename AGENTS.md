@@ -185,25 +185,33 @@ Use these in order based on task class and cost policy:
  demonstrated insufficient capability.
 3. **Grok 4.6** (Cursor included Cursor Models pool):
  compatibility fallback if Grok 4.7 is unavailable or unsuitable.
-4. **GPT-6 family via Codex CLI (ChatGPT auth, included allowance)**:
+4. **Gemini 4 Argon** (Cursor third-party, conditional legacy included path):
+ deliberate escalation for unusually complex multi-step or very-large-context
+ work when available through the legacy Cursor Other Models included allowance
+ path. Not a default. Under The X Subscription it is third-party prepaid-credit
+ usage and remains frozen under SPEND FREEZE.
+5. **GPT-6 family via Codex CLI (ChatGPT auth, included allowance)**:
  `gpt-6-luna` for routine/mechanical tasks, `gpt-6-sol`
  for general demanding coding, `gpt-6-astra` for hardest
  tasks. This is a separate harness from Cursor. Do not configure
  OpenAI API billing fallback.
-5. **Claude Haiku 5.5 via Claude Code (human-explicit, Claude Pro included allowance)**:
+6. **Claude Haiku 5.5 via Claude Code (human-explicit, Claude Pro included allowance)**:
  model ID `claude-haiku-5-5`; use Claude subscription auth,
  do not set `ANTHROPIC_API_KEY` for this workflow. Use for
  bounded/routine/latency-sensitive tasks where capability is sufficient.
-6. **Claude Opus 5.5 via Claude Code (human-explicit, Claude Pro included allowance)**:
+7. **Claude Opus 5.5 via Claude Code (human-explicit, Claude Pro included allowance)**:
  model ID `claude-opus-5-5`; use Claude subscription auth,
  do not set `ANTHROPIC_API_KEY` for this workflow. Human-explicit
  escalation for hardest/capability-sensitive tasks.
-7. **gemini-2.5-flash-lite / claude-sonnet-5**:
+8. **gemini-2.5-flash-lite / claude-sonnet-5**:
  FROZEN for agent-initiated escalation under spend freeze.
-8. **Cloudflare OS** (platform): approved orchestration layer for browser-based agent workspace, gatekeeper-mediated deterministic queries, and AI Gateway routing under the same model price-cap rules and spend freeze.
+9. **Cloudflare OS** (platform): approved orchestration layer for browser-based agent workspace, gatekeeper-mediated deterministic queries, and AI Gateway routing under the same model price-cap rules and spend freeze.
 
 Routing rules:
 - Default Cursor work uses GPT-5.3 Codex Medium. Escalate deliberately to Grok 4.7 for demanding/long-running work; use Grok 4.6 as compatibility fallback.
+- Use Gemini 4 Argon only as a narrow escalation for unusually complex
+  multi-step or very-large-context work when the legacy Other Models included
+  allowance path is available; do not treat it as a default route.
 - Do not escalate to higher-cost models. A hard task is not a freeze lift.
 - Follow the active tier authority in `rules/model-registry.md` and `rules/approved-ai-tools.md`.
 - Muse Spark operational mirror: Muse Spark 1.3 supersedes 1.2 in
