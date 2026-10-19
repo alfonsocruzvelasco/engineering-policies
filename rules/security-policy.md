@@ -645,6 +645,9 @@ If a serving framework uses brokered execution (e.g., ZeroMQ) and performs unsaf
 - Only install extensions from official marketplace publishers with verified identities.
 - Review extension permissions before installation: filesystem access, network access, and shell execution are high-risk.
 - Monitor extension auto-updates: a legitimate extension can be compromised after initial vetting (as happened with Nx Console). Pin extension versions where possible; review changelogs on update.
+- Version labels, tags, or plugin-reported pins MUST NOT be treated as artifact-integrity guarantees.
+- Where supported, installed extensions and plugins SHOULD be verified against an immutable artifact identity such as a cryptographic hash, signature, or content-addressed release.
+- If the installed code cannot be shown to correspond to the approved version/source, treat the artifact as mutable and untrusted until reviewed.
 
 **AI tool weaponization defense:**
 

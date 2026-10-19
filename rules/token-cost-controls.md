@@ -24,7 +24,7 @@ scope: Token economy, prompt sizing, response bounds, caching, and usage logging
 
 2. **Model response length must be bounded.** Every model call in automated or agentic workflows must set an explicit `max_tokens` parameter. Where the use case permits deterministic output (true/false, classification, structured keys), the prompt must instruct the model to return only the key, not a full explanation.
 
-3. **Prompt caching must be evaluated** for any workflow where the same context block (system prompt, document, schema) is sent across multiple sequential calls. If the context block exceeds 1024 tokens and is reused more than once per session, caching must be enabled if the model supports it.
+3. **Reusable context/input computation must be evaluated** when multiple model decisions consume the same expensive context or encoded representation. Evaluate prompt/prefix caching for repeated context and, where compatible with task semantics, batching, shared representations, or joint inference instead of independently recomputing the same input. If an LLM context block exceeds 1024 tokens and is reused more than once per session, caching must be enabled if the model supports it.
 
 4. **Token usage must be logged** per session and per agent invocation. Logs must include: input tokens, output tokens, cached tokens (if applicable), model ID, and session or request ID.
 

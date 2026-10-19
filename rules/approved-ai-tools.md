@@ -1414,7 +1414,8 @@ All exceptions MUST be documented in `security-exceptions.md` with:
 
 ## Recertification Process
 
-All approved tools MUST be recertified annually:
+Tool approval is capability-scoped, not vendor- or product-scoped. An approved tool MUST be re-evaluated before use when it adds or materially changes an AI or agent capability that affects code execution, tool/MCP access, credential or OAuth scope, persistent state, external integrations, network access, or sensitive-data access. Existing approval of the host product does not automatically approve newly embedded agentic capabilities.
+Approved tools MUST be recertified at least annually and upon any such material security-relevant capability or trust-boundary change.
 
 **Recertification Checklist:**
 - [ ] Verify compliance certifications are current
