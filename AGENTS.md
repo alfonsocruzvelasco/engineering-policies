@@ -252,6 +252,7 @@ Chinese ban enforcement:
 ## Prohibited Patterns
 - Do not weaken or bypass mandatory controls in policy files.
 - Do not lift, waive, or temporarily bypass the spend freeze.
+- Engineering-policies is in maintenance freeze. Do not add or revise policy because of articles, papers, podcasts, model releases, security news, or general best-practice discoveries alone. Policy work is allowed only when a concrete project exposes a missing control through an observed failure, repeated operational friction, security incident, or other demonstrated gap that materially affects active engineering work. Prefer applying existing policy over extending the corpus. Repository cleanup, consolidation, pruning, and reference-library work are deferred unless they become necessary to unblock active project work.
 - Do not introduce contradictory guidance across policy documents.
 - Do not remove cross-references without replacing them with valid targets.
 - Do not add production credentials, datasets, or heavy artifacts to this repository.
