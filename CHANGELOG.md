@@ -6,7 +6,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 and this project follows Semantic Versioning guidance in `rules/versioning-and-release-policy.md`.
 
 ## [Unreleased]
+- 2026-10-19: Strengthened IDE extension and plugin supply-chain controls so version labels or reported pins are not treated as artifact-integrity guarantees, and immutable artifact identity should be verified where supported.
+- 2026-10-19: Strengthened AI-tool approval governance so approval is capability-scoped and material security-relevant capability or trust-boundary changes trigger re-evaluation before use.
 
+- 2026-10-19: Broadened reusable-context cost controls from prompt caching alone to evaluating prefix/representation reuse, batching, or joint inference when multiple decisions consume the same expensive input.
+- 2026-10-19: Strengthened persistent-memory admission governance to separate output acceptance from state trust, validate applicable provenance/scope/consistency/version before admission, preserve prior trusted state on failed admission, and retain update provenance.
 - 2026-10-19: Added Gemini 4 Argon as a conditional legacy-plan included-allowance Cursor escalation path under SPEND FREEZE, while preserving GPT-5.3 Codex Medium as stable default and existing Grok/Claude no-extra-cost routing.
 - 2026-10-18: Strengthened decision-model governance to prefer explicit candidate-set outputs over unrestricted generation when the valid decision space is known.
 - 2026-10-18: Strengthened performance-validation policy to require replacement invariants to be identified and independently validated when optimizations remove or weaken correctness mechanisms.

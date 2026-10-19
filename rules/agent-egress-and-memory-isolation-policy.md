@@ -208,10 +208,21 @@ Memory plugins allowed only when:
 - tool-call log is reviewable
 
 When durable/persistent agent memory is used, it MUST be treated as maintained
-state, not append-only history. Memory retention and updates must be
-proportionate to task risk and SHOULD account for relevance, provenance,
-staleness, contradictions, superseded information, and retirement/deletion
-rules. More remembered context is not automatically better context.
+state, not append-only history. A generated or model-derived observation MUST
+NOT become trusted persistent state solely because the corresponding output or
+artifact was accepted for delivery or downstream use. When output acceptance
+and future evidentiary trust can differ, they SHOULD be separate decisions.
+
+Memory retention and updates must be proportionate to task risk. Before an
+observation is admitted as trusted persistent state, the admission path SHOULD
+validate applicable provenance, scope, consistency, and, where state is
+versioned or concurrently mutable, the expected parent-state/version. Failed
+admission checks SHOULD leave the prior trusted state unchanged. Accepted
+updates SHOULD preserve enough provenance to audit their source, scope,
+admission checks, and parent-state/version where applicable. Memory maintenance
+SHOULD also account for relevance, staleness, contradictions, superseded
+information, and retirement/deletion rules. More remembered context is not
+automatically better context.
 
 Where an authoritative external source exists, that source remains the
 authority; memory maintenance must not silently rewrite authoritative truth.
