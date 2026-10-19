@@ -7,6 +7,7 @@ and this project follows Semantic Versioning guidance in `rules/versioning-and-r
 
 ## [Unreleased]
 
+- 2026-10-19: Added Gemini 4 Argon as a conditional legacy-plan included-allowance Cursor escalation path under SPEND FREEZE, while preserving GPT-5.3 Codex Medium as stable default and existing Grok/Claude no-extra-cost routing.
 - 2026-10-18: Strengthened decision-model governance to prefer explicit candidate-set outputs over unrestricted generation when the valid decision space is known.
 - 2026-10-18: Strengthened performance-validation policy to require replacement invariants to be identified and independently validated when optimizations remove or weaken correctness mechanisms.
 - 2026-10-17: Consolidated human code-review approval governance by making the protected-branch two-human-approval floor authorship-neutral and removing a conflicting independent approval-count minimum from the AI workflow policy.

@@ -149,6 +149,11 @@ only while On-Demand Usage remains Disabled):
   (compatibility fallback) are freeze-allowed while On-Demand
   Usage remains Disabled. They consume included usage according
   to Cursor's current accounting and are not permanently free.
+- Cursor Gemini 4 Argon in Cursor is freeze-allowed only on
+  legacy Cursor plans where it draws from the included Other
+  Models pool, and only while included allowance remains.
+  Under The X Subscription, Gemini 4 Argon is third-party
+  prepaid-credit usage and remains frozen under SPEND FREEZE.
 - Codex CLI with ChatGPT authentication: GPT-6 Luna/Sol/Astra
   may be used only within already-included ChatGPT/Codex plan
   allowance. Do not configure OpenAI API key billing fallback.
@@ -403,6 +408,10 @@ Selection rules (price-capped, SPEND FREEZE active):
   Fast OFF, Auto OFF. Grok 4.7 is deliberate escalation for
   demanding/long-running work; Grok 4.6 is the compatibility fallback.
   Keep On-Demand Usage Disabled.
+- Cursor Gemini 4 Argon is a narrow escalation for unusually
+  complex multi-step or very-large-context work only when the
+  legacy-plan included Other Models allowance path is available.
+  It is not a default and does not replace Grok 4.7/Grok 4.6 routing.
 - Codex included ladder (no API billing fallback): GPT-6 Luna
   (routine/mechanical), GPT-6 Sol (general/demanding), GPT-6 Astra
   (hardest/capability ceiling when justified).
