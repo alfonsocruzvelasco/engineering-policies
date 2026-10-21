@@ -270,7 +270,7 @@ outbound service MUST be threat-modelled as escape path, code-delivery
 path, credential target, command-and-control channel, and pivot path.
 
 Evaluation integrity is a security boundary. The evaluated system MUST
-NOT reach benchmark answers, hidden tests, scoring infrastructure,
+NOT reach benchmark answers, hidden tests, grading rubrics or criteria not explicitly exposed as task inputs, scoring infrastructure,
 non-assigned evaluation datasets, production systems of the benchmark
 host, related credentials/services, or external systems that can infer
 answers. Attempts are security incidents, not invalid benchmark runs.
