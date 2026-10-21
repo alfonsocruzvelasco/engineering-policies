@@ -4039,6 +4039,8 @@ Evaluate agent runs on a multi-dimensional reliability surface, not single-run p
 
 **MUST:** Agent changes (prompts, skills, hooks, orchestration, tool allowlists) MUST define how **success is measured on a real workflow**—verifiable end-to-end completion criteria, not only response quality or single-turn checks. See `references/ai-mutation-testing-debugging-reference.md` (`agent-evaluation`, `failure-taxonomy`) and `references/clawbench.pdf`.
 
+When evaluation depends on subjective or semantic judgment, it MUST define an explicit rubric with criterion-level scoring guidance and representative examples or anchors sufficient for consistent application. Human evaluators SHOULD be calibrated on overlapping samples and agreement monitored; persistent material disagreement SHOULD trigger revision of the rubric or criteria rather than being treated as stable ground truth. An LLM judge used as a proxy for human judgment MUST be validated against representative human judgments from the target task distribution before its scores are relied upon for material comparisons or gates, and MUST be revalidated after material changes to the judge model/version, judge prompt, rubric or scoring schema, or task distribution. Where a criterion can be evaluated reliably by deterministic code, tests, schemas, or other objective checks, prefer that deterministic grader over an LLM judge.
+
 | Metric | Definition | Purpose |
 |---|---|---|
 | **Pass@k** | `1 − (1 − p)^k` (i.i.d. runs) | CDF of geometric process; probability of at least one success in *k* attempts. |
