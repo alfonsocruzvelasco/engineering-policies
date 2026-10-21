@@ -6,6 +6,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 and this project follows Semantic Versioning guidance in `rules/versioning-and-release-policy.md`.
 
 ## [Unreleased]
+- 2026-10-21: Strengthened benchmark isolation to treat grading rubrics and criteria not explicitly exposed as task inputs as protected evaluation assets.
 - 2026-10-21: Strengthened subjective evaluation governance to require explicit rubrics, human-evaluator calibration, validation of LLM judges against representative human judgments, revalidation after material judge or task changes, and deterministic graders where reliable.
 - 2026-10-19: Strengthened IDE extension and plugin supply-chain controls so version labels or reported pins are not treated as artifact-integrity guarantees, and immutable artifact identity should be verified where supported.
 - 2026-10-19: Strengthened AI-tool approval governance so approval is capability-scoped and material security-relevant capability or trust-boundary changes trigger re-evaluation before use.
