@@ -8,10 +8,12 @@ Avoid wasting time in Cursor's model/effort picker while keeping control over co
 
 Use this as the normal configuration:
 
-> **GPT-5.3 Codex + Medium effort + Fast OFF + Auto OFF**
+> **Grok 4.7 + Medium effort + Fast OFF + Auto OFF**
 >
-> Update (2026-09-23): stable default is **GPT-5.3 Codex + Medium effort + Fast OFF + Auto OFF**.
-> Keep Grok 4.6 as compatibility fallback.
+> Update (2026-11-10): stable default is **Grok 4.7 + Medium effort + Fast OFF + Auto OFF**.
+> Keep Grok 4.6 as compatibility fallback. GPT-5.3 Codex is not a
+> no-extra-cost default (legacy Other Models included path only;
+> frozen on The X Subscription prepaid-credit path).
 
 This should handle ordinary coding work without making model selection a decision every time.
 
@@ -24,9 +26,9 @@ Only change the default when the task justifies it:
 - **Fast** → only when latency matters enough to justify the higher price.
 - **Auto** → only when I explicitly prefer Cursor to choose for me.
 
-## Task routing — when to stay on GPT-5.3 Codex vs switch to Grok 4.7
+## Task routing — when to stay on Grok 4.7 Medium vs raise effort
 
-### Switch to Grok 4.7 when the task earns it
+### Raise Grok 4.7 effort, or use Grok 4.6 fallback, when the task earns it
 
 - **CUDA kernel work** — use Grok 4.7 first; if behavior regresses or
   compatibility issues appear, fall back to Grok 4.6, which was trained explicitly
@@ -48,21 +50,20 @@ Only change the default when the task justifies it:
   has demonstrably failed, not preemptively. The failure must
   be observed, not anticipated.
 
-### Return to GPT-5.3 Codex after escalation
+### Return to Grok 4.7 Medium after escalation
 
-After switching to Grok 4.7 for a hard task, return to the
-stable GPT-5.3 Codex Medium default when the harder model is
-no longer needed.
+After raising Grok 4.7 effort for a hard task, return to
+Grok 4.7 Medium when the harder setting is no longer needed.
 
-- **Mechanical follow-up** — use GPT-5.3 Codex Medium for
+- **Mechanical follow-up** — use Grok 4.7 Medium for
   reformatting, renaming, moving code, or applying a pattern
   already established during the harder part of the task.
 
-- **Documentation generation** — use GPT-5.3 Codex Medium for
+- **Documentation generation** — use Grok 4.7 Medium for
   code already written, reviewed, and understood when no
   additional architectural reasoning is required.
 
-- **Quick one-shot lookups** — stay on GPT-5.3 Codex Medium
+- **Quick one-shot lookups** — stay on Grok 4.7 Medium
   for syntax checks, format questions, simple references, and
   other single-turn work that does not justify escalation.
 
@@ -83,9 +84,11 @@ Authority: `rules/approved-ai-tools.md` SPEND FREEZE. This
 section does not create a second spend policy.
 
 - Included-usage accounting is not incremental billing.
-  GPT-5.3 Codex uses Cursor's Other Models included-usage pool.
   Grok 4.7 and Grok 4.6 use Cursor's Cursor Models included-usage
-  pool. All consume included/prepaid plan allowance according
+  pool on both current plan families. GPT-5.3 Codex is a
+  third-party model: legacy Other Models included-usage pool only;
+  The X Subscription bills it from prepaid credit (frozen).
+  Freeze-allowed rows consume included plan allowance according
   to Cursor's current accounting; none is permanently free.
 - Auto OFF is not the hard billing cap. It keeps routing
   and included-usage consumption predictable.

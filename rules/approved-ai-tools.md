@@ -1,7 +1,7 @@
 # Approved AI Tools Registry
 
 **Status:** Authoritative
-**Last updated:** 2026-09-23
+**Last updated:** 2026-11-10
 **Policy Reference:** security-policy.md Section 14.6
 **Owner:** Security Team (security@organization.com)
 **Review Cadence:** Quarterly
@@ -88,7 +88,8 @@ Until lift, all of the following are forbidden:
 - Upgrade Claude Max or add new paid AI subscriptions.
 - Auto-escalate a session to a per-token API model
   (Sonnet 5, Opus 5.5 API path, Gemini Flash-Lite billed, GPT-6 API path,
-  Fable 5/Fable 5.1/Mythos 5.1, Muse Spark) as the working model.
+  Fable 5/Fable 5.1/Fable 5.2/Mythos 5.1/Mythos 5.2, Muse Spark,
+  Muse Ember, Gemini 4 Carbon) as the working model.
 - Enable Cursor On-Demand Usage / Monthly Limit, or switch
   Cursor to Fixed or Unlimited on-demand modes.
 - Upgrade the Cursor plan, purchase additional Cursor usage,
@@ -139,28 +140,47 @@ Using them requires a future explicit owner authorization
 under the existing freeze-lift process in this file.
 Source: Cursor Cloud Agents billing documentation.
 
-Allowed without a lift (within included/prepaid plan usage,
-only while On-Demand Usage remains Disabled):
-- Cursor GPT-5.3 Codex (Other Models pool): current stable
-  Cursor default at Medium effort. Freeze-allowed while
-  On-Demand Usage remains Disabled. Consumes included plan
-  allowance and is not permanently free.
-- Cursor Models pool usage: Grok 4.7 and Grok 4.6
-  (compatibility fallback) are freeze-allowed while On-Demand
-  Usage remains Disabled. They consume included usage according
-  to Cursor's current accounting and are not permanently free.
+Allowed without a lift (within included plan usage only,
+and only while On-Demand Usage remains Disabled):
+- Cursor Models pool usage: Grok 4.7 is the durable Cursor
+  default. Grok 4.6 is the compatibility fallback. Both are
+  freeze-allowed while On-Demand Usage remains Disabled. They
+  consume included usage according to Cursor's current
+  accounting and are not permanently free. This pool is included
+  on both The X Subscription and legacy Cursor plans.
+- Cursor GPT-5.3 Codex is freeze-allowed only on legacy Cursor
+  plans where it draws from the included Other Models pool, and
+  only while included allowance remains. It is not the Cursor
+  default. Under The X Subscription, GPT-5.3 Codex is
+  third-party prepaid-credit usage from the first request and
+  remains frozen under SPEND FREEZE.
 - Cursor Gemini 4 Argon in Cursor is freeze-allowed only on
   legacy Cursor plans where it draws from the included Other
   Models pool, and only while included allowance remains.
   Under The X Subscription, Gemini 4 Argon is third-party
   prepaid-credit usage and remains frozen under SPEND FREEZE.
-- Codex CLI with ChatGPT authentication: GPT-6 Luna/Sol/Astra
-  may be used only within already-included ChatGPT/Codex plan
-  allowance. Do not configure OpenAI API key billing fallback.
+- Codex CLI with ChatGPT authentication: GPT-6 Luna,
+  GPT-6.1 Sol, GPT-6.1 Terra, and GPT-6 Astra may be used only
+  within already-included ChatGPT/Codex plan allowance.
+  GPT-6.1 Sol supersedes GPT-6 Sol as the general/demanding
+  route; keep `gpt-6-sol` only if 6.1 Sol is not on the account.
+  GPT-6.1 Terra is specialized (visual/computer-use/scoped-fix),
+  not a default. Do not configure OpenAI API key billing fallback.
 - Claude Code or Claude.ai with Claude subscription auth:
   human-explicit usage within existing Claude Pro included
   allowance remains allowed. Prefer this harness for Opus 5.5
-  no-incremental-cost usage.
+  no-incremental-cost hardest-task usage.
+- Claude Fable 5.2 (`claude-fable-5-2`) via Claude Code /
+  Claude.ai with Claude Pro subscription auth is freeze-allowed
+  only as a human-explicit ultra-hard route from 2026-11-09
+  through 2026-11-16 23:59 PT, up to 50% of weekly included
+  limits. Do not enable usage credits, add a payment method,
+  set `ANTHROPIC_API_KEY`, or use Fable in Cursor. After the
+  window or the 50% cap, stop and fall back to Opus 5.5. The
+  launch window is not a permanent default and is not a freeze
+  lift. A Fable limit reset in Settings > Usage during that
+  window is a limit restore, not a usage-credit claim; agents
+  must not turn on usage credits to continue.
 - Existing ChatGPT interactive usage within already-included
   subscription allowances may be used when human-explicit.
   Included usage does not authorize API billing, extra usage,
@@ -212,6 +232,9 @@ separate operational optimization.
   does not change the lift conditions above.
 - Reserve Claude for tasks whose expected marginal value
   justifies consuming the shared Claude allowance.
+  During the dated Fable 5.2 Pro window, Fable still draws
+  the same scarce weekly limits and uses them faster than
+  Opus/Haiku; it is ultra-hard only, not a daily driver.
 - Routine repository reads, grep/search, mechanical edits,
   formatting, straightforward refactors, and ordinary
   maintenance SHOULD use approved Cursor-subscription
@@ -274,15 +297,34 @@ No agent tool may be approved without completing all three:
   Source: [source-anthropic-fable-mythos-notice-2026]
            [artificialanalysis-fable5-jul2026]
 
+- `claude-fable-5-2` and `claude-mythos-5-2`: Fable 5.2 is
+  UNAVAILABLE for agent-initiated billed/Cursor/API/usage-credit
+  use under active SPEND FREEZE. Timed exception: human-explicit
+  Claude Pro included window 2026-11-09 through 2026-11-16 23:59 PT
+  via Claude Code / Claude.ai only, capped at 50% of weekly included
+  limits, then frozen again. Mythos 5.2 remains invite-only and
+  UNAVAILABLE. Do not enable usage credits/pay-as-you-go, add payment
+  methods, or accept usage-credit consent prompts. Do not treat
+  Cursor Fable 5.2 listing as included usage. Advisor/inherited
+  secondary-model Fable paths remain frozen unless the human
+  explicitly selects Fable 5.2 during the dated window.
+  Source: https://www.anthropic.com/claude-fable-and-mythos-5-2
+          https://www.anthropic.com/claude/fable
+          https://support.claude.com/en/articles/15424964-claude-fable-models-on-your-plan
+          https://support.claude.com/en/articles/17506494-claude-fable-5-2-launch-offers
+          https://code.claude.com/docs/en/advisor
+          https://claude.com/pricing
+
 - `claude-fable-5-1` and `claude-mythos-5-1`: UNAVAILABLE for
   agent-initiated use under active SPEND FREEZE.
+  Superseded for current metadata by Fable/Mythos 5.2.
   Availability on Anthropic platforms does not authorize use under this
   policy. Do not enable usage credits/pay-as-you-go or add payment methods.
   This includes main-model and advisor/secondary-model paths (including
   inherited advisor configuration). Do not accept usage-credit consent prompts
   to activate Fable under the active freeze.
   Where plans list Fable access, treat it as quota/credits-governed capacity,
-  not as a free entitlement.
+  not as a free entitlement, except the dated Fable 5.2 Pro window above.
   Source: https://platform.claude.com/docs/en/models/fable-5-1/overview
           https://support.claude.com/en/articles/15424964-claude-fable-models-on-your-plan
           https://code.claude.com/docs/en/advisor
@@ -294,8 +336,17 @@ No agent tool may be approved without completing all three:
   `muse-spark-1.3-contributor` is additionally PROHIBITED for
   portfolio/private/repository code where prompts/completions may be
   used by Meta to train future models.
+  Muse Spark Open weights are documented as released but are not a
+  freeze-allowed route (local deployment not viable on current
+  hardware; hosted/API paths billed).
   Source: https://research.meta.ai/blog/introducing-muse-spark-1-3
            https://dev.meta.ai/docs/pricing-rate-limits?project_id=1661600634933790&team_id=2096920474558192
+           https://dev.meta.ai/docs/muse-spark-open
+
+- `muse-ember-1.0`: UNAVAILABLE under active SPEND FREEZE
+  (Meta Model API / Muse Code pay-as-you-go). Not an included path.
+  Source: https://dev.meta.ai/docs/muse-ember
+           https://research.meta.ai/blog/muse-ember
 
 - `gpt-5.6` (OpenAI family): APPROVED (reference only, not active in current price-capped tiers)
   Sol (Intelligence Index 59): $5.00 input / $30.00 output per 1M tokens
@@ -309,9 +360,30 @@ No agent tool may be approved without completing all three:
   Source: [source-latentspace-ainews-2026-07-30]
            [source-openai-gpt-5-6-efficiency-2026]
 
+- `gpt-6.1-sol`: APPROVED for no-incremental-cost use only via
+  included ChatGPT/Codex allowance (ChatGPT-authenticated Codex
+  CLI / Work). Supersedes `gpt-6-sol` as the general/demanding
+  Codex route. API, extra usage, usage credits, pay-as-you-go,
+  and third-party billed harness paths remain UNAVAILABLE under
+  active SPEND FREEZE.
+  Source: https://openai.com/index/introducing-gpt-6-1-sol/
+           https://developers.openai.com/api/docs/models/gpt-6.1-sol
+           https://help.openai.com/en/articles/20001275-chatgpt-work-and-codex
+           https://learn.chatgpt.com/docs/models
+
+- `gpt-6.1-terra`: APPROVED for no-incremental-cost use only via
+  included ChatGPT/Codex allowance. Specialized route for visual
+  understanding, computer use, and scoped writing/fixes. Not a
+  default and not a replacement for GPT-6.1 Sol or GPT-6 Astra.
+  Requires Codex CLI 0.159.0+. API/credits/PAYG remain frozen.
+  Source: https://openai.com/index/introducing-gpt-6-1-terra/
+           https://learn.chatgpt.com/docs/models
+           https://learn.chatgpt.com/docs/pricing
+
 - `gpt-6-astra`: APPROVED for no-incremental-cost use only via
   included ChatGPT/Codex allowance (human-explicit or approved
-  local Codex workflow). API, extra usage, usage credits,
+  local Codex workflow). Remains the OpenAI hardest-task Codex
+  route. API, extra usage, usage credits,
   pay-as-you-go, and third-party billed harness paths remain
   UNAVAILABLE under active SPEND FREEZE.
   Long-context pricing note: >272K input tokens reprices the
@@ -397,24 +469,28 @@ No agent tool may be approved without completing all three:
   fast/routine/bounded tasks where capability is sufficient, no
   `ANTHROPIC_API_KEY` billing fallback in this workflow).
   `claude-opus-5-5` (human-explicit Claude Pro included allowance,
-  hardest/capability-sensitive tasks, no `ANTHROPIC_API_KEY`
+  durable hardest/capability-sensitive tasks, no `ANTHROPIC_API_KEY`
   billing fallback in this workflow).
+  `claude-fable-5-2` (human-explicit Claude Pro included allowance
+  only during 2026-11-09 through 2026-11-16 23:59 PT, ultra-hard
+  only, 50% weekly cap, then frozen; no API/usage-credit/Cursor path).
 
 Current model list with prices: see rules/model-registry.md
 (updated monthly — check last_updated date before any hard+ task).
 
 Selection rules (price-capped, SPEND FREEZE active):
-- Default stable configuration in Cursor: GPT-5.3 Codex, Medium effort,
-  Fast OFF, Auto OFF. Grok 4.7 is deliberate escalation for
-  demanding/long-running work; Grok 4.6 is the compatibility fallback.
+- Default stable configuration in Cursor: Grok 4.7, Medium effort,
+  Fast OFF, Auto OFF. Grok 4.6 is the compatibility fallback.
   Keep On-Demand Usage Disabled.
-- Cursor Gemini 4 Argon is a narrow escalation for unusually
-  complex multi-step or very-large-context work only when the
-  legacy-plan included Other Models allowance path is available.
-  It is not a default and does not replace Grok 4.7/Grok 4.6 routing.
+- Cursor GPT-5.3 Codex and Gemini 4 Argon are narrow legacy-only
+  options for the included Other Models pool when that path still
+  exists. They are not defaults. Under The X Subscription they are
+  third-party prepaid-credit usage and remain frozen.
 - Codex included ladder (no API billing fallback): GPT-6 Luna
-  (routine/mechanical), GPT-6 Sol (general/demanding), GPT-6 Astra
-  (hardest/capability ceiling when justified).
+  (routine/mechanical), GPT-6.1 Sol (general/demanding), GPT-6.1 Terra
+  (visual/computer-use/scoped-fix; not a default), GPT-6 Astra
+  (hardest/capability ceiling when justified). Use `gpt-6-sol` only
+  if GPT-6.1 Sol is not yet on the account.
 - Claude routine/fast no-incremental-cost path: human-explicit Claude
   Code on existing Claude Pro allowance with `claude-haiku-5-5` for
   bounded, repetitive, latency-sensitive, or subagent-style work where
@@ -422,13 +498,17 @@ Selection rules (price-capped, SPEND FREEZE active):
 - Claude hardest no-incremental-cost path: human-explicit Claude Code
   on existing Claude Pro allowance with `claude-opus-5-5`; stop when
   included allowance is exhausted.
+- Claude ultra-hard temporary path: human-explicit `claude-fable-5-2`
+  in Claude Code on Claude Pro included allowance from 2026-11-09
+  through 2026-11-16 23:59 PT only, up to 50% of weekly included
+  limits; then frozen. Fallback: Opus 5.5. Do not enable usage credits.
 - Frozen for new agent-initiated billed sessions: claude-sonnet-5,
   claude-opus-5-5 API path, gemini-2.5-flash-lite billed,
-  gpt-6 API paid paths, Fable 5/Fable 5.1/Mythos 5.1, Muse Spark,
-  RunPod, Cursor Cloud Agents.
-- Ultra-hard tasks: no active model assigned while Fable/Mythos
-  remain outside freeze-allowed usage paths under current
-  price-cap enforcement.
+  gpt-6 API paid paths, Fable 5/Fable 5.1/Fable 5.2 outside the dated
+  Pro window, Mythos 5.1/5.2, Muse Spark, Muse Ember, Gemini 4 Carbon,
+  RunPod, Cursor Cloud Agents, Cursor third-party prepaid-credit paths.
+- Ultra-hard tasks after 2026-11-16 23:59 PT: no freeze-allowed Fable
+  path; remain on Opus 5.5 / GPT-6 Astra.
 - Subagent/reads until lift: stay on the parent Cursor
   freeze-allowed model. Do not spawn billed API subagents.
   Do not enable On-Demand Usage if included usage is
@@ -650,13 +730,15 @@ Do not use. Chinese-hosted. §14.6.9.
 Cursor model selection policy:
 Codex model selection: see rules/model-selection-codex.md
 for the full possibility space with all constraints applied.
-Default Cursor backend: GPT-5.3 Codex Medium. Grok 4.7 is deliberate hard-task escalation; Grok 4.6 is compatibility fallback.
+Default Cursor backend: Grok 4.7 Medium. Grok 4.6 is compatibility fallback.
+GPT-5.3 Codex is not a no-extra-cost default; freeze-allowed only on
+legacy Other Models included allowance.
 Registry gaps listed in that
 file must be resolved before the October 2026 checkpoint.
 [codex-model-selection-2026-08-14]
 - Default: one stable configuration — do not choose from
   scratch per prompt. Current policy configuration:
-  GPT-5.3 Codex, Medium effort, Fast OFF, Auto OFF.
+  Grok 4.7, Medium effort, Fast OFF, Auto OFF.
   Billing enforcement is separate: Auto OFF is routing
   control, not the hard spend cap. The hard billing
   control is On-Demand Usage = Disabled (SPEND FREEZE
@@ -680,9 +762,10 @@ file must be resolved before the October 2026 checkpoint.
              default. Auto OFF is not the billing cap.
 - Do not build per-prompt routing rituals. Start with
   Medium, escalate when the task demonstrably requires it.
-- The specific model name and effort default are subject
-  to the 2026-10-01 Cursor/SpaceXAI reassessment. Update
-  this entry at that checkpoint, not before.
+- The specific model name and effort default were refreshed
+  2026-11-10 after Cursor third-party models moved to prepaid
+  credit on The X Subscription. Do not change the default again
+  from benchmark ranking or a promotional included window.
 - Executable per-project defaults belong in .cursor/rules,
   not here. This file governs the principle; the project
   config governs the implementation.

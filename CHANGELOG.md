@@ -6,6 +6,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 and this project follows Semantic Versioning guidance in `rules/versioning-and-release-policy.md`.
 
 ## [Unreleased]
+- 2026-11-10: Refreshed active no-extra-cost model routing from primary vendor docs: Grok 4.7 is the durable Cursor default (included Cursor Models pool); GPT-5.3 Codex and Gemini 4 Argon remain freeze-allowed only on legacy Other Models included allowance and stay frozen on The X Subscription prepaid-credit path; Codex general route is GPT-6.1 Sol with GPT-6.1 Terra specialized and GPT-6 Astra hardest; Claude Fable 5.2 is a dated Claude Pro included ultra-hard window through 2026-11-16 23:59 PT then frozen; SPEND FREEZE and On-Demand Disabled unchanged.
 - 2026-10-21: Strengthened benchmark isolation to treat grading rubrics and criteria not explicitly exposed as task inputs as protected evaluation assets.
 - 2026-10-21: Strengthened subjective evaluation governance to require explicit rubrics, human-evaluator calibration, validation of LLM judges against representative human judgments, revalidation after material judge or task changes, and deterministic graders where reliable.
 - 2026-10-19: Strengthened IDE extension and plugin supply-chain controls so version labels or reported pins are not treated as artifact-integrity guarantees, and immutable artifact identity should be verified where supported.

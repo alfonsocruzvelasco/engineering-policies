@@ -174,25 +174,30 @@ second spend policy):
 
 Use these in order based on task class and cost policy:
 
-1. **GPT-5.3 Codex Medium** (Cursor Other Models pool):
+1. **Grok 4.7** (Cursor included Cursor Models pool):
  stable Cursor default for ordinary coding, edits, refactors,
- tests, debugging, and repository maintenance.
+ tests, debugging, and repository maintenance, and the durable
+ Cursor path for demanding, long-running, multi-file,
+ CUDA/kernel, or stubborn debugging work.
  Freeze-allowed while On-Demand Usage remains Disabled.
  Included usage only; not permanently free.
-2. **Grok 4.7** (Cursor included Cursor Models pool):
- deliberate escalation for demanding, long-running, multi-file,
- CUDA/kernel, or stubborn debugging work when the default has
- demonstrated insufficient capability.
-3. **Grok 4.6** (Cursor included Cursor Models pool):
+2. **Grok 4.6** (Cursor included Cursor Models pool):
  compatibility fallback if Grok 4.7 is unavailable or unsuitable.
+3. **GPT-5.3 Codex Medium** (Cursor third-party, conditional legacy included path):
+ freeze-allowed only on legacy Cursor plans where it draws from
+ the included Other Models pool, and only while included allowance
+ remains. Not the Cursor default. Under The X Subscription it is
+ third-party prepaid-credit usage and remains frozen under SPEND FREEZE.
 4. **Gemini 4 Argon** (Cursor third-party, conditional legacy included path):
  deliberate escalation for unusually complex multi-step or very-large-context
  work when available through the legacy Cursor Other Models included allowance
  path. Not a default. Under The X Subscription it is third-party prepaid-credit
  usage and remains frozen under SPEND FREEZE.
 5. **GPT-6 family via Codex CLI (ChatGPT auth, included allowance)**:
- `gpt-6-luna` for routine/mechanical tasks, `gpt-6-sol`
- for general demanding coding, `gpt-6-astra` for hardest
+ `gpt-6-luna` for routine/mechanical tasks, `gpt-6.1-sol`
+ for general demanding coding (supersedes `gpt-6-sol` when
+ available), `gpt-6.1-terra` for visual/computer-use/scoped-fix
+ work (not a default), `gpt-6-astra` for hardest
  tasks. This is a separate harness from Cursor. Do not configure
  OpenAI API billing fallback.
 6. **Claude Haiku 5.5 via Claude Code (human-explicit, Claude Pro included allowance)**:
@@ -202,34 +207,46 @@ Use these in order based on task class and cost policy:
 7. **Claude Opus 5.5 via Claude Code (human-explicit, Claude Pro included allowance)**:
  model ID `claude-opus-5-5`; use Claude subscription auth,
  do not set `ANTHROPIC_API_KEY` for this workflow. Human-explicit
- escalation for hardest/capability-sensitive tasks.
-8. **gemini-2.5-flash-lite / claude-sonnet-5**:
+ durable escalation for hardest/capability-sensitive tasks.
+8. **Claude Fable 5.2 via Claude Code (human-explicit, temporary Claude Pro included window)**:
+ model ID `claude-fable-5-2`; Claude subscription auth only;
+ do not set `ANTHROPIC_API_KEY`; do not enable usage credits.
+ Conditional ultra-hard route only from 2026-11-09 through
+ 2026-11-16 23:59 PT, up to 50% of weekly included limits.
+ After that window, or after the 50% cap, stop and fall back
+ to Claude Opus 5.5. Cursor Fable 5.2 remains frozen.
+9. **gemini-2.5-flash-lite / claude-sonnet-5**:
  FROZEN for agent-initiated escalation under spend freeze.
-9. **Cloudflare OS** (platform): approved orchestration layer for browser-based agent workspace, gatekeeper-mediated deterministic queries, and AI Gateway routing under the same model price-cap rules and spend freeze.
+10. **Cloudflare OS** (platform): approved orchestration layer for browser-based agent workspace, gatekeeper-mediated deterministic queries, and AI Gateway routing under the same model price-cap rules and spend freeze.
 
 Routing rules:
-- Default Cursor work uses GPT-5.3 Codex Medium. Escalate deliberately to Grok 4.7 for demanding/long-running work; use Grok 4.6 as compatibility fallback.
-- Use Gemini 4 Argon only as a narrow escalation for unusually complex
-  multi-step or very-large-context work when the legacy Other Models included
-  allowance path is available; do not treat it as a default route.
+- Default Cursor work uses Grok 4.7. Use Grok 4.6 as compatibility fallback.
+- Do not use GPT-5.3 Codex or Gemini 4 Argon as Cursor defaults.
+  They are freeze-allowed only on the legacy Other Models included
+  path; under The X Subscription they are prepaid-credit third-party
+  usage and remain frozen.
 - Do not escalate to higher-cost models. A hard task is not a freeze lift.
 - Follow the active tier authority in `rules/model-registry.md` and `rules/approved-ai-tools.md`.
 - Muse Spark operational mirror: Muse Spark 1.3 supersedes 1.2 in
   registry metadata. Standard/API usage remains frozen under SPEND
   FREEZE. Muse Spark 1.3 Contributor remains prohibited for
   portfolio/private/repository code because prompts/completions may be
-  used for Meta training. Max reasoning remains unreleased pending
-  safety testing; open weights are announced but not released. Pricing
-  and benchmarks remain authoritative in `rules/model-registry.md`.
-- GPT-6 operational mirror: GPT-6 Luna/Sol/Astra are current Codex
-  family options. Included ChatGPT/Codex subscription usage may be
-  freeze-compatible only when covered by plan allowance, but API,
-  extra-usage, usage-credit, or other separately billed paths remain
-  frozen under SPEND FREEZE unless explicitly lifted. Model
-  listing/availability does not authorize paid agent execution.
-  Keep containment, least privilege, HITL, network restrictions,
-  and independent verification unchanged. Pricing/limits/availability
-  details remain authoritative in `rules/model-registry.md`.
+  used for Meta training. Muse Spark Open weights are documented as
+  released but are not a freeze-allowed route (local deployment not
+  viable on current hardware; hosted/API paths billed). Muse Ember is
+  pay-as-you-go and remains frozen. Pricing and benchmarks remain
+  authoritative in `rules/model-registry.md`.
+- GPT-6 operational mirror: GPT-6 Luna, GPT-6.1 Sol, GPT-6.1 Terra,
+  and GPT-6 Astra are current Codex family options. GPT-6.1 Sol
+  supersedes GPT-6 Sol as the general/demanding route. Included
+  ChatGPT/Codex subscription usage may be freeze-compatible only when
+  covered by plan allowance, but API, extra-usage, usage-credit, or
+  other separately billed paths remain frozen under SPEND FREEZE
+  unless explicitly lifted. Model listing/availability does not
+  authorize paid agent execution. Keep containment, least privilege,
+  HITL, network restrictions, and independent verification unchanged.
+  Pricing/limits/availability details remain authoritative in
+  `rules/model-registry.md`.
 
 Claude included subscription quota is scarce even when
 consuming it creates no incremental bill. Use Claude only

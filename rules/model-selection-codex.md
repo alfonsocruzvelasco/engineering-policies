@@ -94,8 +94,10 @@ Muse Spark 1.2 (Meta): $1.25/$4.25
 Claude Opus 5.5 (Anthropic): frontier Claude option.
   Use through human-explicit Claude Pro allowance in Claude Code.
 
-GPT-6 Sol / GPT-6 Astra (OpenAI via Codex included allowance):
+GPT-6.1 Sol / GPT-6 Astra (OpenAI via Codex included allowance):
   — General/hardest Codex options in current active harness.
+GPT-6.1 Terra (OpenAI via Codex included allowance):
+  — Specialized visual/computer-use/scoped-fix route; not a default.
 
 ### Excluded — data sharing
 
@@ -111,14 +113,17 @@ MAI-Thinking-1: Foundry only, not publicly available.
 
 ## Default
 
-GPT-5.3 Codex Medium in Cursor is the stable day-to-day default.
+Grok 4.7 Medium in Cursor is the stable day-to-day default
+(included Cursor Models pool). Grok 4.6 remains the Cursor
+compatibility fallback.
 
-Grok 4.7 is a deliberate Cursor escalation for demanding,
-long-running, multi-file, CUDA/kernel, or stubborn debugging work.
-Grok 4.6 remains the Cursor compatibility fallback.
+GPT-5.3 Codex is not a no-extra-cost default. Freeze-allowed
+only on legacy Other Models included allowance; frozen on
+The X Subscription prepaid-credit path.
 
 Codex CLI is a separate included-allowance harness using
-ChatGPT authentication and the GPT-6 Luna/Sol/Astra family.
+ChatGPT authentication and GPT-6 Luna, GPT-6.1 Sol,
+GPT-6.1 Terra, and GPT-6 Astra.
 
 Same principle as `cursor-model-selection.md`: keep one stable default,
 escalate deliberately, and do not choose from scratch for every prompt.
@@ -129,7 +134,7 @@ SPEND FREEZE remains active. Do not configure billed backends,
 PAYG, extra usage, API fallback, or Cursor On-Demand Usage.
 
 Routine/mechanical Cursor work:
-  → GPT-5.3 Codex Medium
+  → Grok 4.7 Medium
 
 Routine/mechanical Codex CLI work:
   → GPT-6 Luna
@@ -138,11 +143,19 @@ CUDA kernels, demanding long multi-file agent tasks:
   → Grok 4.7; Grok 4.6 compatibility fallback
 
 Ambiguous architecture or stubborn debugging:
-  → Grok 4.7 High or GPT-6 Sol
+  → Grok 4.7 High or GPT-6.1 Sol
+
+Visual / computer-use / scoped-fix Codex work:
+  → GPT-6.1 Terra (not a default)
 
 Hardest work / capability ceiling:
   → GPT-6 Astra or Claude Opus 5.5 via human-explicit Claude Code
     within existing Claude Pro included allowance
+
+Ultra-hard (temporary, through 2026-11-16 23:59 PT):
+  → Claude Fable 5.2 via Claude Code on Claude Pro included
+    allowance only (50% weekly cap). Then frozen; fallback Opus 5.5.
+    Do not enable usage credits. Do not use Fable in Cursor.
 
 ## Long-context pricing cliff
 

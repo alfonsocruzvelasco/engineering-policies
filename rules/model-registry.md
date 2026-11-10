@@ -3,7 +3,7 @@ doc_type: registry
 authority: reference
 owner: Alfonso Cruz
 scope: Current non-Chinese model list with prices and capability scores
-last_updated: 2026-09-23
+last_updated: 2026-11-10
 update_trigger: new top-10 model appears / price change >20% / snapshot >30 days old
 ---
 
@@ -30,27 +30,36 @@ change is not a freeze lift.
 |------|-------|-------------|-----------|------------|-----|--------|
 | Subagent/reads | claude-haiku-5-5 (Claude Code, Claude Pro auth) | — | — | — | — | Human-explicit Claude Pro included allowance only; no API key fallback |
 | Subagent/reads | gemini-2.5-flash-lite | — | $0.03 blended | — | 0.37s TTFT | artificialanalysis.ai (frozen) |
-| Daily (included-usage, freeze-allowed) | GPT-5.3 Codex (Cursor) | — | — | — | — | Current stable Cursor default (Medium); Other Models pool; included usage only; On-Demand disabled |
-| Daily (included-usage, freeze-allowed) | Grok 4.7 | — | — | — | — | Cursor Models pool; deliberate alternative for demanding/long-running work; included usage only |
+| Daily (included-usage, freeze-allowed) | Grok 4.7 | — | — | — | — | Durable Cursor default; Cursor Models pool on both current plan families; included usage only; On-Demand disabled |
 | Daily (included-usage, freeze-allowed) | Grok 4.6 | ~44 | — | — | 80–112 | Cursor Models pool compatibility fallback; included usage only |
+| Daily (included-usage, conditional legacy-only freeze-allowed) | GPT-5.3 Codex (Cursor) | — | — | — | — | SUPERSEDED as Cursor default (2026-11-10). Third-party: legacy Other Models included pool only; The X Subscription prepaid credit (frozen). Not a no-extra-cost default |
 | Hardest (included-usage, conditional legacy-only freeze-allowed) | Gemini 4 Argon (Cursor) | — | — | — | — | Cursor third-party model: legacy plans draw from Other Models pool; The X Subscription uses prepaid credit (frozen). Use only while included legacy allowance remains; no On-Demand/PAYG fallback |
 | Daily (included-usage, freeze-allowed) | GPT-6 Luna (Codex CLI, ChatGPT auth) | — | — | — | — | Included Codex allowance only; API/PAYG frozen |
-| General (included-usage, freeze-allowed) | GPT-6 Sol (Codex CLI, ChatGPT auth) | — | — | — | — | Included Codex allowance only; API/PAYG frozen |
-| Hardest (included-usage, freeze-allowed) | GPT-6 Astra (Codex CLI, ChatGPT auth) | — | — | — | — | Included Codex allowance only; API/PAYG frozen |
-| Hardest (included-usage, freeze-allowed) | claude-opus-5-5 (Claude Code, Claude Pro auth) | — | — | — | — | Human-explicit Claude Pro included allowance; no API key fallback |
+| General (included-usage, freeze-allowed) | GPT-6.1 Sol (Codex CLI, ChatGPT auth) | — | — | — | — | Supersedes GPT-6 Sol as general/demanding Codex route; included Codex allowance only; API/PAYG frozen |
+| Specialized (included-usage, freeze-allowed) | GPT-6.1 Terra (Codex CLI, ChatGPT auth) | — | — | — | — | Visual/computer-use/scoped-fix only; not a default; included Codex allowance only; API/PAYG frozen |
+| Hardest (included-usage, freeze-allowed) | GPT-6 Astra (Codex CLI, ChatGPT auth) | — | — | — | — | OpenAI hardest-task Codex route; included Codex allowance only; API/PAYG frozen |
+| Hardest (included-usage, freeze-allowed) | claude-opus-5-5 (Claude Code, Claude Pro auth) | — | — | — | — | Durable Claude hardest-task route; human-explicit Claude Pro included allowance; no API key fallback |
+| Ultra-hard (temporary included through 2026-11-16 23:59 PT; then frozen) | claude-fable-5-2 (Claude Code, Claude Pro auth) | — | — | — | — | Human-explicit ultra-hard only; Claude Pro launch window up to 50% weekly included limit; no usage credits/API/Cursor path; fallback Opus 5.5 |
+| Historical (superseded) | GPT-6 Sol (Codex CLI, ChatGPT auth) | — | — | — | — | Fallback only if GPT-6.1 Sol is not yet on the ChatGPT/Codex account; included Codex allowance only; API/PAYG frozen |
 | Historical (superseded) | Grok 4.5 | ~44 | — | — | 80–112 | historical Cursor Models pool; included usage |
 | Hard (frozen) | claude-sonnet-5 | ~43 | $2 | $10 | TBD | platform.claude.com |
 | Very hard (historical reference) | claude-opus-4-8 | 56 | $5 | $25 | ~62 | platform.claude.com |
-| Ultra-hard | UNASSIGNED (Fable 5.1/Mythos 5.1 paid paths remain frozen) | — | — | — | — | approved-ai-tools.md |
+| Ultra-hard (frozen after 2026-11-16 or outside Claude Pro window) | Fable 5.2/5.1 / Mythos 5.2/5.1 paid, Cursor, and usage-credit paths | — | — | — | — | approved-ai-tools.md |
 
-Cursor pool boundary note (verified 2026-10-19):
-- Grok 4.7 and Grok 4.6 are listed in Cursor's included Cursor Models pool.
-- Gemini 4 Argon in Cursor is a third-party model; on legacy Cursor plans
-  it draws from the Other Models pool, while on The X Subscription it is
-  prepaid-credit third-party usage.
-- Claude Opus 5.5 in Cursor is listed in the Other Models pool and
-  consumes that pool/rate surface; included Cursor Models pool status
-  does not apply.
+Cursor pool boundary note (verified 2026-11-10):
+- Grok 4.7 and Grok 4.6 are listed in Cursor's included Cursor Models
+  pool on both The X Subscription and legacy Cursor plans. This is the
+  durable no-incremental-cost Cursor path. Composer 2.5 is in the same
+  pool but remains prohibited (Chinese-origin weights).
+- GPT-5.3 Codex, Gemini 4 Argon, Claude Opus 5.5, and Claude Fable 5.2
+  in Cursor are third-party models. On The X Subscription they are billed
+  from prepaid credit from the first request and remain frozen. On legacy
+  Cursor plans they draw from the Other Models pool; that path is
+  freeze-allowed only while included Other Models allowance remains and
+  On-Demand stays Disabled. GPT-5.3 Codex is not a no-extra-cost default.
+- Primary sources: https://cursor.com/docs/models-and-pricing
+  https://cursor.com/help/models-and-usage/usage-limits
+  https://cursor.com/docs/models/gpt-5-3-codex
 
 Grok 4.5:
 Status: SUPERSEDED by Grok 4.6 (2026-08-12).
@@ -149,17 +158,49 @@ route new tasks to Grok 4.5.
 * OBSOLETE: 2026-09-01 (Sonnet 5 -> $3/$15).
   Superseded 2026-08-10 — Sonnet 5 pricing made
   permanent. No price change will occur.
-  Ultra-hard tier is currently unassigned in active policy.
-  Fable/Mythos 5.1 listing or availability does not change authorization.
+  Ultra-hard tier is currently unassigned in active policy except the
+  dated Claude Pro Fable 5.2 included window below.
+  Fable/Mythos listing or availability does not change authorization.
   Under SPEND FREEZE, availability != authorization and listed model !=
   freeze-allowed usage.
 
-OpenAI Codex family status update — GPT-6 Luna/Sol/Astra (verified 2026-09-23):
+OpenAI Codex family status update — GPT-6.1 Sol/Terra + GPT-6 Luna/Astra (verified 2026-11-10):
 - Codex included family (ChatGPT-authenticated Codex use):
-  GPT-6 Luna, GPT-6 Sol, GPT-6 Astra.
+  GPT-6 Luna, GPT-6.1 Sol, GPT-6.1 Terra, GPT-6 Astra.
+  GPT-6 Sol is superseded as the general/demanding route by GPT-6.1 Sol;
+  keep `gpt-6-sol` only if 6.1 Sol is not yet available on the account.
   Operational ladder for no-incremental-cost harness use:
-  Luna (routine/mechanical), Sol (general/demanding), Astra (hardest).
+  Luna (routine/mechanical), GPT-6.1 Sol (general/demanding),
+  GPT-6.1 Terra (visual/computer-use/scoped-fix; not a default),
+  Astra (hardest).
   Included usage allowance is distinct from API billing.
+  ChatGPT Work and Codex share the same included allowance. Do not
+  configure OpenAI API key, extra usage, or credit fallback.
+- Model ID: `gpt-6.1-sol`
+  Provider: OpenAI
+  Position: current general/demanding Codex route; supersedes GPT-6 Sol.
+  ChatGPT Work/Codex default context: 500,000 tokens; subscription
+  included usage has no long-context surcharge (API/credits follow
+  existing long-context repricing).
+  API ID and list rates (reference only, not authorization):
+    Input $2/MTok, cached input $0.10/MTok, output $10/MTok.
+  Source (primary, verified 2026-11-10):
+  https://openai.com/index/introducing-gpt-6-1-sol/
+  https://developers.openai.com/api/docs/models/gpt-6.1-sol
+  https://learn.chatgpt.com/docs/models
+  https://help.openai.com/en/articles/20001275-chatgpt-work-and-codex
+- Model ID: `gpt-6.1-terra`
+  Provider: OpenAI
+  Position: specialized fast/efficient Codex route for visual
+  understanding, computer use, and scoped writing/fixes. Not a default
+  and not a replacement for GPT-6.1 Sol or Astra.
+  Requires Codex CLI 0.159.0 or later (`codex -m gpt-6.1-terra`).
+  API ID and list rates (reference only, not authorization):
+    Input $1/MTok, cached input $0.05/MTok, output $5/MTok.
+  Source (primary, verified 2026-11-10):
+  https://openai.com/index/introducing-gpt-6-1-terra/
+  https://learn.chatgpt.com/docs/models
+  https://learn.chatgpt.com/docs/pricing
 - Model ID: `gpt-6-astra`
   Provider: OpenAI
   Position: current OpenAI frontier flagship for complex reasoning/coding.
@@ -224,12 +265,52 @@ Source: https://developers.openai.com/api/docs/models/gpt-5.6-sol.md
         https://developers.openai.com/api/docs/models/gpt-5.6-terra.md
         https://developers.openai.com/api/docs/models/gpt-5.6-luna.md
 
-Reference model status updates (not active tiers):
+Reference model status updates (not active tiers unless the dated Fable 5.2 window applies):
+- Claude Fable 5.2 (`claude-fable-5-2`): current Fable generation.
+  Released 2026-11-09. Same underlying model as Mythos 5.2 with
+  stronger cyber/biology safeguards on the Fable product.
+  API list rates (reference only; not authorization):
+    Input $8/MTok, output $40/MTok, cache read $0.20/MTok.
+    Fast mode $16/$80 per 1M input/output.
+  Claude Pro / Team standard (primary for this repo): Fable is not
+  part of ordinary included limits. Usage-credit/PAYG/API paths remain
+  frozen. Timed exception: 2026-11-09 through 2026-11-16 23:59 PT,
+  eligible Pro plans may use Fable models from included weekly limits
+  up to 50%, plus one Fable limit reset expiring at the same timestamp.
+  That window is not a permanent default, not a freeze lift, and must
+  not enable usage credits. After the window or the 50% cap: stop;
+  fall back to `claude-opus-5-5`. Cursor Fable 5.2 is third-party
+  prepaid-credit or Other Models API-rate usage and remains frozen.
+  Anthropic recommends Opus 5.5 as the daily driver; Fable is for
+  the most ambitious open-ended technical work only.
+  Source (primary, verified 2026-11-10):
+  https://www.anthropic.com/claude-fable-and-mythos-5-2
+  https://www.anthropic.com/claude/fable
+  https://support.claude.com/en/articles/15424964-claude-fable-models-on-your-plan
+  https://support.claude.com/en/articles/17506494-claude-fable-5-2-launch-offers
+  https://claude.com/pricing
+- Claude Mythos 5.2 (`claude-mythos-5-2`): same model/specs/pricing
+  as Fable 5.2, invite-only Life Sciences / Cyber Verification access.
+  SPEND FREEZE status: UNAVAILABLE (invite-only / paid path).
+- Gemini 4 Carbon: UNAVAILABLE. Google Fairwind / cyber-defender
+  preview only; not generally available on Gemini API, AI Studio, or
+  consumer surfaces as of 2026-11-10. Future API list rates are billed.
+  Do not route. Source: https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon/
+- Meta Muse Ember (`muse-ember-1.0`): UNAVAILABLE under SPEND FREEZE
+  (pay-as-you-go Model API / Muse Code). Not an included path for this
+  repo. Source: https://dev.meta.ai/docs/muse-ember
+  https://research.meta.ai/blog/muse-ember
+- Meta Muse Spark Open: open-weight Spark checkpoint is documented as
+  released (816B total / 42B active MoE, 1M context). Local deployment
+  is NOT VIABLE on current hardware. Hosted-provider and Model API
+  paths remain frozen. Do not promote. Source:
+  https://dev.meta.ai/docs/muse-spark-open
 - Laguna S 2.1 (poolside): CANDIDATE (API-only). Local deployment is
   NOT VIABLE on RTX 4070: smallest quant (Q4_K_M) is 75.2 GB versus
   12 GB VRAM. MoE architecture keeps all 118B parameters resident even
   when only 8B parameters are active during inference.
-- Claude Fable 5.1 (`claude-fable-5-1`): AVAILABLE from Anthropic on
+- Claude Fable 5.1 (`claude-fable-5-1`): SUPERSEDED by Fable 5.2 for
+  current metadata and routing. AVAILABLE from Anthropic on
   Claude API and partner platforms (AWS Bedrock, Claude Platform on AWS,
   Google Cloud, Microsoft Foundry); release date 2026-09-01.
   Provider/model identity: Anthropic Claude model family (same underlying
